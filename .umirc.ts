@@ -8,6 +8,9 @@ export default defineConfig({
   model: {},
   initialState: {},
   request: {},
+  layout: false,
+  // base: '/geojson-viewer',
+  // publicPath: '/geojson-viewer/',
   routes: [
     {
       name: '首页',
