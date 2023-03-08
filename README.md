@@ -1,20 +1,3 @@
-# l7-editor
+# README
 
-A static site base on [dumi](https://d.umijs.org).
-
-## Development
-
-```bash
-# install dependencies
-$ tnpm install
-
-# start dev server
-$ tnpm start
-
-# build docs
-$ tnpm run build
-```
-
-## LICENSE
-
-MIT
+`@umijs/max` 模板项目，更多功能参考 [Umi Max 简介](https://next.umijs.org/zh-CN/docs/max/introduce)

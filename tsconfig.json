@@ -1,12 +1,3 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "baseUrl": "./",
-    "paths": {
-      "@@/*": [".dumi/tmp/*"]
-    }
-  },
-  "include": [".dumi/**/*", ".dumirc.ts"]
+  "extends": "./src/.umi/tsconfig.json"
 }

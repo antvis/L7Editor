@@ -1,0 +1,27 @@
+.color-picker-control {
+  &__inner {
+    height: 20px;
+    width: 20px;
+    margin: 0 -6px;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  &__tooltip {
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+  }
+}
+
+.l7-control {
+  &.l7-control-zoom,
+  &.l7-control-scale .l7-control-scale-line,
+  &.l7-control-mouse-location,
+  &.l7-button-control,
+  &.l7-location-search,
+  &.l7-draw-control {
+    box-shadow: 0 0 6px #9a9a9a !important;
+  }
+}
+

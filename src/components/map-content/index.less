@@ -1,0 +1,26 @@
+@import url('~antd/es/style/index.less');
+
+.map-content {
+  display: flex;
+  height: 100%;
+
+  &__left,
+  &__right {
+    height: 100%;
+  }
+
+  &__left {
+    width: 33px;
+    border-right: 1px solid @border-color-base;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .ant-btn {
+      border: 0;
+    }
+  }
+
+  &__right {
+    width: calc(100% - 33px);
+  }
+}
