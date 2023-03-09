@@ -8,6 +8,7 @@ const { Paragraph } = Typography;
 
 export const LayerPopup: React.FC = () => {
   const { resetFeatures, features } = useModel('feature');
+  const { layerTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number }
   >({
@@ -25,11 +26,8 @@ export const LayerPopup: React.FC = () => {
     );
   }, [features, popupProps]);
   const featureFields = Object.entries(targetFeature?.properties ?? {});
-
   const allLayerList = useLayerList();
-  console.log(allLayerList,3)
   const layerList = useMemo(() => {
-    console.log('3==>4')
     const layerIds: string[] = [
       LayerId.PointLayer,
       LayerId.LineLayer,
@@ -40,12 +38,8 @@ export const LayerPopup: React.FC = () => {
     });
   }, [allLayerList]);
 
-  
-
   const onLayerClick = useCallback(
     (e: any) => {
-      console.log(e)
-
       const { lngLat, feature } = e;
       const featureIndex = feature.properties[FeatureKey.Index];
       if (
@@ -70,15 +64,43 @@ export const LayerPopup: React.FC = () => {
     [setPopupProps, popupProps],
   );
 
-  useEffect(() => {
-    console.log(layerList,'2')
-    layerList.forEach((layer) => layer.on('click', onLayerClick));
-    return () => {
-      layerList.forEach((layer) => layer.off('click', onLayerClick));
-    };
-  }, [onLayerClick, layerList]);
+  const onLayerMouseenter = useCallback(
+    (e: any) => {
+      const { lngLat, feature } = e;
+      const featureIndex = feature.properties[FeatureKey.Index];
+      setPopupProps({
+        lngLat,
+        visible: true,
+        featureIndex,
+      });
+    },
+    [setPopupProps, popupProps],
+  );
+  const onLayerMouseout = useCallback(() => {
+    setPopupProps((oldPopupProps) => {
+      return {
+        ...oldPopupProps,
+        visible: false,
+        featureIndex: undefined,
+      };
+    });
+  }, [setPopupProps, popupProps]);
 
-  console.log(features);
+  useEffect(() => {
+    if (layerTrigger === 'click') {
+      layerList.forEach((layer) => layer.on('click', onLayerClick));
+      return () => {
+        layerList.forEach((layer) => layer.off('click', onLayerClick));
+      };
+    } else {
+      layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
+      layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
+      return () => {
+        layerList.forEach((layer) => layer.off('mouseenter', onLayerMouseenter));
+        layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
+      };
+    }
+  }, [onLayerClick, layerList, layerTrigger]);
 
   return (
     <>
@@ -136,24 +158,26 @@ export const LayerPopup: React.FC = () => {
                 {/*>*/}
                 {/*  编辑*/}
                 {/*</Button>*/}
-                <Button
-                  size="small"
-                  type="link"
-                  danger
-                  onClick={() => {
-                    resetFeatures(
-                      features.filter((_, index) => {
-                        return index !== popupProps.featureIndex;
-                      }),
-                    );
-                    setPopupProps({
-                      visible: false,
-                      featureIndex: undefined,
-                    });
-                  }}
-                >
-                  删除
-                </Button>
+                {layerTrigger === 'click' && (
+                  <Button
+                    size="small"
+                    type="link"
+                    danger
+                    onClick={() => {
+                      resetFeatures(
+                        features.filter((_, index) => {
+                          return index !== popupProps.featureIndex;
+                        }),
+                      );
+                      setPopupProps({
+                        visible: false,
+                        featureIndex: undefined,
+                      });
+                    }}
+                  >
+                    删除
+                  </Button>
+                )}
               </div>
             </div>
           </Popup>

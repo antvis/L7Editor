@@ -32,6 +32,13 @@ export default () => {
     },
   );
 
+  const [layerTrigger, setLayerTrigger] = useLocalStorageState(
+    LocalstorageKey.layerTrigger,
+    {
+      defaultValue: 'click',
+    },
+  );
+
   return {
     rightWidth,
     setRightWidth,
@@ -41,5 +48,7 @@ export default () => {
     setLayerColor,
     hideEditor,
     setHideEditor,
+    layerTrigger,
+    setLayerTrigger,
   };
 };
