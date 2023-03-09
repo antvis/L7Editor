@@ -16,8 +16,9 @@ export const Tables = () => {
         title: 'index',
         dataIndex: 'index',
         key: `index`,
-        width: 80,
+        width: 40,
         align: 'center',
+        fixed: 'left',
       },
     ];
     const data = newDataList.map((item, index) => {
@@ -27,6 +28,7 @@ export const Tables = () => {
         key: `${item}${index}`,
         align: 'center',
         render: (text) => (text ? text : '-'),
+        width: 80,
       };
     });
     return [...newData, ...data];
@@ -42,7 +44,7 @@ export const Tables = () => {
 
   return (
     <>
-      <Table columns={columns} dataSource={dataSource} />
+      <Table columns={columns} dataSource={dataSource} scroll={{ x: 1500 }} />
     </>
   );
 };
