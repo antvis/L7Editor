@@ -8,6 +8,7 @@ import { AppEditor } from '../app-editor';
 import './index.less';
 import DownloadBtn from './download-btn';
 import LngLatImportBtn from './lnglat-import-btn';
+import { SettingBtn } from './setting-btn';
 
 export const MapContent: React.FC = () => {
   const { saveEditorText, savable } = useModel('feature');
@@ -39,6 +40,7 @@ export const MapContent: React.FC = () => {
         </div>
 
         <div>
+          <SettingBtn/>
           <DownloadBtn />
           <DingImgBtn />
         </div>
