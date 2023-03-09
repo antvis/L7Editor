@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Empty, Table } from 'antd';
 import React, { useEffect, useMemo } from 'react';
 import { useModel } from 'umi';
 
@@ -31,7 +31,10 @@ export const Tables = () => {
         width: 80,
       };
     });
-    return [...newData, ...data];
+    if (data.length) {
+      return [...newData, ...data];
+    }
+    return [];
   }, [features]);
 
   const dataSource = useMemo(() => {
@@ -43,8 +46,17 @@ export const Tables = () => {
   }, [features]);
 
   return (
-    <>
-      <Table columns={columns} dataSource={dataSource} scroll={{ x: 1500 }} />
-    </>
+    <div>
+      {columns.length ? (
+        <Table
+          style={{ width: '99%', padding: 10 }}
+          columns={columns}
+          dataSource={dataSource}
+          scroll={{ x: columns.length > 6 ? 1500 : '100%' }}
+        />
+      ) : (
+        <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
+      )}
+    </div>
   );
 };
