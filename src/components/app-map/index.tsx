@@ -10,7 +10,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions } = useModel('global');
 
   return (
-    <LarkMap style={{ height: '100%' }} mapOptions={mapOptions}>
+    <LarkMap style={{ height: '100%' }} mapOptions={mapOptions} id={'larkMap'}>
       {children}
     </LarkMap>
   );
