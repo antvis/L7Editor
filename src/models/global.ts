@@ -32,12 +32,11 @@ export default () => {
     },
   );
 
-  const [layerTrigger, setLayerTrigger] = useLocalStorageState(
-    LocalstorageKey.layerTrigger,
-    {
-      defaultValue: 'click',
-    },
-  );
+  const [popupTrigger, setPopupTrigger] = useLocalStorageState<
+    'click' | 'hover'
+  >(LocalstorageKey.popupTrigger, {
+    defaultValue: 'click',
+  });
 
   return {
     rightWidth,
@@ -48,7 +47,7 @@ export default () => {
     setLayerColor,
     hideEditor,
     setHideEditor,
-    layerTrigger,
-    setLayerTrigger,
+    popupTrigger,
+    setPopupTrigger,
   };
 };

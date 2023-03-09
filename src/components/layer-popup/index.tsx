@@ -8,7 +8,7 @@ const { Paragraph } = Typography;
 
 export const LayerPopup: React.FC = () => {
   const { resetFeatures, features } = useModel('feature');
-  const { layerTrigger } = useModel('global');
+  const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number }
   >({
@@ -87,7 +87,7 @@ export const LayerPopup: React.FC = () => {
   }, [setPopupProps, popupProps]);
 
   useEffect(() => {
-    if (layerTrigger === 'click') {
+    if (popupTrigger === 'click') {
       layerList.forEach((layer) => layer.on('click', onLayerClick));
       return () => {
         layerList.forEach((layer) => layer.off('click', onLayerClick));
@@ -100,7 +100,7 @@ export const LayerPopup: React.FC = () => {
         layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
       };
     }
-  }, [onLayerClick, layerList, layerTrigger]);
+  }, [onLayerClick, layerList, popupTrigger]);
 
   return (
     <>
@@ -158,7 +158,7 @@ export const LayerPopup: React.FC = () => {
                 {/*>*/}
                 {/*  编辑*/}
                 {/*</Button>*/}
-                {layerTrigger === 'click' && (
+                {popupTrigger === 'click' && (
                   <Button
                     size="small"
                     type="link"

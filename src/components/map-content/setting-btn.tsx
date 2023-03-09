@@ -4,7 +4,7 @@ import { Button, Form, Modal, Radio, RadioChangeEvent } from 'antd';
 import { useModel } from 'umi';
 
 export const SettingBtn = () => {
-  const { layerTrigger, setLayerTrigger } = useModel('global');
+  const { popupTrigger, setPopupTrigger } = useModel('global');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [form] = Form.useForm();
@@ -36,10 +36,10 @@ export const SettingBtn = () => {
       >
         <Form
           form={form}
-          initialValues={{ popup: layerTrigger }}
+          initialValues={{ popup: popupTrigger }}
           onFinish={(e) => {
             setIsModalOpen(false);
-            setLayerTrigger(e.popup);
+            setPopupTrigger(e.popup);
           }}
         >
           <Form.Item name="popup" label="图层气泡展示方式">
