@@ -1,7 +1,7 @@
 import DingImgBtn from '@/components/map-content/ding-img-btn';
 import { SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Tooltip } from 'antd';
+import { Button, Tabs, TabsProps, Tooltip } from 'antd';
 import React from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
@@ -9,6 +9,7 @@ import './index.less';
 import DownloadBtn from './download-btn';
 import LngLatImportBtn from './lnglat-import-btn';
 import { SettingBtn } from './setting-btn';
+import { Tables } from './table';
 
 export const MapContent: React.FC = () => {
   const { saveEditorText, savable } = useModel('feature');
@@ -20,6 +21,27 @@ export const MapContent: React.FC = () => {
     }
     saveEditorText();
   });
+
+  const items: TabsProps['items'] = [
+    {
+      key: 'code',
+      label: `Code`,
+      children: (
+        <div className="map-content__right">
+          <AppEditor />
+        </div>
+      ),
+    },
+    {
+      key: 'table',
+      label: `Table`,
+      children: (
+        <div className="map-content__table">
+          <Tables />
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="map-content">
@@ -40,13 +62,13 @@ export const MapContent: React.FC = () => {
         </div>
 
         <div>
-          <SettingBtn/>
+          <SettingBtn />
           <DownloadBtn />
           <DingImgBtn />
         </div>
       </div>
-      <div className="map-content__right">
-        <AppEditor />
+      <div style={{ width: '100%' }}>
+        <Tabs defaultActiveKey="code" items={items} />
       </div>
     </div>
   );
