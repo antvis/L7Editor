@@ -34,10 +34,6 @@ const LocationSearchControl: React.FC = React.memo(() => {
     };
   }, [scene, syncMapCenter]);
 
-  useEffect(() => {
-    console.log(document.querySelector('.larkmap'));
-  }, []);
-
   return (
     <>
       <CustomControl className="l7-location-search" position="topright">
