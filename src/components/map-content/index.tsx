@@ -1,5 +1,5 @@
 import DingImgBtn from '@/components/map-content/ding-img-btn';
-import { SaveOutlined } from '@ant-design/icons';
+import { CodeOutlined, SaveOutlined, TableOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
 import React from 'react';
@@ -25,7 +25,12 @@ export const MapContent: React.FC = () => {
   const items: TabsProps['items'] = [
     {
       key: 'code',
-      label: `Code`,
+      label: (
+        <div>
+          编辑器
+          <CodeOutlined style={{ marginLeft: 5 }} />
+        </div>
+      ),
       children: (
         <div className="map-content__right">
           <AppEditor />
@@ -34,7 +39,12 @@ export const MapContent: React.FC = () => {
     },
     {
       key: 'table',
-      label: `Table`,
+      label: (
+        <div>
+          表格
+          <TableOutlined style={{ marginLeft: 5 }} />
+        </div>
+      ),
       children: (
         <div className="map-content__table">
           <Tables />

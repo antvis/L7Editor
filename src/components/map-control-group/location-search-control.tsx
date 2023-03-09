@@ -34,15 +34,15 @@ const LocationSearchControl: React.FC = React.memo(() => {
     };
   }, [scene, syncMapCenter]);
 
-  // useEffect(() => {
-  //   console.log(document.getElementsByClassName('amap-layers'));
-  // }, []);
+  useEffect(() => {
+    console.log(document.querySelector('.larkmap'));
+  }, []);
 
   return (
     <>
       <CustomControl className="l7-location-search" position="topright">
         <LocationSearch
-          getPopupContainer={() => document.getElementById('larkMap')}
+          getPopupContainer={() => document.querySelector('.larkmap')}
           style={{ width: 200 }}
           value={selectLocation?.name}
           searchParams={{
