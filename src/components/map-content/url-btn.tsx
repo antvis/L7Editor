@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { editorText, setEditorText } = useModel('feature');
+  const { setEditorText } = useModel('feature');
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -45,7 +45,6 @@ export const UrlBtn = () => {
     try {
       const json = await fetch(url);
       const data = await json.json();
-      console.log(data);
       setEditorText(JSON.stringify(data, null, 2));
       setIsModalOpen(false);
     } catch {
