@@ -44,7 +44,6 @@ export const UrlBtn = () => {
     try {
       const json = await fetch(url);
       const data = await json.json();
-      console.log(transformFeatures(JSON.stringify(data, null, 2)));
       setEditorText(JSON.stringify(data, null, 2));
       setIsModalOpen(false);
     } catch {
