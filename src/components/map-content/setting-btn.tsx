@@ -42,7 +42,7 @@ export const SettingBtn = () => {
             setPopupTrigger(e.popup);
           }}
         >
-          <Form.Item name="popup" label="图层气泡展示方式">
+          <Form.Item name="popup" label="图层气泡展示方式" className='popup-trigger'>
             <Radio.Group>
               <Radio.Button value={'click'}>点击</Radio.Button>
               <Radio.Button value={'hover'}>划入</Radio.Button>

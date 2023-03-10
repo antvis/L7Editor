@@ -1,6 +1,6 @@
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
-import { Button, Dropdown, Menu, MenuProps } from 'antd';
+import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
 import { downloadText } from '@/utils';
 import { coordAll, featureCollection } from '@turf/turf';
@@ -8,7 +8,7 @@ import { coordAll, featureCollection } from '@turf/turf';
 const DownloadMenuItems: MenuProps['items'] = [
   {
     key: 'GeoJson',
-    label: '下载 GeoJson 格式数据',
+    label: '下载压缩的 GeoJson 格式数据',
   },
   {
     key: 'FormatGeoJson',
@@ -29,7 +29,7 @@ const DownloadBtn: React.FC = () => {
 
   const onDownload = (key: string) => {
     if (key === 'GeoJson') {
-      downloadText(JSON.stringify(features), 'json');
+      downloadText(JSON.stringify(features, null, 0), 'json');
     } else if (key === 'FormatGeoJson') {
       downloadText(JSON.stringify(features, null, 2), 'json');
     } else if (key === 'LngLat') {
@@ -50,7 +50,7 @@ const DownloadBtn: React.FC = () => {
         items: DownloadMenuItems,
         onClick: ({ key }) => {
           onDownload(key);
-        }
+        },
       }}
     >
       <Button icon={<CloudDownloadOutlined />}></Button>
