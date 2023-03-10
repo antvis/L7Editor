@@ -10,6 +10,7 @@ import DownloadBtn from './download-btn';
 import LngLatImportBtn from './lnglat-import-btn';
 import { SettingBtn } from './setting-btn';
 import { Tables } from './table';
+import { UrlBtn } from './url-btn';
 
 export const MapContent: React.FC = () => {
   const { saveEditorText, savable } = useModel('feature');
@@ -65,6 +66,7 @@ export const MapContent: React.FC = () => {
               onClick={saveEditorText}
             ></Button>
           </Tooltip>
+          <UrlBtn />
         </div>
 
         <div>
