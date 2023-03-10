@@ -45,11 +45,7 @@ export const MapContent: React.FC = () => {
           表格
         </div>
       ),
-      children: (
-        <div>
-          <Tables />
-        </div>
-      ),
+      children: <Tables />,
     },
   ];
 
