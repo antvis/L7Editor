@@ -29,7 +29,7 @@ const DownloadBtn: React.FC = () => {
 
   const onDownload = (key: string) => {
     if (key === 'GeoJson') {
-      downloadText(JSON.stringify(features, null, 0), 'json');
+      downloadText(JSON.stringify(features), 'json');
     } else if (key === 'FormatGeoJson') {
       downloadText(JSON.stringify(features, null, 2), 'json');
     } else if (key === 'LngLat') {
