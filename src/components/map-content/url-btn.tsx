@@ -3,10 +3,11 @@ import { useMount } from 'ahooks';
 import { Button, Form, Input, message, Modal } from 'antd';
 import { useModel } from 'umi';
 import React, { useState } from 'react';
+import { transformFeatures } from '../../utils';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { setEditorText } = useModel('feature');
+  const { setEditorText, saveEditorText } = useModel('feature');
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -33,22 +34,21 @@ export const UrlBtn = () => {
         const data = await json.json();
         setEditorText(JSON.stringify(data, null, 2));
       } catch {
-        message.error('url格式错误');
+        message.error('url格式错误，仅支持json格式');
       }
     }
   });
 
   const onFinish = async (e: any) => {
-    console.log(e);
     const { url } = e;
-
     try {
       const json = await fetch(url);
       const data = await json.json();
+      console.log(transformFeatures(JSON.stringify(data, null, 2)));
       setEditorText(JSON.stringify(data, null, 2));
       setIsModalOpen(false);
     } catch {
-      message.error('url格式错误');
+      message.error('url格式错误，仅支持json格式');
     }
   };
   return (
