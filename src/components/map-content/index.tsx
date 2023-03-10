@@ -27,8 +27,8 @@ export const MapContent: React.FC = () => {
       key: 'code',
       label: (
         <div>
-          编辑器
           <CodeOutlined style={{ marginLeft: 5 }} />
+          编辑器
         </div>
       ),
       children: (
@@ -41,12 +41,12 @@ export const MapContent: React.FC = () => {
       key: 'table',
       label: (
         <div>
-          表格
           <TableOutlined style={{ marginLeft: 5 }} />
+          表格
         </div>
       ),
       children: (
-        <div className="map-content__table">
+        <div>
           <Tables />
         </div>
       ),

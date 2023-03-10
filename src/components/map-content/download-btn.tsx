@@ -1,6 +1,6 @@
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
-import { Button, Dropdown, Menu, MenuProps } from 'antd';
+import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
 import { downloadText } from '@/utils';
 import { coordAll, featureCollection } from '@turf/turf';
@@ -50,7 +50,7 @@ const DownloadBtn: React.FC = () => {
         items: DownloadMenuItems,
         onClick: ({ key }) => {
           onDownload(key);
-        }
+        },
       }}
     >
       <Button icon={<CloudDownloadOutlined />}></Button>
