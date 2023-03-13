@@ -32,11 +32,7 @@ export const MapContent: React.FC = () => {
           编辑器
         </div>
       ),
-      children: (
-        <div className="map-content__right">
-          <AppEditor />
-        </div>
-      ),
+      children: <AppEditor />,
     },
     {
       key: 'table',
@@ -67,7 +63,6 @@ export const MapContent: React.FC = () => {
               onClick={saveEditorText}
             ></Button>
           </Tooltip>
-
         </div>
 
         <div>
@@ -76,9 +71,11 @@ export const MapContent: React.FC = () => {
           <DingImgBtn />
         </div>
       </div>
-      <div style={{ width: '100%' }}>
-        <Tabs defaultActiveKey="code" items={items} />
-      </div>
+      <Tabs
+        className="map-content__right"
+        defaultActiveKey="code"
+        items={items}
+      />
     </div>
   );
 };
