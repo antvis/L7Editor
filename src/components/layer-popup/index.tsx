@@ -96,7 +96,9 @@ export const LayerPopup: React.FC = () => {
       layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
       layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
       return () => {
-        layerList.forEach((layer) => layer.off('mouseenter', onLayerMouseenter));
+        layerList.forEach((layer) =>
+          layer.off('mouseenter', onLayerMouseenter),
+        );
         layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
       };
     }
@@ -107,7 +109,11 @@ export const LayerPopup: React.FC = () => {
       {popupProps.visible &&
         typeof popupProps.featureIndex === 'number' &&
         targetFeature && (
-          <Popup lngLat={popupProps.lngLat} closeButton={false}>
+          <Popup
+            lngLat={popupProps.lngLat}
+            closeButton={false}
+            followCursor={popupTrigger === 'hover' ? true : false}
+          >
             <div
               className="layer-popup"
               onClick={(e) => {
