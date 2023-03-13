@@ -43,11 +43,11 @@ const LngLatImportBtn: React.FC = () => {
 
   return (
     <>
-      <Tooltip overlay="导入 LngLat" placement="left">
+      <Tooltip overlay="导入经纬度串" placement="left">
         <Button icon="L" onClick={() => setVisible(true)} />
       </Tooltip>
       <Modal
-        title="导入 LngLat"
+        title="导入纬度串"
         open={visible}
         okButtonProps={{
           disabled: !lngLatText,

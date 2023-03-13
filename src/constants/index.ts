@@ -6,7 +6,8 @@ export enum LocalstorageKey {
   LayerColor = 'LayerColor',
   HideEditor = 'HideEditor',
   EditorText = 'EditorText',
-  popupTrigger = 'popupTrigger'
+  popupTrigger = 'popupTrigger',
+  activeRightTabKey = 'activeRightTabKey',
 }
 
 export enum LayerId {

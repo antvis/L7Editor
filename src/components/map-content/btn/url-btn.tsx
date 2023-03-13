@@ -3,7 +3,7 @@ import { useMount } from 'ahooks';
 import { Button, Form, Input, message, Modal, Tooltip } from 'antd';
 import { useModel } from 'umi';
 import React, { useState } from 'react';
-import { getParamsNew, transformFeatures } from '../../utils';
+import { getParamsNew, transformFeatures } from '@/utils';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
