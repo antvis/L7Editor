@@ -1,6 +1,6 @@
 import { ApiOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
-import { Button, Form, Input, message, Modal } from 'antd';
+import { Button, Form, Input, message, Modal, Tooltip } from 'antd';
 import { useModel } from 'umi';
 import React, { useState } from 'react';
 import { transformFeatures } from '../../utils';
@@ -52,7 +52,10 @@ export const UrlBtn = () => {
   };
   return (
     <>
-      <Button icon={<ApiOutlined />} onClick={showModal} />
+      <Tooltip overlay="根据 url 地址导入 GeoJSON" placement="left">
+        <Button icon={<ApiOutlined />} onClick={showModal} />
+      </Tooltip>
+
       <Modal
         title="URL"
         open={isModalOpen}

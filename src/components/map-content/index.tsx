@@ -55,6 +55,7 @@ export const MapContent: React.FC = () => {
       <div className="map-content__left">
         <div>
           <LngLatImportBtn />
+          <UrlBtn />
           <Tooltip
             trigger="hover"
             placement="left"
@@ -66,7 +67,7 @@ export const MapContent: React.FC = () => {
               onClick={saveEditorText}
             ></Button>
           </Tooltip>
-          <UrlBtn />
+
         </div>
 
         <div>
