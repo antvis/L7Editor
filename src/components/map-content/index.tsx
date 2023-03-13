@@ -15,7 +15,7 @@ import { LocalstorageKey } from '@/constants';
 
 export const MapContent: React.FC = () => {
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
-    LocalstorageKey.activeRightTabKey,
+    LocalstorageKey.ActiveRightTabKey,
     {
       defaultValue: 'code',
     },
