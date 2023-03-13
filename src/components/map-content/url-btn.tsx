@@ -3,7 +3,7 @@ import { useMount } from 'ahooks';
 import { Button, Form, Input, message, Modal, Tooltip } from 'antd';
 import { useModel } from 'umi';
 import React, { useState } from 'react';
-import { transformFeatures } from '../../utils';
+import { getParamsNew, transformFeatures } from '../../utils';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,33 +22,25 @@ export const UrlBtn = () => {
     setIsModalOpen(false);
   };
 
-  const getParamsNew = (key: string) => {
-    const temData = new URLSearchParams(window.location.search);
-    return temData.get(key);
+  const gitUrlFetch = async (e: any) => {
+    try {
+      const json = await fetch(e);
+      const data = await json.json();
+      setEditorText(JSON.stringify(data, null, 2));
+    } catch {
+      message.error('url格式错误，仅支持json格式');
+    }
   };
 
   useMount(async () => {
     if (getParamsNew('url')) {
-      try {
-        const json = await fetch(getParamsNew('url'));
-        const data = await json.json();
-        setEditorText(JSON.stringify(data, null, 2));
-      } catch {
-        message.error('url格式错误，仅支持json格式');
-      }
+      gitUrlFetch(getParamsNew('url'));
     }
   });
 
   const onFinish = async (e: any) => {
     const { url } = e;
-    try {
-      const json = await fetch(url);
-      const data = await json.json();
-      setEditorText(JSON.stringify(data, null, 2));
-      setIsModalOpen(false);
-    } catch {
-      message.error('url格式错误，仅支持json格式');
-    }
+    getParamsNew(url);
   };
   return (
     <>

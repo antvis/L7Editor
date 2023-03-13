@@ -26,4 +26,9 @@ export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
   aTag.click();
 };
 
+export const getParamsNew = (key: string) => {
+  const temData = new URLSearchParams(window.location.search);
+  return temData.get(key);
+};
+
 export * from './transform';
