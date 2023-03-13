@@ -1,18 +1,25 @@
-import DingImgBtn from '@/components/map-content/ding-img-btn';
+import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
 import { CodeOutlined, SaveOutlined, TableOutlined } from '@ant-design/icons';
-import { useKeyPress } from 'ahooks';
+import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
 import React from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import './index.less';
-import DownloadBtn from './download-btn';
-import LngLatImportBtn from './lnglat-import-btn';
-import { SettingBtn } from './setting-btn';
-import { Tables } from './table';
-import { UrlBtn } from './url-btn';
+import DownloadBtn from './btn/download-btn';
+import LngLatImportBtn from './btn/lnglat-import-btn';
+import { SettingBtn } from './btn/setting-btn';
+import { AppTable } from '../app-table';
+import { UrlBtn } from './btn/url-btn';
+import { LocalstorageKey } from '@/constants';
 
 export const MapContent: React.FC = () => {
+  const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
+    LocalstorageKey.ActiveRightTabKey,
+    {
+      defaultValue: 'code',
+    },
+  );
   const { saveEditorText, savable } = useModel('feature');
 
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {
@@ -42,7 +49,7 @@ export const MapContent: React.FC = () => {
           表格
         </div>
       ),
-      children: <Tables />,
+      children: <AppTable />,
     },
   ];
 
@@ -72,9 +79,13 @@ export const MapContent: React.FC = () => {
         </div>
       </div>
       <Tabs
+        activeKey={activeTab}
         className="map-content__right"
         defaultActiveKey="code"
         items={items}
+        onChange={(e) => {
+          setActiveTab(e as 'code' | 'table');
+        }}
       />
     </div>
   );

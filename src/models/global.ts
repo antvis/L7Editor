@@ -31,10 +31,16 @@ export default () => {
       defaultValue: false,
     },
   );
+  const [autoFitBounds, setAutoFitBounds] = useLocalStorageState(
+    LocalstorageKey.AutoFitBounds,
+    {
+      defaultValue: true,
+    },
+  );
 
   const [popupTrigger, setPopupTrigger] = useLocalStorageState<
     'click' | 'hover'
-  >(LocalstorageKey.popupTrigger, {
+  >(LocalstorageKey.PopupTrigger, {
     defaultValue: 'click',
   });
 
@@ -49,5 +55,7 @@ export default () => {
     setHideEditor,
     popupTrigger,
     setPopupTrigger,
+    autoFitBounds,
+    setAutoFitBounds,
   };
 };

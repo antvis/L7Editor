@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { chunk, first, isEqual, last } from 'lodash';
 import { LngLatImportType } from '@/types';
 import { useModel } from 'umi';
-import { Feature, lineString, point, polygon } from '@turf/turf';
+import { Feature, Position, lineString, point, polygon } from '@turf/turf';
 import { LngLatVT } from '@/constants';
 
 export default () => {
@@ -12,24 +12,38 @@ export default () => {
   const { resetFeatures, features } = useModel('feature');
 
   const importLngLatText = (text: string) => {
-    const positionList = chunk(
-      text
-        .split(/[^\d.\-]/)
-        .filter((item) => item)
-        .map((item) => +item),
-      2,
-    );
-    if (LngLatVT.check(positionList)) {
+    const featurePositionList: Position[][] = text
+      .split('\n')
+      .filter((item) => item)
+      .map((item) =>
+        item
+          .split(';')
+          .filter((item) => item)
+          .map((item) =>
+            item
+              .split(',')
+              .filter((item) => item)
+              .map((item) => +item),
+          ),
+      );
+
+    if (LngLatVT.check(featurePositionList)) {
       const newFeatures: Feature[] = [...features];
       if (lngLatImportType === 'Point') {
-        newFeatures.push(...positionList.map((position) => point(position)));
+        newFeatures.push(
+          ...featurePositionList.flat().map((position) => point(position)),
+        );
       } else if (lngLatImportType === 'LingString') {
-        newFeatures.push(lineString(positionList));
+        newFeatures.push(...featurePositionList.map((positions) => lineString(positions)));
       } else {
-        if (!isEqual(first(positionList), last(positionList))) {
-          positionList.push(positionList[0]);
-        }
-        newFeatures.push(polygon([positionList]));
+        newFeatures.push(
+          ...featurePositionList.map((positions) => {
+            if (!isEqual(first(positions), last(positions))) {
+              positions.push(positions[0]!);
+            }
+            return polygon([positions]);
+          }),
+        );
       }
       resetFeatures(newFeatures);
       return newFeatures;
