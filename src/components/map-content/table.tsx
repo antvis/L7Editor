@@ -1,88 +1,89 @@
-import { Empty, Table } from 'antd';
-import React, { useEffect, useMemo } from 'react';
+import { Empty, Table, TableProps } from 'antd';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useModel } from 'umi';
+import { useSize } from 'ahooks';
 
 export const Tables = () => {
+  const container = useRef<HTMLDivElement | null>(null);
+  const { width = 0, height = 0 } = useSize(container) ?? {};
   const { features } = useModel('feature');
 
   const dataSource = useMemo(() => {
-    const Datalist = features.map((item, index) => {
+    return features.map((item, index) => {
       const { properties } = item;
-      return { index: index + 1, ...properties };
+      return { __index: index + 1, ...properties };
     });
-    return Datalist;
   }, [features]);
 
-  const columns: any = useMemo(() => {
-    const Datalist = features.map((item) => {
-      const { properties } = item;
-      return Object.keys(properties);
-    });
-    const newDataList = Array.from(new Set(Datalist.flat(Infinity)));
-    const newData = [
-      {
-        title: 'index',
-        dataIndex: 'index',
-        key: `index`,
-        width: 40,
+  const columns = useMemo(() => {
+    const newColumns: TableProps<any>['columns'] = [];
+    const featureKeyList = Array.from(
+      new Set(
+        features
+          .map((item) => {
+            const { properties } = item;
+            return Object.keys(properties);
+          })
+          .flat(),
+      ),
+    );
+
+    if (featureKeyList) {
+      newColumns.push({
+        title: '序号',
+        dataIndex: '__index',
+        key: `__index`,
+        width: 80,
         align: 'center',
         fixed: 'left',
-        sorter: (a, b) => a.index - b.index,
-      },
-    ];
-    const data = newDataList.map((item: any, index) => {
-      const a = dataSource
-        .map((v) => {
-          if (
-            (v[item] && typeof v[item] === 'string') ||
-            (v[item] && typeof v[item] === 'boolean')
-          ) {
-            return {
-              text: `${v[item]}`,
-              value: v[item],
-            };
-          }
+        sorter: (a: any, b: any) => a.index - b.index,
+      });
+    }
+
+    featureKeyList.forEach((key, index) => {
+      const options = dataSource
+        .map((v: any) => {
+          return {
+            text: `${v[key]}`,
+            value: v[key],
+          };
         })
         .filter((item) => {
           return item;
         });
-      return {
-        title: item,
-        dataIndex: item,
-        key: `${item}${index}`,
+      newColumns.push({
+        title: key,
+        dataIndex: key,
+        key: `${key}${index}`,
         align: 'center',
-        render: (text) =>
+        render: (text: any) =>
           text ? (typeof text === 'boolean' ? `${text}` : text) : '-',
         width: 80,
-        filters: a.length ? a : undefined,
-        onFilter: (value: string, record) => {
-          return (record[item] ?? '') === value;
+        filters: options.length ? options : undefined,
+        onFilter: (value: any, record: any) => {
+          return (record[key] ?? '') === value;
         },
         filterSearch: true,
-        sorter: !a.length
-          ? (a, b) => {
+        sorter: !options.length
+          ? (a: any, b: any) => {
               return (
-                (typeof a[item] === 'string' || !a[item] ? 0 : a[item]) -
-                (typeof b[item] === 'string' || !b[item] ? 0 : b[item])
+                (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
+                (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
               );
             }
           : undefined,
-      };
+      });
     });
-    if (data.length) {
-      return [...newData, ...data];
-    }
-    return [];
+    return newColumns;
   }, [features, dataSource]);
 
   return (
-    <div>
-      {columns.length ? (
+    <div style={{ width: '100%', height: '100%' }} ref={container}>
+      {columns?.length ? (
         <Table
-          style={{ width: '99%' }}
           columns={columns}
           dataSource={dataSource}
-          scroll={{ x: columns.length > 6 ? 1500 : '100%' }}
+          scroll={{ x: width, y: height - 54 }}
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
