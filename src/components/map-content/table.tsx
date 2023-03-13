@@ -58,6 +58,7 @@ export const Tables = () => {
         onFilter: (value: string, record) => {
           return (record[item] ?? '') === value;
         },
+        filterSearch: true,
         sorter: !a.length
           ? (a, b) => {
               return (
