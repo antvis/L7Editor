@@ -3,6 +3,7 @@ type FilterBase = {
   id: string;
   field: string;
   params?: Record<string, unknown>;
+  logic: 'or' | 'and';
 };
 
 /** 文本型筛选器 */
@@ -56,9 +57,3 @@ type FilterDate = FilterBase & {
 
 /** 筛选器子节点，单个筛选条件 */
 export type FilterNode = FilterString | FilterNumber;
-
-/** 筛选器组 */
-export type FilterGroup = {
-  relation: 'AND' | 'OR';
-  children: FilterNode[];
-};

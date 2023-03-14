@@ -19,7 +19,7 @@ const FilterFormListControl: React.FC = () => {
                     <Form.Item
                       name={[name, 'first']}
                       style={{ flex: '1' }}
-                      initialValue="add"
+                      initialValue="and"
                     >
                       <Select placeholder="请选择过滤逻辑">
                         <Option value="add">且</Option>
