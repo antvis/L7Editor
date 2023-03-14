@@ -1,15 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { DrawControl as L7DrawControl, DrawEvent } from '@antv/l7-draw';
-import { useScene } from '@antv/larkmap';
-import { useModel } from 'umi';
-import { Feature } from '@turf/turf';
 import { FeatureKey } from '@/constants';
+import { EditOutlined } from '@ant-design/icons';
+import { DrawControl as L7DrawControl, DrawEvent } from '@antv/l7-draw';
+import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
+import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs, merge } from 'lodash';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useModel } from 'umi';
 
 const DrawControl = () => {
   const scene = useScene();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const { resetFeatures, features } = useModel('feature');
   const { layerColor } = useModel('global');
   const editFeature = useMemo(
@@ -40,11 +42,11 @@ const DrawControl = () => {
       newDrawControl = new L7DrawControl(scene, {
         position: 'topleft',
         drawConfig: {
-          point: true,
-          line: true,
-          polygon: true,
-          rect: true,
-          circle: true,
+          point: isVisible,
+          line: isVisible,
+          polygon: isVisible,
+          rect: isVisible,
+          circle: isVisible,
         },
         commonDrawOptions: {
           maxCount: 1,
@@ -75,6 +77,9 @@ const DrawControl = () => {
       });
       setDrawControl(newDrawControl);
       scene.addControl(newDrawControl);
+      const drawDom: any = document.querySelector('.l7-draw-control');
+      drawDom.style.marginTop = 0;
+      document.querySelector('#l7-draw-content')?.appendChild(drawDom);
     }
 
     return () => {
@@ -82,7 +87,7 @@ const DrawControl = () => {
         scene.removeControl(newDrawControl);
       }
     };
-  }, [scene, layerColor]);
+  }, [scene, layerColor, isVisible]);
 
   const onDrawAdd = useCallback(
     (drawType: DrawType, newFeature: Feature) => {
@@ -156,7 +161,25 @@ const DrawControl = () => {
     }
   }, [editFeature, drawControl]);
 
-  return <></>;
+  return (
+    <CustomControl position="topleft" style={{ display: 'flex' }}>
+      <div className="l7-draw-switch">
+        <button
+          className="l7-draw-control__btn"
+          style={{ borderRight: 'none' }}
+        >
+          <EditOutlined
+            className="l7-draw-icon"
+            style={{ fontSize: 16, lineHeight: '30px' }}
+            onClick={() => {
+              setIsVisible(!isVisible);
+            }}
+          />
+        </button>
+      </div>
+      <div id="l7-draw-content" />
+    </CustomControl>
+  );
 };
 
 export default DrawControl;
