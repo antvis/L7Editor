@@ -27,11 +27,19 @@ const mockFilters: FilterNode[] = [
     operator: 'LIKE',
     value: '江'
   },
+  {
+    type: 'boolean',
+    id: uniqueId(),
+    field: 'name',
+    logic: 'and',
+    operator: 'false',
+    value: true
+  }
 ]
 
 export default () => {
-  const [filter,setFilter] = useState<FilterNode[]>([])
-  return{
+  const [filter, setFilter] = useState<FilterNode[]>([])
+  return {
     filter,
     setFilter
   }
