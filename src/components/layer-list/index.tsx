@@ -1,4 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
+import { useFilterFeature } from '@/hooks/useFilterFeature';
 import { getOpacityColor } from '@/utils';
 import {
   LineLayer,
@@ -16,8 +17,8 @@ import { useModel } from 'umi';
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
-  const { features } = useModel('feature');
   const { layerColor } = useModel('global');
+  const { newFeatures } = useFilterFeature()
   const [
     pointSource,
     lineSource,
@@ -28,7 +29,7 @@ export const LayerList: React.FC = () => {
       LineString: lineStringList = [],
       Point: pointList = [],
     }: Record<string, Feature[]> = groupBy(
-      features.filter((feature) => {
+      newFeatures.filter((feature) => {
         // @ts-ignore
         return !feature.properties?.[FeatureKey.IsEdit];
       }),
@@ -40,8 +41,8 @@ export const LayerList: React.FC = () => {
         data: featureCollection(features),
       };
     });
-  }, [features]);
-
+  }, [newFeatures]);
+  
   useMount(() => {
     scene.addImage(
       'pointIcon',
