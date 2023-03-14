@@ -1,3 +1,4 @@
+import { SearchOutlined } from '@ant-design/icons';
 import {
   CustomControl,
   LocationSearch,
@@ -15,6 +16,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const [selectLocation, setSelectLocation] = useState<LocationSearchOption>();
   const [locationText, setLocationText] = useState('');
   const { features, resetFeatures } = useModel('feature');
+  const [isVisible, setIsVisible] = useState(false);
 
   const syncMapCenter = useCallback(() => {
     if (scene) {
@@ -36,26 +38,44 @@ const LocationSearchControl: React.FC = React.memo(() => {
 
   return (
     <>
-      <CustomControl className="l7-location-search" position="topright">
-        <LocationSearch
-          getPopupContainer={() => document.querySelector('.larkmap')}
-          style={{ width: 200 }}
-          value={selectLocation?.name}
-          searchParams={{
-            key: '4892acc9f825e343bcf1e25a56199826',
-            location: locationText,
-          }}
-          onChange={(_, item) => {
-            if (item) {
-              const currentZoom = scene.getZoom();
-              scene.setZoomAndCenter(currentZoom > 16 ? currentZoom : 16, [
-                item.longitude,
-                item.latitude,
-              ]);
-            }
-            setSelectLocation(item);
-          }}
-        />
+      <CustomControl position="topleft" style={{ display: 'flex' }}>
+        <div className="l7-draw-switch" style={{ marginRight: '8px' }}>
+          <button
+            className="l7-draw-control__btn"
+            style={{ borderRight: 'none' }}
+          >
+            <SearchOutlined
+              className="l7-draw-icon"
+              style={{ fontSize: 16, lineHeight: '30px' }}
+              onClick={() => {
+                setIsVisible(!isVisible);
+              }}
+            />
+          </button>
+        </div>
+        <div className="l7-location-search">
+          {isVisible && (
+            <LocationSearch
+              getPopupContainer={() => document.querySelector('.larkmap')}
+              style={{ width: 200 }}
+              value={selectLocation?.name}
+              searchParams={{
+                key: '4892acc9f825e343bcf1e25a56199826',
+                location: locationText,
+              }}
+              onChange={(_, item) => {
+                if (item) {
+                  const currentZoom = scene.getZoom();
+                  scene.setZoomAndCenter(currentZoom > 16 ? currentZoom : 16, [
+                    item.longitude,
+                    item.latitude,
+                  ]);
+                }
+                setSelectLocation(item);
+              }}
+            />
+          )}
+        </div>
       </CustomControl>
 
       {selectLocation && (
