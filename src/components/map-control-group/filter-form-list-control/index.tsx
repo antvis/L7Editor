@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select } from 'antd';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, flatMap } from 'lodash';
 import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import BooleanFilter from './booleanFilter';
@@ -28,14 +28,13 @@ const FilterFormListControl: React.FC = () => {
 
   const featureKeyList = Array.from(
     new Set(
-      features
-        .map((item) => {
-          const { properties } = item;
-          return Object.keys(properties);
-        })
-        .flat(),
+      flatMap(
+        features
+          .map(({ properties }) => Object.keys(properties))
+      )
     ),
   ).map((item) => {
+
     const newDataSource = [
       ...new Set(dataSource.map((v: any) => typeof v[item])),
     ];
@@ -54,7 +53,18 @@ const FilterFormListControl: React.FC = () => {
         <Form
           form={form}
           onValuesChange={(_, all) => {
-            setFilter(all.filterFromList.filter((item: any) => item));
+            const newValue = all.filterFromList
+              .filter((item: any) => item)
+              .map((item: any) => {
+                const { value, type } = JSON.parse(item.field || '')
+                if (item.operator === "BETWEEN") {
+                  if (item.min && item.max) {
+                    return { ...item, field: value, type, value: [item.min, item.max] }
+                  }
+                }
+                return { ...item, field: value, type }
+              })
+            setFilter(newValue);
           }}
         >
           <Form.List name="filterFromList">

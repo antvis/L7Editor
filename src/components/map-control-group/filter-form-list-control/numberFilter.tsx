@@ -1,4 +1,4 @@
-import { Form, InputNumber, Select } from 'antd';
+import { Form, InputNumber, Select, Space } from 'antd';
 import React from 'react';
 
 const select = [
@@ -32,17 +32,21 @@ const NumberFilter: React.FC<Props> = ({ name, index }) => {
           const { filterFromList } = getFieldsValue();
           if (filterFromList[index].operator === 'BETWEEN') {
             return (
-              <Form.Item name={[name, 'value']}>
-                <InputNumber
-                  style={{ width: '43%' }}
-                  placeholder="请输入筛选值"
-                />
+              <Space>
+                <Form.Item name={[name, 'min']}>
+                  <InputNumber 
+                    //style={{ width: '43%' }}
+                    placeholder="请输入筛选值"
+                  />
+                </Form.Item>
                 <span> - </span>
-                <InputNumber
-                  style={{ width: '43%' }}
-                  placeholder="请输入筛选值"
-                />
-              </Form.Item>
+                <Form.Item name={[name, 'max']}>
+                  <InputNumber 
+                    //style={{ width: '43%' }}
+                    placeholder="请输入筛选值"
+                  />
+                </Form.Item>
+              </Space>
             );
           }
           return (

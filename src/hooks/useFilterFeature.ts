@@ -35,12 +35,21 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
   const value = filter.value as string
   switch (filter.operator) {
     case 'IN':
-      return newField.includes(value)
+      return newField?.includes(value)
     case 'LIKE':
-      return newField.indexOf(value) > -1
+      return newField?.indexOf(value) > -1
     default:
       break;
   }
+}
+
+function boolFilter(filter: FilterNode, properties: Record<string, any>) {
+  const newField = properties[filter.field]
+  if (typeof filter.value !== 'boolean') {
+    return
+  }
+  const value = filter.value
+  return filter.value ? value : !value
 }
 
 type Features = Feature<Geometry | GeometryCollection, {}>
@@ -48,12 +57,14 @@ export function useFilterFeature() {
   const { features } = useModel('feature');
   const { filter: newFilters } = useModel('filter')
   const [newFeatures, setNewFeatures] = useState<Features[]>([])
-
+  
   useEffect(() => {
     if (isEmpty(newFilters)) {
       setNewFeatures(features)
       return
     }
+    console.log('newFilters',newFilters);
+    
     let newFeature = features
     // 查找 and 条件 且
     const andFilters = newFilters.filter((item) => item.logic === 'and')
@@ -65,8 +76,11 @@ export function useFilterFeature() {
         return orFilters.some((filter) => {
           if (filter.type === 'number') {
             return numberFilter(filter, properties)
+          } else if (filter.type === 'boolean') {
+            return boolFilter(filter, properties)
+          }else{
+            return stringFilter(filter, properties)
           }
-          return stringFilter(filter, properties)
         })
       })
     }
@@ -75,8 +89,11 @@ export function useFilterFeature() {
         return andFilters.every((filter) => {
           if (filter.type === 'number') {
             return numberFilter(filter, properties)
+          } else if (filter.type === 'boolean') {
+            return boolFilter(filter, properties)
+          }else{
+            return stringFilter(filter, properties)
           }
-          return stringFilter(filter, properties)
         })
       })
     }
