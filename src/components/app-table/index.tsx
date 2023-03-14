@@ -2,8 +2,16 @@ import { Empty, Table, TableProps } from 'antd';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useModel } from 'umi';
 import { useSize } from 'ahooks';
+import { isNull, isUndefined, uniqBy } from 'lodash';
 
-export const Tables = () => {
+const formatTableValue = (value: any) => {
+  if (isNull(value) || isUndefined(value)) {
+    return '-';
+  }
+  return value instanceof Object ? JSON.stringify(value) : String(value);
+};
+
+export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const { features } = useModel('feature');
@@ -41,23 +49,23 @@ export const Tables = () => {
     }
 
     featureKeyList.forEach((key, index) => {
-      const options = dataSource
-        .map((v: any) => {
-          return {
-            text: `${v[key]}`,
-            value: v[key],
-          };
-        })
-        .filter((item) => {
-          return item;
-        });
+      const options = uniqBy(
+        dataSource
+          .map((item: any) => item[key])
+          .map((value: any) => {
+            return {
+              text: formatTableValue(value),
+              value: value,
+            };
+          }),
+        'text',
+      );
       newColumns.push({
         title: key,
         dataIndex: key,
         key: `${key}${index}`,
         align: 'center',
-        render: (text: any) =>
-          text ? (typeof text === 'boolean' ? `${text}` : text) : '-',
+        render: formatTableValue,
         width: 80,
         filters: options.length ? options : undefined,
         onFilter: (value: any, record: any) => {
