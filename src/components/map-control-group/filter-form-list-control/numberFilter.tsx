@@ -2,12 +2,12 @@ import { Form, InputNumber, Select } from 'antd';
 import React from 'react';
 
 const select = [
-  { label: '>', value: '大于' },
-  { label: '>=', value: '大于等于' },
-  { label: '=', value: '等于' },
-  { label: '<=', value: '小于等于' },
-  { label: '<', value: '小于' },
-  { label: '区间', value: '区间' },
+  { label: '>', value: '>' },
+  { label: '>=', value: '>=' },
+  { label: '=', value: '=' },
+  { label: '<=', value: '<=' },
+  { label: '<', value: '<' },
+  { label: '区间', value: 'BETWEEN' },
 ];
 interface Props {
   name: number;
@@ -18,19 +18,19 @@ const NumberFilter: React.FC<Props> = ({ name, index }) => {
     <div style={{ display: 'flex' }}>
       <Form.Item
         name={[name, 'operator']}
-        style={{ flex: '1.2', marginRight: '8px' }}
+        style={{ width: '100px', marginRight: '8px' }}
       >
         <Select placeholder="请选择过滤逻辑" options={select} />
       </Form.Item>
       <Form.Item
-        style={{ flex: '1.2' }}
+        style={{ flex: '1.2', marginBottom: 0 }}
         shouldUpdate={(prevValues, curValues) =>
           prevValues.operator === curValues.operator
         }
       >
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
-          if (filterFromList[index].operator === '区间') {
+          if (filterFromList[index].operator === 'BETWEEN') {
             return (
               <Form.Item name={[name, 'value']}>
                 <InputNumber

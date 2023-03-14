@@ -1,5 +1,6 @@
 import {
   CloseOutlined,
+  FieldBinaryOutlined,
   FieldNumberOutlined,
   FieldStringOutlined,
   PlusOutlined,
@@ -13,13 +14,9 @@ import BooleanFilter from './booleanFilter';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
 const { Option } = Select;
-const typeColor: Record<string, string> = {
-  string: 'green',
-  boolean: 'blue',
-  number: 'red',
-};
 const FilterFormListControl: React.FC = () => {
   const { features } = useModel('feature');
+  const { setFilter, filter } = useModel('filter');
   const [form] = Form.useForm();
 
   const dataSource = useMemo(() => {
@@ -48,19 +45,23 @@ const FilterFormListControl: React.FC = () => {
       return { value: item, type: newDataSource[0] };
     }
   });
-
   return (
     <CustomControl
       position="topright"
-      style={{ display: 'flex', background: '#fff', padding: '16px' }}
+      style={{ display: 'flex', background: '#fff', padding: '8px 16px' }}
     >
       <div style={{ width: '500px' }}>
-        <Form form={form} onValuesChange={(_, all) => {}}>
+        <Form
+          form={form}
+          onValuesChange={(_, all) => {
+            setFilter(all.filterFromList.filter((item: any) => item));
+          }}
+        >
           <Form.List name="filterFromList">
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name }, index) => (
-                  <div key={key} style={{ display: 'flex' }}>
+                  <div key={index.toString()} style={{ display: 'flex' }}>
                     <Form.Item
                       name={[name, 'logic']}
                       style={{ flex: '0.5', marginRight: '8px' }}
@@ -77,6 +78,7 @@ const FilterFormListControl: React.FC = () => {
                       initialValue={JSON.stringify(featureKeyList[0])}
                     >
                       <Select
+                        style={{ maxWidth: '128px' }}
                         placeholder="请选择字段"
                         onChange={() => {
                           const newFilterFromList = cloneDeep(
@@ -100,17 +102,15 @@ const FilterFormListControl: React.FC = () => {
                               <Option value={JSON.stringify(item)}>
                                 <i
                                   style={{
-                                    color: typeColor[item.type],
                                     fontSize: 20,
                                     marginRight: 8,
+                                    color: '#999',
                                   }}
                                 >
-                                  {item.type === 'string' ? (
-                                    <FieldStringOutlined />
-                                  ) : item.type === 'number' ? (
-                                    <FieldNumberOutlined />
+                                  {item.type === 'number' ? (
+                                    <FieldBinaryOutlined />
                                   ) : (
-                                    item.type
+                                    <FieldStringOutlined />
                                   )}
                                 </i>
                                 {item.value}
@@ -124,7 +124,7 @@ const FilterFormListControl: React.FC = () => {
                       shouldUpdate={(prevValues, curValues) =>
                         prevValues.field === curValues.field
                       }
-                      style={{ flex: '2.4' }}
+                      style={{ flex: '2.4', margin: 0 }}
                     >
                       {({ getFieldsValue }) => {
                         const { filterFromList } = getFieldsValue();
@@ -143,7 +143,7 @@ const FilterFormListControl: React.FC = () => {
                       }}
                     </Form.Item>
                     <Button
-                      type="link"
+                      type="text"
                       onClick={() => remove(name)}
                       icon={<CloseOutlined />}
                     />

@@ -24,7 +24,7 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
     <div style={{ display: 'flex' }}>
       <Form.Item
         name={[name, 'operator']}
-        style={{ flex: '1.2', marginRight: '8px' }}
+        style={{ width: '100px', marginRight: '8px' }}
       >
         <Select placeholder="请选择过滤逻辑" options={select}></Select>
       </Form.Item>
@@ -32,7 +32,7 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
         shouldUpdate={(prevValues, curValues) =>
           prevValues.operator !== curValues.operator
         }
-        style={{ flex: '1.2' }}
+        style={{ flex: '1.2', margin: 0 }}
       >
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
@@ -47,7 +47,11 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
           }
           return (
             <Form.Item name={[name, 'value']}>
-              <Select placeholder="请输入" style={{ width: '100%' }} mode='tags'>
+              <Select
+                placeholder="请输入"
+                style={{ width: '100%' }}
+                mode="tags"
+              >
                 {DataList.map((item) => (
                   <Select.Option value={item}>{item}</Select.Option>
                 ))}
