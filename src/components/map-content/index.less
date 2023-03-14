@@ -23,7 +23,6 @@
 
 .map-content__right {
   width: calc(100% - 33px);
-  height: calc(100vh - 80px);
 }
 
 .ant-tabs-nav-wrap {
@@ -36,6 +35,16 @@
   }
 }
 
-.ant-tabs-nav {
-  margin: 0 !important;
+.ant-tabs {
+  .ant-tabs-nav {
+    margin: 0 !important;
+  }
+
+  .ant-tabs-content-holder {
+    height: calc(100% - 46px);
+  }
+  .ant-tabs-tabpane,
+  .ant-tabs-content {
+    height: 100%;
+  }
 }

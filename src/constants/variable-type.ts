@@ -28,14 +28,16 @@ export const FeatureCollectionVT = VT.shape({
 });
 
 export const LngLatVT = VT.arrayOf(
-  VT.and([
-    VT.arrayOf(VT.number),
-    VT.apply((position: number[]) => {
-      if (position.length === 2) {
-        const [lng, lat] = position;
-        return lng >= -180 && lng <= 180 && lat <= 90 && lat >= -90;
-      }
-      return false;
-    }),
-  ]),
+  VT.arrayOf(
+    VT.and([
+      VT.arrayOf(VT.number),
+      VT.apply((position: number[]) => {
+        if (position.length === 2) {
+          const [lng, lat] = position;
+          return lng >= -180 && lng <= 180 && lat <= 90 && lat >= -90;
+        }
+        return false;
+      }),
+    ]),
+  ),
 );
