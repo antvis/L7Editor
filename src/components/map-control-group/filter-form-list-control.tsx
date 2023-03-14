@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select } from 'antd';
 import React from 'react';
@@ -22,7 +22,7 @@ const FilterFormListControl: React.FC = () => {
                       initialValue="and"
                     >
                       <Select placeholder="请选择过滤逻辑">
-                        <Option value="add">且</Option>
+                        <Option value="and">且</Option>
                         <Option value="or">或</Option>
                       </Select>
                     </Form.Item>
@@ -35,9 +35,11 @@ const FilterFormListControl: React.FC = () => {
                     <Form.Item name={[name, 'fourth']} style={{ flex: '1' }}>
                       <Select placeholder="请选择内容"></Select>
                     </Form.Item>
-                    <Button type="link" onClick={() => remove(name)}>
-                      X
-                    </Button>
+                    <Button
+                      type="link"
+                      onClick={() => remove(name)}
+                      icon={<CloseOutlined />}
+                    />
                   </div>
                 ))}
                 <Button
