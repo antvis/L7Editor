@@ -1,7 +1,7 @@
 import { FilterStringData } from '@/types/filter';
-import { Form, Input, Select } from 'antd';
-import { uniq } from 'lodash';
-import React, { useMemo } from 'react';
+import { Form, FormInstance, Input, Select } from 'antd';
+import { cloneDeep, uniq } from 'lodash';
+import React from 'react';
 import { useModel } from 'umi';
 
 const select = [
@@ -13,9 +13,11 @@ const select = [
 interface Props {
   name: number;
   index: number;
+  form: FormInstance;
 }
-const StringFilter: React.FC<Props> = ({ name, index }) => {
+const StringFilter: React.FC<Props> = ({ name, index, form }) => {
   const { featureKeyList } = useModel('feature');
+  const { setFilter } = useModel('filter');
 
   return (
     <div style={{ display: 'flex' }}>
@@ -23,7 +25,28 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
         name={[name, 'operator']}
         style={{ width: '100px', marginRight: '8px' }}
       >
-        <Select placeholder="请选择过滤逻辑" options={select}></Select>
+        <Select
+          placeholder="请选择过滤逻辑"
+          options={select}
+          onChange={(value) => {
+            const newFilterFromList = cloneDeep(
+              form.getFieldValue('filterFromList'),
+            );
+
+            newFilterFromList.forEach((v: any, i: number) => {
+              if (index === i) {
+                v.value = undefined;
+              }
+            });
+            form.setFieldValue('filterFromList', newFilterFromList);
+            setFilter(
+              newFilterFromList.map((item: any) => {
+                const { field, type } = JSON.parse(item.field);
+                return { ...item, field, type };
+              }),
+            );
+          }}
+        />
       </Form.Item>
       <Form.Item
         shouldUpdate={(prevValues, curValues) =>
@@ -41,7 +64,11 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
           if (fieldType === 'IN' || fieldType === 'NOT_IN') {
             return (
               <Form.Item name={[name, 'value']}>
-                <Input placeholder="请输入筛选值" style={{ width: '100%' }} />
+                <Input
+                  placeholder="请输入筛选值"
+                  style={{ width: '100%' }}
+                  allowClear
+                />
               </Form.Item>
             );
           }

@@ -143,7 +143,13 @@ const FilterFormListControl: React.FC = () => {
                             if (type === 'boolean') {
                               return <BooleanFilter name={name} />;
                             }
-                            return <StringFilter name={name} index={index} />;
+                            return (
+                              <StringFilter
+                                name={name}
+                                index={index}
+                                form={form}
+                              />
+                            );
                           }
                         }}
                       </Form.Item>
