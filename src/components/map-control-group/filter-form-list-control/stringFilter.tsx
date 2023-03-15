@@ -1,3 +1,4 @@
+import { FilterStringData } from '@/types/filter';
 import { Form, Input, Select } from 'antd';
 import React, { useMemo } from 'react';
 import { useModel } from 'umi';
@@ -30,9 +31,9 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
           const fieldValue = JSON.parse(filterFromList[index].field)?.field;
-          const DataList = featureKeyList.find(
+          const DataList: FilterStringData | undefined = featureKeyList.find(
             (item) => item?.field === fieldValue,
-          )?.value;
+          );
           if (filterFromList[index].operator === 'LIKE') {
             return (
               <Form.Item name={[name, 'value']}>
@@ -47,7 +48,7 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
                 style={{ width: '100%' }}
                 mode="tags"
               >
-                {(DataList ?? []).map((item) => (
+                {(DataList?.value ?? []).map((item) => (
                   <Select.Option value={item}>{item}</Select.Option>
                 ))}
               </Select>

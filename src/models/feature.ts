@@ -1,5 +1,5 @@
 import { FeatureKey, LocalstorageKey } from '@/constants';
-import { FilterListData } from '@/types/filter';
+import { FilterField } from '@/types/filter';
 import { transformFeatures } from '@/utils';
 import {
   Feature,
@@ -93,17 +93,21 @@ export default () => {
     });
   }, [features]);
 
-  const featureKeyList: FilterListData[] = Array.from(
+  const featureKeyList: FilterField[] = Array.from(
     new Set(flatMap(features.map(({ properties }) => Object.keys(properties)))),
   ).map((field: string) => {
     const type = typeof dataSource[0][field];
     if (type === 'string') {
       const value = dataSource.map((item) => item[field]) as string[];
       return { type, field, value };
-    }
-    if (type === 'number') {
+    } else {
       const value = dataSource.map((item) => item[field]);
-      return { type, field, min: min(value), max: max(value) };
+      return {
+        type,
+        field,
+        min: min(value) as number,
+        max: max(value) as number,
+      };
     }
   });
 

@@ -1,3 +1,4 @@
+import { FilterNumberData } from '@/types/filter';
 import { Form, InputNumber, Select, Space } from 'antd';
 import React from 'react';
 import { useModel } from 'umi';
@@ -34,10 +35,9 @@ const NumberFilter: React.FC<Props> = ({ name, index }) => {
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
           const fieldValue = JSON.parse(filterFromList[index].field)?.field;
-          const DataList = featureKeyList.find(
+          const DataList: FilterNumberData | undefined = featureKeyList.find(
             (item) => item?.field === fieldValue,
           );
-          console.log(DataList);
           if (filterFromList[index].operator === 'BETWEEN') {
             return (
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>

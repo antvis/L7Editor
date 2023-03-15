@@ -63,13 +63,21 @@ type FilterDate = FilterBase & {
       }
   );
 
-export type FilterListData = {
+type BaseFilterField = {
   type: number | string;
   field: string;
+};
+
+export type FilterNumberData = BaseFilterField & {
   min?: number;
   max?: number;
-  value: string[];
 };
+
+export type FilterStringData = BaseFilterField & {
+  value?: string[];
+};
+
+export type FilterField = FilterStringData | FilterNumberData;
 
 /** 筛选器子节点，单个筛选条件 */
 export type FilterNode = FilterString | FilterNumber | FilterBoolean;
