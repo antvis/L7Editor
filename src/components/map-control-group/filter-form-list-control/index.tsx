@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select } from 'antd';
-import { cloneDeep, isEmpty } from 'lodash';
+import { cloneDeep, debounce, isEmpty } from 'lodash';
 import React, { useState } from 'react';
 import { useModel } from 'umi';
 import BooleanFilter from './booleanFilter';
@@ -71,7 +71,7 @@ const FilterFormListControl: React.FC = () => {
           <Form
             style={{ width: '100%' }}
             form={form}
-            onValuesChange={onValuesChange}
+            onValuesChange={debounce(onValuesChange,500)}
           >
             <Form.List name="filterFromList">
               {(fields, { add, remove }) => (
