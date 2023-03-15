@@ -1,5 +1,6 @@
 import { Form, InputNumber, Select, Space } from 'antd';
 import React from 'react';
+import { useModel } from 'umi';
 
 const select = [
   { label: '>', value: '>' },
@@ -14,39 +15,50 @@ interface Props {
   index: number;
 }
 const NumberFilter: React.FC<Props> = ({ name, index }) => {
+  const { featureKeyList } = useModel('feature');
   return (
     <div style={{ display: 'flex' }}>
-      <Form.Item
-        name={[name, 'operator']}
-        style={{ width: '100px', marginRight: '8px' }}
-      >
-        <Select placeholder="请选择过滤逻辑" options={select} />
+      <Form.Item name={[name, 'operator']}>
+        <Select
+          style={{ width: '100px', marginRight: '8px' }}
+          placeholder="请选择过滤逻辑"
+          options={select}
+        />
       </Form.Item>
       <Form.Item
-        style={{ flex: '1.2', marginBottom: 0 }}
+        style={{ width: 150, marginBottom: 0 }}
         shouldUpdate={(prevValues, curValues) =>
           prevValues.operator === curValues.operator
         }
       >
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
+          const fieldValue = JSON.parse(filterFromList[index].field)?.field;
+          const DataList = featureKeyList.find(
+            (item) => item?.field === fieldValue,
+          );
+          console.log(DataList);
           if (filterFromList[index].operator === 'BETWEEN') {
             return (
-              <Space>
-                <Form.Item name={[name, 'min']}>
-                  <InputNumber 
-                    //style={{ width: '43%' }}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Form.Item name={[name, 'min']} style={{ width: '70px' }}>
+                  <InputNumber
                     placeholder="请输入筛选值"
+                    style={{ width: '100%' }}
+                    min={DataList?.min ?? 0}
+                    max={DataList?.max ?? 0}
                   />
                 </Form.Item>
                 <span> - </span>
-                <Form.Item name={[name, 'max']}>
-                  <InputNumber 
-                    //style={{ width: '43%' }}
+                <Form.Item name={[name, 'max']} style={{ width: '70px' }}>
+                  <InputNumber
                     placeholder="请输入筛选值"
+                    style={{ width: '100%' }}
+                    min={DataList?.min ?? 0}
+                    max={DataList?.max ?? 0}
                   />
                 </Form.Item>
-              </Space>
+              </div>
             );
           }
           return (
@@ -54,6 +66,8 @@ const NumberFilter: React.FC<Props> = ({ name, index }) => {
               <InputNumber
                 placeholder="请输入筛选值"
                 style={{ width: '100%' }}
+                min={DataList?.min ?? 0}
+                max={DataList?.max ?? 0}
               />
             </Form.Item>
           );

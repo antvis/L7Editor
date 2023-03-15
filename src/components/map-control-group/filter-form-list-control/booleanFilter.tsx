@@ -5,11 +5,8 @@ interface Props {
 }
 const BooleanFilter: React.FC<Props> = ({ name }) => {
   return (
-    <Form.Item
-      name={[name, 'value']}
-      style={{ width: '100px', marginRight: '8px' }}
-    >
-      <Radio.Group size="small">
+    <Form.Item name={[name, 'value']}>
+      <Radio.Group size="small" style={{ width: '100px', marginRight: '8px' }}>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>
       </Radio.Group>

@@ -3,22 +3,15 @@ import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 
 const select = [
-  { label: '模糊匹配', value: 'IN' },
-  { label: '精准匹配', value: 'LIKE' },
+  { label: '模糊匹配', value: 'LIKE' },
+  { label: '精准匹配', value: 'IN' },
 ];
 interface Props {
   name: number;
   index: number;
 }
 const StringFilter: React.FC<Props> = ({ name, index }) => {
-  const { features } = useModel('feature');
-
-  const dataSource = useMemo(() => {
-    return features.map((item, index) => {
-      const { properties } = item;
-      return { __index: index + 1, ...properties };
-    });
-  }, [features]);
+  const { featureKeyList } = useModel('feature');
 
   return (
     <div style={{ display: 'flex' }}>
@@ -32,13 +25,15 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
         shouldUpdate={(prevValues, curValues) =>
           prevValues.operator !== curValues.operator
         }
-        style={{ flex: '1.2', margin: 0 }}
+        style={{ width: 150, margin: 0 }}
       >
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
-          const fieldValue = JSON.parse(filterFromList[index].field)?.value;
-          const DataList = dataSource.map((item: any) => item[fieldValue]);
-          if (filterFromList[index].operator === 'IN') {
+          const fieldValue = JSON.parse(filterFromList[index].field)?.field;
+          const DataList = featureKeyList.find(
+            (item) => item?.field === fieldValue,
+          )?.value;
+          if (filterFromList[index].operator === 'LIKE') {
             return (
               <Form.Item name={[name, 'value']}>
                 <Input placeholder="请输入" style={{ width: '100%' }} />
@@ -52,7 +47,7 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
                 style={{ width: '100%' }}
                 mode="tags"
               >
-                {DataList.map((item) => (
+                {(DataList ?? []).map((item) => (
                   <Select.Option value={item}>{item}</Select.Option>
                 ))}
               </Select>

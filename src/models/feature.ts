@@ -9,6 +9,7 @@ import {
 } from '@turf/turf';
 import { useLocalStorageState, useMount } from 'ahooks';
 import { message } from 'antd';
+import { flatMap, max, min } from 'lodash';
 import { useMemo, useState } from 'react';
 
 export default () => {
@@ -84,6 +85,27 @@ export default () => {
     }
   });
 
+  const dataSource: Record<string, string | number>[] = useMemo(() => {
+    return features.map((item, index) => {
+      const { properties } = item;
+      return { __index: index + 1, ...properties };
+    });
+  }, [features]);
+
+  const featureKeyList = Array.from(
+    new Set(flatMap(features.map(({ properties }) => Object.keys(properties)))),
+  ).map((field: string) => {
+    const type = typeof dataSource[0][field];
+    if (type === 'string') {
+      const value = dataSource.map((item) => item[field]);
+      return { type, field, value };
+    }
+    if (type === 'number') {
+      const value = dataSource.map((item) => item[field]);
+      return { type, field, min: min(value), max: max(value) };
+    }
+  });
+
   return {
     editorText,
     setEditorText,
@@ -94,5 +116,6 @@ export default () => {
     savable,
     saveEditorText,
     resetFeatures,
+    featureKeyList,
   };
 };
