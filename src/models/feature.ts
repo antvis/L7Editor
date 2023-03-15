@@ -95,21 +95,23 @@ export default () => {
 
   const featureKeyList: FilterField[] = Array.from(
     new Set(flatMap(features.map(({ properties }) => Object.keys(properties)))),
-  ).map((field: string) => {
-    const type = typeof dataSource[0][field];
-    if (type === 'string') {
-      const value = dataSource.map((item) => item[field]) as string[];
-      return { type, field, value };
-    } else {
-      const value = dataSource.map((item) => item[field]);
-      return {
-        type,
-        field,
-        min: min(value) as number,
-        max: max(value) as number,
-      };
-    }
-  }).filter((item)=>item);
+  )
+    .map((field: string) => {
+      const type = typeof dataSource[0][field];
+      if (type === 'string' || type === 'boolean') {
+        const value = dataSource.map((item) => item[field]) as string[];
+        return { type, field, value };
+      } else if (type === 'number') {
+        const value = dataSource.map((item) => item[field]);
+        return {
+          type,
+          field,
+          min: min(value) as number,
+          max: max(value) as number,
+        };
+      }
+    })
+    .filter((item) => item);
 
   return {
     editorText,
