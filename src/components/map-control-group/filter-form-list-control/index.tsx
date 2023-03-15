@@ -10,8 +10,8 @@ import {
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select } from 'antd';
-import { cloneDeep, flatMap, isEmpty } from 'lodash';
-import React, { useMemo, useState } from 'react';
+import { cloneDeep, isEmpty } from 'lodash';
+import React, { useState } from 'react';
 import { useModel } from 'umi';
 import BooleanFilter from './booleanFilter';
 import NumberFilter from './numberFilter';
@@ -19,7 +19,7 @@ import StringFilter from './stringFilter';
 const { Option } = Select;
 const FilterFormListControl: React.FC = () => {
   const { featureKeyList } = useModel('feature');
-  const { setFilter, filter } = useModel('filter');
+  const { setFilter } = useModel('filter');
   const [isVisible, setIsVisible] = useState(false);
   const [form] = Form.useForm();
 

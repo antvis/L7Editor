@@ -8,9 +8,9 @@ import { isEmpty, isUndefined } from 'lodash';
 function notEmptyFilter(filter: FilterNode) {
   const { operator, value, type, field } = filter
   return isUndefined(operator)
-  || isUndefined(value)
-  || isUndefined(type)
-  || isUndefined(field)
+    || isUndefined(value)
+    || isUndefined(type)
+    || isUndefined(field)
 }
 
 
@@ -39,12 +39,14 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
   const newField = properties[filter.field]
   const value = filter.value as string
   switch (filter.operator) {
+    case 'NOT_IN':
+      return !value?.includes(newField)
     case 'IN':
       return value?.includes(newField)
     case 'LIKE':
       return newField?.indexOf(value) > -1
     default:
-      break;
+      return newField?.indexOf(value) < -1
   }
 }
 
@@ -69,7 +71,7 @@ export function useFilterFeature() {
     }
     let newFeature = features
     // 过滤空值
-    const setnotEmptyFilter = newFilters.filter((a)=>!notEmptyFilter(a))
+    const setnotEmptyFilter = newFilters.filter((a) => !notEmptyFilter(a))
     // 查找 and 条件 且
     const andFilters = setnotEmptyFilter.filter((item) => item.logic === 'and')
     // 查找 or 条件 或

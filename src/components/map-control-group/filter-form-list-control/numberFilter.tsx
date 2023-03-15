@@ -40,7 +40,7 @@ const NumberFilter: React.FC<Props> = ({ name, index }) => {
           );
           if (filterFromList[index].operator === 'BETWEEN') {
             return (
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className='filter-between'>
                 <Form.Item name={[name, 'min']} style={{ width: '70px' }}>
                   <InputNumber
                     placeholder="请输入筛选值"
