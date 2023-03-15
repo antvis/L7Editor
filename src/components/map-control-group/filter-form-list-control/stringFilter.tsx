@@ -1,5 +1,6 @@
 import { FilterStringData } from '@/types/filter';
 import { Form, Input, Select } from 'antd';
+import { uniq } from 'lodash';
 import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 
@@ -48,7 +49,7 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
                 style={{ width: '100%' }}
                 mode="tags"
               >
-                {(DataList?.value ?? []).map((item) => (
+                {(uniq(DataList?.value) ?? []).map((item) => (
                   <Select.Option value={item}>{item}</Select.Option>
                 ))}
               </Select>

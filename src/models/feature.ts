@@ -109,7 +109,7 @@ export default () => {
         max: max(value) as number,
       };
     }
-  });
+  }).filter((item)=>item);
 
   return {
     editorText,

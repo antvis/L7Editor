@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select } from 'antd';
-import { cloneDeep, flatMap } from 'lodash';
+import { cloneDeep, flatMap, isEmpty } from 'lodash';
 import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import BooleanFilter from './booleanFilter';
@@ -19,7 +19,33 @@ const FilterFormListControl: React.FC = () => {
   const { setFilter, filter } = useModel('filter');
   const [form] = Form.useForm();
 
-  console.log(filter, 'filter');
+  const onValuesChange = (_: any, all: any) => {
+    if (isEmpty(all.filterFromList)) {
+      setFilter([]);
+      return;
+    }
+    const newValue = all.filterFromList
+      .filter((item: any) => item)
+      .map((item: any) => {
+        if (item.field) {
+          const { field, type } = JSON.parse(item.field || '');
+          if (item.operator === 'BETWEEN') {
+            if (item.min && item.max) {
+              return {
+                ...item,
+                field,
+                type,
+                value: [item.min, item.max],
+              };
+            }
+          }
+          return { ...item, field, type };
+        } else {
+          return { ...item, field: undefined, type: undefined };
+        }
+      });
+    setFilter(newValue);
+  };
 
   return (
     <CustomControl
@@ -27,32 +53,7 @@ const FilterFormListControl: React.FC = () => {
       style={{ display: 'flex', background: '#fff', padding: '16px' }}
     >
       <div style={{ width: '500px' }}>
-        <Form
-          form={form}
-          onValuesChange={(_, all) => {
-            const newValue = all.filterFromList
-              .filter((item: any) => item)
-              .map((item: any) => {
-                if (item.field) {
-                  const { field, type } = JSON.parse(item.field || '');
-                  if (item.operator === 'BETWEEN') {
-                    if (item.min && item.max) {
-                      return {
-                        ...item,
-                        field,
-                        type,
-                        value: [item.min, item.max],
-                      };
-                    }
-                  }
-                  return { ...item, field, type };
-                } else {
-                  return { ...item, field: undefined, type: undefined };
-                }
-              });
-            setFilter(newValue);
-          }}
-        >
+        <Form form={form} onValuesChange={onValuesChange}>
           <Form.List name="filterFromList">
             {(fields, { add, remove }) => (
               <>
