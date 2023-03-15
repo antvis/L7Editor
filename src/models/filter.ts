@@ -39,6 +39,7 @@ const mockFilters: FilterNode[] = [
 
 export default () => {
   const [filter, setFilter] = useState<FilterNode[]>([])
+console.log(filter);
   return {
     filter,
     setFilter
