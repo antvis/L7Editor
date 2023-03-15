@@ -66,7 +66,7 @@ const FilterFormListControl: React.FC = () => {
     setFilter(newValue);
   };
   const isFilterActive = useMemo(() => {
-    console.log(filter.filter((item) => isEmptyFilter(item)))
+    console.log(filter.filter((item) => isEmptyFilter(item)));
     return filter.filter((item) => isEmptyFilter(item)).find((item) => item);
   }, [filter]);
 
@@ -95,8 +95,8 @@ const FilterFormListControl: React.FC = () => {
                     <Form.Item
                       name={[name, 'field']}
                       initialValue={JSON.stringify({
-                        field: featureKeyList[0].field,
-                        type: featureKeyList[0].type,
+                        field: featureKeyList[0]?.field,
+                        type: featureKeyList[0]?.type,
                       })}
                     >
                       <Select
