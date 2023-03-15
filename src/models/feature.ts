@@ -104,7 +104,7 @@ export default () => {
       const value = dataSource.map((item) => item[field]);
       return { type, field, min: min(value), max: max(value) };
     }
-  });
+  }).filter((item)=>item);
 
   return {
     editorText,
