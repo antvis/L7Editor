@@ -38,7 +38,7 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
             (item) => item?.field === fieldValue,
           );
           const fieldType = filterFromList[index].operator;
-          if (fieldType === 'LIKE' || fieldType === 'NOT_LIKE') {
+          if (fieldType === 'IN' || fieldType === 'NOT_IN') {
             return (
               <Form.Item name={[name, 'value']}>
                 <Input placeholder="请输入筛选值" style={{ width: '100%' }} />
