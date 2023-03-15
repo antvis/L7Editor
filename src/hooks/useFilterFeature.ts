@@ -39,11 +39,11 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
   const newField = properties[filter.field]
   const value = filter.value as string
   switch (filter.operator) {
-    case 'NOT_LIKE':
-      return !value?.includes(newField)
-    case 'LIKE':
-      return value?.includes(newField)
     case 'NOT_IN':
+      return !value?.includes(newField)
+    case 'IN':
+      return value?.includes(newField)
+    case 'LIKE':
       return newField?.indexOf(value) > -1
     default:
       return newField?.indexOf(value) < -1

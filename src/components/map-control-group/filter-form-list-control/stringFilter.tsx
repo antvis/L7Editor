@@ -5,10 +5,10 @@ import React from 'react';
 import { useModel } from 'umi';
 
 const select = [
-  { label: '匹配', value: 'IN' },
-  { label: '不匹配', value: 'NOT_IN' },
-  { label: '包含', value: 'LIKE' },
-  { label: '不包含', value: 'NOT_LIKE' },
+  { label: '包含', value: 'IN' },
+  { label: '不包含', value: 'NOT_IN' },
+  { label: '匹配', value: 'LIKE' },
+  { label: '不匹配', value: 'NOT_LIKE' },
 ];
 interface Props {
   name: number;
@@ -61,7 +61,7 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
             (item) => item?.field === fieldValue,
           );
           const fieldType = filterFromList[index].operator;
-          if (fieldType === 'IN' || fieldType === 'NOT_IN') {
+          if (fieldType === 'LIKE' || fieldType === 'NOT_LIKE') {
             return (
               <Form.Item name={[name, 'value']}>
                 <Input
@@ -77,7 +77,8 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
               <Select
                 placeholder="请选择筛选项"
                 style={{ width: '100%' }}
-                mode="tags"
+                mode='multiple'
+                maxTagCount={1}
               >
                 {(uniq(DataList?.value) ?? []).map((item) => (
                   <Select.Option value={item}>{item}</Select.Option>

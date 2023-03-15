@@ -1,5 +1,6 @@
 import { FilterNumberData } from '@/types/filter';
-import { Form, InputNumber, Select, Space } from 'antd';
+import { Form, FormInstance, InputNumber, Select, Space } from 'antd';
+import { cloneDeep } from 'lodash';
 import React from 'react';
 import { useModel } from 'umi';
 
@@ -14,9 +15,12 @@ const select = [
 interface Props {
   name: number;
   index: number;
+  form: FormInstance;
 }
-const NumberFilter: React.FC<Props> = ({ name, index }) => {
+const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
   const { featureKeyList } = useModel('feature');
+  const { setFilter } = useModel('filter');
+
   return (
     <div style={{ display: 'flex' }}>
       <Form.Item name={[name, 'operator']}>
@@ -24,6 +28,24 @@ const NumberFilter: React.FC<Props> = ({ name, index }) => {
           style={{ width: '100px', marginRight: '8px' }}
           placeholder="请选择过滤逻辑"
           options={select}
+          onChange={(value) => {
+            const newFilterFromList = cloneDeep(
+              form.getFieldValue('filterFromList'),
+            );
+
+            newFilterFromList.forEach((v: any, i: number) => {
+              if (index === i) {
+                v.value = undefined;
+              }
+            });
+            form.setFieldValue('filterFromList', newFilterFromList);
+            setFilter(
+              newFilterFromList.map((item: any) => {
+                const { field, type } = JSON.parse(item.field);
+                return { ...item, field, type };
+              }),
+            );
+          }}
         />
       </Form.Item>
       <Form.Item
@@ -40,7 +62,7 @@ const NumberFilter: React.FC<Props> = ({ name, index }) => {
           );
           if (filterFromList[index].operator === 'BETWEEN') {
             return (
-              <div className='filter-between'>
+              <div className="filter-between">
                 <Form.Item name={[name, 'min']} style={{ width: '70px' }}>
                   <InputNumber
                     placeholder="请输入筛选值"

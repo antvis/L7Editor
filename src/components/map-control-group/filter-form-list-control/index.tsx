@@ -31,20 +31,22 @@ const FilterFormListControl: React.FC = () => {
     const newValue = all.filterFromList
       .filter((item: any) => item)
       .map((item: any) => {
+        const { logic, operator } = item;
         if (item.field) {
           const { field, type } = JSON.parse(item.field || '');
           if (item.operator === 'BETWEEN') {
             if (item.min && item.max) {
               return {
-                ...item,
+                logic,
                 field,
                 type,
+                operator,
                 value: [item.min, item.max],
               };
             }
           }
           if (
-            (item.operator === 'LIKE' || item.operator === 'NO_LIKE') &&
+            (item.operator === 'IN' || item.operator === 'NO_IN') &&
             item.value
           ) {
             return {
@@ -149,7 +151,13 @@ const FilterFormListControl: React.FC = () => {
                               filterFromList[index].field,
                             );
                             if (type === 'number') {
-                              return <NumberFilter name={name} index={index} />;
+                              return (
+                                <NumberFilter
+                                  name={name}
+                                  index={index}
+                                  form={form}
+                                />
+                              );
                             }
                             if (type === 'boolean') {
                               return <BooleanFilter name={name} />;
