@@ -12,12 +12,12 @@ type FilterString = FilterBase & {
 } & (
     | {
         // 精准匹配
-        operator: 'IN';
+        operator: 'IN' | 'NOT_IN';
         value: string[];
       }
     | {
         // 模糊匹配
-        operator: 'LIKE';
+        operator: 'LIKE' | 'NOT_LIKE';
         value: string;
       }
   );

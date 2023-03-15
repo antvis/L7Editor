@@ -5,8 +5,10 @@ import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 
 const select = [
-  { label: '模糊匹配', value: 'LIKE' },
-  { label: '精准匹配', value: 'IN' },
+  { label: '匹配', value: 'IN' },
+  { label: '不匹配', value: 'NOT_IN' },
+  { label: '包含', value: 'LIKE' },
+  { label: '不包含', value: 'NOT_LIKE' },
 ];
 interface Props {
   name: number;
@@ -35,17 +37,18 @@ const StringFilter: React.FC<Props> = ({ name, index }) => {
           const DataList: FilterStringData | undefined = featureKeyList.find(
             (item) => item?.field === fieldValue,
           );
-          if (filterFromList[index].operator === 'LIKE') {
+          const fieldType = filterFromList[index].operator;
+          if (fieldType === 'LIKE' || fieldType === 'NOT_LIKE') {
             return (
               <Form.Item name={[name, 'value']}>
-                <Input placeholder="请输入" style={{ width: '100%' }} />
+                <Input placeholder="请输入筛选值" style={{ width: '100%' }} />
               </Form.Item>
             );
           }
           return (
             <Form.Item name={[name, 'value']}>
               <Select
-                placeholder="请输入"
+                placeholder="请选择筛选项"
                 style={{ width: '100%' }}
                 mode="tags"
               >
