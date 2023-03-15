@@ -42,9 +42,9 @@ type FilterNumber = FilterBase & {
 type FilterBoolean = FilterBase & {
   type: 'boolean';
 } & {
-    operator: 'true' | 'false';
-    value: boolean;
-  };
+  operator: 'true' | 'false';
+  value: boolean;
+};
 
 /** 日期型筛选器 */
 type FilterDate = FilterBase & {
@@ -62,6 +62,14 @@ type FilterDate = FilterBase & {
         value: string;
       }
   );
+
+export type FilterListData = {
+  type: number | string;
+  field: string;
+  min?: number;
+  max?: number;
+  value: string[];
+};
 
 /** 筛选器子节点，单个筛选条件 */
 export type FilterNode = FilterString | FilterNumber | FilterBoolean;

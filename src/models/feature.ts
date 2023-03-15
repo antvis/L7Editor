@@ -1,4 +1,5 @@
 import { FeatureKey, LocalstorageKey } from '@/constants';
+import { FilterListData } from '@/types/filter';
 import { transformFeatures } from '@/utils';
 import {
   Feature,
@@ -92,12 +93,12 @@ export default () => {
     });
   }, [features]);
 
-  const featureKeyList = Array.from(
+  const featureKeyList: FilterListData[] = Array.from(
     new Set(flatMap(features.map(({ properties }) => Object.keys(properties)))),
   ).map((field: string) => {
     const type = typeof dataSource[0][field];
     if (type === 'string') {
-      const value = dataSource.map((item) => item[field]);
+      const value = dataSource.map((item) => item[field]) as string[];
       return { type, field, value };
     }
     if (type === 'number') {

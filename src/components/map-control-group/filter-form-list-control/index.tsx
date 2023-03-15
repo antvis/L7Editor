@@ -19,6 +19,8 @@ const FilterFormListControl: React.FC = () => {
   const { setFilter, filter } = useModel('filter');
   const [form] = Form.useForm();
 
+  console.log(filter, 'filter');
+
   return (
     <CustomControl
       position="topright"
@@ -85,6 +87,12 @@ const FilterFormListControl: React.FC = () => {
                           form.setFieldValue(
                             'filterFromList',
                             newFilterFromList,
+                          );
+                          setFilter(
+                            newFilterFromList.map((item: any) => {
+                              const { field, type } = JSON.parse(item.field);
+                              return { ...item, field, type };
+                            }),
                           );
                         }}
                       >
