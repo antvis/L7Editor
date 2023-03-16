@@ -7,6 +7,7 @@ import {
   FieldBinaryOutlined,
   FieldNumberOutlined,
   FieldStringOutlined,
+  FilterFilled,
   FilterOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
@@ -66,7 +67,7 @@ const FilterFormListControl: React.FC = () => {
     setFilters(newValue);
   };
   const isFilterActive = useMemo(() => {
-    return filters.filter((item) => isEmptyFilter(item)).find((item) => item);
+    return filters.filter((item) => !isEmptyFilter(item)).find((item) => item);
   }, [filters]);
 
   return (
@@ -204,20 +205,25 @@ const FilterFormListControl: React.FC = () => {
       </div>
       <div className="l7-filter-switch">
         <button
-          style={{
-            color: isFilterActive ? '#597ef7' : '',
-          }}
           className="l7-draw-control__btn"
           onClick={() => {
             setIsVisible(!isVisible);
           }}
         >
-          <FilterOutlined
-            className="l7-draw-icon"
-            style={{
-              lineHeight: '30px',
-            }}
-          />
+          {!isFilterActive ? (
+            <FilterOutlined
+              className="l7-draw-icon"
+              style={{
+                lineHeight: '30px',
+              }}
+            />
+          ) : (
+            <FilterFilled
+              style={{
+                color: '#597ef7',
+              }}
+            />
+          )}
         </button>
       </div>
     </CustomControl>

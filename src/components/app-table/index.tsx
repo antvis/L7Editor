@@ -44,7 +44,7 @@ export const AppTable = () => {
         width: 80,
         align: 'center',
         fixed: 'left',
-        sorter: (a: any, b: any) => a.index - b.index,
+        sorter: (a: any, b: any) => a['__index'] - b['__index'],
       });
     }
 
