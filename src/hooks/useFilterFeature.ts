@@ -12,7 +12,8 @@ export function isEmptyFilter(filter: FilterNode) {
     isUndefined(type) ||
     isUndefined(field) ||
     value === '' ||
-    !isNaN(value as number)
+    Number.isNaN(value as number) ||
+    value === null
   );
 }
 
