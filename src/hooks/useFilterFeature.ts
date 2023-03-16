@@ -10,7 +10,9 @@ export function isEmptyFilter(filter: FilterNode) {
     isUndefined(operator) ||
     isUndefined(value) ||
     isUndefined(type) ||
-    isUndefined(field)
+    isUndefined(field) ||
+    value === '' ||
+    isNaN(value as number)
   );
 }
 
@@ -39,6 +41,10 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
   const newField = properties[filter.field];
   const value = filter.value as string;
   switch (filter.operator) {
+    case 'false':
+      return !newField;
+    case 'true':
+      return newField;
     case 'NOT_IN':
       return !value?.includes(newField);
     case 'IN':
@@ -46,16 +52,8 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
     case 'LIKE':
       return newField?.indexOf(value) > -1;
     default:
-      return newField?.indexOf(value) < -1;
+      return newField?.indexOf(value) <= -1;
   }
-}
-
-function boolFilter(filter: FilterNode) {
-  if (typeof filter.value !== 'boolean') {
-    return;
-  }
-  const value = filter.value;
-  return filter.value ? value : !value;
 }
 
 type Features = Feature<Geometry | GeometryCollection, {}>;
@@ -80,26 +78,16 @@ export function useFilterFeature() {
     if (!isEmpty(orFilters)) {
       newFeature = newFeature.filter(({ properties }) => {
         return orFilters.some((filter) => {
-          if (filter.type === 'number') {
-            return numberFilter(filter, properties);
-          } else if (filter.type === 'boolean') {
-            return boolFilter(filter);
-          } else {
-            return stringFilter(filter, properties);
-          }
+          const func = filter.type === 'number' ? numberFilter : stringFilter
+          return func(filter, properties)
         });
       });
     }
     if (!isEmpty(andFilters)) {
       newFeature = newFeature.filter(({ properties }) => {
         return andFilters.every((filter) => {
-          if (filter.type === 'number') {
-            return numberFilter(filter, properties);
-          } else if (filter.type === 'boolean') {
-            return boolFilter(filter);
-          } else {
-            return stringFilter(filter, properties);
-          }
+          const func = filter.type === 'number' ? numberFilter : stringFilter
+          return func(filter, properties)
         });
       });
     }
