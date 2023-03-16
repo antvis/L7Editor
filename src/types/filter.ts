@@ -38,13 +38,6 @@ type FilterNumber = FilterBase & {
       }
   );
 
-/** 布尔型筛选器 */
-type FilterBoolean = FilterBase & {
-  type: 'boolean';
-} & {
-  value: 'true' | 'false';
-};
-
 /** 日期型筛选器 */
 type FilterDate = FilterBase & {
   /** 日期粒度 */
@@ -79,4 +72,4 @@ export type FilterStringData = BaseFilterField & {
 export type FilterField = FilterStringData | FilterNumberData;
 
 /** 筛选器子节点，单个筛选条件 */
-export type FilterNode = FilterString | FilterNumber | FilterBoolean;
+export type FilterNode = FilterString | FilterNumber;

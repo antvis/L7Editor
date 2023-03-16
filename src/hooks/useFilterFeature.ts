@@ -6,11 +6,14 @@ import { isEmpty, isUndefined } from 'lodash';
 
 export function isEmptyFilter(filter: FilterNode) {
   const { operator, value, type, field } = filter;
+  console.log(filter, 'filter');
   return (
     isUndefined(operator) ||
     isUndefined(value) ||
     isUndefined(type) ||
-    isUndefined(field)
+    isUndefined(field) ||
+    value === '' ||
+    !isNaN(value as number)
   );
 }
 
@@ -36,7 +39,7 @@ function numberFilter(filter: FilterNode, properties: Record<string, any>) {
 }
 
 function stringFilter(filter: FilterNode, properties: Record<string, any>) {
-  const newField = properties[filter.field];
+  const newField = String(properties[filter.field]);
   const value = filter.value as string;
   switch (filter.operator) {
     case 'NOT_IN':
@@ -46,16 +49,8 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
     case 'LIKE':
       return newField?.indexOf(value) > -1;
     default:
-      return newField?.indexOf(value) < -1;
+      return newField?.indexOf(value) <= -1;
   }
-}
-
-function boolFilter(filter: FilterNode) {
-  if (typeof filter.value !== 'boolean') {
-    return;
-  }
-  const value = filter.value;
-  return filter.value ? value : !value;
 }
 
 type Features = Feature<Geometry | GeometryCollection, {}>;
@@ -72,6 +67,7 @@ export function useFilterFeature() {
     let newFeature = features;
     // 过滤空值
     const setnotEmptyFilter = newFilters.filter((a) => !isEmptyFilter(a));
+    console.log(setnotEmptyFilter, 'isEmptyFilter');
     // 查找 and 条件 且
     const andFilters = setnotEmptyFilter.filter((item) => item.logic === 'and');
     // 查找 or 条件 或
@@ -80,26 +76,17 @@ export function useFilterFeature() {
     if (!isEmpty(orFilters)) {
       newFeature = newFeature.filter(({ properties }) => {
         return orFilters.some((filter) => {
-          if (filter.type === 'number') {
-            return numberFilter(filter, properties);
-          } else if (filter.type === 'boolean') {
-            return boolFilter(filter);
-          } else {
-            return stringFilter(filter, properties);
-          }
+          console.log(filter.type);
+          const func = filter.type === 'number' ? numberFilter : stringFilter;
+          return func(filter, properties);
         });
       });
     }
     if (!isEmpty(andFilters)) {
       newFeature = newFeature.filter(({ properties }) => {
         return andFilters.every((filter) => {
-          if (filter.type === 'number') {
-            return numberFilter(filter, properties);
-          } else if (filter.type === 'boolean') {
-            return boolFilter(filter);
-          } else {
-            return stringFilter(filter, properties);
-          }
+          const func = filter.type === 'number' ? numberFilter : stringFilter;
+          return func(filter, properties);
         });
       });
     }
