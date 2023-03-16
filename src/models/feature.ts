@@ -1,4 +1,5 @@
 import { FeatureKey, LocalstorageKey } from '@/constants';
+import { FilterField } from '@/types/filter';
 import { transformFeatures } from '@/utils';
 import {
   Feature,
@@ -9,6 +10,7 @@ import {
 } from '@turf/turf';
 import { useLocalStorageState, useMount } from 'ahooks';
 import { message } from 'antd';
+import { flatMap, max, min } from 'lodash';
 import { useMemo, useState } from 'react';
 
 export default () => {
@@ -84,6 +86,37 @@ export default () => {
     }
   });
 
+  const dataSource = useMemo(() => {
+    const data: Record<string, string | number>[] = features.map(
+      (item, index) => {
+        const { properties } = item;
+        return { __index: index + 1, ...properties };
+      },
+    );
+    const featureKeyList: FilterField[] = Array.from(
+      new Set(
+        flatMap(features.map(({ properties }) => Object.keys(properties))),
+      ),
+    )
+      .map((field: string) => {
+        const type = typeof data[0][field];
+        if (type === 'string' || type === 'boolean') {
+          const value = data.map((item) => String(item[field])) as string[];
+          return { type: 'string', field, value };
+        } else if (type === 'number') {
+          const value = data.map((item) => item[field]);
+          return {
+            type,
+            field,
+            min: min(value) as number,
+            max: max(value) as number,
+          };
+        }
+      })
+      .filter((item) => item);
+    return featureKeyList;
+  }, [features]);
+
   return {
     editorText,
     setEditorText,
@@ -94,5 +127,6 @@ export default () => {
     savable,
     saveEditorText,
     resetFeatures,
+    dataSource,
   };
 };

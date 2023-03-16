@@ -9,6 +9,7 @@ export default defineConfig({
   initialState: {},
   request: {},
   layout: false,
+  hash: true,
   // base: '/geojson-viewer',
   // publicPath: '/geojson-viewer/',
   routes: [
