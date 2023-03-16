@@ -18,8 +18,8 @@ interface Props {
   form: FormInstance;
 }
 const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
-  const { featureKeyList } = useModel('feature');
-  const { setFilter } = useModel('filter');
+  const { dataSource } = useModel('feature');
+  const { setFilters } = useModel('filter');
 
   return (
     <div style={{ display: 'flex' }}>
@@ -39,7 +39,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
               }
             });
             form.setFieldValue('filterFromList', newFilterFromList);
-            setFilter(
+            setFilters(
               newFilterFromList.map((item: any) => {
                 const { field, type } = JSON.parse(item.field);
                 return { ...item, field, type };
@@ -57,7 +57,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
           const fieldValue = JSON.parse(filterFromList[index].field)?.field;
-          const DataList: FilterNumberData | undefined = featureKeyList.find(
+          const DataList: FilterNumberData | undefined = dataSource.find(
             (item) => item?.field === fieldValue,
           );
           if (filterFromList[index].operator === 'BETWEEN') {

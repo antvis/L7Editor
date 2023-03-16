@@ -86,32 +86,36 @@ export default () => {
     }
   });
 
-  const dataSource: Record<string, string | number>[] = useMemo(() => {
-    return features.map((item, index) => {
-      const { properties } = item;
-      return { __index: index + 1, ...properties };
-    });
+  const dataSource = useMemo(() => {
+    const data: Record<string, string | number>[] = features.map(
+      (item, index) => {
+        const { properties } = item;
+        return { __index: index + 1, ...properties };
+      },
+    );
+    const featureKeyList: FilterField[] = Array.from(
+      new Set(
+        flatMap(features.map(({ properties }) => Object.keys(properties))),
+      ),
+    )
+      .map((field: string) => {
+        const type = typeof data[0][field];
+        if (type === 'string' || type === 'boolean') {
+          const value = data.map((item) => String(item[field])) as string[];
+          return { type: 'string', field, value };
+        } else if (type === 'number') {
+          const value = data.map((item) => item[field]);
+          return {
+            type,
+            field,
+            min: min(value) as number,
+            max: max(value) as number,
+          };
+        }
+      })
+      .filter((item) => item);
+    return featureKeyList;
   }, [features]);
-
-  const featureKeyList: FilterField[] = Array.from(
-    new Set(flatMap(features.map(({ properties }) => Object.keys(properties)))),
-  )
-    .map((field: string) => {
-      const type = typeof dataSource[0][field];
-      if (type === 'string' || type === 'boolean') {
-        const value = dataSource.map((item) => item[field]) as string[];
-        return { type, field, value };
-      } else if (type === 'number') {
-        const value = dataSource.map((item) => item[field]);
-        return {
-          type,
-          field,
-          min: min(value) as number,
-          max: max(value) as number,
-        };
-      }
-    })
-    .filter((item) => item);
 
   return {
     editorText,
@@ -123,6 +127,6 @@ export default () => {
     savable,
     saveEditorText,
     resetFeatures,
-    featureKeyList,
+    dataSource,
   };
 };

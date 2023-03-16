@@ -20,14 +20,14 @@ import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
 const { Option } = Select;
 const FilterFormListControl: React.FC = () => {
-  const { featureKeyList } = useModel('feature');
-  const { setFilter, filter } = useModel('filter');
+  const { dataSource } = useModel('feature');
+  const { setFilters, filters } = useModel('filter');
   const [isVisible, setIsVisible] = useState(false);
   const [form] = Form.useForm();
 
   const onValuesChange = (_: any, all: any) => {
     if (isEmpty(all.filterFromList)) {
-      setFilter([]);
+      setFilters([]);
       return;
     }
     const newValue = all.filterFromList
@@ -63,12 +63,11 @@ const FilterFormListControl: React.FC = () => {
           return { ...item, field: undefined, type: undefined };
         }
       });
-    setFilter(newValue);
+    setFilters(newValue);
   };
   const isFilterActive = useMemo(() => {
-    console.log(filter.filter((item) => isEmptyFilter(item)));
-    return filter.filter((item) => isEmptyFilter(item)).find((item) => item);
-  }, [filter]);
+    return filters.filter((item) => isEmptyFilter(item)).find((item) => item);
+  }, [filters]);
 
   return (
     <CustomControl position="topright" style={{ display: 'flex' }}>
@@ -95,8 +94,8 @@ const FilterFormListControl: React.FC = () => {
                     <Form.Item
                       name={[name, 'field']}
                       initialValue={JSON.stringify({
-                        field: featureKeyList[0]?.field,
-                        type: featureKeyList[0]?.type,
+                        field: dataSource[0]?.field,
+                        type: dataSource[0]?.type,
                       })}
                     >
                       <Select
@@ -116,7 +115,7 @@ const FilterFormListControl: React.FC = () => {
                             'filterFromList',
                             newFilterFromList,
                           );
-                          setFilter(
+                          setFilters(
                             newFilterFromList.map((item: any) => {
                               const { field, type } = JSON.parse(item.field);
                               return { ...item, field, type };
@@ -124,7 +123,7 @@ const FilterFormListControl: React.FC = () => {
                           );
                         }}
                       >
-                        {featureKeyList.map(({ field, type }) => {
+                        {dataSource.map(({ field, type }) => {
                           return (
                             <Option value={JSON.stringify({ field, type })}>
                               <i
@@ -167,9 +166,6 @@ const FilterFormListControl: React.FC = () => {
                               />
                             );
                           }
-                          if (type === 'boolean') {
-                            return <BooleanFilter name={name} />;
-                          }
                           return (
                             <StringFilter
                               name={name}
@@ -184,7 +180,7 @@ const FilterFormListControl: React.FC = () => {
                       type="text"
                       onClick={() => {
                         remove(name);
-                        setFilter(form.getFieldValue('filterFromList'));
+                        setFilters(form.getFieldValue('filterFromList'));
                       }}
                       icon={<DeleteOutlined />}
                     />

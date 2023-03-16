@@ -61,7 +61,7 @@ function boolFilter(filter: FilterNode) {
 type Features = Feature<Geometry | GeometryCollection, {}>;
 export function useFilterFeature() {
   const { features } = useModel('feature');
-  const { filter: newFilters } = useModel('filter');
+  const { filters: newFilters } = useModel('filter');
   const [newFeatures, setNewFeatures] = useState<Features[]>([]);
 
   useEffect(() => {

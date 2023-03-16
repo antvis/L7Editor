@@ -16,8 +16,8 @@ interface Props {
   form: FormInstance;
 }
 const StringFilter: React.FC<Props> = ({ name, index, form }) => {
-  const { featureKeyList } = useModel('feature');
-  const { setFilter } = useModel('filter');
+  const { dataSource } = useModel('feature');
+  const { setFilters } = useModel('filter');
 
   return (
     <div style={{ display: 'flex' }}>
@@ -39,7 +39,7 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
               }
             });
             form.setFieldValue('filterFromList', newFilterFromList);
-            setFilter(
+            setFilters(
               newFilterFromList.map((item: any) => {
                 const { field, type } = JSON.parse(item.field);
                 return { ...item, field, type };
@@ -57,7 +57,7 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
         {({ getFieldsValue }) => {
           const { filterFromList } = getFieldsValue();
           const fieldValue = JSON.parse(filterFromList[index].field)?.field;
-          const DataList: FilterStringData | undefined = featureKeyList.find(
+          const DataList: FilterStringData | undefined = dataSource.find(
             (item) => item?.field === fieldValue,
           );
           const fieldType = filterFromList[index].operator;
@@ -77,7 +77,7 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
               <Select
                 placeholder="请选择筛选项"
                 style={{ width: '100%' }}
-                mode='multiple'
+                mode="multiple"
                 maxTagCount={1}
               >
                 {(uniq(DataList?.value) ?? []).map((item) => (

@@ -42,8 +42,7 @@ type FilterNumber = FilterBase & {
 type FilterBoolean = FilterBase & {
   type: 'boolean';
 } & {
-  operator: 'true' | 'false';
-  value: boolean;
+  value: 'true' | 'false';
 };
 
 /** 日期型筛选器 */
