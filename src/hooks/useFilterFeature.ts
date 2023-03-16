@@ -6,7 +6,6 @@ import { isEmpty, isUndefined } from 'lodash';
 
 export function isEmptyFilter(filter: FilterNode) {
   const { operator, value, type, field } = filter;
-  console.log(filter, 'filter');
   return (
     isUndefined(operator) ||
     isUndefined(value) ||
@@ -67,7 +66,6 @@ export function useFilterFeature() {
     let newFeature = features;
     // 过滤空值
     const setnotEmptyFilter = newFilters.filter((a) => !isEmptyFilter(a));
-    console.log(setnotEmptyFilter, 'isEmptyFilter');
     // 查找 and 条件 且
     const andFilters = setnotEmptyFilter.filter((item) => item.logic === 'and');
     // 查找 or 条件 或
@@ -76,7 +74,6 @@ export function useFilterFeature() {
     if (!isEmpty(orFilters)) {
       newFeature = newFeature.filter(({ properties }) => {
         return orFilters.some((filter) => {
-          console.log(filter.type);
           const func = filter.type === 'number' ? numberFilter : stringFilter;
           return func(filter, properties);
         });
