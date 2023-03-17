@@ -60,7 +60,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
               style={{ width: 200 }}
               value={selectLocation?.name}
               searchParams={{
-                key: '4892acc9f825e343bcf1e25a56199826',
+                key: '98d10f05a2da96697313a2ce35ebf1a2',
                 location: locationText,
               }}
               onChange={(_, item) => {
