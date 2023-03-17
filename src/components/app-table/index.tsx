@@ -1,14 +1,22 @@
-import { Empty, Table, TableProps } from 'antd';
+import { ConfigProvider, Empty, Table, TableProps, Typography } from 'antd';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useModel } from 'umi';
 import { useSize } from 'ahooks';
 import { isNull, isUndefined, uniqBy } from 'lodash';
+import zhCN from 'antd/es/locale/zh_CN';
+const { Text } = Typography;
 
 const formatTableValue = (value: any) => {
   if (isNull(value) || isUndefined(value)) {
     return '-';
   }
-  return value instanceof Object ? JSON.stringify(value) : String(value);
+  return value instanceof Object ? (
+    JSON.stringify(value)
+  ) : (
+    <Text style={{ width: 100 }} ellipsis={{ tooltip: String(value) }}>
+      {String(value)}
+    </Text>
+  );
 };
 
 export const AppTable = () => {
@@ -61,12 +69,19 @@ export const AppTable = () => {
         'text',
       );
       newColumns.push({
-        title: key,
+        title: (
+          <Text
+            style={key.length > 20 ? { width: 170 } : undefined}
+            ellipsis={{ tooltip: key }}
+          >
+            {key}
+          </Text>
+        ),
         dataIndex: key,
         key: `${key}${index}`,
         align: 'center',
+        width: key.length > 20 ? 200 : 100,
         render: formatTableValue,
-        width: 80,
         filters: options.length ? options : undefined,
         onFilter: (value: any, record: any) => {
           return (record[key] ?? '') === value;
@@ -88,11 +103,13 @@ export const AppTable = () => {
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {columns?.length ? (
-        <Table
-          columns={columns}
-          dataSource={dataSource}
-          scroll={{ x: width, y: height - 54 }}
-        />
+        <ConfigProvider locale={zhCN}>
+          <Table
+            columns={columns}
+            dataSource={dataSource}
+            scroll={{ x: width, y: height - 54 }}
+          />
+        </ConfigProvider>
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
       )}
