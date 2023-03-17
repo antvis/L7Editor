@@ -1,9 +1,8 @@
-import { ConfigProvider, Empty, Table, TableProps, Typography } from 'antd';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { Empty, Table, TableProps, Typography } from 'antd';
+import { useMemo, useRef } from 'react';
 import { useModel } from 'umi';
 import { useSize } from 'ahooks';
 import { isNull, isUndefined, uniqBy } from 'lodash';
-import zhCN from 'antd/es/locale/zh_CN';
 const { Text } = Typography;
 
 const formatTableValue = (value: any) => {
@@ -89,11 +88,11 @@ export const AppTable = () => {
         filterSearch: true,
         sorter: !options.length
           ? (a: any, b: any) => {
-              return (
-                (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
-                (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
-              );
-            }
+            return (
+              (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
+              (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
+            );
+          }
           : undefined,
       });
     });
@@ -103,13 +102,11 @@ export const AppTable = () => {
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {columns?.length ? (
-        <ConfigProvider locale={zhCN}>
-          <Table
-            columns={columns}
-            dataSource={dataSource}
-            scroll={{ x: width, y: height - 54 }}
-          />
-        </ConfigProvider>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          scroll={{ x: width, y: height - 54 }}
+        />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
       )}
