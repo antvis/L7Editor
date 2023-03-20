@@ -6,23 +6,28 @@ import {
   MapControlGroup,
   ResizePanel,
 } from '@/components';
+import { ConfigProvider } from 'antd';
 import React from 'react';
+import zhCN from 'antd/es/locale/zh_CN'
 import './index.less';
 
 const L7DrawPro: React.FC = () => {
   return (
-    <div className="l7-draw-pro">
-      <ResizePanel
-        left={
-          <AppMap>
-            <MapControlGroup />
-            <LayerList />
-            <LayerPopup />
-          </AppMap>
-        }
-        right={<MapContent />}
-      />
-    </div>
+    <ConfigProvider locale={zhCN}>
+      <div className="l7-draw-pro">
+        <ResizePanel
+          left={
+            <AppMap>
+              <MapControlGroup />
+              <LayerList />
+              <LayerPopup />
+            </AppMap>
+          }
+          right={<MapContent />}
+        />
+      </div>
+    </ConfigProvider>
+
   );
 };
 

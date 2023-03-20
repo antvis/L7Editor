@@ -24,6 +24,7 @@ export const AppEditor: React.FC = React.memo(() => {
           folding: true,
           foldingStrategy: 'indentation',
           scrollBeyondLastLine: false,
+          foldingMaximumRegions: Number.MAX_SAFE_INTEGER,
         }}
       />
     </div>

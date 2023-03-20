@@ -4,6 +4,7 @@ import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
 import { downloadText } from '@/utils';
 import { coordAll, featureCollection } from '@turf/turf';
+import { prettierText } from '@/utils/prettier-text';
 
 const DownloadMenuItems: MenuProps['items'] = [
   {
@@ -31,7 +32,8 @@ const DownloadBtn: React.FC = () => {
     if (key === 'GeoJson') {
       downloadText(JSON.stringify(features), 'json');
     } else if (key === 'FormatGeoJson') {
-      downloadText(JSON.stringify(features, null, 2), 'json');
+      const newText = prettierText({ content: features });
+      downloadText(newText, 'json');
     } else if (key === 'LngLat') {
       downloadText(
         coordAll(featureCollection(features))
