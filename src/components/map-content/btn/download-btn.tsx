@@ -29,14 +29,15 @@ const DownloadBtn: React.FC = () => {
   const { features, editorText } = useModel('feature');
 
   const onDownload = (key: string) => {
+    const fc = featureCollection(features);
     if (key === 'GeoJson') {
-      downloadText(JSON.stringify(features), 'json');
+      downloadText(JSON.stringify(fc), 'json');
     } else if (key === 'FormatGeoJson') {
-      const newText = prettierText({ content: features });
+      const newText = prettierText({ content: fc });
       downloadText(newText, 'json');
     } else if (key === 'LngLat') {
       downloadText(
-        coordAll(featureCollection(features))
+        coordAll(fc)
           .map((lngLat) => lngLat.join(','))
           .join(';'),
         'txt',
