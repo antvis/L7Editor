@@ -1,6 +1,7 @@
 import { FeatureKey, LocalstorageKey } from '@/constants';
 import { FilterField } from '@/types/filter';
 import { transformFeatures } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
 import {
   Feature,
   featureCollection,
@@ -74,7 +75,7 @@ export default () => {
   };
 
   const resetFeatures = (newFeatures: Feature[]) => {
-    const newText = JSON.stringify(featureCollection(newFeatures), null, 2);
+    const newText = prettierText({ content: featureCollection(newFeatures) });
     setEditorText(newText);
     setSavedText(newText);
     setFeatures(newFeatures);

@@ -1,14 +1,21 @@
-import { Empty, Table, TableProps } from 'antd';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { Empty, Table, TableProps, Typography } from 'antd';
+import { useMemo, useRef } from 'react';
 import { useModel } from 'umi';
 import { useSize } from 'ahooks';
 import { isNull, isUndefined, uniqBy } from 'lodash';
+const { Text } = Typography;
 
 const formatTableValue = (value: any) => {
   if (isNull(value) || isUndefined(value)) {
     return '-';
   }
-  return value instanceof Object ? JSON.stringify(value) : String(value);
+  return value instanceof Object ? (
+    JSON.stringify(value)
+  ) : (
+    <Text style={{ width: 100 }} ellipsis={{ tooltip: String(value) }}>
+      {String(value)}
+    </Text>
+  );
 };
 
 export const AppTable = () => {
@@ -61,12 +68,19 @@ export const AppTable = () => {
         'text',
       );
       newColumns.push({
-        title: key,
+        title: (
+          <Text
+            style={key.length > 20 ? { width: 170 } : undefined}
+            ellipsis={{ tooltip: key }}
+          >
+            {key}
+          </Text>
+        ),
         dataIndex: key,
         key: `${key}${index}`,
         align: 'center',
+        width: key.length > 20 ? 200 : 100,
         render: formatTableValue,
-        width: 80,
         filters: options.length ? options : undefined,
         onFilter: (value: any, record: any) => {
           return (record[key] ?? '') === value;
@@ -74,11 +88,11 @@ export const AppTable = () => {
         filterSearch: true,
         sorter: !options.length
           ? (a: any, b: any) => {
-              return (
-                (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
-                (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
-              );
-            }
+            return (
+              (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
+              (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
+            );
+          }
           : undefined,
       });
     });
