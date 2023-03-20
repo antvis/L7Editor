@@ -1,6 +1,16 @@
-import { ApiOutlined } from '@ant-design/icons';
+import { ApiOutlined, UploadOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
-import { Button, Form, Input, message, Modal, Tooltip } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Modal,
+  Tabs,
+  TabsProps,
+  Tooltip,
+  Upload,
+} from 'antd';
 import { useModel } from 'umi';
 import React, { useState } from 'react';
 import { getParamsNew, transformFeatures } from '@/utils';
@@ -11,6 +21,41 @@ export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { resetFeatures } = useModel('feature');
   const [form] = Form.useForm();
+
+  const [activeTab, setActiveTab] = useState<'upload' | 'file'>('upload');
+
+  const items: TabsProps['items'] = [
+    {
+      key: 'upload',
+      label: <div>url上传</div>,
+      children: (
+        <Form.Item
+          name="url"
+          label="GeoJSON 地址"
+          rules={[{ required: true }, { type: 'url' }]}
+          style={{ marginTop: 16 }}
+        >
+          <Input placeholder="https://..." />
+        </Form.Item>
+      ),
+    },
+    {
+      key: 'file',
+      label: <div>文件上传</div>,
+      children: (
+        <Form.Item
+          name="file"
+          label="文件上传"
+          rules={[{ required: true }]}
+          style={{ marginTop: 16 }}
+        >
+          <Upload accept=".json,.csv" customRequest={() => {}}>
+            <Button icon={<UploadOutlined />}>文件上传</Button>
+          </Upload>
+        </Form.Item>
+      ),
+    },
+  ];
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -31,8 +76,7 @@ export const UrlBtn = () => {
       if (FeatureCollectionVT.check(fc)) {
         return resetFeatures(fc.features);
       }
-    } catch {
-    }
+    } catch {}
     message.error('url格式错误，仅支持 GeoJSON 格式');
   };
 
@@ -49,6 +93,7 @@ export const UrlBtn = () => {
     handleCancel();
     message.success('导入成功');
   };
+
   return (
     <>
       <Tooltip overlay="通过 URL 地址导入 GeoJSON" placement="left">
@@ -62,13 +107,14 @@ export const UrlBtn = () => {
         onCancel={handleCancel}
       >
         <Form form={form} initialValues={{ url: '' }} onFinish={onFinish}>
-          <Form.Item
-            name="url"
-            label="GeoJSON 地址"
-            rules={[{ required: true }, { type: 'url' }]}
-          >
-            <Input placeholder="https://..." />
-          </Form.Item>
+          <Tabs
+            activeKey={activeTab}
+            className="map-content__right"
+            items={items}
+            onChange={(e) => {
+              setActiveTab(e as 'upload' | 'file');
+            }}
+          />
         </Form>
       </Modal>
     </>
