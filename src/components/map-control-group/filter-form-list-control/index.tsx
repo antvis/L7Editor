@@ -12,7 +12,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
-import { Button, Form, Select } from 'antd';
+import { Button, Form, Select, Tooltip } from 'antd';
 import { cloneDeep, isEmpty, debounce } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { useModel } from 'umi';
@@ -140,7 +140,7 @@ const FilterFormListControl: React.FC = () => {
                                   <FieldStringOutlined />
                                 )}
                               </i>
-                              {field}
+                              <Tooltip title={field}>{field}</Tooltip>
                             </Option>
                           );
                         })}
