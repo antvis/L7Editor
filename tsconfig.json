@@ -1,3 +1,8 @@
 {
-  "extends": "./src/.umi/tsconfig.json"
+  "extends": "./src/.umi/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["es2015"],
+    "types": ["lodash"],
+    "typeRoots": ["node_modules/@types"]
+  }
 }

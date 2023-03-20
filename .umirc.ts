@@ -23,6 +23,10 @@ export default defineConfig({
       component: './index',
     },
   ],
+  headScripts:[
+    'https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js',
+    'https://cdn.bootcdn.net/ajax/libs/PapaParse/5.4.0/papaparse.min.js'
+  ],
   // @ts-ignore
   chainWebpack: (config) => {
     config.plugin('monaco-editor').use(MonacoWebpackPlugin, [

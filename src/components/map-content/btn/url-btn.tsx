@@ -13,16 +13,18 @@ import {
 } from 'antd';
 import { useModel } from 'umi';
 import React, { useState } from 'react';
-import { getParamsNew, transformFeatures } from '@/utils';
+import { getParamsNew, isPromise, transformFeatures } from '@/utils';
 import { FeatureCollection } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
+import { AppEditor } from '@/components/app-editor';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [scriptContent, setScriptContent] = useState('')
   const { resetFeatures } = useModel('feature');
   const [form] = Form.useForm();
 
-  const [activeTab, setActiveTab] = useState<'upload' | 'file'>('upload');
+  const [activeTab, setActiveTab] = useState<'upload' | 'file' | 'script'>('upload');
 
   const items: TabsProps['items'] = [
     {
@@ -49,12 +51,21 @@ export const UrlBtn = () => {
           rules={[{ required: true }]}
           style={{ marginTop: 16 }}
         >
-          <Upload accept=".json,.csv" customRequest={() => {}}>
+          <Upload accept=".json,.csv" customRequest={() => { }}>
             <Button icon={<UploadOutlined />}>文件上传</Button>
           </Upload>
         </Form.Item>
       ),
     },
+    {
+      key: 'script',
+      label: <div>javascript脚本</div>,
+      children: (
+        <div style={{ width: '100%', height: 400 }}>
+          <AppEditor language='javascript' onChange={(content) => setScriptContent(content)} />
+        </div>
+      )
+    }
   ];
 
   const showModal = () => {
@@ -71,12 +82,28 @@ export const UrlBtn = () => {
 
   const getUrlFeatures = async (e: any) => {
     try {
+      if (activeTab === 'script') {
+        let geoData
+        const funcResult = new Function(scriptContent)
+        if (funcResult()) {
+          geoData = funcResult()
+        } else {
+          const evalResult = eval(scriptContent)
+          geoData = isPromise(evalResult) ? await evalResult : evalResult
+        }
+        if (FeatureCollectionVT.check(geoData)) {
+          return resetFeatures(geoData.features);
+        }
+        return
+      }
       const json = await fetch(e);
       const fc = (await json.json()) as FeatureCollection;
       if (FeatureCollectionVT.check(fc)) {
         return resetFeatures(fc.features);
       }
-    } catch {}
+    } catch (error) {
+      message.error(`${error}`)
+    }
     message.error('url格式错误，仅支持 GeoJSON 格式');
   };
 
@@ -101,7 +128,8 @@ export const UrlBtn = () => {
       </Tooltip>
 
       <Modal
-        title="URL"
+        width={activeTab === 'script' ? 1000 : 600}
+        title="获取数据"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -111,8 +139,9 @@ export const UrlBtn = () => {
             activeKey={activeTab}
             className="map-content__right"
             items={items}
+            destroyInactiveTabPane
             onChange={(e) => {
-              setActiveTab(e as 'upload' | 'file');
+              setActiveTab(e as 'upload' | 'file' | 'script');
             }}
           />
         </Form>
@@ -120,3 +149,18 @@ export const UrlBtn = () => {
     </>
   );
 };
+
+// const getUrlFeatures = async() => {
+//   try {
+//     const e = 'https://gw.alipayobjects.com/os/bmw-prod/9eb3f1b5-0c3b-49b2-8221-191d4ba8aa5e.json'
+//     const json = await fetch(e);
+//     const fc = (await json.json())
+//     const mockData = turf.featureCollection(fc.map((item)=>{
+//       return turf.point([item.lng,item.lat],{...item})
+//     }))
+//     return mockData
+//   } catch(error) { 
+//     console.log(error);
+//   }
+// };
+// getUrlFeatures()
