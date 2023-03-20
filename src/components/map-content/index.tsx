@@ -1,5 +1,10 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
-import { CodeOutlined, SaveOutlined, TableOutlined } from '@ant-design/icons';
+import {
+  CodeOutlined,
+  RedoOutlined,
+  SaveOutlined,
+  TableOutlined,
+} from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
 import React from 'react';
@@ -14,6 +19,7 @@ import { UrlBtn } from './btn/url-btn';
 import { LocalstorageKey } from '@/constants';
 
 export const MapContent: React.FC = () => {
+  const { setEditorText } = useModel('feature');
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
     {
@@ -69,6 +75,20 @@ export const MapContent: React.FC = () => {
               disabled={!savable}
               onClick={saveEditorText}
             ></Button>
+          </Tooltip>
+          <Tooltip trigger="hover" placement="left" overlay="重置数据">
+            <Button
+              icon={<RedoOutlined />}
+              onClick={() => {
+                setEditorText(
+                  JSON.stringify(
+                    { type: 'FeatureCollection', features: [] },
+                    null,
+                    2,
+                  ),
+                );
+              }}
+            />
           </Tooltip>
         </div>
 

@@ -1,5 +1,5 @@
 import { FilterStringData } from '@/types/filter';
-import { Form, FormInstance, Input, Select } from 'antd';
+import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
 import { cloneDeep, uniq } from 'lodash';
 import React from 'react';
 import { useModel } from 'umi';
@@ -80,9 +80,13 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
                 mode="multiple"
                 maxTagCount={1}
               >
-                {(uniq(DataList?.value) ?? []).map((item) => (
-                  <Select.Option value={item}>{item}</Select.Option>
-                ))}
+                {(uniq(DataList?.value) ?? [])
+                  .filter((item) => item !== 'undefined')
+                  .map((item) => (
+                    <Select.Option value={item}>
+                      <Tooltip title={item}>{item}</Tooltip>
+                    </Select.Option>
+                  ))}
               </Select>
             </Form.Item>
           );
