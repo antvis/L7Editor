@@ -1,5 +1,6 @@
 import prettier from 'prettier';
 import parserBabel from 'prettier/parser-babel';
+
 interface Options {
   /**
    * 要格式化的文本
@@ -13,9 +14,11 @@ export function prettierText(options: Options) {
   if (typeof content !== 'string') {
     newContent = JSON.stringify(content);
   }
+
   const newText = prettier.format(newContent, {
-    parser,
+    parser: parser === 'json' ? parser : 'babel',
     plugins: [parserBabel],
   });
+
   return newText;
 }
