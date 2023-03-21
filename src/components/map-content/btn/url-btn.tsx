@@ -1,4 +1,8 @@
-import { ApiOutlined, QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
+import {
+  ApiOutlined,
+  QuestionCircleOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import {
   Button,
@@ -17,47 +21,15 @@ import { getParamsNew, isPromise, transformFeatures } from '@/utils';
 import { FeatureCollection } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
 import { AppEditor } from '@/components/app-editor';
-import turf from '@turf/turf'
 
+type TabType = 'upload' | 'file' | 'script';
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scriptContent, setScriptContent] = useState('');
   const { resetFeatures } = useModel('feature');
   const [form] = Form.useForm();
 
-  const [activeTab, setActiveTab] = useState<'upload' | 'file' | 'script'>(
-    'upload',
-  );
-
-  const code = `
-  async function getMockData() {
-    const url =
-      /api/map/ajax/location/rent?onMove=false&locationId=2&locationLevel=2&bounds={"e":120.480297,"w":119.854214,"s":30.021704,"n":30.469965}&boundsLevel=3&pageSize=50&page=1;
-
-    const fetchs = await fetch(url);
-    const mockData = await fetchs.json();
-    const mockHouse = mockData.data.res.houses.list;
-    console.log('mockHouse',mockHouse)
-    const result = turf.featureCollection(
-    mockHouse.map((item) => {
-      return turf.point([...item.location], {...item});
-    })
-    );
-    return result;
-  }
-  getMockData()
-  `
-
-  function ScriptDemo() {
-    return (
-      <div>
-        <div>示例一</div>
-        <code>
-          {code}
-        </code>
-      </div>
-    )
-  }
+  const [activeTab, setActiveTab] = useState<TabType>('upload');
 
   const items: TabsProps['items'] = [
     {
@@ -84,7 +56,7 @@ export const UrlBtn = () => {
           rules={[{ required: true }]}
           style={{ marginTop: 16 }}
         >
-          <Upload accept=".json,.csv" customRequest={() => { }}>
+          <Upload accept=".json,.csv" customRequest={() => {}}>
             <Button icon={<UploadOutlined />}>文件上传</Button>
           </Upload>
         </Form.Item>
@@ -92,14 +64,7 @@ export const UrlBtn = () => {
     },
     {
       key: 'script',
-      label: (
-        <div>
-          javascript脚本
-          <Tooltip title={<ScriptDemo />}>
-            <QuestionCircleOutlined />
-          </Tooltip>
-        </div>
-      ),
+      label: <div> javascript脚本 </div>,
       children: (
         <div style={{ width: '100%', height: 400 }}>
           <AppEditor
@@ -124,7 +89,6 @@ export const UrlBtn = () => {
   };
 
   const getUrlFeatures = async (e: any) => {
-
     try {
       if (activeTab === 'script') {
         let geoData;
@@ -193,4 +157,3 @@ export const UrlBtn = () => {
     </>
   );
 };
-

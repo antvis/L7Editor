@@ -49,9 +49,8 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
       'editor.background': '#fafafa',
       'editorLineNumber.foreground': '#222222',
       'editor.lineHighlightBackground': '#f4f4f4',
-    }
-  })
-
+    },
+  });
 
   // lodash 代码提示补全
   monacoEditor.languages.registerCompletionItemProvider(language, {
@@ -80,13 +79,15 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
     return { value: editorText };
   }, [language, editorText]);
 
-  const editorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor) => {
+  const editorDidMount = (
+    editor: monacoEditor.editor.IStandaloneCodeEditor,
+  ) => {
     // 粘贴后事件
     // editor.onDidPaste(() => {
     //   const formatValue = prettierText({ content: editor.getValue(), parser: language })
     //   editor.setValue(formatValue)
     // })
-  }
+  };
 
   return (
     <div ref={setContainer} className="app-editor">
@@ -103,7 +104,7 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
           tabSize: 2,
           folding: true,
           fontSize: 13,
-          mouseStyle:'text',
+          mouseStyle: 'text',
           foldingStrategy: 'indentation',
           scrollBeyondLastLine: false,
           foldingMaximumRegions: Number.MAX_SAFE_INTEGER,
