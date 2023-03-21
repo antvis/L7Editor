@@ -36,10 +36,12 @@ export const getParamsNew = (key: string) => {
  * 判断是否是Promise
  */
 
-export const isPromise = (obj: any) =>{
-  return !isUndefined(obj) 
-  && typeof (obj as unknown as Promise<any>).then === 'function'
-  && typeof (obj as unknown as Promise<any>).catch === 'function'
-}
+export const isPromise = (obj: any) => {
+  return (
+    !isUndefined(obj) &&
+    typeof (obj as unknown as Promise<any>).then === 'function' &&
+    typeof (obj as unknown as Promise<any>).catch === 'function'
+  );
+};
 
 export * from './transform';

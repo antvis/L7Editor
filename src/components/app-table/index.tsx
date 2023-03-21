@@ -88,11 +88,11 @@ export const AppTable = () => {
         filterSearch: true,
         sorter: !options.length
           ? (a: any, b: any) => {
-            return (
-              (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
-              (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
-            );
-          }
+              return (
+                (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
+                (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
+              );
+            }
           : undefined,
       });
     });

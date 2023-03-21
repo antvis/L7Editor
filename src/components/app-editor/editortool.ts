@@ -1,27 +1,30 @@
-import _ from 'lodash'
-import * as turf from '@turf/turf'
-import * as monacoEditor from "monaco-editor/esm/vs/editor/editor.api";
+import _ from 'lodash';
+import * as turf from '@turf/turf';
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 
-export function provideCompletionItems(model: any, position: any, type: 'lodash' | 'turf') {
+export function provideCompletionItems(
+  model: any,
+  position: any,
+  type: 'lodash' | 'turf',
+) {
   const wordUntilPosition = model.getWordUntilPosition(position);
   const range = {
     startLineNumber: position.lineNumber,
     endLineNumber: position.lineNumber,
     startColumn: wordUntilPosition.startColumn,
-    endColumn: wordUntilPosition.endColumn
+    endColumn: wordUntilPosition.endColumn,
   };
-  let suggestions: any[] = []
+  let suggestions: any[] = [];
   if (type === 'turf') {
     for (const key in turf) {
       const completionItem = {
         label: key,
         kind: monacoEditor.languages.CompletionItemKind.Function,
-        // ts-ignore
-        documentation: turf[key].toString(),
+        documentation: (turf as any)[key].toString(),
         insertText: key,
-        range: range
-      }
-      suggestions.push(completionItem)
+        range: range,
+      };
+      suggestions.push(completionItem);
     }
   } else {
     suggestions = _.chain(_)
@@ -31,13 +34,13 @@ export function provideCompletionItems(model: any, position: any, type: 'lodash'
           label: key,
           kind: monacoEditor.languages.CompletionItemKind.Function,
           insertText: key,
-          range: range
+          range: range,
         };
       })
       .value();
   }
 
   return {
-    suggestions: suggestions
+    suggestions: suggestions,
   };
 }

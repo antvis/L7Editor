@@ -16,7 +16,7 @@ import LngLatImportBtn from './btn/lnglat-import-btn';
 import { SettingBtn } from './btn/setting-btn';
 import { AppTable } from '../app-table';
 import { UrlBtn } from './btn/url-btn';
-import HandBackBtn from './btn/handback-btn'
+import HandBackBtn from './btn/handback-btn';
 import { LocalstorageKey } from '@/constants';
 
 export const MapContent: React.FC = () => {
@@ -96,7 +96,7 @@ export const MapContent: React.FC = () => {
         <div>
           <SettingBtn />
           <DownloadBtn />
-          <HandBackBtn/>
+          <HandBackBtn />
           <DingImgBtn />
         </div>
       </div>
