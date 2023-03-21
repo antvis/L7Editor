@@ -31,8 +31,7 @@ export const UrlBtn = () => {
       if (FeatureCollectionVT.check(fc)) {
         return resetFeatures(fc.features);
       }
-    } catch {
-    }
+    } catch {}
     message.error('url格式错误，仅支持 GeoJSON 格式');
   };
 

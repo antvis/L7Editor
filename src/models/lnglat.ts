@@ -34,7 +34,9 @@ export default () => {
           ...featurePositionList.flat().map((position) => point(position)),
         );
       } else if (lngLatImportType === 'LingString') {
-        newFeatures.push(...featurePositionList.map((positions) => lineString(positions)));
+        newFeatures.push(
+          ...featurePositionList.map((positions) => lineString(positions)),
+        );
       } else {
         newFeatures.push(
           ...featurePositionList.map((positions) => {

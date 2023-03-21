@@ -21,7 +21,7 @@ export const MapControlGroup: React.FC = ({}) => {
       <ScaleControl />
       <LocationSearchControl />
       <MouseLocationControl />
-      <AmapLayerControl/>
+      <AmapLayerControl />
       <MapThemeControl />
       {/*<SaveMapOptionsControl />*/}
       <LayerColorControl />
