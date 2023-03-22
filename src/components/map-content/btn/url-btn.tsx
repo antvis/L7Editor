@@ -11,13 +11,14 @@ import {
   Tooltip,
 } from 'antd';
 import { useModel } from 'umi';
-import { getParamsNew, isPromise, transformFeatures } from '@/utils';
+import { getParamsNew, isPromise } from '@/utils';
 import React, { useRef, useState } from 'react';
 import { Feature, FeatureCollection } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
 import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
 import { AppEditor } from '@/components/app-editor';
+
 
 /**
  * Tab类型
@@ -83,7 +84,7 @@ export const UrlBtn = () => {
         .getFieldValue('file')
         .fileList.filter((item: any) => item.status === 'error');
       if (!!isErrorList.length) return;
-      return formRef.current.data;
+      return formRef.current?.data;
     },
     script: async () => {
       let geoData;
@@ -92,7 +93,7 @@ export const UrlBtn = () => {
         geoData = funcResult();
       } else {
         const evalResult = eval(scriptContent);
-        geoData = evalResult instanceof Promise ? await evalResult : evalResult;
+        geoData = isPromise(evalResult) ? await evalResult : evalResult;
       }
       return geoData;
     },
@@ -100,7 +101,7 @@ export const UrlBtn = () => {
 
   const checkWithRestData = async (url: string) => {
     try {
-      const newData = await getFeaturesData[activeTab](url);
+      const newData = await getFeaturesData[activeTab](url);      
       if (FeatureCollectionVT.check(newData)) {
         const featureData =
           selectRadio === 'cover'

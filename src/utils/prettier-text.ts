@@ -1,6 +1,5 @@
 import prettier from 'prettier';
 import parserBabel from 'prettier/parser-babel';
-
 interface Options {
   /**
    * 要格式化的文本
