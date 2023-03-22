@@ -4,7 +4,7 @@ import { featureCollection } from '@turf/turf';
 import { Button, Form, message, Upload } from 'antd';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
-const FileUpload = forwardRef<any>(function FileUpload({ }, ref) {
+const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
   const [uploadData, setUploadData] = useState<any>([]);
 
   const customRequest = (uploadRequestOption: any) => {
@@ -42,6 +42,7 @@ const FileUpload = forwardRef<any>(function FileUpload({ }, ref) {
       >
         <Button icon={<UploadOutlined />}>文件上传</Button>
       </Upload>
+      <div style={{ marginLeft: 8,color:'#777' }}>仅支持json、geojson文件</div>
     </Form.Item>
   );
 });

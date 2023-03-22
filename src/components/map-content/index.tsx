@@ -1,5 +1,6 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
 import {
+  ClearOutlined,
   CodeOutlined,
   RedoOutlined,
   SaveOutlined,
@@ -80,7 +81,7 @@ export const MapContent: React.FC = () => {
           </Tooltip>
           <Tooltip trigger="hover" placement="left" overlay="重置数据">
             <Button
-              icon={<RedoOutlined />}
+              icon={<ClearOutlined />}
               onClick={() => {
                 setEditorText(
                   prettierText({

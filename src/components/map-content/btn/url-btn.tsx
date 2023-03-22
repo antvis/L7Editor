@@ -1,4 +1,4 @@
-import { ApiOutlined } from '@ant-design/icons';
+import { ApiOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import {
   Button,
@@ -18,7 +18,6 @@ import { FeatureCollectionVT } from '../../../constants/variable-type';
 import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
 import { AppEditor } from '@/components/app-editor';
-
 
 /**
  * Tab类型
@@ -101,7 +100,7 @@ export const UrlBtn = () => {
 
   const checkWithRestData = async (url: string) => {
     try {
-      const newData = await getFeaturesData[activeTab](url);      
+      const newData = await getFeaturesData[activeTab](url);
       if (FeatureCollectionVT.check(newData)) {
         const featureData =
           selectRadio === 'cover'
@@ -130,7 +129,10 @@ export const UrlBtn = () => {
   return (
     <>
       <Tooltip overlay="导入 GeoJSON" placement="left">
-        <Button icon={<ApiOutlined />} onClick={() => setIsModalOpen(true)} />
+        <Button
+          icon={<CloudUploadOutlined />}
+          onClick={() => setIsModalOpen(true)}
+        />
       </Tooltip>
 
       {isModalOpen && (
@@ -142,6 +144,14 @@ export const UrlBtn = () => {
           width={activeTab === 'script' ? 1000 : 600}
         >
           <Form form={form}>
+            <Tabs
+              activeKey={activeTab}
+              className="map-content__right"
+              items={items}
+              onChange={(e) => {
+                setActiveTab(e as TabType);
+              }}
+            />
             <Form.Item label="数据操作">
               <Radio.Group
                 value={selectRadio}
@@ -153,14 +163,6 @@ export const UrlBtn = () => {
                 <Radio.Button value="merge">合并</Radio.Button>
               </Radio.Group>
             </Form.Item>
-            <Tabs
-              activeKey={activeTab}
-              className="map-content__right"
-              items={items}
-              onChange={(e) => {
-                setActiveTab(e as TabType);
-              }}
-            />
           </Form>
         </Modal>
       )}
