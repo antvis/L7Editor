@@ -65,10 +65,6 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
     });
   })
 
-
-
-
-
   const monacoChange = (event: string) => {
     if (language === 'json') {
       setEditorText(event);
@@ -83,16 +79,6 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
     }
     return { value: editorText };
   }, [language, editorText]);
-
-  const editorDidMount = (
-    editor: monacoEditor.editor.IStandaloneCodeEditor,
-  ) => {
-    // 粘贴后事件
-    // editor.onDidPaste(() => {
-    //   const formatValue = prettierText({ content: editor.getValue(), parser: language })
-    //   editor.setValue(formatValue)
-    // })
-  };
 
   return (
     <div ref={setContainer} className="app-editor">
@@ -117,7 +103,6 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
             showKeywords: true,
           },
         }}
-        editorDidMount={editorDidMount}
       />
     </div>
   );
