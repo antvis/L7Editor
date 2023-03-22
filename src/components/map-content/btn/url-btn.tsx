@@ -1,4 +1,4 @@
-import { ApiOutlined, CloudUploadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import {
   Button,
@@ -42,7 +42,7 @@ export const UrlBtn = () => {
     {
       key: 'url',
       label: <div>url上传</div>,
-      children: <UrlUpload ref={formRef} />,
+      children: <UrlUpload />,
     },
     {
       key: 'file',
@@ -70,14 +70,14 @@ export const UrlBtn = () => {
 
   const getFeaturesData: Record<
     string,
-    (e: string) => FeatureCollection | Promise<FeatureCollection>
+    (e: string) => Promise<FeatureCollection>
   > = {
-    url: async (e: string) => {
+    'url': async (e: string) => {
       const json = await fetch(e);
       const geoData = await json.json();
       return geoData;
     },
-    file: () => {
+    'file': async () => {
       if (!formRef.current) return [];
       const isErrorList = form
         .getFieldValue('file')
@@ -85,7 +85,11 @@ export const UrlBtn = () => {
       if (!!isErrorList.length) return;
       return formRef.current?.data;
     },
-    script: async () => {
+    'script': async () => {
+      if (!scriptContent) {
+        message.error('请输入脚本内容')
+        return
+      }
       let geoData;
       const funcResult = new Function(scriptContent);
       if (funcResult()) {
@@ -106,10 +110,11 @@ export const UrlBtn = () => {
           selectRadio === 'cover'
             ? newData.features
             : [...features, ...newData.features];
-        return resetFeatures(featureData as Feature[]);
+        resetFeatures(featureData as Feature[]);
+        handleCancel();
       }
     } catch (error) {
-      message.error(`url格式错误，仅支持 GeoJSON 格式,${error}`);
+      message.error(`数据格式错误，仅支持 GeoJSON 格式,${error}`);
     }
   };
 
@@ -121,18 +126,17 @@ export const UrlBtn = () => {
   });
 
   const handleOk = async () => {
-    const url = form.getFieldValue('url');
-    checkWithRestData(url);
-    handleCancel();
+    form.validateFields([activeTab]).then((field) => {
+      checkWithRestData(field?.url)
+    }).catch((error) => {
+      message.error(error.errorFields?.[0].errors?.[0])
+    })
   };
 
   return (
     <>
       <Tooltip overlay="导入 GeoJSON" placement="left">
-        <Button
-          icon={<CloudUploadOutlined />}
-          onClick={() => setIsModalOpen(true)}
-        />
+        <Button icon={<CloudUploadOutlined />} onClick={() => setIsModalOpen(true)} />
       </Tooltip>
 
       {isModalOpen && (
@@ -141,17 +145,10 @@ export const UrlBtn = () => {
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
-          width={activeTab === 'script' ? 1000 : 600}
+          destroyOnClose
+          width={1000}
         >
-          <Form form={form}>
-            <Tabs
-              activeKey={activeTab}
-              className="map-content__right"
-              items={items}
-              onChange={(e) => {
-                setActiveTab(e as TabType);
-              }}
-            />
+          <Form form={form} scrollToFirstError>
             <Form.Item label="数据操作">
               <Radio.Group
                 value={selectRadio}
@@ -163,6 +160,14 @@ export const UrlBtn = () => {
                 <Radio.Button value="merge">合并</Radio.Button>
               </Radio.Group>
             </Form.Item>
+            <Tabs
+              activeKey={activeTab}
+              className="map-content__right"
+              items={items}
+              onChange={(e) => {
+                setActiveTab(e as TabType);
+              }}
+            />
           </Form>
         </Modal>
       )}

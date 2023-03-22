@@ -14,8 +14,8 @@ export default defineConfig({
     '@border-radius-base': '4px',
     '@primary-color': '#1677ff',
   },
-  favicons: [
-    'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
+  favicons:[
+    'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original'
   ],
   // base: '/geojson-viewer',
   // publicPath: '/geojson-viewer/',
@@ -31,6 +31,13 @@ export default defineConfig({
     'https://cdn.bootcdn.net/ajax/libs/PapaParse/5.4.0/papaparse.min.js',
     'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js',
   ],
+  // proxy:{
+  //   "/api":{
+  //     "target":"https://hz.5i5j.com",
+  //     "changeOrigin":true,
+  //     "pathRewrite":{"/api":''}
+  //   }
+  // },
   // @ts-ignore
   chainWebpack: (config) => {
     config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
