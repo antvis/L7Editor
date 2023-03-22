@@ -56,7 +56,9 @@ const LocationSearchControl: React.FC = React.memo(() => {
         <div className="l7-location-search">
           {isVisible && (
             <LocationSearch
-              getPopupContainer={() => document.querySelector('.larkmap')}
+              getPopupContainer={() =>
+                document.querySelector('.larkmap') as HTMLElement
+              }
               style={{ width: 200 }}
               value={selectLocation?.name}
               searchParams={{

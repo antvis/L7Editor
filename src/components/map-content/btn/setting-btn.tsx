@@ -52,7 +52,11 @@ export const SettingBtn = () => {
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item name="autoFitBounds" valuePropName="checked" label="自动缩放至所有元素可见">
+          <Form.Item
+            name="autoFitBounds"
+            valuePropName="checked"
+            label="自动缩放至所有元素可见"
+          >
             <Switch />
           </Form.Item>
         </Form>
