@@ -46,15 +46,12 @@ export const LayerList: React.FC = () => {
     });
   }, [newFeatures]);
 
-  useAsyncEffect(async() => {
-    const newLayerColor = Color(layerColor).rgb().object()
+  useAsyncEffect(async () => {
+    const newLayerColor = Color(layerColor).rgb().object();
     const imag2color = await changeColor(newLayerColor);
-    scene.addImage(
-      'pointIcon',
-      imag2color,
-    );
+    scene.addImage('pointIcon', imag2color);
     setIsMounted(true);
-  }, [layerColor])
+  }, [layerColor]);
 
   return isMounted ? (
     <>

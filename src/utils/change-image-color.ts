@@ -1,9 +1,12 @@
-export function changeColor(color: Record<string, number>): Promise<HTMLImageElement> {
+export function changeColor(
+  color: Record<string, number>,
+): Promise<HTMLImageElement> {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
   const img = new Image(100, 100);
-  img.crossOrigin = "Anonymous"; 
-  img.src = 'https://mdn.alipayobjects.com/huamei_nsuaz4/afts/img/A*770bQLV21hsAAAAAAAAAAAAADimPAQ/original';
+  img.crossOrigin = 'Anonymous';
+  img.src =
+    'https://mdn.alipayobjects.com/huamei_nsuaz4/afts/img/A*770bQLV21hsAAAAAAAAAAAAADimPAQ/original';
 
   return new Promise((resolve) => {
     img.onload = function () {
@@ -27,9 +30,8 @@ export function changeColor(color: Record<string, number>): Promise<HTMLImageEle
 
       const imgElement = document.createElement('img');
       imgElement.src = base64;
-      document.body.appendChild(imgElement)
-      resolve(imgElement)
-    }
-  })
-
+      document.body.appendChild(imgElement);
+      resolve(imgElement);
+    };
+  });
 }
