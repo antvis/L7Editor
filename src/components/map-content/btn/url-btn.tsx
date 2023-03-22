@@ -13,7 +13,7 @@ import {
 import { useModel } from 'umi';
 import { getParamsNew, isPromise, transformFeatures } from '@/utils';
 import React, { useRef, useState } from 'react';
-import { FeatureCollection } from '@turf/turf';
+import { Feature, FeatureCollection } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
 import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
@@ -78,26 +78,10 @@ export const UrlBtn = () => {
 
   const getUrlFeatures = async (e: any) => {
     try {
-      if (activeTab === 'script') {
-        let geoData;
-        const funcResult = new Function(scriptContent);
-        if (funcResult()) {
-          geoData = funcResult();
-        } else {
-          const evalResult = eval(scriptContent);
-          geoData = isPromise(evalResult) ? await evalResult : evalResult;
-        }
-        if (FeatureCollectionVT.check(geoData)) {
-          return resetFeatures(geoData.features);
-        }
-        return;
-      }
       const json = await fetch(e);
       const fc = (await json.json()) as FeatureCollection;
       if (FeatureCollectionVT.check(fc)) {
-        return resetFeatures(
-          selectRadio === 'cover' ? fc.features : [...features, ...fc.features],
-        );
+        return fc;
       }
     } catch (error) {
       message.error(`${error}`);
@@ -112,7 +96,8 @@ export const UrlBtn = () => {
     }
   });
 
-  const handleOk = () => {
+  const handleOk = async () => {
+    let data: Feature[] = [];
     if (activeTab === 'file') {
       if (formRef.current) {
         const isErrorList = form
@@ -121,19 +106,29 @@ export const UrlBtn = () => {
         if (!!isErrorList.length) {
           return;
         }
-        resetFeatures(
-          selectRadio === 'cover'
-            ? formRef.current.data
-            : [...features, ...formRef?.current.data],
-        );
+        data = formRef?.current.data;
       }
-      handleCancel();
     }
     const url = form.getFieldValue('url');
     if (activeTab === 'url' && url) {
-      getUrlFeatures(url);
-      handleCancel();
+      const geoData = await getUrlFeatures(url);
+      data = geoData?.features ?? [];
     }
+    if (activeTab === 'script') {
+      let geoData;
+      const funcResult = new Function(scriptContent);
+      if (funcResult()) {
+        geoData = funcResult();
+      } else {
+        const evalResult = eval(scriptContent);
+        geoData = isPromise(evalResult) ? await evalResult : evalResult;
+      }
+      if (FeatureCollectionVT.check(geoData)) {
+        data = geoData.features;
+      }
+    }
+    resetFeatures(selectRadio === 'cover' ? data : [...features, ...data]);
+    handleCancel();
   };
 
   return (
