@@ -37,11 +37,7 @@ export const getParamsNew = (key: string) => {
  */
 
 export const isPromise = (obj: any) => {
-  return (
-    !isUndefined(obj) &&
-    typeof (obj as unknown as Promise<any>).then === 'function' &&
-    typeof (obj as unknown as Promise<any>).catch === 'function'
-  );
+  return !isUndefined(obj) && obj instanceof Promise
 };
 
 export * from './transform';
