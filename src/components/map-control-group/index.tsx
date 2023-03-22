@@ -5,6 +5,7 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React from 'react';
+import { AmapLayerControl } from './amap-layer-control';
 import DrawControl from './draw-control';
 import FilterFormListControl from './filter-form-list-control';
 import LayerColorControl from './layer-color-control';
@@ -20,6 +21,7 @@ export const MapControlGroup: React.FC = ({}) => {
       <ScaleControl />
       <LocationSearchControl />
       <MouseLocationControl />
+      <AmapLayerControl />
       <MapThemeControl />
       {/*<SaveMapOptionsControl />*/}
       <LayerColorControl />

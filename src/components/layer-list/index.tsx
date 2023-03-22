@@ -2,7 +2,6 @@ import { FeatureKey, LayerId } from '@/constants';
 import { useFilterFeature } from '@/hooks/useFilterFeature';
 import { getOpacityColor } from '@/utils';
 import {
-  IconImageLayer,
   LineLayer,
   PointLayer,
   PolygonLayer,
