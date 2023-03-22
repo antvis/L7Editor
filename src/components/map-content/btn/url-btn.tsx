@@ -1,70 +1,49 @@
-import {
-  ApiOutlined,
-  QuestionCircleOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
+import { ApiOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import {
   Button,
   Form,
-  Input,
   message,
   Modal,
+  Radio,
   Tabs,
   TabsProps,
   Tooltip,
-  Upload,
 } from 'antd';
 import { useModel } from 'umi';
-import React, { useState } from 'react';
 import { getParamsNew, isPromise, transformFeatures } from '@/utils';
+import React, { useRef, useState } from 'react';
 import { FeatureCollection } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
+import UrlUpload from '../url-tab-group/url-upload';
+import FileUpload from '../url-tab-group/file-upload';
 import { AppEditor } from '@/components/app-editor';
 
 type TabType = 'upload' | 'file' | 'script';
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scriptContent, setScriptContent] = useState('');
-  const { resetFeatures } = useModel('feature');
+  const { resetFeatures, features } = useModel('feature');
   const [form] = Form.useForm();
 
-  const [activeTab, setActiveTab] = useState<TabType>('upload');
+  const [activeTab, setActiveTab] = useState<'url' | 'file' | 'script'>('url');
+  const [selectRadio, setSelectRadio] = useState<'cover' | 'merge'>('cover');
 
+  const formRef = useRef<Record<string, any>>(null);
   const items: TabsProps['items'] = [
     {
-      key: 'upload',
+      key: 'url',
       label: <div>url上传</div>,
-      children: (
-        <Form.Item
-          name="url"
-          label="GeoJSON 地址"
-          rules={[{ required: true }, { type: 'url' }]}
-          style={{ marginTop: 16 }}
-        >
-          <Input placeholder="https://..." />
-        </Form.Item>
-      ),
+      children: <UrlUpload ref={formRef} />,
     },
     {
       key: 'file',
       label: <div>文件上传</div>,
-      children: (
-        <Form.Item
-          name="file"
-          label="文件上传"
-          rules={[{ required: true }]}
-          style={{ marginTop: 16 }}
-        >
-          <Upload accept=".json,.csv" customRequest={() => {}}>
-            <Button icon={<UploadOutlined />}>文件上传</Button>
-          </Upload>
-        </Form.Item>
-      ),
+      children: <FileUpload ref={formRef} />,
     },
     {
       key: 'script',
-      label: <div> javascript脚本 </div>,
+      label: <div>javascript脚本</div>,
       children: (
         <div style={{ width: '100%', height: 400 }}>
           <AppEditor
@@ -74,18 +53,27 @@ export const UrlBtn = () => {
         </div>
       ),
     },
+    // {
+    //   key: 'script',
+    //   label: <div>javascript脚本</div>,
+    //   children: (
+    //     <div style={{ width: '100%', height: 400 }}>
+    //       <AppEditor
+    //         language="javascript"
+    //         onChange={(content) => setScriptContent(content)}
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    form.submit();
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
+    setSelectRadio('cover');
   };
 
   const getUrlFeatures = async (e: any) => {
@@ -107,12 +95,14 @@ export const UrlBtn = () => {
       const json = await fetch(e);
       const fc = (await json.json()) as FeatureCollection;
       if (FeatureCollectionVT.check(fc)) {
-        return resetFeatures(fc.features);
+        return resetFeatures(
+          selectRadio === 'cover' ? fc.features : [...features, ...fc.features],
+        );
       }
     } catch (error) {
       message.error(`${error}`);
+      message.error('url格式错误，仅支持 GeoJSON 格式');
     }
-    message.error('url格式错误，仅支持 GeoJSON 格式');
   };
 
   useMount(async () => {
@@ -122,11 +112,28 @@ export const UrlBtn = () => {
     }
   });
 
-  const onFinish = async (e: any) => {
-    const { url } = e;
-    getUrlFeatures(url);
-    handleCancel();
-    message.success('导入成功');
+  const handleOk = () => {
+    if (activeTab === 'file') {
+      if (formRef.current) {
+        const isErrorList = form
+          .getFieldValue('file')
+          .fileList.filter((item: any) => item.status === 'error');
+        if (!!isErrorList.length) {
+          return;
+        }
+        resetFeatures(
+          selectRadio === 'cover'
+            ? formRef.current.data
+            : [...features, ...formRef?.current.data],
+        );
+      }
+      handleCancel();
+    }
+    const url = form.getFieldValue('url');
+    if (activeTab === 'url' && url) {
+      getUrlFeatures(url);
+      handleCancel();
+    }
   };
 
   return (
@@ -135,25 +142,37 @@ export const UrlBtn = () => {
         <Button icon={<ApiOutlined />} onClick={showModal} />
       </Tooltip>
 
-      <Modal
-        width={activeTab === 'script' ? 1000 : 600}
-        title="获取数据"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Form form={form} initialValues={{ url: '' }} onFinish={onFinish}>
-          <Tabs
-            activeKey={activeTab}
-            className="map-content__right"
-            items={items}
-            destroyInactiveTabPane
-            onChange={(e) => {
-              setActiveTab(e as 'upload' | 'file' | 'script');
-            }}
-          />
-        </Form>
-      </Modal>
+      {isModalOpen && (
+        <Modal
+          title="上传"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          width={activeTab === 'script' ? 1000 : 600}
+        >
+          <Form form={form}>
+            <Form.Item label="数据操作">
+              <Radio.Group
+                value={selectRadio}
+                onChange={(e) => {
+                  setSelectRadio(e.target.value);
+                }}
+              >
+                <Radio.Button value="cover">覆盖</Radio.Button>
+                <Radio.Button value="merge">合并</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+            <Tabs
+              activeKey={activeTab}
+              className="map-content__right"
+              items={items}
+              onChange={(e) => {
+                setActiveTab(e as 'url' | 'file' | 'script');
+              }}
+            />
+          </Form>
+        </Modal>
+      )}
     </>
   );
 };
