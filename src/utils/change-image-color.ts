@@ -30,7 +30,6 @@ export function changeColor(
 
       const imgElement = document.createElement('img');
       imgElement.src = base64;
-      document.body.appendChild(imgElement);
       resolve(imgElement);
     };
   });
