@@ -92,7 +92,7 @@ export const UrlBtn = () => {
         geoData = funcResult();
       } else {
         const evalResult = eval(scriptContent);
-        geoData = isPromise(evalResult) ? await evalResult : evalResult;
+        geoData = evalResult instanceof Promise ? await evalResult : evalResult;
       }
       return geoData;
     },
@@ -106,8 +106,8 @@ export const UrlBtn = () => {
           selectRadio === 'cover'
             ? newData.features
             : [...features, ...newData.features];
-        console.log('featureData',featureData);
-        
+        console.log('featureData', featureData);
+
         return resetFeatures(featureData as Feature[]);
       }
     } catch (error) {
