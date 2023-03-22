@@ -1,4 +1,4 @@
-import { isString } from 'lodash';
+import { FeatureCollectionVT } from '@/constants';
 /**
  * 生成唯一 ID
  */
@@ -64,11 +64,7 @@ export const parserJsonToGeoJson = (
   }
 
   // 兼容 geojson 文件
-  if (
-    data instanceof Object &&
-    data?.type === 'FeatureCollection' &&
-    Array.isArray(data?.features)
-  ) {
+  if (FeatureCollectionVT.check(data)) {
     return parserGeoJson(content, name, id);
   }
   return {

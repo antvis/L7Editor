@@ -43,7 +43,7 @@ export const UrlBtn = () => {
     },
     {
       key: 'script',
-      label: <div> javascript脚本 </div>,
+      label: <div>javascript脚本</div>,
       children: (
         <div style={{ width: '100%', height: 400 }}>
           <AppEditor
@@ -53,18 +53,18 @@ export const UrlBtn = () => {
         </div>
       ),
     },
-    {
-      key: 'script',
-      label: <div> javascript脚本 </div>,
-      children: (
-        <div style={{ width: '100%', height: 400 }}>
-          <AppEditor
-            language="javascript"
-            onChange={(content) => setScriptContent(content)}
-          />
-        </div>
-      ),
-    },
+    // {
+    //   key: 'script',
+    //   label: <div>javascript脚本</div>,
+    //   children: (
+    //     <div style={{ width: '100%', height: 400 }}>
+    //       <AppEditor
+    //         language="javascript"
+    //         onChange={(content) => setScriptContent(content)}
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
 
   const showModal = () => {
@@ -115,6 +115,12 @@ export const UrlBtn = () => {
   const handleOk = () => {
     if (activeTab === 'file') {
       if (formRef.current) {
+        const isErrorList = form
+          .getFieldValue('file')
+          .fileList.filter((item: any) => item.status === 'error');
+        if (!!isErrorList.length) {
+          return;
+        }
         resetFeatures(
           selectRadio === 'cover'
             ? formRef.current.data

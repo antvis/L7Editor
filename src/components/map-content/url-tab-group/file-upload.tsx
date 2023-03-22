@@ -5,10 +5,9 @@ import React, { forwardRef, Ref, useImperativeHandle, useState } from 'react';
 
 const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
   const [uploadData, setUploadData] = useState<any>([]);
-  const [upLoadFileList, setUpLoadFileList] = useState<UploadFile[]>([]);
 
   const customRequest = (uploadRequestOption: any) => {
-    const { file, onSuccess } = uploadRequestOption;
+    const { file, onSuccess, onError } = uploadRequestOption;
     parserFileToSource(file as File)
       .then((dataSource) => {
         if (dataSource.data.features.length) {
@@ -19,8 +18,9 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
         // @ts-ignore
         onSuccess();
       })
-      .catch((errorMessage) => {
-        message.error(errorMessage);
+      .catch(() => {
+        onError();
+        message.error('数据格式不匹配');
       });
   };
   useImperativeHandle(ref, () => ({
@@ -34,14 +34,10 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
       style={{ marginTop: 16 }}
     >
       <Upload
-        accept=".json,.csv,.geojson"
+        accept=".json,.geojson"
         customRequest={customRequest}
-        showUploadList={false}
         multiple
-        fileList={upLoadFileList}
-        onChange={(file) => {
-          setUpLoadFileList(file.fileList);
-        }}
+        onRemove={() => true}
       >
         <Button icon={<UploadOutlined />}>文件上传</Button>
       </Upload>
