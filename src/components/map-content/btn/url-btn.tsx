@@ -151,15 +151,17 @@ export const UrlBtn = () => {
           width={activeTab === 'script' ? 1000 : 600}
         >
           <Form form={form}>
-            <Radio.Group
-              value={selectRadio}
-              onChange={(e) => {
-                setSelectRadio(e.target.value);
-              }}
-            >
-              <Radio value="cover">覆盖</Radio>
-              <Radio value="merge">合并</Radio>
-            </Radio.Group>
+            <Form.Item label="数据操作">
+              <Radio.Group
+                value={selectRadio}
+                onChange={(e) => {
+                  setSelectRadio(e.target.value);
+                }}
+              >
+                <Radio.Button value="cover">覆盖</Radio.Button>
+                <Radio.Button value="merge">合并</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
             <Tabs
               activeKey={activeTab}
               className="map-content__right"
