@@ -18,6 +18,7 @@ import { AppTable } from '../app-table';
 import { UrlBtn } from './btn/url-btn';
 import HandBackBtn from './btn/handback-btn';
 import { LocalstorageKey } from '@/constants';
+import { prettierText } from '@/utils/prettier-text';
 
 export const MapContent: React.FC = () => {
   const { setEditorText } = useModel('feature');
@@ -82,11 +83,9 @@ export const MapContent: React.FC = () => {
               icon={<RedoOutlined />}
               onClick={() => {
                 setEditorText(
-                  JSON.stringify(
-                    { type: 'FeatureCollection', features: [] },
-                    null,
-                    2,
-                  ),
+                  prettierText({
+                    content: { type: 'FeatureCollection', features: [] },
+                  }),
                 );
               }}
             />

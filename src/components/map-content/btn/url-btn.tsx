@@ -148,6 +148,7 @@ export const UrlBtn = () => {
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
+          width={activeTab === 'script' ? 1000 : 600}
         >
           <Form form={form}>
             <Radio.Group
