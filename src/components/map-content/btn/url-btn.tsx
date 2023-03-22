@@ -19,15 +19,23 @@ import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
 import { AppEditor } from '@/components/app-editor';
 
-type TabType = 'upload' | 'file' | 'script';
+/**
+ * Tab类型
+ */
+type TabType = 'url' | 'file' | 'script';
+/**
+ * 数据类型
+ */
+type DataType = 'cover' | 'merge';
+
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scriptContent, setScriptContent] = useState('');
   const { resetFeatures, features } = useModel('feature');
   const [form] = Form.useForm();
 
-  const [activeTab, setActiveTab] = useState<'url' | 'file' | 'script'>('url');
-  const [selectRadio, setSelectRadio] = useState<'cover' | 'merge'>('cover');
+  const [activeTab, setActiveTab] = useState<TabType>('url');
+  const [selectRadio, setSelectRadio] = useState<DataType>('cover');
 
   const formRef = useRef<Record<string, any>>(null);
   const items: TabsProps['items'] = [
@@ -53,68 +61,31 @@ export const UrlBtn = () => {
         </div>
       ),
     },
-    // {
-    //   key: 'script',
-    //   label: <div>javascript脚本</div>,
-    //   children: (
-    //     <div style={{ width: '100%', height: 400 }}>
-    //       <AppEditor
-    //         language="javascript"
-    //         onChange={(content) => setScriptContent(content)}
-    //       />
-    //     </div>
-    //   ),
-    // },
   ];
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setSelectRadio('cover');
   };
 
-  const getUrlFeatures = async (e: any) => {
-    try {
+  const getFeaturesData: Record<
+    string,
+    (e: string) => FeatureCollection | Promise<FeatureCollection>
+  > = {
+    url: async (e: string) => {
       const json = await fetch(e);
-      const fc = (await json.json()) as FeatureCollection;
-      if (FeatureCollectionVT.check(fc)) {
-        return fc;
-      }
-    } catch (error) {
-      message.error(`${error}`);
-      message.error('url格式错误，仅支持 GeoJSON 格式');
-    }
-  };
-
-  useMount(async () => {
-    const url = getParamsNew('url');
-    if (url) {
-      getUrlFeatures(url);
-    }
-  });
-
-  const handleOk = async () => {
-    let data: Feature[] = [];
-    if (activeTab === 'file') {
-      if (formRef.current) {
-        const isErrorList = form
-          .getFieldValue('file')
-          .fileList.filter((item: any) => item.status === 'error');
-        if (!!isErrorList.length) {
-          return;
-        }
-        data = formRef?.current.data;
-      }
-    }
-    const url = form.getFieldValue('url');
-    if (activeTab === 'url' && url) {
-      const geoData = await getUrlFeatures(url);
-      data = geoData?.features ?? [];
-    }
-    if (activeTab === 'script') {
+      const geoData = await json.json();
+      return geoData;
+    },
+    file: () => {
+      if (!formRef.current) return [];
+      const isErrorList = form
+        .getFieldValue('file')
+        .fileList.filter((item: any) => item.status === 'error');
+      if (!!isErrorList.length) return;
+      return formRef.current.data;
+    },
+    script: async () => {
       let geoData;
       const funcResult = new Function(scriptContent);
       if (funcResult()) {
@@ -123,18 +94,44 @@ export const UrlBtn = () => {
         const evalResult = eval(scriptContent);
         geoData = isPromise(evalResult) ? await evalResult : evalResult;
       }
-      if (FeatureCollectionVT.check(geoData)) {
-        data = geoData.features;
+      return geoData;
+    },
+  };
+
+  const checkWithRestData = async (url: string) => {
+    try {
+      const newData = await getFeaturesData[activeTab](url);
+      if (FeatureCollectionVT.check(newData)) {
+        const featureData =
+          selectRadio === 'cover'
+            ? newData.features
+            : [...features, ...newData.features];
+        console.log('featureData',featureData);
+        
+        return resetFeatures(featureData as Feature[]);
       }
+    } catch (error) {
+      message.error(`url格式错误，仅支持 GeoJSON 格式,${error}`);
     }
-    resetFeatures(selectRadio === 'cover' ? data : [...features, ...data]);
+  };
+
+  useMount(async () => {
+    const url = getParamsNew('url');
+    if (url) {
+      checkWithRestData(url);
+    }
+  });
+
+  const handleOk = async () => {
+    const url = form.getFieldValue('url');
+    checkWithRestData(url);
     handleCancel();
   };
 
   return (
     <>
-      <Tooltip overlay="通过 URL 地址导入 GeoJSON" placement="left">
-        <Button icon={<ApiOutlined />} onClick={showModal} />
+      <Tooltip overlay="导入 GeoJSON" placement="left">
+        <Button icon={<ApiOutlined />} onClick={() => setIsModalOpen(true)} />
       </Tooltip>
 
       {isModalOpen && (
@@ -162,7 +159,7 @@ export const UrlBtn = () => {
               className="map-content__right"
               items={items}
               onChange={(e) => {
-                setActiveTab(e as 'url' | 'file' | 'script');
+                setActiveTab(e as TabType);
               }}
             />
           </Form>

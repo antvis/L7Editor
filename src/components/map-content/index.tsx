@@ -84,7 +84,10 @@ export const MapContent: React.FC = () => {
               onClick={() => {
                 setEditorText(
                   prettierText({
-                    content: { type: 'FeatureCollection', features: [] },
+                    content: {
+                      type: 'FeatureCollection',
+                      features: [],
+                    },
                   }),
                 );
               }}
