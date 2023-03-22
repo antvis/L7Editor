@@ -8,7 +8,7 @@ import {
 } from '@/components';
 import { ConfigProvider } from 'antd';
 import React from 'react';
-import zhCN from 'antd/es/locale/zh_CN'
+import zhCN from 'antd/es/locale/zh_CN';
 import './index.less';
 
 const L7DrawPro: React.FC = () => {
@@ -27,7 +27,6 @@ const L7DrawPro: React.FC = () => {
         />
       </div>
     </ConfigProvider>
-
   );
 };
 

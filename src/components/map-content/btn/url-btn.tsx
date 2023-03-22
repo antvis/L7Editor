@@ -11,20 +11,22 @@ import {
   Tooltip,
 } from 'antd';
 import { useModel } from 'umi';
+import { getParamsNew, isPromise, transformFeatures } from '@/utils';
 import React, { useRef, useState } from 'react';
-import { getParamsNew } from '@/utils';
 import { FeatureCollection } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
 import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
-import { isNull } from 'lodash';
+import { AppEditor } from '@/components/app-editor';
 
+type TabType = 'upload' | 'file' | 'script';
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [scriptContent, setScriptContent] = useState('');
   const { resetFeatures, features } = useModel('feature');
   const [form] = Form.useForm();
 
-  const [activeTab, setActiveTab] = useState<'url' | 'file'>('url');
+  const [activeTab, setActiveTab] = useState<'url' | 'file' | 'script'>('url');
   const [selectRadio, setSelectRadio] = useState<'cover' | 'merge'>('cover');
 
   const formRef = useRef<Record<string, any>>(null);
@@ -39,6 +41,30 @@ export const UrlBtn = () => {
       label: <div>文件上传</div>,
       children: <FileUpload ref={formRef} />,
     },
+    {
+      key: 'script',
+      label: <div> javascript脚本 </div>,
+      children: (
+        <div style={{ width: '100%', height: 400 }}>
+          <AppEditor
+            language="javascript"
+            onChange={(content) => setScriptContent(content)}
+          />
+        </div>
+      ),
+    },
+    {
+      key: 'script',
+      label: <div> javascript脚本 </div>,
+      children: (
+        <div style={{ width: '100%', height: 400 }}>
+          <AppEditor
+            language="javascript"
+            onChange={(content) => setScriptContent(content)}
+          />
+        </div>
+      ),
+    },
   ];
 
   const showModal = () => {
@@ -52,6 +78,20 @@ export const UrlBtn = () => {
 
   const getUrlFeatures = async (e: any) => {
     try {
+      if (activeTab === 'script') {
+        let geoData;
+        const funcResult = new Function(scriptContent);
+        if (funcResult()) {
+          geoData = funcResult();
+        } else {
+          const evalResult = eval(scriptContent);
+          geoData = isPromise(evalResult) ? await evalResult : evalResult;
+        }
+        if (FeatureCollectionVT.check(geoData)) {
+          return resetFeatures(geoData.features);
+        }
+        return;
+      }
       const json = await fetch(e);
       const fc = (await json.json()) as FeatureCollection;
       if (FeatureCollectionVT.check(fc)) {
@@ -59,7 +99,8 @@ export const UrlBtn = () => {
           selectRadio === 'cover' ? fc.features : [...features, ...fc.features],
         );
       }
-    } catch {
+    } catch (error) {
+      message.error(`${error}`);
       message.error('url格式错误，仅支持 GeoJSON 格式');
     }
   };
@@ -117,7 +158,7 @@ export const UrlBtn = () => {
               className="map-content__right"
               items={items}
               onChange={(e) => {
-                setActiveTab(e as 'url' | 'file');
+                setActiveTab(e as 'url' | 'file' | 'script');
               }}
             />
           </Form>

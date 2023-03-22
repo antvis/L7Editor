@@ -18,7 +18,7 @@ export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
   const { layerColor } = useModel('global');
-  const { newFeatures } = useFilterFeature()
+  const { newFeatures } = useFilterFeature();
   const [
     pointSource,
     lineSource,
@@ -42,7 +42,7 @@ export const LayerList: React.FC = () => {
       };
     });
   }, [newFeatures]);
-  
+
   useMount(() => {
     scene.addImage(
       'pointIcon',
