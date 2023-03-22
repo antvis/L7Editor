@@ -106,8 +106,6 @@ export const UrlBtn = () => {
           selectRadio === 'cover'
             ? newData.features
             : [...features, ...newData.features];
-        console.log('featureData', featureData);
-
         return resetFeatures(featureData as Feature[]);
       }
     } catch (error) {
