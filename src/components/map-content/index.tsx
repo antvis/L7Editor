@@ -1,5 +1,10 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
-import { CodeOutlined, SaveOutlined, TableOutlined } from '@ant-design/icons';
+import {
+  CodeOutlined,
+  RedoOutlined,
+  SaveOutlined,
+  TableOutlined,
+} from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
 import React from 'react';
@@ -11,9 +16,12 @@ import LngLatImportBtn from './btn/lnglat-import-btn';
 import { SettingBtn } from './btn/setting-btn';
 import { AppTable } from '../app-table';
 import { UrlBtn } from './btn/url-btn';
+import HandBackBtn from './btn/handback-btn';
 import { LocalstorageKey } from '@/constants';
+import { prettierText } from '@/utils/prettier-text';
 
 export const MapContent: React.FC = () => {
+  const { setEditorText } = useModel('feature');
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
     {
@@ -70,11 +78,27 @@ export const MapContent: React.FC = () => {
               onClick={saveEditorText}
             ></Button>
           </Tooltip>
+          <Tooltip trigger="hover" placement="left" overlay="重置数据">
+            <Button
+              icon={<RedoOutlined />}
+              onClick={() => {
+                setEditorText(
+                  prettierText({
+                    content: {
+                      type: 'FeatureCollection',
+                      features: [],
+                    },
+                  }),
+                );
+              }}
+            />
+          </Tooltip>
         </div>
 
         <div>
           <SettingBtn />
           <DownloadBtn />
+          <HandBackBtn />
           <DingImgBtn />
         </div>
       </div>

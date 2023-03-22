@@ -1,10 +1,12 @@
 import { LocalstorageKey, PrimaryColor } from '@/constants';
-import { LarkMapProps } from '@antv/larkmap';
+import { LarkMapProps, useScene } from '@antv/larkmap';
 import { useLocalStorageState } from 'ahooks';
 
 type MapOptions = LarkMapProps['mapOptions'];
 
 export default () => {
+  // const scene = useScene();
+
   const [rightWidth, setRightWidth] = useLocalStorageState(
     LocalstorageKey.RightPanelWidth,
     {
@@ -57,5 +59,6 @@ export default () => {
     setPopupTrigger,
     autoFitBounds,
     setAutoFitBounds,
+    // scene,
   };
 };
