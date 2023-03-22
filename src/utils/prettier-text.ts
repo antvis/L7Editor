@@ -11,12 +11,12 @@ export function prettierText(options: Options) {
   const { content, parser = 'json' } = options;
   let newContent = content;
   if (typeof content !== 'string') {
-    newContent = JSON.stringify(content);
+    newContent = JSON.stringify(content,null,2);
   }
 
   const newText = prettier.format(newContent, {
     parser: parser === 'json' ? parser : 'babel',
-    plugins: [parserBabel],
+    plugins: [parserBabel]
   });
 
   return newText;

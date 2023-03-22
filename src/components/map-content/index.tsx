@@ -2,7 +2,6 @@ import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
 import {
   ClearOutlined,
   CodeOutlined,
-  RedoOutlined,
   SaveOutlined,
   TableOutlined,
 } from '@ant-design/icons';
@@ -85,10 +84,7 @@ export const MapContent: React.FC = () => {
               onClick={() => {
                 setEditorText(
                   prettierText({
-                    content: {
-                      type: 'FeatureCollection',
-                      features: [],
-                    },
+                    content: { type: 'FeatureCollection', features: [] }
                   }),
                 );
               }}

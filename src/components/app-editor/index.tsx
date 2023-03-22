@@ -20,19 +20,20 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
   const { editorText, setEditorText } = useModel('feature');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
+  
+  // document format
+  monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
+    provideDocumentFormattingEdits: (model: editor.ITextModel) => {
+      return [
+        {
+          range: model.getFullModelRange(),
+          text: prettierText({ content: model.getValue(), parser: language }),
+        },
+      ];
+    },
+  });
 
   useMount(() => {
-    // document format
-    monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
-      provideDocumentFormattingEdits: (model: editor.ITextModel) => {
-        return [
-          {
-            range: model.getFullModelRange(),
-            text: prettierText({ content: model.getValue(), parser: language }),
-          },
-        ];
-      },
-    });
     // 自定义主题(例子,可删除,没关系)
     monacoEditor.editor.defineTheme('custome-theme', {
       base: 'vs',
