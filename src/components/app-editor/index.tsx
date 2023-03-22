@@ -1,4 +1,4 @@
-import { useSize } from 'ahooks';
+import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import React, { useMemo, useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
@@ -21,48 +21,53 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
 
-  // document format
-  monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
-    provideDocumentFormattingEdits: (model: editor.ITextModel) => {
-      return [
-        {
-          range: model.getFullModelRange(),
-          text: prettierText({ content: model.getValue(), parser: language }),
-        },
-      ];
-    },
-  });
+  useMount(() => {
+    // document format
+    monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
+      provideDocumentFormattingEdits: (model: editor.ITextModel) => {
+        return [
+          {
+            range: model.getFullModelRange(),
+            text: prettierText({ content: model.getValue(), parser: language }),
+          },
+        ];
+      },
+    });
+    // 自定义主题(例子,可删除,没关系)
+    monacoEditor.editor.defineTheme('custome-theme', {
+      base: 'vs',
+      inherit: true,
+      rules: [
+        { token: '调试', foreground: '959595' },
+        { token: '通知', foreground: '00b4ff' },
+        { token: '警告', foreground: 'fff000' },
+        { token: '错误', foreground: 'ff0000' },
+        { token: '崩溃', foreground: 'c30209' },
+        { token: '信息', foreground: 'ffffff' },
+      ],
+      colors: {
+        'editor.background': '#fafafa',
+        'editorLineNumber.foreground': '#222222',
+        'editor.lineHighlightBackground': '#f4f4f4',
+      },
+    });
 
-  // 自定义主题(例子,可删除,没关系)
-  monacoEditor.editor.defineTheme('custome-theme', {
-    base: 'vs',
-    inherit: true,
-    rules: [
-      { token: '调试', foreground: '959595' },
-      { token: '通知', foreground: '00b4ff' },
-      { token: '警告', foreground: 'fff000' },
-      { token: '错误', foreground: 'ff0000' },
-      { token: '崩溃', foreground: 'c30209' },
-      { token: '信息', foreground: 'ffffff' },
-    ],
-    colors: {
-      'editor.background': '#fafafa',
-      'editorLineNumber.foreground': '#222222',
-      'editor.lineHighlightBackground': '#f4f4f4',
-    },
-  });
+    // lodash 代码提示补全
+    monacoEditor.languages.registerCompletionItemProvider(language, {
+      provideCompletionItems: (model, position) =>
+        provideCompletionItems(model, position, 'lodash'),
+    });
 
-  // lodash 代码提示补全
-  monacoEditor.languages.registerCompletionItemProvider(language, {
-    provideCompletionItems: (model, position) =>
-      provideCompletionItems(model, position, 'lodash'),
-  });
+    // turf 代码提示补全
+    monacoEditor.languages.registerCompletionItemProvider(language, {
+      provideCompletionItems: (model, position) =>
+        provideCompletionItems(model, position, 'turf'),
+    });
+  })
 
-  // turf 代码提示补全
-  monacoEditor.languages.registerCompletionItemProvider(language, {
-    provideCompletionItems: (model, position) =>
-      provideCompletionItems(model, position, 'turf'),
-  });
+
+
+
 
   const monacoChange = (event: string) => {
     if (language === 'json') {
