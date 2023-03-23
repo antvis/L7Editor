@@ -1,26 +1,35 @@
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
-import React, { useMemo, useState } from 'react';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import { useModel } from 'umi';
 import './index.less';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import { prettierText } from '@/utils/prettier-text';
 import { provideCompletionItems } from './editortool';
+import { message } from 'antd';
+import { isPromise } from '@/utils';
+import { isFunction } from 'lodash';
 
 type Language = 'json' | 'javascript';
 
 type EditorProps = {
   language?: Language;
-  onChange?: (content: string) => void;
+  ref?: any;
 };
 
-export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
-  const { language = 'json', onChange } = props;
+export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
+  const { language = 'json' } = props;
   const { editorText, setEditorText } = useModel('feature');
+  const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
-  
+
   // document format
   monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
     provideDocumentFormattingEdits: (model: editor.ITextModel) => {
@@ -64,15 +73,38 @@ export const AppEditor: React.FC<EditorProps> = React.memo((props) => {
       provideCompletionItems: (model, position) =>
         provideCompletionItems(model, position, 'turf'),
     });
-  })
+  });
 
   const monacoChange = (event: string) => {
     if (language === 'json') {
       setEditorText(event);
       return;
     }
-    onChange?.(event);
+    setScriptContent?.(event);
   };
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      script: () =>
+        new Promise(async (resolve, reject) => {
+          let geoData;
+          const funcResult = new Function(scriptContent);
+          if (funcResult()) {
+            geoData = funcResult();
+          } else {
+            const evalResult = eval(scriptContent);
+            geoData = isPromise(evalResult) ? await evalResult : evalResult;
+          }
+          if (geoData) {
+            resolve(geoData);
+          } else {
+            reject('脚本数据有误');
+          }
+        }),
+    }),
+    [scriptContent],
+  );
 
   const value = useMemo(() => {
     if (language === 'javascript') {

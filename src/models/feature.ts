@@ -2,19 +2,25 @@ import { FeatureKey, LocalstorageKey } from '@/constants';
 import { FilterField } from '@/types/filter';
 import { transformFeatures } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
+import { Scene } from '@antv/l7';
 import {
   Feature,
   featureCollection,
   Geometry,
   GeometryCollection,
   getType,
+  bbox,
 } from '@turf/turf';
 import { useLocalStorageState, useMount } from 'ahooks';
 import { message } from 'antd';
 import { flatMap, max, min } from 'lodash';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useModel } from 'umi';
 
 export default () => {
+  const [scene, setScene] = useState<Scene | null>(null);
+  const { autoFitBounds } = useModel('global');
+
   const [editorText, setEditorText] = useLocalStorageState(
     LocalstorageKey.EditorText,
     {
@@ -81,12 +87,6 @@ export default () => {
     setFeatures(newFeatures);
   };
 
-  useMount(() => {
-    if (editorText) {
-      saveEditorText();
-    }
-  });
-
   const dataSource = useMemo(() => {
     const data: Record<string, string | number>[] = features.map(
       (item, index) => {
@@ -118,6 +118,16 @@ export default () => {
     return featureKeyList;
   }, [features]);
 
+  const bboxAutoFit = () => {
+    if (scene && features.length && autoFitBounds) {
+      const [lng1, lat1, lng2, lat2] = bbox(featureCollection(features));
+      scene.fitBounds([
+        [lng1, lat1],
+        [lng2, lat2],
+      ]);
+    }
+  };
+
   return {
     editorText,
     setEditorText,
@@ -129,5 +139,7 @@ export default () => {
     saveEditorText,
     resetFeatures,
     dataSource,
+    bboxAutoFit,
+    setScene,
   };
 };

@@ -18,11 +18,14 @@ import { FeatureCollectionVT } from '../../../constants/variable-type';
 import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
 import { AppEditor } from '@/components/app-editor';
+import { LngLatImportTypeOptions } from '@/constants';
+import LngLatImportBtn from './lnglat-import-btn';
+import { LngLatImportType } from '@/types';
 
 /**
  * Tab类型
  */
-type TabType = 'url' | 'file' | 'script';
+type TabType = 'url' | 'file' | 'script' | LngLatImportType;
 /**
  * 数据类型
  */
@@ -30,19 +33,26 @@ type DataType = 'cover' | 'merge';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [scriptContent, setScriptContent] = useState('');
   const { resetFeatures, features } = useModel('feature');
   const [form] = Form.useForm();
+  const { setLngLatImportType } = useModel('lnglat');
 
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
 
   const formRef = useRef<Record<string, any>>(null);
+  const lnglatItem: TabsProps['items'] = LngLatImportTypeOptions.map((item) => {
+    return {
+      key: item.value,
+      label: <div>{item.label}</div>,
+      children: <LngLatImportBtn ref={formRef} item={item} />,
+    };
+  });
   const items: TabsProps['items'] = [
     {
       key: 'url',
       label: <div>url上传</div>,
-      children: <UrlUpload />,
+      children: <UrlUpload ref={formRef} />,
     },
     {
       key: 'file',
@@ -51,60 +61,24 @@ export const UrlBtn = () => {
     },
     {
       key: 'script',
-      label: <div>javascript脚本</div>,
+      label: <div>javaScript脚本</div>,
       children: (
         <div style={{ width: '100%', height: 400 }}>
-          <AppEditor
-            language="javascript"
-            onChange={(content) => setScriptContent(content)}
-          />
+          <AppEditor language="javascript" ref={formRef} />
         </div>
       ),
     },
+    ...lnglatItem,
   ];
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setSelectRadio('cover');
   };
-
-  const getFeaturesData: Record<
-    string,
-    (e: string) => Promise<FeatureCollection>
-  > = {
-    'url': async (e: string) => {
-      const json = await fetch(e);
-      const geoData = await json.json();
-      return geoData;
-    },
-    'file': async () => {
-      if (!formRef.current) return [];
-      const isErrorList = form
-        .getFieldValue('file')
-        .fileList.filter((item: any) => item.status === 'error');
-      if (!!isErrorList.length) return;
-      return formRef.current?.data;
-    },
-    'script': async () => {
-      if (!scriptContent) {
-        message.error('请输入脚本内容')
-        return
-      }
-      let geoData;
-      const funcResult = new Function(scriptContent);
-      if (funcResult()) {
-        geoData = funcResult();
-      } else {
-        const evalResult = eval(scriptContent);
-        geoData = isPromise(evalResult) ? await evalResult : evalResult;
-      }
-      return geoData;
-    },
-  };
-
-  const checkWithRestData = async (url: string) => {
+  const checkWithRestData = async () => {
     try {
-      const newData = await getFeaturesData[activeTab](url);
+      const newData = await formRef.current?.[activeTab]();
+
       if (FeatureCollectionVT.check(newData)) {
         const featureData =
           selectRadio === 'cover'
@@ -114,29 +88,27 @@ export const UrlBtn = () => {
         handleCancel();
       }
     } catch (error) {
-      message.error(`数据格式错误，仅支持 GeoJSON 格式,${error}`);
+      message.error(`${error}`);
     }
   };
-
-  useMount(async () => {
-    const url = getParamsNew('url');
-    if (url) {
-      checkWithRestData(url);
-    }
-  });
-
   const handleOk = async () => {
-    form.validateFields([activeTab]).then((field) => {
-      checkWithRestData(field?.url)
-    }).catch((error) => {
-      message.error(error.errorFields?.[0].errors?.[0])
-    })
+    form
+      .validateFields([activeTab])
+      .then(() => {
+        checkWithRestData();
+      })
+      .catch((error) => {
+        message.error(error.errorFields?.[0].errors?.[0]);
+      });
   };
 
   return (
     <>
       <Tooltip overlay="导入 GeoJSON" placement="left">
-        <Button icon={<CloudUploadOutlined />} onClick={() => setIsModalOpen(true)} />
+        <Button
+          icon={<CloudUploadOutlined />}
+          onClick={() => setIsModalOpen(true)}
+        />
       </Tooltip>
 
       {isModalOpen && (
@@ -148,8 +120,21 @@ export const UrlBtn = () => {
           destroyOnClose
           width={1000}
         >
-          <Form form={form} scrollToFirstError>
-            <Form.Item label="数据操作">
+          <Form form={form} scrollToFirstError layout="vertical">
+            <Tabs
+              activeKey={activeTab}
+              className="map-content__right"
+              items={items}
+              onChange={(e) => {
+                setActiveTab(e as TabType);
+                setLngLatImportType(e as LngLatImportType);
+              }}
+            />
+            <Form.Item
+              label="数据操作"
+              rules={[{ required: true }]}
+              style={{ marginTop: 8 }}
+            >
               <Radio.Group
                 value={selectRadio}
                 onChange={(e) => {
@@ -157,17 +142,9 @@ export const UrlBtn = () => {
                 }}
               >
                 <Radio.Button value="cover">覆盖</Radio.Button>
-                <Radio.Button value="merge">合并</Radio.Button>
+                <Radio.Button value="merge">追加</Radio.Button>
               </Radio.Group>
             </Form.Item>
-            <Tabs
-              activeKey={activeTab}
-              className="map-content__right"
-              items={items}
-              onChange={(e) => {
-                setActiveTab(e as TabType);
-              }}
-            />
           </Form>
         </Modal>
       )}
