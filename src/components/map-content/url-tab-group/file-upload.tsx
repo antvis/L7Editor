@@ -1,20 +1,24 @@
 import { parserFileToSource } from '@/utils/upload';
 import { UploadOutlined } from '@ant-design/icons';
 import { featureCollection } from '@turf/turf';
-import { Button, Form, message, Upload } from 'antd';
+import { Button, Form, message, Upload, UploadFile } from 'antd';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
 const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
-  const [uploadData, setUploadData] = useState<any>([]);
+  const [uploadData, setUploadData] = useState<Record<string, any>[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const customRequest = (uploadRequestOption: any) => {
     const { file, onSuccess, onError } = uploadRequestOption;
-    parserFileToSource(file as File)
+    parserFileToSource(file)
       .then((dataSource) => {
         if (dataSource.data.features.length) {
-          setUploadData((pre: any) => {
-            return [...pre, ...dataSource.data.features];
+          const newData = uploadData;
+          newData.push({
+            id: dataSource.id,
+            features: dataSource.data.features,
           });
+          setUploadData(newData);
         }
         // @ts-ignore
         onSuccess();
@@ -24,26 +28,51 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
         message.error('数据格式不匹配');
       });
   };
-  useImperativeHandle(ref, () => ({
-    data: featureCollection(uploadData),
-  }));
+  //
+  useImperativeHandle(
+    ref,
+    () => ({
+      file: () =>
+        new Promise((resolve, reject) => {
+          const isErrorList = fileList.filter(
+            (item: any) => item.status === 'error',
+          );
+          if (!!isErrorList.length) {
+            reject('请删除报错文件');
+          }
+          const data = uploadData.map((item) => item.features).flat();
+          resolve(featureCollection(data));
+        }),
+    }),
+    [fileList],
+  );
+
   return (
-    <Form.Item
-      name="file"
-      label="文件上传"
-      rules={[{ required: true }]}
-      style={{ marginTop: 16 }}
-    >
-      <Upload
-        accept=".json,.geojson"
-        customRequest={customRequest}
-        multiple
-        onRemove={() => true}
+    <>
+      <Form.Item
+        name="file"
+        label="文件上传"
+        rules={[{ required: true }]}
+        style={{ marginTop: 16, marginBottom: 4 }}
       >
-        <Button icon={<UploadOutlined />}>文件上传</Button>
-      </Upload>
-      <div style={{ marginLeft: 8,color:'#777' }}>仅支持json、geojson文件</div>
-    </Form.Item>
+        <Upload
+          accept=".json,.geojson"
+          customRequest={customRequest}
+          multiple
+          onRemove={(file) => {
+            const newData = uploadData.filter((item) => item.id !== file.uid);
+            setUploadData(newData);
+            return true;
+          }}
+          onChange={(file) => {
+            setFileList(file.fileList);
+          }}
+        >
+          <Button icon={<UploadOutlined />}>文件上传</Button>
+        </Upload>
+      </Form.Item>
+      <div style={{ color: '#777' }}>仅支持.json, .geojson 后缀的文件</div>
+    </>
   );
 });
 

@@ -1,6 +1,9 @@
 import { getUniqueId, parserTextFileToSource } from './fileToSource';
+interface newFile extends File {
+  uid: string;
+}
 
-export const parserFileToSource = async (file: File) => {
+export const parserFileToSource = async (file: newFile) => {
   const fileFullName = file.name;
   const fileNames = fileFullName.substring(0, fileFullName.lastIndexOf('.'));
   const fileExtension = fileFullName.substring(
@@ -14,7 +17,7 @@ export const parserFileToSource = async (file: File) => {
       dataSource = await parserTextFileToSource(
         file,
         fileNames,
-        getUniqueId(fileNames),
+        file.uid as string,
       );
     }
   } catch (e) {

@@ -2,6 +2,7 @@ import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
 import {
   ClearOutlined,
   CodeOutlined,
+  EnvironmentOutlined,
   SaveOutlined,
   TableOutlined,
 } from '@ant-design/icons';
@@ -12,7 +13,6 @@ import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import './index.less';
 import DownloadBtn from './btn/download-btn';
-import LngLatImportBtn from './btn/lnglat-import-btn';
 import { SettingBtn } from './btn/setting-btn';
 import { AppTable } from '../app-table';
 import { UrlBtn } from './btn/url-btn';
@@ -21,7 +21,7 @@ import { LocalstorageKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
 
 export const MapContent: React.FC = () => {
-  const { setEditorText } = useModel('feature');
+  const { setEditorText, bboxAutoFit } = useModel('feature');
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
     {
@@ -65,7 +65,6 @@ export const MapContent: React.FC = () => {
     <div className="map-content">
       <div className="map-content__left">
         <div>
-          <LngLatImportBtn />
           <UrlBtn />
           <Tooltip
             trigger="hover"
@@ -78,15 +77,23 @@ export const MapContent: React.FC = () => {
               onClick={saveEditorText}
             ></Button>
           </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="重置数据">
+          <Tooltip trigger="hover" placement="left" overlay="清空数据">
             <Button
               icon={<ClearOutlined />}
               onClick={() => {
                 setEditorText(
                   prettierText({
-                    content: { type: 'FeatureCollection', features: [] }
+                    content: { type: 'FeatureCollection', features: [] },
                   }),
                 );
+              }}
+            />
+          </Tooltip>
+          <Tooltip trigger="hover" placement="left" overlay="平移中心点">
+            <Button
+              icon={<EnvironmentOutlined />}
+              onClick={() => {
+                bboxAutoFit();
               }}
             />
           </Tooltip>
