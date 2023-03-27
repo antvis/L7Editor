@@ -60,7 +60,7 @@ export const MapContent: React.FC = () => {
       children: <AppTable />,
     },
   ];
-
+  
   return (
     <div className="map-content">
       <div className="map-content__left">

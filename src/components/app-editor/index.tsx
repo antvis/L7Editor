@@ -86,7 +86,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      script: () =>
+      getData: () =>
         new Promise(async (resolve, reject) => {
           let geoData;
           const funcResult = new Function(scriptContent);
