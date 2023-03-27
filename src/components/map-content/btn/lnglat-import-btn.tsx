@@ -36,7 +36,6 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
       getData: () =>
         new Promise((resolve, reject) => {
           if (!lngLatText) {
-            console.log(lngLatText);
             reject('请输入经纬度');
           }
           const data = importLngLatText(lngLatText);
