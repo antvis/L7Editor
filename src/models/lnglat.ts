@@ -9,7 +9,7 @@ export default () => {
   const [lngLatImportType, setLngLatImportType] =
     useState<LngLatImportType>('Point');
   const [lngLatText, setLngLatText] = useState('');
-  const { resetFeatures, features } = useModel('feature');
+  const { features } = useModel('feature');
 
   const importLngLatText = (text: string) => {
     const featurePositionList: Position[][] = text
@@ -47,7 +47,6 @@ export default () => {
           }),
         );
       }
-      resetFeatures(newFeatures);
       return newFeatures;
     } else {
       throw new Error('LngLat 导入失败');

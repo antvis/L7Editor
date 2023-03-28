@@ -11,9 +11,8 @@ import {
   Tooltip,
 } from 'antd';
 import { useModel } from 'umi';
-import { getParamsNew, isPromise } from '@/utils';
 import React, { useRef, useState } from 'react';
-import { Feature, FeatureCollection } from '@turf/turf';
+import { Feature } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
 import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
@@ -25,7 +24,7 @@ import { LngLatImportType } from '@/types';
 /**
  * Tab类型
  */
-type TabType = 'url' | 'file' | 'script' | LngLatImportType;
+type TabType = 'url' | 'file' | 'script' | 'lnglat';
 /**
  * 数据类型
  */
@@ -34,20 +33,12 @@ type DataType = 'cover' | 'merge';
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { resetFeatures, features } = useModel('feature');
-  const [form] = Form.useForm();
-  const { setLngLatImportType } = useModel('lnglat');
 
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
 
   const formRef = useRef<Record<string, any>>(null);
-  const lnglatItem: TabsProps['items'] = LngLatImportTypeOptions.map((item) => {
-    return {
-      key: item.value,
-      label: <div>{item.label}</div>,
-      children: <LngLatImportBtn ref={formRef} item={item} />,
-    };
-  });
+
   const items: TabsProps['items'] = [
     {
       key: 'url',
@@ -68,7 +59,11 @@ export const UrlBtn = () => {
         </div>
       ),
     },
-    ...lnglatItem,
+    {
+      key: 'lnglat',
+      label: <div>经纬度上传</div>,
+      children: <LngLatImportBtn ref={formRef} />,
+    },
   ];
 
   const handleCancel = () => {
@@ -77,7 +72,7 @@ export const UrlBtn = () => {
   };
   const checkWithRestData = async () => {
     try {
-      const newData = await formRef.current?.[activeTab]();
+      const newData = await formRef.current?.getData();
 
       if (FeatureCollectionVT.check(newData)) {
         const featureData =
@@ -91,17 +86,6 @@ export const UrlBtn = () => {
       message.error(`${error}`);
     }
   };
-  const handleOk = async () => {
-    form
-      .validateFields([activeTab])
-      .then(() => {
-        checkWithRestData();
-      })
-      .catch((error) => {
-        message.error(error.errorFields?.[0].errors?.[0]);
-      });
-  };
-
   return (
     <>
       <Tooltip overlay="导入 GeoJSON" placement="left">
@@ -115,37 +99,35 @@ export const UrlBtn = () => {
         <Modal
           title="上传"
           open={isModalOpen}
-          onOk={handleOk}
+          onOk={checkWithRestData}
           onCancel={handleCancel}
           destroyOnClose
           width={1000}
         >
-          <Form form={form} scrollToFirstError layout="vertical">
-            <Tabs
-              activeKey={activeTab}
-              className="map-content__right"
-              items={items}
+          <Tabs
+            activeKey={activeTab}
+            className="map-content__right"
+            items={items}
+            destroyInactiveTabPane
+            onChange={(e) => {
+              setActiveTab(e as TabType);
+            }}
+          />
+          <Form.Item
+            label="数据操作"
+            rules={[{ required: true }]}
+            style={{ marginTop: 8 }}
+          >
+            <Radio.Group
+              value={selectRadio}
               onChange={(e) => {
-                setActiveTab(e as TabType);
-                setLngLatImportType(e as LngLatImportType);
+                setSelectRadio(e.target.value);
               }}
-            />
-            <Form.Item
-              label="数据操作"
-              rules={[{ required: true }]}
-              style={{ marginTop: 8 }}
             >
-              <Radio.Group
-                value={selectRadio}
-                onChange={(e) => {
-                  setSelectRadio(e.target.value);
-                }}
-              >
-                <Radio.Button value="cover">覆盖</Radio.Button>
-                <Radio.Button value="merge">追加</Radio.Button>
-              </Radio.Group>
-            </Form.Item>
-          </Form>
+              <Radio.Button value="cover">覆盖</Radio.Button>
+              <Radio.Button value="merge">追加</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
         </Modal>
       )}
     </>
