@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Form, Modal, Radio, RadioChangeEvent, Switch } from 'antd';
+import { Button, Form, Modal, Radio, Switch } from 'antd';
 import { useModel } from 'umi';
 
 export const SettingBtn = () => {

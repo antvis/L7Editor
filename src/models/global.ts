@@ -1,5 +1,5 @@
 import { LocalstorageKey, PrimaryColor } from '@/constants';
-import { LarkMapProps, useScene } from '@antv/larkmap';
+import { LarkMapProps } from '@antv/larkmap';
 import { useLocalStorageState } from 'ahooks';
 
 type MapOptions = LarkMapProps['mapOptions'];

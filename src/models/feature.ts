@@ -14,7 +14,7 @@ import {
 import { useLocalStorageState, useMount } from 'ahooks';
 import { message } from 'antd';
 import { flatMap, max, min } from 'lodash';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useModel } from 'umi';
 
 export default () => {

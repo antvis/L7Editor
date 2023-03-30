@@ -1,4 +1,3 @@
-import { Scene } from '@antv/l7';
 import { LarkMap } from '@antv/larkmap';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useModel } from 'umi';

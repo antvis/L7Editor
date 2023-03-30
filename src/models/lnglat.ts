@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { chunk, first, isEqual, last } from 'lodash';
+import { first, isEqual, last } from 'lodash';
 import { LngLatImportType } from '@/types';
-import { useModel } from 'umi';
 import { Feature, Position, lineString, point, polygon } from '@turf/turf';
 import { LngLatVT } from '@/constants';
 
@@ -9,7 +8,6 @@ export default () => {
   const [lngLatImportType, setLngLatImportType] =
     useState<LngLatImportType>('Point');
   const [lngLatText, setLngLatText] = useState('');
-  const { features } = useModel('feature');
 
   const importLngLatText = (text: string) => {
     const featurePositionList: Position[][] = text

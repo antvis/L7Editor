@@ -1,13 +1,7 @@
 import { getParamsNew } from '@/utils';
 import { useMount } from 'ahooks';
 import { Form, Input } from 'antd';
-import React, {
-  forwardRef,
-  Ref,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const UrlUpload = forwardRef(({}, ref) => {
   const [inputGeoData, setInputGeoData] = useState(undefined);
