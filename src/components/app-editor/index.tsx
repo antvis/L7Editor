@@ -12,9 +12,7 @@ import './index.less';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import { prettierText } from '@/utils/prettier-text';
 import { provideCompletionItems } from './editortool';
-import { message } from 'antd';
 import { isPromise } from '@/utils';
-import { isFunction } from 'lodash';
 
 type Language = 'json' | 'javascript';
 

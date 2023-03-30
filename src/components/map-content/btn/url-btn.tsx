@@ -1,5 +1,4 @@
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { useMount } from 'ahooks';
 import {
   Button,
   Form,
@@ -11,15 +10,13 @@ import {
   Tooltip,
 } from 'antd';
 import { useModel } from 'umi';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Feature } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
 import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
 import { AppEditor } from '@/components/app-editor';
-import { LngLatImportTypeOptions } from '@/constants';
 import LngLatImportBtn from './lnglat-import-btn';
-import { LngLatImportType } from '@/types';
 
 /**
  * Tab类型
@@ -32,7 +29,7 @@ type DataType = 'cover' | 'merge';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures, features } = useModel('feature');
+  const { resetFeatures, editorText } = useModel('feature');
 
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
@@ -73,12 +70,11 @@ export const UrlBtn = () => {
   const checkWithRestData = async () => {
     try {
       const newData = await formRef.current?.getData();
-
       if (FeatureCollectionVT.check(newData)) {
         const featureData =
           selectRadio === 'cover'
             ? newData.features
-            : [...features, ...newData.features];
+            : [...JSON.parse(editorText).features, ...newData.features];
         resetFeatures(featureData as Feature[]);
         handleCancel();
       }

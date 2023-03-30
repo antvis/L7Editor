@@ -1,11 +1,7 @@
 import { isEmptyFilter } from '@/hooks/useFilterFeature';
-import { FilterNode } from '@/types/filter';
 import {
-  CloseOutlined,
   DeleteOutlined,
-  EditOutlined,
   FieldBinaryOutlined,
-  FieldNumberOutlined,
   FieldStringOutlined,
   FilterFilled,
   FilterOutlined,
@@ -16,7 +12,6 @@ import { Button, Form, Select, Tooltip } from 'antd';
 import { cloneDeep, isEmpty, debounce } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { useModel } from 'umi';
-import BooleanFilter from './booleanFilter';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
 const { Option } = Select;
