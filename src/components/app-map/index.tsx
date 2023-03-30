@@ -13,12 +13,13 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
     useModel('feature');
 
   useEffect(() => {
-    if (FeatureCollectionVT.check(editorText)) {
+    if (FeatureCollectionVT.check(JSON.parse(editorText))) {
       saveEditorText();
     } else {
       setEditorText(
         JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
       );
+      saveEditorText();
     }
   }, []);
 
