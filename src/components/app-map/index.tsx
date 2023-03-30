@@ -8,7 +8,11 @@ export interface AppMapProps {
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions } = useModel('global');
-  const { setScene } = useModel('feature');
+  const { setScene, saveEditorText } = useModel('feature');
+
+  useEffect(() => {
+    saveEditorText();
+  }, []);
 
   return (
     <LarkMap

@@ -24,7 +24,11 @@ export default () => {
   const [editorText, setEditorText] = useLocalStorageState(
     LocalstorageKey.EditorText,
     {
-      defaultValue: '',
+      defaultValue: JSON.stringify(
+        { type: 'FeatureCollection', features: [] },
+        null,
+        2,
+      ),
     },
   );
   const [savedText, setSavedText] = useState('');
