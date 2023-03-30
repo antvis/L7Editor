@@ -70,7 +70,6 @@ export const UrlBtn = () => {
   const checkWithRestData = async () => {
     try {
       const newData = await formRef.current?.getData();
-      console.log(newData, 'qqqq');
       if (FeatureCollectionVT.check(newData)) {
         const featureData =
           selectRadio === 'cover'
