@@ -19,7 +19,6 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
       setEditorText(
         JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
       );
-      saveEditorText();
     }
   }, []);
 
