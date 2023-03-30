@@ -28,7 +28,7 @@ export default () => {
       );
 
     if (LngLatVT.check(featurePositionList)) {
-      const newFeatures: Feature[] = [...features];
+      const newFeatures: Feature[] = [];
       if (lngLatImportType === 'Point') {
         newFeatures.push(
           ...featurePositionList.flat().map((position) => point(position)),

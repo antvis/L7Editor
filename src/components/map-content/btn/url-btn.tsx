@@ -32,7 +32,7 @@ type DataType = 'cover' | 'merge';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures, features } = useModel('feature');
+  const { resetFeatures, features, editorText } = useModel('feature');
 
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
@@ -73,12 +73,12 @@ export const UrlBtn = () => {
   const checkWithRestData = async () => {
     try {
       const newData = await formRef.current?.getData();
-
+      console.log(newData, 'qqqq');
       if (FeatureCollectionVT.check(newData)) {
         const featureData =
           selectRadio === 'cover'
             ? newData.features
-            : [...features, ...newData.features];
+            : [...JSON.parse(editorText).features, ...newData.features];
         resetFeatures(featureData as Feature[]);
         handleCancel();
       }
