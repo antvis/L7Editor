@@ -2,11 +2,12 @@ import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
 import {
   ClearOutlined,
   CodeOutlined,
+  createFromIconfontCN,
   EnvironmentOutlined,
   SaveOutlined,
   TableOutlined,
 } from '@ant-design/icons';
-import { useKeyPress, useLocalStorageState } from 'ahooks';
+import { useKeyPress, useLocalStorageState, useUpdate } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
 import React from 'react';
 import { useModel } from 'umi';
@@ -19,6 +20,7 @@ import { UrlBtn } from './btn/url-btn';
 import HandBackBtn from './btn/handback-btn';
 import { LocalstorageKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
+import {IconFont} from '@/utils/index'
 
 export const MapContent: React.FC = () => {
   const { setEditorText, bboxAutoFit } = useModel('feature');
@@ -28,7 +30,7 @@ export const MapContent: React.FC = () => {
       defaultValue: 'code',
     },
   );
-  const { saveEditorText, savable } = useModel('feature');
+  const { saveEditorText, savable, setFeatures } = useModel('feature');
 
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {
     e.preventDefault();
@@ -61,6 +63,8 @@ export const MapContent: React.FC = () => {
     },
   ];
 
+
+
   return (
     <div className="map-content">
       <div className="map-content__left">
@@ -86,12 +90,13 @@ export const MapContent: React.FC = () => {
                     content: { type: 'FeatureCollection', features: [] },
                   }),
                 );
+                setFeatures([]);
               }}
             />
           </Tooltip>
           <Tooltip trigger="hover" placement="left" overlay="平移中心点">
             <Button
-              icon={<EnvironmentOutlined />}
+              icon={<IconFont type="icon-zishiying" />}
               onClick={() => {
                 bboxAutoFit();
               }}

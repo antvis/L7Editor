@@ -1,6 +1,7 @@
 import { isUndefined } from 'lodash';
 import Color from 'color';
 import dayjs from 'dayjs';
+import { createFromIconfontCN } from '@ant-design/icons';
 
 export const getOpacityColor = (color: string, alpha: number) => {
   const colorInstance = Color(color).fade(alpha);
@@ -37,7 +38,11 @@ export const getParamsNew = (key: string) => {
  */
 
 export const isPromise = (obj: any) => {
-  return !isUndefined(obj) && obj instanceof Promise
+  return !isUndefined(obj) && obj instanceof Promise;
 };
+
+export const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
+});
 
 export * from './transform';
