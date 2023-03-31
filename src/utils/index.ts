@@ -63,8 +63,10 @@ export const isCircle = (feature: Feature) => {
     const data = distance(item, centre, { units: 'kilometers' });
     return parseInt(`${data}`);
   });
-  console.log(pointDistance);
-  return elementsAreEqual(pointDistance);
+  if (pointDistance.length === 61) { 
+    return elementsAreEqual(pointDistance);
+  }
+  return false;
 };
 
 export * from './transform';
