@@ -2,6 +2,7 @@ import { isUndefined } from 'lodash';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { createFromIconfontCN } from '@ant-design/icons';
+import { centroid, distance, Feature, Point, point, Polygon } from '@turf/turf';
 
 export const getOpacityColor = (color: string, alpha: number) => {
   const colorInstance = Color(color).fade(alpha);
@@ -44,5 +45,26 @@ export const isPromise = (obj: any) => {
 export const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
 });
+
+const elementsAreEqual = (array: number[]) =>
+  array.every((el) => el === array[0]);
+
+/**
+ * 判断是否为圆
+ */
+
+export const isCircle = (feature: Feature) => {
+  const centre = centroid(feature);
+  const arrPoint = feature.geometry.coordinates[0];
+  const pointData = arrPoint.map((item: [number, number]) => {
+    return point(item);
+  });
+  const pointDistance = pointData.map((item: Point) => {
+    const data = distance(item, centre, { units: 'kilometers' });
+    return parseInt(`${data}`);
+  });
+  console.log(pointDistance);
+  return elementsAreEqual(pointDistance);
+};
 
 export * from './transform';
