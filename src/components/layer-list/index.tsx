@@ -9,16 +9,18 @@ import {
   useScene,
 } from '@antv/larkmap';
 import { Feature, featureCollection } from '@turf/turf';
-import { useMount } from 'ahooks';
+import { useAsyncEffect, useMount } from 'ahooks';
 import { groupBy } from 'lodash';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
+import Color from 'color';
+import { changeColor } from '@/utils/change-image-color';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
   const { layerColor } = useModel('global');
-  const { newFeatures } = useFilterFeature()
+  const { newFeatures } = useFilterFeature();
   const [
     pointSource,
     lineSource,
@@ -42,14 +44,13 @@ export const LayerList: React.FC = () => {
       };
     });
   }, [newFeatures]);
-  
-  useMount(() => {
-    scene.addImage(
-      'pointIcon',
-      'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*mvOqTLxNOEAAAAAAAAAAAAAADmJ7AQ/original',
-    );
+
+  useAsyncEffect(async () => {
+    const newLayerColor = Color(layerColor).rgb().object();
+    const imag2color = await changeColor(newLayerColor);
+    scene.addImage('pointIcon', imag2color);
     setIsMounted(true);
-  });
+  }, [layerColor]);
 
   return isMounted ? (
     <>
@@ -77,7 +78,6 @@ export const LayerList: React.FC = () => {
       <PointLayer
         id={LayerId.PointLayer}
         source={pointSource}
-        color={layerColor}
         blend="normal"
         size={20}
         shape="pointIcon"

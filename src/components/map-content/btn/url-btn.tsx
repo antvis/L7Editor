@@ -1,76 +1,133 @@
-import { ApiOutlined } from '@ant-design/icons';
-import { useMount } from 'ahooks';
-import { Button, Form, Input, message, Modal, Tooltip } from 'antd';
+import { CloudUploadOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Form,
+  message,
+  Modal,
+  Radio,
+  Tabs,
+  TabsProps,
+  Tooltip,
+} from 'antd';
 import { useModel } from 'umi';
-import React, { useState } from 'react';
-import { getParamsNew, transformFeatures } from '@/utils';
-import { FeatureCollection } from '@turf/turf';
+import { useRef, useState } from 'react';
+import { Feature } from '@turf/turf';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
+import UrlUpload from '../url-tab-group/url-upload';
+import FileUpload from '../url-tab-group/file-upload';
+import { AppEditor } from '@/components/app-editor';
+import LngLatImportBtn from './lnglat-import-btn';
+
+/**
+ * Tab类型
+ */
+type TabType = 'url' | 'file' | 'script' | 'lnglat';
+/**
+ * 数据类型
+ */
+type DataType = 'cover' | 'merge';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures } = useModel('feature');
-  const [form] = Form.useForm();
+  const { resetFeatures, editorText } = useModel('feature');
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const [activeTab, setActiveTab] = useState<TabType>('url');
+  const [selectRadio, setSelectRadio] = useState<DataType>('cover');
 
-  const handleOk = () => {
-    form.submit();
-  };
+  const formRef = useRef<Record<string, any>>(null);
+
+  const items: TabsProps['items'] = [
+    {
+      key: 'url',
+      label: <div>url上传</div>,
+      children: <UrlUpload ref={formRef} />,
+    },
+    {
+      key: 'file',
+      label: <div>文件上传</div>,
+      children: <FileUpload ref={formRef} />,
+    },
+    {
+      key: 'script',
+      label: <div>javaScript脚本</div>,
+      children: (
+        <div style={{ width: '100%', height: 400 }}>
+          <AppEditor language="javascript" ref={formRef} />
+        </div>
+      ),
+    },
+    {
+      key: 'lnglat',
+      label: <div>经纬度上传</div>,
+      children: <LngLatImportBtn ref={formRef} />,
+    },
+  ];
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setSelectRadio('cover');
   };
-
-  const getUrlFeatures = async (e: any) => {
+  const checkWithRestData = async () => {
     try {
-      const json = await fetch(e);
-      const fc = (await json.json()) as FeatureCollection;
-      if (FeatureCollectionVT.check(fc)) {
-        return resetFeatures(fc.features);
+      const newData = await formRef.current?.getData();
+      if (FeatureCollectionVT.check(newData)) {
+        const featureData =
+          selectRadio === 'cover'
+            ? newData.features
+            : [...JSON.parse(editorText).features, ...newData.features];
+        resetFeatures(featureData as Feature[]);
+        handleCancel();
+      }else{
+        message.info('请检查数据格式')
       }
-    } catch {
+    } catch (error) {
+      message.error(`${error}`);
     }
-    message.error('url格式错误，仅支持 GeoJSON 格式');
-  };
-
-  useMount(async () => {
-    const url = getParamsNew('url');
-    if (url) {
-      getUrlFeatures(url);
-    }
-  });
-
-  const onFinish = async (e: any) => {
-    const { url } = e;
-    getUrlFeatures(url);
-    handleCancel();
-    message.success('导入成功');
   };
   return (
     <>
-      <Tooltip overlay="通过 URL 地址导入 GeoJSON" placement="left">
-        <Button icon={<ApiOutlined />} onClick={showModal} />
+      <Tooltip overlay="导入 GeoJSON" placement="left">
+        <Button
+          icon={<CloudUploadOutlined />}
+          onClick={() => setIsModalOpen(true)}
+        />
       </Tooltip>
 
-      <Modal
-        title="URL"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Form form={form} initialValues={{ url: '' }} onFinish={onFinish}>
+      {isModalOpen && (
+        <Modal
+          title="上传"
+          open={isModalOpen}
+          onOk={checkWithRestData}
+          onCancel={handleCancel}
+          destroyOnClose
+          width={1000}
+        >
+          <Tabs
+            activeKey={activeTab}
+            className="map-content__right"
+            items={items}
+            destroyInactiveTabPane
+            onChange={(e) => {
+              setActiveTab(e as TabType);
+            }}
+          />
           <Form.Item
-            name="url"
-            label="GeoJSON 地址"
-            rules={[{ required: true }, { type: 'url' }]}
+            label="数据操作"
+            rules={[{ required: true }]}
+            style={{ marginTop: 8 }}
           >
-            <Input placeholder="https://..." />
+            <Radio.Group
+              value={selectRadio}
+              onChange={(e) => {
+                setSelectRadio(e.target.value);
+              }}
+            >
+              <Radio.Button value="cover">覆盖</Radio.Button>
+              <Radio.Button value="merge">追加</Radio.Button>
+            </Radio.Group>
           </Form.Item>
-        </Form>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 };

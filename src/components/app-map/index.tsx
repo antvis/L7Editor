@@ -1,27 +1,26 @@
-import { Scene } from '@antv/l7';
+import { FeatureCollectionVT } from '@/constants';
 import { LarkMap } from '@antv/larkmap';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useModel } from 'umi';
-import { bbox, featureCollection } from '@turf/turf';
 
 export interface AppMapProps {
   children?: ReactNode;
 }
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
-  const { mapOptions, autoFitBounds } = useModel('global');
-  const { features } = useModel('feature');
-  const [scene, setScene] = useState<Scene | null>(null);
+  const { mapOptions } = useModel('global');
+  const { setScene, saveEditorText, editorText, setEditorText } =
+    useModel('feature');
 
   useEffect(() => {
-    if (scene && features.length && autoFitBounds) {
-      const [lng1, lat1, lng2, lat2] = bbox(featureCollection(features));
-      scene.fitBounds([
-        [lng1, lat1],
-        [lng2, lat2],
-      ]);
+    if (FeatureCollectionVT.check(JSON.parse(editorText))) {
+      saveEditorText();
+    } else {
+      setEditorText(
+        JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
+      );
     }
-  }, [features, scene]);
+  }, []);
 
   return (
     <LarkMap

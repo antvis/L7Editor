@@ -1,3 +1,4 @@
+import { isUndefined } from 'lodash';
 import Color from 'color';
 import dayjs from 'dayjs';
 
@@ -29,6 +30,14 @@ export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
 export const getParamsNew = (key: string) => {
   const temData = new URLSearchParams(window.location.search);
   return temData.get(key);
+};
+
+/**
+ * 判断是否是Promise
+ */
+
+export const isPromise = (obj: any) => {
+  return !isUndefined(obj) && obj instanceof Promise
 };
 
 export * from './transform';

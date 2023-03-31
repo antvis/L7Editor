@@ -5,6 +5,8 @@ import { useLocalStorageState } from 'ahooks';
 type MapOptions = LarkMapProps['mapOptions'];
 
 export default () => {
+  // const scene = useScene();
+
   const [rightWidth, setRightWidth] = useLocalStorageState(
     LocalstorageKey.RightPanelWidth,
     {
@@ -57,5 +59,6 @@ export default () => {
     setPopupTrigger,
     autoFitBounds,
     setAutoFitBounds,
+    // scene,
   };
 };

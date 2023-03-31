@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Form, Modal, Radio, RadioChangeEvent, Switch } from 'antd';
+import { Button, Form, Modal, Radio, Switch } from 'antd';
 import { useModel } from 'umi';
 
 export const SettingBtn = () => {
@@ -52,7 +52,11 @@ export const SettingBtn = () => {
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item name="autoFitBounds" valuePropName="checked" label="自动缩放至所有元素可见">
+          <Form.Item
+            name="autoFitBounds"
+            valuePropName="checked"
+            label="自动缩放至所有元素可见"
+          >
             <Switch />
           </Form.Item>
         </Form>
