@@ -60,7 +60,7 @@ export const MapContent: React.FC = () => {
       children: <AppTable />,
     },
   ];
-  
+
   return (
     <div className="map-content">
       <div className="map-content__left">
@@ -77,7 +77,7 @@ export const MapContent: React.FC = () => {
               onClick={saveEditorText}
             ></Button>
           </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="清空数据">
+          <Tooltip trigger="hover" placement="left" overlay="重置数据">
             <Button
               icon={<ClearOutlined />}
               onClick={() => {

@@ -77,6 +77,8 @@ export const UrlBtn = () => {
             : [...JSON.parse(editorText).features, ...newData.features];
         resetFeatures(featureData as Feature[]);
         handleCancel();
+      }else{
+        message.info('请检查数据格式')
       }
     } catch (error) {
       message.error(`${error}`);
