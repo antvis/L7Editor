@@ -4,7 +4,7 @@ import { Button, Descriptions, Empty, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import './index.less';
 import { useModel } from 'umi';
-import { isCircle } from '@/utils';
+import { isCircle, isRect } from '@/utils';
 const { Paragraph } = Typography;
 
 export const LayerPopup: React.FC = () => {
@@ -41,7 +41,7 @@ export const LayerPopup: React.FC = () => {
 
   const onLayerClick = useCallback(
     (e: any) => {
-      console.log(isCircle(e.feature));
+      console.log(isRect(e.feature));
       const { lngLat, feature } = e;
       const featureIndex = feature.properties[FeatureKey.Index];
       if (

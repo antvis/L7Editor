@@ -63,8 +63,17 @@ export const isCircle = (feature: Feature) => {
     const data = distance(item, centre, { units: 'kilometers' });
     return parseInt(`${data}`);
   });
-  if (pointDistance.length === 61) { 
+  if (pointDistance.length === 61) {
     return elementsAreEqual(pointDistance);
+  }
+  return false;
+};
+
+export const isRect = (feature: Feature) => {
+  const arrPoint = feature.geometry.coordinates[0];
+  const result = Array.from(new Set(arrPoint.flat(Infinity)));
+  if (result.length === 4) {
+    return true;
   }
   return false;
 };
