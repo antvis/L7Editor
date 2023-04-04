@@ -10,6 +10,9 @@ import {
   GeometryCollection,
   getType,
   bbox,
+  centroid,
+  point,
+  distance,
 } from '@turf/turf';
 import { useLocalStorageState, useMount } from 'ahooks';
 import { message } from 'antd';
@@ -132,6 +135,46 @@ export default () => {
     }
   };
 
+  /**
+   * 判断是否为圆
+   */
+
+  // const isCircle = (feature: any) => {
+  //   const twoPointDistance = (
+  //     p1: { x: number; y: number },
+  //     p2: { x: number; y: number },
+  //   ): { x: number; y: number } => {
+  //     let dep = Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+  //     return dep;
+  //   };
+  //   const centre = centroid(feature);
+  //   const centreLngLatToPixel = scene?.lngLatToPixel(
+  //     centre.geometry.coordinates as any,
+  //   );
+  //   const arrPoint = feature.geometry.coordinates[0];
+  //   // console.log(centreLngLatToPixel);
+  //   const arrLngLatToPixel = arrPoint.map((item: [number, number]) => {
+  //     return scene?.lngLatToPixel(item);
+  //   });
+
+  //   console.log(arrLngLatToPixel);
+  //   const a = arrLngLatToPixel.map((item) => {
+  //     return twoPointDistance(item, centreLngLatToPixel);
+  //   });
+  //   console.log(a, 'aaaaaa');
+  //   const pointData = arrPoint.map((item: [number, number]) => {
+  //     return point(item);
+  //   });
+  //   const pointDistance = pointData.map((item: Point) => {
+  //     const data = distance(item, centre, { units: 'meters' });
+  //     return `${data}`;
+  //   });
+  //   // console.log(pointDistance);
+  //   const elementsAreEqual = (array: number[]) =>
+  //     array.every((el) => el === array[0]);
+  //   return elementsAreEqual(pointDistance);
+  // };
+
   return {
     editorText,
     setEditorText,
@@ -145,5 +188,7 @@ export default () => {
     dataSource,
     bboxAutoFit,
     setScene,
+    scene,
+    // isCircle,
   };
 };

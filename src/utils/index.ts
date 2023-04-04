@@ -1,8 +1,8 @@
-import { isUndefined } from 'lodash';
+import { createFromIconfontCN } from '@ant-design/icons';
+import { area, center, coordAll, distance, Feature } from '@turf/turf';
 import Color from 'color';
 import dayjs from 'dayjs';
-import { createFromIconfontCN } from '@ant-design/icons';
-import { centroid, distance, Feature, Point, point, Polygon } from '@turf/turf';
+import { isUndefined } from 'lodash';
 
 export const getOpacityColor = (color: string, alpha: number) => {
   const colorInstance = Color(color).fade(alpha);
@@ -46,33 +46,41 @@ export const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
 });
 
-const elementsAreEqual = (array: number[]) =>
-  array.every((el) => el === array[0]);
-
 /**
  * 判断是否为圆
  */
 
 export const isCircle = (feature: Feature) => {
-  const centre = centroid(feature);
-  const arrPoint = feature.geometry.coordinates[0];
-  const pointData = arrPoint.map((item: [number, number]) => {
-    return point(item);
+  // const centre = centroid(feature);
+  // const centerPoint = centre.geometry.coordinates;
+  // const positionList = coordAll(feature);
+  // console.log(centre);
+  // const distanceList = positionList.map((item) => {
+  //   return Math.round(distance(centerPoint, item, { units: 'kilometers' }));
+  // });
+  const centerPosition = center(feature).geometry.coordinates;
+
+  const distanceList = coordAll(feature).map((position) => {
+    return Math.round(
+      distance(position, centerPosition, {
+        units: 'kilometers',
+      }),
+    );
   });
-  const pointDistance = pointData.map((item: Point) => {
-    const data = distance(item, centre, { units: 'kilometers' });
-    return parseInt(`${data}`);
-  });
-  if (pointDistance.length === 61) {
-    return elementsAreEqual(pointDistance);
-  }
-  return false;
+  console.log(area(feature));
+  console.log(distanceList);
 };
 
 export const isRect = (feature: Feature) => {
   const arrPoint = feature.geometry.coordinates[0];
   const result = Array.from(new Set(arrPoint.flat(Infinity)));
-  if (result.length === 4) {
+  if (
+    result.length === 4 &&
+    arrPoint[0][0] === arrPoint[1][0] &&
+    arrPoint[1][1] === arrPoint[2][1] &&
+    arrPoint[2][0] === arrPoint[3][0] &&
+    arrPoint[3][1] === arrPoint[4][1]
+  ) {
     return true;
   }
   return false;

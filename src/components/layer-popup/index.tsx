@@ -1,14 +1,25 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { Popup, PopupProps, useLayerList } from '@antv/larkmap';
+import { isCircle, isRect } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
+import {
+  DrawEvent,
+  DrawLine,
+  DrawPoint,
+  DrawPolygon,
+  DrawRect,
+} from '@antv/l7-draw';
+import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
+import { featureCollection } from '@turf/turf';
 import { Button, Descriptions, Empty, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import './index.less';
 import { useModel } from 'umi';
-import { isCircle, isRect } from '@/utils';
+import './index.less';
 const { Paragraph } = Typography;
 
 export const LayerPopup: React.FC = () => {
-  const { resetFeatures, features } = useModel('feature');
+  const scene = useScene();
+  const { resetFeatures, features, setFeatures, setEditorText } =
+    useModel('feature');
   const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number }
@@ -19,6 +30,9 @@ export const LayerPopup: React.FC = () => {
     },
     visible: false,
   });
+  const [clickFeature, setClickFeature] = useState<any>();
+  const [disabled, setDisabled] = useState(false);
+
   const targetFeature = useMemo(() => {
     return features.find(
       (feature) =>
@@ -41,7 +55,7 @@ export const LayerPopup: React.FC = () => {
 
   const onLayerClick = useCallback(
     (e: any) => {
-      console.log(isRect(e.feature));
+      setClickFeature(e.feature);
       const { lngLat, feature } = e;
       const featureIndex = feature.properties[FeatureKey.Index];
       if (
@@ -88,6 +102,94 @@ export const LayerPopup: React.FC = () => {
     });
   }, [setPopupProps, popupProps]);
 
+  const onRevise = () => {
+    setDisabled(true);
+    const newFeature = features.filter((item) => {
+      return (
+        JSON.stringify(item.geometry) !== JSON.stringify(clickFeature.geometry)
+      );
+    });
+
+    const index = features.findIndex((v) => {
+      return (
+        JSON.stringify(v.geometry) === JSON.stringify(clickFeature.geometry)
+      );
+    });
+
+    const onChange = (v: any, draw: any) => {
+      // console.log(v);
+      if (!v) {
+        const newData = {
+          ...draw.getData()[0],
+          properties: clickFeature.properties,
+        };
+        features.splice(index, 1, newData);
+        setFeatures(features);
+        setEditorText(prettierText({ content: featureCollection(features) }));
+        draw.destroy();
+        setDisabled(false);
+      }
+    };
+
+    if (clickFeature?.geometry.type === 'Point') {
+      const drawer = new DrawPoint(scene, {
+        initialData: [clickFeature],
+        multiple: false,
+        maxCount: 1,
+        autoActive: true,
+        editable: true,
+        style: {
+          point: {
+            normal: { shape: 'pointIcon', size: 20 },
+            hover: { shape: 'pointIcon', size: 20 },
+            active: { shape: 'pointIcon', size: 20 },
+          },
+        },
+      });
+      drawer.enable();
+      setFeatures(newFeature);
+      drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
+    } else if (clickFeature?.geometry.type === 'LineString') {
+      const drawer = new DrawLine(scene, {
+        initialData: [clickFeature],
+        maxCount: 1,
+        autoActive: true,
+      });
+      drawer.enable();
+      setFeatures(newFeature);
+      drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
+    } else if (
+      clickFeature?.geometry.type === 'Polygon' ||
+      clickFeature?.geometry.type === 'MultiPolygon'
+    ) {
+      if (isRect(clickFeature)) {
+        const drawer = new DrawRect(scene, {
+          initialData: [clickFeature],
+          maxCount: 1,
+          autoActive: true,
+        });
+        drawer.enable();
+        setFeatures(newFeature);
+        drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
+      } else {
+        console.log(isCircle(clickFeature));
+        const drawer = new DrawPolygon(scene, {
+          initialData: [clickFeature],
+          maxCount: 1,
+          autoActive: true,
+        });
+        drawer.enable();
+        setFeatures(newFeature);
+        drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
+      }
+    }
+
+    setPopupProps({
+      visible: false,
+      featureIndex: undefined,
+    });
+  };
+
   useEffect(() => {
     if (popupTrigger === 'click') {
       layerList.forEach((layer) => layer.on('click', onLayerClick));
@@ -104,7 +206,7 @@ export const LayerPopup: React.FC = () => {
         layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
       };
     }
-  }, [onLayerClick, layerList, popupTrigger]);
+  }, [onLayerClick, layerList, popupTrigger, scene]);
 
   return (
     <>
@@ -148,24 +250,6 @@ export const LayerPopup: React.FC = () => {
                 />
               )}
               <div className="layer-popup__btn-group">
-                {/*<Button*/}
-                {/*  type="primary"*/}
-                {/*  size="small"*/}
-                {/*  onClick={() => {*/}
-                {/*    const newFeatures = [...features];*/}
-                {/*    // @ts-ignore*/}
-                {/*    newFeatures[popupProps.featureIndex].properties[*/}
-                {/*      FeatureKey.IsEdit*/}
-                {/*    ] = true;*/}
-                {/*    resetFeatures(newFeatures);*/}
-                {/*    setPopupProps({*/}
-                {/*      visible: false,*/}
-                {/*      featureIndex: undefined,*/}
-                {/*    });*/}
-                {/*  }}*/}
-                {/*>*/}
-                {/*  编辑*/}
-                {/*</Button>*/}
                 {popupTrigger === 'click' && (
                   <Button
                     size="small"
@@ -184,6 +268,16 @@ export const LayerPopup: React.FC = () => {
                     }}
                   >
                     删除
+                  </Button>
+                )}
+                {popupTrigger === 'click' && (
+                  <Button
+                    size="small"
+                    type="link"
+                    onClick={onRevise}
+                    disabled={disabled}
+                  >
+                    编辑
                   </Button>
                 )}
               </div>
