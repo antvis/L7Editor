@@ -1,7 +1,8 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { isRect } from '@/utils';
+import { isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
+  DrawCircle,
   DrawEvent,
   DrawLine,
   DrawPoint,
@@ -59,7 +60,6 @@ export const LayerPopup: React.FC = () => {
       setClickFeature(e.feature);
       const { lngLat, feature } = e;
       const featureIndex = feature.properties[FeatureKey.Index];
-      console.log(feature.geometry.type);
       if (
         feature.geometry.type === 'MultiPolygon' ||
         feature.geometry.type === 'MultiLineString'
@@ -174,6 +174,15 @@ export const LayerPopup: React.FC = () => {
         });
         drawer.enable();
 
+        setFeatures(newFeature);
+        drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
+      } else if (isCircle(clickFeature)) {
+        const drawer = new DrawCircle(scene, {
+          initialData: [clickFeature],
+          maxCount: 1,
+          autoActive: true,
+        });
+        drawer.enable();
         setFeatures(newFeature);
         drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
       } else {

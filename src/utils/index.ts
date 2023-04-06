@@ -51,24 +51,21 @@ export const IconFont = createFromIconfontCN({
  */
 
 export const isCircle = (feature: Feature) => {
-  // const centre = centroid(feature);
-  // const centerPoint = centre.geometry.coordinates;
-  // const positionList = coordAll(feature);
-  // console.log(centre);
-  // const distanceList = positionList.map((item) => {
-  //   return Math.round(distance(centerPoint, item, { units: 'kilometers' }));
-  // });
   const centerPosition = center(feature).geometry.coordinates;
-
   const distanceList = coordAll(feature).map((position) => {
     return Math.round(
       distance(position, centerPosition, {
-        units: 'kilometers',
+        units: 'meters',
       }),
     );
   });
-  console.log(area(feature));
-  console.log(distanceList);
+  const data = Array.from(new Set(distanceList))
+  if(data.length === 1){
+    return true
+  }else{
+    return false
+  }
+  // console.log(distanceList);
 };
 
 export const isRect = (feature: Feature) => {
