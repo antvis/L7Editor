@@ -1,7 +1,7 @@
 import { prettierText } from '@/utils/prettier-text';
 import { featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
-import { Empty, Form, Input, Table, Typography } from 'antd';
+import { Empty, Form, Input, InputNumber, Table, Typography } from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useModel } from 'umi';
@@ -41,6 +41,7 @@ const EditableCell = ({
   children,
   dataIndex,
   record,
+  inputType,
   handleSave,
   ...restProps
 }: any) => {
@@ -54,20 +55,27 @@ const EditableCell = ({
   }, [editing]);
   const toggleEdit = () => {
     setEditing(!editing);
-    form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
+    form.setFieldsValue(
+      inputType !== 'object'
+        ? {
+            [dataIndex]: record[dataIndex],
+          }
+        : { [dataIndex]: JSON.stringify(record[dataIndex]) },
+    );
   };
   const save = async () => {
     try {
       const values = await form.validateFields();
+      const newValues =
+        (await inputType) === 'object'
+          ? { dataIndex: JSON.parse(values[dataIndex]) }
+          : values;
       toggleEdit();
       handleSave({
         ...record,
-        ...values,
-        values,
+        ...newValues,
+        newValues,
       });
-      console.log(values);
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
@@ -87,7 +95,11 @@ const EditableCell = ({
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        {inputType === 'number' ? (
+          <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
+        ) : (
+          <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        )}
       </Form.Item>
     ) : (
       <div
@@ -202,12 +214,9 @@ export const AppTable = () => {
     const { __index, values } = row;
     const indexProperties = { ...features[__index - 1].properties, ...values };
     const indexData = { ...features[__index - 1], properties: indexProperties };
-    console.log(indexData);
     features.splice(__index - 1, 1, indexData);
-    console.log(features);
     setFeatures(features);
     setEditorText(prettierText({ content: featureCollection(features) }));
-    // console.log(features, row, indexData);
     setNewDataSource(newData);
   };
 
@@ -223,6 +232,7 @@ export const AppTable = () => {
           editable: col.editable,
           dataIndex: col.dataIndex,
           title: col.title,
+          inputType: typeof record[col.dataIndex],
           handleSave,
         }),
       };

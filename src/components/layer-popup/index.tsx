@@ -157,10 +157,7 @@ export const LayerPopup: React.FC = () => {
       drawer.enable();
       setFeatures(newFeature);
       drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
-    } else if (
-      clickFeature?.geometry.type === 'Polygon' ||
-      clickFeature?.geometry.type === 'MultiPolygon'
-    ) {
+    } else if (clickFeature?.geometry.type === 'Polygon') {
       if (isRect(clickFeature)) {
         const drawer = new DrawRect(scene, {
           initialData: [clickFeature],
