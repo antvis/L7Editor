@@ -1,5 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { isCircle, isRect } from '@/utils';
+import { isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
   DrawEvent,
@@ -109,13 +109,12 @@ export const LayerPopup: React.FC = () => {
         JSON.stringify(item.geometry) !== JSON.stringify(clickFeature.geometry)
       );
     });
-
     const index = features.findIndex((v) => {
       return (
         JSON.stringify(v.geometry) === JSON.stringify(clickFeature.geometry)
       );
     });
-
+    console.log(clickFeature);
     const onChange = (v: any, draw: any) => {
       // console.log(v);
       if (!v) {
@@ -169,10 +168,10 @@ export const LayerPopup: React.FC = () => {
           autoActive: true,
         });
         drawer.enable();
+
         setFeatures(newFeature);
         drawer.on(DrawEvent.Select, (v) => onChange(v, drawer));
       } else {
-        console.log(isCircle(clickFeature));
         const drawer = new DrawPolygon(scene, {
           initialData: [clickFeature],
           maxCount: 1,
@@ -188,15 +187,16 @@ export const LayerPopup: React.FC = () => {
       visible: false,
       featureIndex: undefined,
     });
+    layerList.forEach((layer) => layer.off('click', onLayerClick));
   };
 
   useEffect(() => {
-    if (popupTrigger === 'click') {
+    if (popupTrigger === 'click' && !disabled) {
       layerList.forEach((layer) => layer.on('click', onLayerClick));
       return () => {
         layerList.forEach((layer) => layer.off('click', onLayerClick));
       };
-    } else {
+    } else if (popupTrigger === 'hover') {
       layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
       layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
       return () => {
@@ -206,7 +206,7 @@ export const LayerPopup: React.FC = () => {
         layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
       };
     }
-  }, [onLayerClick, layerList, popupTrigger, scene]);
+  }, [onLayerClick, layerList, popupTrigger, scene, disabled]);
 
   return (
     <>
