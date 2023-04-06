@@ -82,9 +82,6 @@ const EditableCell = ({
     }
   };
   let childNode = children;
-  const data = newDataSource?.filter((item) => {
-    return item[dataIndex] && typeof item[dataIndex] === 'number';
-  });
   if (editable) {
     childNode = editing ? (
       <Form.Item
@@ -99,7 +96,7 @@ const EditableCell = ({
           },
         ]}
       >
-        {inputType === 'number' || data.length ? (
+        {inputType === 'number' ? (
           <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
         ) : (
           <Input ref={inputRef} onPressEnter={save} onBlur={save} />
