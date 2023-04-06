@@ -43,6 +43,7 @@ const EditableCell = ({
   record,
   inputType,
   handleSave,
+  newDataSource,
   ...restProps
 }: any) => {
   const [editing, setEditing] = useState(false);
@@ -81,6 +82,9 @@ const EditableCell = ({
     }
   };
   let childNode = children;
+  const data = newDataSource?.filter((item) => {
+    return item[dataIndex] && typeof item[dataIndex] === 'number';
+  });
   if (editable) {
     childNode = editing ? (
       <Form.Item
@@ -95,7 +99,7 @@ const EditableCell = ({
           },
         ]}
       >
-        {inputType === 'number' ? (
+        {inputType === 'number' || data.length ? (
           <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
         ) : (
           <Input ref={inputRef} onPressEnter={save} onBlur={save} />
@@ -211,8 +215,11 @@ export const AppTable = () => {
       ...item,
       ...row,
     });
-    const { __index, values } = row;
-    const indexProperties = { ...features[__index - 1].properties, ...values };
+    const { __index, newValues } = row;
+    const indexProperties = {
+      ...features[__index - 1].properties,
+      ...newValues,
+    };
     const indexData = { ...features[__index - 1], properties: indexProperties };
     features.splice(__index - 1, 1, indexData);
     setFeatures(features);
@@ -233,6 +240,7 @@ export const AppTable = () => {
           dataIndex: col.dataIndex,
           title: col.title,
           inputType: typeof record[col.dataIndex],
+          newDataSource,
           handleSave,
         }),
       };
