@@ -32,6 +32,7 @@ export const LayerPopup: React.FC = () => {
   });
   const [clickFeature, setClickFeature] = useState<any>();
   const [disabled, setDisabled] = useState(false);
+  const [disabledRevise, setDisabledRevise] = useState(false);
 
   const targetFeature = useMemo(() => {
     return features.find(
@@ -58,6 +59,15 @@ export const LayerPopup: React.FC = () => {
       setClickFeature(e.feature);
       const { lngLat, feature } = e;
       const featureIndex = feature.properties[FeatureKey.Index];
+      console.log(feature.geometry.type);
+      if (
+        feature.geometry.type === 'MultiPolygon' ||
+        feature.geometry.type === 'MultiLineString'
+      ) {
+        setDisabledRevise(true);
+      } else {
+        setDisabledRevise(false);
+      }
       if (
         popupProps.visible &&
         popupProps.featureIndex === feature.properties[FeatureKey.Index]
@@ -104,6 +114,7 @@ export const LayerPopup: React.FC = () => {
 
   const onRevise = () => {
     setDisabled(true);
+    setDisabledRevise(true);
     const newFeature = features.filter((item) => {
       return (
         JSON.stringify(item.geometry) !== JSON.stringify(clickFeature.geometry)
@@ -114,9 +125,7 @@ export const LayerPopup: React.FC = () => {
         JSON.stringify(v.geometry) === JSON.stringify(clickFeature.geometry)
       );
     });
-    console.log(clickFeature);
     const onChange = (v: any, draw: any) => {
-      // console.log(v);
       if (!v) {
         const newData = {
           ...draw.getData()[0],
@@ -129,7 +138,6 @@ export const LayerPopup: React.FC = () => {
         setDisabled(false);
       }
     };
-
     if (clickFeature?.geometry.type === 'Point') {
       const drawer = new DrawPoint(scene, {
         initialData: [clickFeature],
@@ -272,7 +280,7 @@ export const LayerPopup: React.FC = () => {
                     size="small"
                     type="link"
                     onClick={onRevise}
-                    disabled={disabled}
+                    disabled={disabledRevise}
                   >
                     编辑
                   </Button>
