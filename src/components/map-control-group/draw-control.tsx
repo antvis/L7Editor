@@ -98,7 +98,6 @@ const DrawControl = () => {
 
   const onDrawAdd = useCallback(
     (drawType: DrawType, newFeature: Feature) => {
-      console.log(1111);
       newFeature.properties = {
         [FeatureKey.DrawType]: drawType,
       };
