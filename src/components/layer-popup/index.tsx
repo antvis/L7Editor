@@ -124,70 +124,68 @@ export const LayerPopup: React.FC = () => {
   }, [setPopupProps, popupProps, isDraw]);
 
   const onEdit = () => {
-    if (clickFeature) {
-      setIsDraw(true);
-      const newFeatures = features.filter((item: any) => {
-        return (
-          item.properties[FeatureKey.Index] !==
-          clickFeature.properties?.[FeatureKey.Index]
-        );
-      });
-      const index = features.findIndex((v: any) => {
-        return (
-          v.properties[FeatureKey.Index] ===
-          clickFeature.properties?.[FeatureKey.Index]
-        );
-      });
-      const onChange = (v: any, draw: any) => {
-        if (!v) {
-          const newData = {
-            ...draw.getData()[0],
-            properties: clickFeature?.properties,
-          };
-          features.splice(index, 1, newData);
-          setFeatures(features);
-          setEditorText(prettierText({ content: featureCollection(features) }));
-          draw.destroy();
-          setIsDraw(false);
-        }
-      };
-      const options = {
-        initialData: [clickFeature],
-        multiple: false,
-        maxCount: 1,
-        autoActive: true,
-        editable: true,
-      };
-      const type = clickFeature?.geometry.type;
-      let drawLayer: any;
-      if (type === 'Point') {
-        drawLayer = new DrawPoint(scene, {
-          ...options,
-          style: {
-            point: {
-              normal: { shape: 'pointIcon', size: 20 },
-              hover: { shape: 'pointIcon', size: 20 },
-              active: { shape: 'pointIcon', size: 20 },
-            },
-          },
-        });
-      } else if (type === 'LineString') {
-        drawLayer = new DrawLine(scene, options);
-      } else if (type === 'Polygon' && isRect(clickFeature)) {
-        drawLayer = new DrawRect(scene, options);
-      } else if (type === 'Polygon' && isCircle(clickFeature)) {
-        drawLayer = new DrawCircle(scene, options);
-      } else {
-        drawLayer = new DrawPolygon(scene, options);
+    setIsDraw(true);
+    const newFeatures = features.filter((item: any) => {
+      return (
+        item.properties[FeatureKey.Index] !==
+        clickFeature.properties?.[FeatureKey.Index]
+      );
+    });
+    const index = features.findIndex((v: any) => {
+      return (
+        v.properties[FeatureKey.Index] ===
+        clickFeature.properties?.[FeatureKey.Index]
+      );
+    });
+    const onChange = (v: any, draw: any) => {
+      if (!v) {
+        const newData = {
+          ...draw.getData()[0],
+          properties: clickFeature?.properties,
+        };
+        features.splice(index, 1, newData);
+        setFeatures(features);
+        setEditorText(prettierText({ content: featureCollection(features) }));
+        draw.destroy();
+        setIsDraw(false);
       }
-      drawLayer.enable();
-      setFeatures(newFeatures);
-      drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
-      setPopupProps({
-        visible: false,
-        featureIndex: undefined,
+    };
+    const options = {
+      initialData: [clickFeature],
+      multiple: false,
+      maxCount: 1,
+      autoActive: true,
+      editable: true,
+    };
+    const type = clickFeature?.geometry.type;
+    let drawLayer: any;
+    if (type === 'Point') {
+      drawLayer = new DrawPoint(scene, {
+        ...options,
+        style: {
+          point: {
+            normal: { shape: 'pointIcon', size: 20 },
+            hover: { shape: 'pointIcon', size: 20 },
+            active: { shape: 'pointIcon', size: 20 },
+          },
+        },
       });
+    } else if (type === 'LineString') {
+      drawLayer = new DrawLine(scene, options);
+    } else if (type === 'Polygon' && isRect(clickFeature)) {
+      drawLayer = new DrawRect(scene, options);
+    } else if (type === 'Polygon' && isCircle(clickFeature)) {
+      drawLayer = new DrawCircle(scene, options);
+    } else {
+      drawLayer = new DrawPolygon(scene, options);
     }
+    drawLayer.enable();
+    setFeatures(newFeatures);
+    drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
+    setPopupProps({
+      visible: false,
+      featureIndex: undefined,
+    });
   };
 
   useEffect(() => {
