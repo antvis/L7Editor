@@ -1,4 +1,4 @@
-import { FlagOutlined } from '@ant-design/icons';
+import { IconFont } from '@/constants';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { Popover } from 'antd';
 import { useEffect, useRef, useState } from 'react';
@@ -115,7 +115,7 @@ export function AmapLayerControl() {
         placement="leftTop"
         overlayInnerStyle={{ width: 325, height: 265 }}
       >
-        <FlagOutlined className="l7-amap-control" />
+        <IconFont type="icon-ditu" className="l7-amap-control" />
       </Popover>
     </CustomControl>
   );

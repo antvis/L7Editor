@@ -23,7 +23,7 @@
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^1.1.3",
     "@antv/l7": "^2.11.6",
-    "@antv/l7-draw": "^3.0.10",
+    "@antv/l7-draw": "^3.0.18",
     "@antv/larkmap": "^1.0.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
