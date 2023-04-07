@@ -1,5 +1,4 @@
-import { IconFont } from '@/utils';
-import { FlagOutlined } from '@ant-design/icons';
+import { createFromIconfontCN } from '@ant-design/icons';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { Popover } from 'antd';
 import { useEffect, useRef, useState } from 'react';
@@ -9,6 +8,10 @@ interface AmapLayerProps {
   title: string;
   image: string;
 }
+
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
+});
 
 /**
  * Satellite 卫星图

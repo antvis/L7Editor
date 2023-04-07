@@ -12,7 +12,7 @@ const DrawControl = () => {
   const scene = useScene();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const { resetFeatures, features } = useModel('feature');
+  const { resetFeatures, features, isDraw } = useModel('feature');
   const { layerColor } = useModel('global');
   const editFeature = useMemo(
     () =>
@@ -172,7 +172,7 @@ const DrawControl = () => {
             className="l7-draw-icon"
             style={{ fontSize: 16, lineHeight: '30px' }}
             onClick={() => {
-              setIsVisible(!isVisible);
+              isDraw ? setIsVisible(false) : setIsVisible(!isVisible);
             }}
           />
         </button>

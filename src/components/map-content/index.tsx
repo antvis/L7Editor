@@ -1,26 +1,28 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
+import { LocalstorageKey } from '@/constants';
+import { prettierText } from '@/utils/prettier-text';
 import {
   ClearOutlined,
   CodeOutlined,
   createFromIconfontCN,
-  EnvironmentOutlined,
   SaveOutlined,
   TableOutlined,
 } from '@ant-design/icons';
-import { useKeyPress, useLocalStorageState, useUpdate } from 'ahooks';
+import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
 import React from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
-import './index.less';
-import DownloadBtn from './btn/download-btn';
-import { SettingBtn } from './btn/setting-btn';
 import { AppTable } from '../app-table';
-import { UrlBtn } from './btn/url-btn';
+import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
-import { LocalstorageKey } from '@/constants';
-import { prettierText } from '@/utils/prettier-text';
-import {IconFont} from '@/utils/index'
+import { SettingBtn } from './btn/setting-btn';
+import { UrlBtn } from './btn/url-btn';
+import './index.less';
+
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
+});
 
 export const MapContent: React.FC = () => {
   const { setEditorText, bboxAutoFit } = useModel('feature');
@@ -62,8 +64,6 @@ export const MapContent: React.FC = () => {
       children: <AppTable />,
     },
   ];
-
-
 
   return (
     <div className="map-content">

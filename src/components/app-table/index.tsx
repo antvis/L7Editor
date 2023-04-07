@@ -1,7 +1,7 @@
 import { prettierText } from '@/utils/prettier-text';
 import { featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
-import { Empty, Form, Input, InputNumber, Table, Typography } from 'antd';
+import { Empty, Form, FormInstance, Input, InputNumber, Table, TableProps, Typography } from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useModel } from 'umi';
@@ -24,14 +24,14 @@ const formatTableValue = (value: any) => {
   );
 };
 
-const EditableContext = React.createContext<any>(null);
+const FormContext = React.createContext<FormInstance| null>(null);
 const EditableRow = ({ index, ...props }: any) => {
   const [form] = Form.useForm();
   return (
     <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
+      <FormContext.Provider value={form}>
         <tr {...props} />
-      </EditableContext.Provider>
+      </FormContext.Provider>
     </Form>
   );
 };
@@ -48,7 +48,7 @@ const EditableCell = ({
 }: any) => {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<any>(null);
-  const form = useContext(EditableContext);
+  const form = useContext(FormContext);
   useEffect(() => {
     if (editing) {
       inputRef.current?.focus();
@@ -56,7 +56,7 @@ const EditableCell = ({
   }, [editing]);
   const toggleEdit = () => {
     setEditing(!editing);
-    form.setFieldsValue(
+    form?.setFieldsValue(
       inputType !== 'object'
         ? {
             [dataIndex]: record[dataIndex],
@@ -66,7 +66,7 @@ const EditableCell = ({
   };
   const save = async () => {
     try {
-      const values = await form.validateFields();
+      const values = await form?.validateFields();
       const newValues =
         (await inputType) === 'object'
           ? { dataIndex: JSON.parse(values[dataIndex]) }
@@ -117,6 +117,13 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
+const components = {
+  body: {
+    row: EditableRow,
+    cell: EditableCell,
+  },
+};
+
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
@@ -132,7 +139,7 @@ export const AppTable = () => {
   }, [features]);
 
   const defaultColumns = useMemo(() => {
-    const newColumns: (ColumnTypes[number] & {
+    const newColumns: (ColumnTypes[any] & {
       editable?: boolean;
       dataIndex: string;
     })[] = [];
@@ -186,7 +193,7 @@ export const AppTable = () => {
         width: key.length > 20 ? 200 : 100,
         editable: true,
         render: formatTableValue,
-        filters: options.length ? options : undefined,
+        filters: options.length ? options : undefined as any, 
         onFilter: (value: any, record: any) => {
           return (record[key] ?? '') === value;
         },
@@ -224,7 +231,7 @@ export const AppTable = () => {
     setNewDataSource(newData);
   };
 
-  const newColumns = useMemo(() => {
+  const newColumns: TableProps['columns'] = useMemo(() => {
     const columns = defaultColumns.map((col) => {
       if (!col.editable) {
         return col;
@@ -245,19 +252,14 @@ export const AppTable = () => {
     return columns;
   }, [defaultColumns]);
 
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell,
-    },
-  };
+
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newColumns?.length ? (
         <Table
           components={components}
-          columns={newColumns as any}
+          columns={newColumns}
           dataSource={newDataSource}
           scroll={{ x: width, y: height - 54 }}
         />

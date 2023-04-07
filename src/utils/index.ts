@@ -1,5 +1,5 @@
 import { createFromIconfontCN } from '@ant-design/icons';
-import { area, center, coordAll, distance, Feature } from '@turf/turf';
+import { center, coordAll, distance, Feature } from '@turf/turf';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { isUndefined } from 'lodash';
@@ -42,10 +42,6 @@ export const isPromise = (obj: any) => {
   return !isUndefined(obj) && obj instanceof Promise;
 };
 
-export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
-});
-
 /**
  * 判断是否为圆
  */
@@ -59,13 +55,7 @@ export const isCircle = (feature: Feature) => {
       }),
     );
   });
-  const data = Array.from(new Set(distanceList))
-  if(data.length === 1){
-    return true
-  }else{
-    return false
-  }
-  // console.log(distanceList);
+  return Array.from(new Set(distanceList)).length === 1;
 };
 
 export const isRect = (feature: Feature) => {
