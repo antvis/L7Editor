@@ -1,10 +1,9 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
-import { LocalstorageKey } from '@/constants';
+import { IconFont, LocalstorageKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
 import {
   ClearOutlined,
   CodeOutlined,
-  createFromIconfontCN,
   SaveOutlined,
   TableOutlined,
 } from '@ant-design/icons';
@@ -19,10 +18,6 @@ import HandBackBtn from './btn/handback-btn';
 import { SettingBtn } from './btn/setting-btn';
 import { UrlBtn } from './btn/url-btn';
 import './index.less';
-
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
-});
 
 export const MapContent: React.FC = () => {
   const { setEditorText, bboxAutoFit } = useModel('feature');

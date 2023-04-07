@@ -37,7 +37,7 @@ export const LayerPopup: React.FC = () => {
     },
     visible: false,
   });
-  const [clickFeature, setClickFeature] = useState<any>();
+  const [clickFeature, setClickFeature] = useState<any>(null);
 
   const targetFeature = useMemo(() => {
     return features.find(
@@ -60,11 +60,9 @@ export const LayerPopup: React.FC = () => {
   }, [allLayerList]);
 
   const disabledEdit = useMemo(() => {
+    const reg = RegExp(/Multi/);
     if (clickFeature) {
-      return (
-        clickFeature.geometry.type === 'MultiPolygon' ||
-        clickFeature.geometry.type === 'MultiLineString'
-      );
+      return reg.test(clickFeature.geometry.type);
     }
     return false;
   }, [clickFeature]);
@@ -100,90 +98,96 @@ export const LayerPopup: React.FC = () => {
 
   const onLayerMouseenter = useCallback(
     (e: any) => {
-      const { lngLat, feature } = e;
-      const featureIndex = feature.properties[FeatureKey.Index];
-      setPopupProps({
-        lngLat,
-        visible: true,
-        featureIndex,
-      });
+      if (!isDraw) {
+        const { lngLat, feature } = e;
+        const featureIndex = feature.properties[FeatureKey.Index];
+        setPopupProps({
+          lngLat,
+          visible: true,
+          featureIndex,
+        });
+      }
     },
-    [setPopupProps, popupProps],
+    [setPopupProps, popupProps, isDraw],
   );
 
   const onLayerMouseout = useCallback(() => {
-    setPopupProps((oldPopupProps) => {
-      return {
-        ...oldPopupProps,
-        visible: false,
-        featureIndex: undefined,
-      };
-    });
-  }, [setPopupProps, popupProps]);
+    if (!isDraw) {
+      setPopupProps((oldPopupProps) => {
+        return {
+          ...oldPopupProps,
+          visible: false,
+          featureIndex: undefined,
+        };
+      });
+    }
+  }, [setPopupProps, popupProps, isDraw]);
 
   const onEdit = () => {
-    setIsDraw(true);
-    const newFeatures = features.filter((item: any) => {
-      return (
-        item.properties[FeatureKey.Index] !==
-        clickFeature.properties[FeatureKey.Index]
-      );
-    });
-    const index = features.findIndex((v: any) => {
-      return (
-        v.properties[FeatureKey.Index] ===
-        clickFeature.properties[FeatureKey.Index]
-      );
-    });
-    const onChange = (v: any, draw: any) => {
-      if (!v) {
-        const newData = {
-          ...draw.getData()[0],
-          properties: clickFeature.properties,
-        };
-        features.splice(index, 1, newData);
-        setFeatures(features);
-        setEditorText(prettierText({ content: featureCollection(features) }));
-        draw.destroy();
-        setIsDraw(false);
-      }
-    };
-    const options = {
-      initialData: [clickFeature],
-      multiple: false,
-      maxCount: 1,
-      autoActive: true,
-      editable: true,
-    };
-    const type = clickFeature?.geometry.type;
-    let drawLayer: any;
-    if (type === 'Point') {
-      drawLayer = new DrawPoint(scene, {
-        ...options,
-        style: {
-          point: {
-            normal: { shape: 'pointIcon', size: 20 },
-            hover: { shape: 'pointIcon', size: 20 },
-            active: { shape: 'pointIcon', size: 20 },
-          },
-        },
+    if (clickFeature) {
+      setIsDraw(true);
+      const newFeatures = features.filter((item: any) => {
+        return (
+          item.properties[FeatureKey.Index] !==
+          clickFeature.properties?.[FeatureKey.Index]
+        );
       });
-    } else if (type === 'LineString') {
-      drawLayer = new DrawLine(scene, options);
-    } else if (type === 'Polygon' && isRect(clickFeature)) {
-      drawLayer = new DrawRect(scene, options);
-    } else if (type === 'Polygon' && isCircle(clickFeature)) {
-      drawLayer = new DrawCircle(scene, options);
-    } else {
-      drawLayer = new DrawPolygon(scene, options);
+      const index = features.findIndex((v: any) => {
+        return (
+          v.properties[FeatureKey.Index] ===
+          clickFeature.properties?.[FeatureKey.Index]
+        );
+      });
+      const onChange = (v: any, draw: any) => {
+        if (!v) {
+          const newData = {
+            ...draw.getData()[0],
+            properties: clickFeature?.properties,
+          };
+          features.splice(index, 1, newData);
+          setFeatures(features);
+          setEditorText(prettierText({ content: featureCollection(features) }));
+          draw.destroy();
+          setIsDraw(false);
+        }
+      };
+      const options = {
+        initialData: [clickFeature],
+        multiple: false,
+        maxCount: 1,
+        autoActive: true,
+        editable: true,
+      };
+      const type = clickFeature?.geometry.type;
+      let drawLayer: any;
+      if (type === 'Point') {
+        drawLayer = new DrawPoint(scene, {
+          ...options,
+          style: {
+            point: {
+              normal: { shape: 'pointIcon', size: 20 },
+              hover: { shape: 'pointIcon', size: 20 },
+              active: { shape: 'pointIcon', size: 20 },
+            },
+          },
+        });
+      } else if (type === 'LineString') {
+        drawLayer = new DrawLine(scene, options);
+      } else if (type === 'Polygon' && isRect(clickFeature)) {
+        drawLayer = new DrawRect(scene, options);
+      } else if (type === 'Polygon' && isCircle(clickFeature)) {
+        drawLayer = new DrawCircle(scene, options);
+      } else {
+        drawLayer = new DrawPolygon(scene, options);
+      }
+      drawLayer.enable();
+      setFeatures(newFeatures);
+      drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
+      setPopupProps({
+        visible: false,
+        featureIndex: undefined,
+      });
     }
-    drawLayer.enable();
-    setFeatures(newFeatures);
-    drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
-    setPopupProps({
-      visible: false,
-      featureIndex: undefined,
-    });
   };
 
   useEffect(() => {
@@ -202,7 +206,7 @@ export const LayerPopup: React.FC = () => {
         layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
       };
     }
-  }, [onLayerClick, layerList, popupTrigger, scene, isDraw]);
+  }, [onLayerClick, layerList, popupTrigger, scene]);
 
   return (
     <>
