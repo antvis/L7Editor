@@ -71,6 +71,7 @@ export const LayerPopup: React.FC = () => {
 
   const onLayerClick = useCallback(
     (e: any) => {
+      console.log(isDraw);
       if (!isDraw) {
         setClickFeature(e.feature);
         const { lngLat, feature } = e;

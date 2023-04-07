@@ -1,6 +1,10 @@
 import { FeatureKey } from '@/constants';
 import { EditOutlined } from '@ant-design/icons';
-import { DrawControl as L7DrawControl, DrawEvent } from '@antv/l7-draw';
+import {
+  ControlEvent,
+  DrawControl as L7DrawControl,
+  DrawEvent,
+} from '@antv/l7-draw';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
@@ -12,7 +16,7 @@ const DrawControl = () => {
   const scene = useScene();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const { resetFeatures, features, isDraw } = useModel('feature');
+  const { resetFeatures, features, setIsDraw } = useModel('feature');
   const { layerColor } = useModel('global');
   const editFeature = useMemo(
     () =>
@@ -77,6 +81,9 @@ const DrawControl = () => {
       });
       setDrawControl(newDrawControl);
       scene.addControl(newDrawControl);
+      newDrawControl.on(ControlEvent.DrawChange, (newType) => {
+        setIsDraw(!!newType);
+      });
       const drawDom: any = document.querySelector('.l7-draw-control');
       drawDom.style.marginTop = 0;
       document.querySelector('#l7-draw-content')?.appendChild(drawDom);
@@ -91,6 +98,7 @@ const DrawControl = () => {
 
   const onDrawAdd = useCallback(
     (drawType: DrawType, newFeature: Feature) => {
+      console.log(1111);
       newFeature.properties = {
         [FeatureKey.DrawType]: drawType,
       };
@@ -111,6 +119,7 @@ const DrawControl = () => {
       newFeatures[index].geometry = feature.geometry;
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
+
       resetFeatures([...features]);
     },
     [resetFeatures, features, drawControl],
@@ -172,7 +181,7 @@ const DrawControl = () => {
             className="l7-draw-icon"
             style={{ fontSize: 16, lineHeight: '30px' }}
             onClick={() => {
-              isDraw ? setIsVisible(false) : setIsVisible(!isVisible);
+              setIsVisible(!isVisible);
             }}
           />
         </button>
