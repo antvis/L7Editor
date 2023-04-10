@@ -1,5 +1,4 @@
 import { center, coordAll, distance, Feature } from '@turf/turf';
-import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { isUndefined } from 'lodash';
@@ -40,7 +39,7 @@ export const getUrlFeatureCollection = async (e: string) => {
     const geoData = await json.json();
     return geoData;
   } catch (e) {
-    message.error('接口请求失败');
+    throw new Error('接口请求失败');
   }
 };
 
