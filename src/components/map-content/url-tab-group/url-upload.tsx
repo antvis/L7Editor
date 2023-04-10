@@ -6,7 +6,6 @@ import { forwardRef, useImperativeHandle, useState } from 'react';
 const UrlUpload = forwardRef(({}, ref) => {
   const [inputGeoData, setInputGeoData] = useState(undefined);
   const [inputValue, setInputValue] = useState<string>('');
-  const update = useUpdate();
   const checkWithRestData = async (e: string) => {
     try {
       const json = await fetch(e);
@@ -23,8 +22,6 @@ const UrlUpload = forwardRef(({}, ref) => {
     () => ({
       getData: () =>
         new Promise((resolve, reject) => {
-          update();
-          console.log(inputValue);
           if (inputValue) {
             resolve(checkWithRestData(inputValue));
             reject('数据格式错误，仅支持 GeoJSON 格式');
