@@ -1,4 +1,3 @@
-import { createFromIconfontCN } from '@ant-design/icons';
 import { center, coordAll, distance, Feature } from '@turf/turf';
 import Color from 'color';
 import dayjs from 'dayjs';
@@ -32,6 +31,16 @@ export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
 export const getParamsNew = (key: string) => {
   const temData = new URLSearchParams(window.location.search);
   return temData.get(key);
+};
+
+export const getUrlFeatureCollection = async (e: string) => {
+  try {
+    const json = await fetch(e);
+    const geoData = await json.json();
+    return geoData;
+  } catch (e) {
+    throw new Error('接口请求失败');
+  }
 };
 
 /**

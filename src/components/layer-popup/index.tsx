@@ -180,6 +180,7 @@ export const LayerPopup: React.FC = () => {
       drawLayer = new DrawPolygon(scene, options);
     }
     drawLayer.enable();
+    drawLayer.setActiveFeature(drawLayer.getData()[0]);
     setFeatures(newFeatures);
     drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
     setPopupProps({
