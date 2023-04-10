@@ -1,21 +1,9 @@
-import { getParamsNew } from '@/utils';
-import { useMount, useUpdate } from 'ahooks';
-import { Form, Input, message } from 'antd';
+import { getUrlFeatureCollection } from '@/utils';
+import { Form, Input } from 'antd';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const UrlUpload = forwardRef(({}, ref) => {
-  const [inputGeoData, setInputGeoData] = useState(undefined);
   const [inputValue, setInputValue] = useState<string>('');
-  const checkWithRestData = async (e: string) => {
-    try {
-      const json = await fetch(e);
-      const geoData = await json.json();
-      return geoData;
-    } catch (e) {
-      setInputGeoData(undefined);
-      message.error('接口请求失败');
-    }
-  };
 
   useImperativeHandle(
     ref,
@@ -23,14 +11,14 @@ const UrlUpload = forwardRef(({}, ref) => {
       getData: () =>
         new Promise((resolve, reject) => {
           if (inputValue) {
-            resolve(checkWithRestData(inputValue));
+            resolve(getUrlFeatureCollection(inputValue));
             reject('数据格式错误，仅支持 GeoJSON 格式');
           } else {
             reject('请输入文本内容');
           }
         }),
     }),
-    [inputGeoData, inputValue],
+    [inputValue],
   );
 
   return (

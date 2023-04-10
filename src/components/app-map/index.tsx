@@ -1,9 +1,8 @@
 import { FeatureCollectionVT } from '@/constants';
-import { getParamsNew } from '@/utils';
+import { getParamsNew, getUrlFeatureCollection } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
-import { message } from 'antd';
 import React, { ReactNode, useEffect } from 'react';
 import { useModel } from 'umi';
 
@@ -18,19 +17,15 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
 
   useMount(async () => {
     const url = getParamsNew('url');
-    console.log(url);
     if (url) {
       try {
-        const json = await fetch(url);
-        const geoData = await json.json();
+        const geoData = await getUrlFeatureCollection(url);
         setEditorText(prettierText({ content: geoData }));
-        console.log(geoData.features);
         setFeatures(geoData.features);
       } catch (e) {
         setEditorText(
           JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
         );
-        message.error('接口请求失败');
       }
     }
   });
