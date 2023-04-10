@@ -3,6 +3,7 @@ import { getParamsNew, getUrlFeatureCollection } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
+import { message } from 'antd';
 import React, { ReactNode, useEffect } from 'react';
 import { useModel } from 'umi';
 
@@ -23,9 +24,11 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
         setEditorText(prettierText({ content: geoData }));
         setFeatures(geoData.features);
       } catch (e) {
+        message.error(`${e}`);
         setEditorText(
           JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
         );
+        setFeatures([]);
       }
     }
   });
