@@ -1,39 +1,39 @@
 import { getParamsNew } from '@/utils';
-import { useMount } from 'ahooks';
-import { Form, Input } from 'antd';
+import { useMount, useUpdate } from 'ahooks';
+import { Form, Input, message } from 'antd';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const UrlUpload = forwardRef(({}, ref) => {
   const [inputGeoData, setInputGeoData] = useState(undefined);
   const [inputValue, setInputValue] = useState<string>('');
+  const update = useUpdate();
   const checkWithRestData = async (e: string) => {
-    const json = await fetch(e);
-    const geoData = await json.json();
-    setInputGeoData(geoData);
-  };
-  useMount(async () => {
-    const url = getParamsNew('url');
-    if (url) {
-      checkWithRestData(url);
+    try {
+      const json = await fetch(e);
+      const geoData = await json.json();
+      return geoData;
+    } catch (e) {
+      setInputGeoData(undefined);
+      message.error('接口请求失败');
     }
-  });
+  };
 
   useImperativeHandle(
     ref,
     () => ({
       getData: () =>
         new Promise((resolve, reject) => {
-          if (!inputValue) {
-            reject('请输入文本内容');
-          }
-          if (inputGeoData) {
-            resolve(inputGeoData);
-          } else {
+          update();
+          console.log(inputValue);
+          if (inputValue) {
+            resolve(checkWithRestData(inputValue));
             reject('数据格式错误，仅支持 GeoJSON 格式');
+          } else {
+            reject('请输入文本内容');
           }
         }),
     }),
-    [inputGeoData],
+    [inputGeoData, inputValue],
   );
 
   return (
@@ -48,8 +48,8 @@ const UrlUpload = forwardRef(({}, ref) => {
           <Input
             placeholder="https://..."
             onChange={(e) => {
-              checkWithRestData(e.target.value);
               setInputValue(e.target.value);
+              // checkWithRestData(e.target.value);
             }}
           />
         </Form.Item>

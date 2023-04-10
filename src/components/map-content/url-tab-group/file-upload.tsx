@@ -1,3 +1,4 @@
+import { FeatureCollectionVT } from '@/constants/variable-type';
 import { parserFileToSource } from '@/utils/upload';
 import { UploadOutlined } from '@ant-design/icons';
 import { featureCollection } from '@turf/turf';
@@ -44,7 +45,11 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
             reject('请删除报错文件');
           }
           const data = uploadData.map((item) => item.features).flat();
-          resolve(featureCollection(data));
+          if (FeatureCollectionVT.check(data)) {
+            resolve(featureCollection(data));
+          } else {
+            message.info('请检查数据格式');
+          }
         }),
     }),
     [fileList],
