@@ -159,7 +159,7 @@ export const AppTable = () => {
         title: '序号',
         dataIndex: '__index',
         key: `__index`,
-        width: 80,
+        width: 70,
         align: 'center',
         fixed: 'left',
         sorter: (a: any, b: any) => a['__index'] - b['__index'],
@@ -261,7 +261,7 @@ export const AppTable = () => {
           components={components}
           columns={newColumns}
           dataSource={newDataSource}
-          scroll={{ x: width, y: height - 54 }}
+          scroll={{ x: width-15, y: height - 54 }}
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />

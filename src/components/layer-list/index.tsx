@@ -1,6 +1,6 @@
 import { FeatureKey, LayerId } from '@/constants';
 import { useFilterFeature } from '@/hooks/useFilterFeature';
-import { getOpacityColor } from '@/utils';
+import { changeColor } from '@/utils/change-image-color';
 import {
   LineLayer,
   PointLayer,
@@ -9,12 +9,11 @@ import {
   useScene,
 } from '@antv/larkmap';
 import { Feature, featureCollection } from '@turf/turf';
-import { useAsyncEffect, useMount } from 'ahooks';
-import { groupBy } from 'lodash';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useModel } from 'umi';
+import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
-import { changeColor } from '@/utils/change-image-color';
+import { groupBy } from 'lodash';
+import React, { useMemo, useState } from 'react';
+import { useModel } from 'umi';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();
@@ -59,7 +58,8 @@ export const LayerList: React.FC = () => {
         source={polygonSource}
         blend="normal"
         shape="fill"
-        color={getOpacityColor(layerColor, 0.5)}
+        color={layerColor}
+        style={{ opacity: 0.15 }}
       />
       <PolygonLayer
         source={polygonSource}
