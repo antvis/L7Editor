@@ -1,5 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { useColor } from '@/hooks/useColor';
+import { useDrawStyle } from '@/hooks/useColor';
 import { isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
@@ -29,7 +29,7 @@ export const LayerPopup: React.FC = () => {
     setIsDraw,
   } = useModel('feature');
   const { layerColor } = useModel('global');
-  const { colorStyle } = useColor();
+  const { colorStyle } = useDrawStyle();
   const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number }
@@ -155,10 +155,7 @@ export const LayerPopup: React.FC = () => {
     };
     const options: any = {
       initialData: [clickFeature],
-      multiple: false,
       maxCount: 1,
-      autoActive: true,
-      editable: true,
       style: colorStyle,
     };
     const type = clickFeature?.geometry.type;

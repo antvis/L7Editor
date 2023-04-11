@@ -1,5 +1,5 @@
 import { FeatureKey } from '@/constants';
-import { useColor } from '@/hooks/useColor';
+import { useDrawStyle } from '@/hooks/useColor';
 import { EditOutlined } from '@ant-design/icons';
 import {
   ControlEvent,
@@ -15,7 +15,7 @@ import { useModel } from 'umi';
 
 const DrawControl = () => {
   const scene = useScene();
-  const { colorStyle } = useColor();
+  const { colorStyle } = useDrawStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const { resetFeatures, features, setIsDraw } = useModel('feature');

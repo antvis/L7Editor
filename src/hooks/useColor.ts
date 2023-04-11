@@ -1,10 +1,11 @@
+import { IStyle } from '@antv/l7-draw';
 import { merge } from 'lodash';
 import { useModel } from 'umi';
 
-export function useColor() {
+export function useDrawStyle() {
   const { layerColor } = useModel('global');
 
-  const commonStyle = {
+  const commonStyle: any = {
     normal: {
       color: layerColor,
     },
@@ -16,7 +17,7 @@ export function useColor() {
     },
   };
 
-  const colorStyle = {
+  const colorStyle: IStyle = {
     point: commonStyle,
     line: commonStyle,
     polygon: merge({}, commonStyle, {
@@ -38,6 +39,7 @@ export function useColor() {
     }),
     dashLine: commonStyle,
     midPoint: commonStyle,
+    text: commonStyle,
   };
   return { colorStyle };
 }
