@@ -1,4 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
+import { useColor } from '@/hooks/useColor';
 import { isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
@@ -27,6 +28,8 @@ export const LayerPopup: React.FC = () => {
     isDraw,
     setIsDraw,
   } = useModel('feature');
+  const { layerColor } = useModel('global');
+  const { colorStyle } = useColor();
   const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number }
@@ -150,12 +153,13 @@ export const LayerPopup: React.FC = () => {
         setIsDraw(false);
       }
     };
-    const options = {
+    const options: any = {
       initialData: [clickFeature],
       multiple: false,
       maxCount: 1,
       autoActive: true,
       editable: true,
+      style: colorStyle,
     };
     const type = clickFeature?.geometry.type;
     let drawLayer: any;
@@ -164,9 +168,9 @@ export const LayerPopup: React.FC = () => {
         ...options,
         style: {
           point: {
-            normal: { shape: 'pointIcon', size: 20 },
-            hover: { shape: 'pointIcon', size: 20 },
-            active: { shape: 'pointIcon', size: 20 },
+            normal: { shape: 'pointIcon', size: 20, color: layerColor },
+            hover: { shape: 'pointIcon', size: 20, color: layerColor },
+            active: { shape: 'pointIcon', size: 20, color: layerColor },
           },
         },
       });
