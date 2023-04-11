@@ -24,8 +24,7 @@ const FilterFormListControl: React.FC = () => {
   const addVisible = useMemo(() => {
     return !dataSource.length;
   }, [dataSource]);
-
-  console.log(addVisible);
+  
   const onValuesChange = (_: any, all: any) => {
     if (isEmpty(all.filterFromList)) {
       setFilters([]);
