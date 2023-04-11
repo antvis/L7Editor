@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
@@ -27,7 +27,8 @@ export const MapContent: React.FC = () => {
       defaultValue: 'code',
     },
   );
-  const { saveEditorText, savable, setFeatures } = useModel('feature');
+  const { saveEditorText, savable, setFeatures, features } =
+    useModel('feature');
 
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {
     e.preventDefault();
@@ -60,6 +61,10 @@ export const MapContent: React.FC = () => {
     },
   ];
 
+  const featureDisabled = useMemo(() => {
+    return !features.length;
+  }, [features]);
+
   return (
     <div className="map-content">
       <div className="map-content__left">
@@ -73,24 +78,25 @@ export const MapContent: React.FC = () => {
             <Button
               icon={<SaveOutlined />}
               disabled={!savable}
-              onClick={saveEditorText}
+              onClick={() => saveEditorText()}
             ></Button>
           </Tooltip>
           <Tooltip trigger="hover" placement="left" overlay="重置数据">
             <Button
               icon={<ClearOutlined />}
+              disabled={featureDisabled}
               onClick={() => {
-                setEditorText(
+                saveEditorText(
                   prettierText({
                     content: { type: 'FeatureCollection', features: [] },
                   }),
                 );
-                setFeatures([]);
               }}
             />
           </Tooltip>
           <Tooltip trigger="hover" placement="left" overlay="平移中心点">
             <Button
+              disabled={featureDisabled}
               icon={<IconFont type="icon-zishiying" />}
               onClick={() => {
                 bboxAutoFit();

@@ -27,6 +27,7 @@ export const LayerPopup: React.FC = () => {
     setEditorText,
     isDraw,
     setIsDraw,
+    saveEditorText,
   } = useModel('feature');
   const { layerColor } = useModel('global');
   const { colorStyle } = useDrawStyle();
@@ -147,8 +148,7 @@ export const LayerPopup: React.FC = () => {
           properties: clickFeature?.properties,
         };
         features.splice(index, 1, newData);
-        setFeatures(features);
-        setEditorText(prettierText({ content: featureCollection(features) }));
+        saveEditorText(prettierText({ content: featureCollection(features) }));
         draw.destroy();
         setIsDraw(false);
       }
@@ -190,6 +190,18 @@ export const LayerPopup: React.FC = () => {
     });
   };
 
+  const onLayerDblClick = (e: any) => {
+    setClickFeature(e.feature);
+    onEdit();
+  };
+
+  useEffect(() => {
+    layerList.forEach((layer) => layer.on('dblclick', onLayerDblClick));
+    return () => {
+      layerList.forEach((layer) => layer.off('dblclick', onLayerDblClick));
+    };
+  }, [onLayerDblClick, layerList, popupTrigger, scene]);
+
   useEffect(() => {
     if (popupTrigger === 'click') {
       layerList.forEach((layer) => layer.on('click', onLayerClick));
@@ -206,7 +218,7 @@ export const LayerPopup: React.FC = () => {
         layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
       };
     }
-  }, [onLayerClick, layerList, popupTrigger, scene]);
+  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene]);
 
   return (
     <>
@@ -216,6 +228,7 @@ export const LayerPopup: React.FC = () => {
           <Popup
             lngLat={popupProps.lngLat}
             closeButton={false}
+            offsets={[0, 10]}
             followCursor={popupTrigger === 'hover' ? true : false}
           >
             <div
@@ -254,6 +267,16 @@ export const LayerPopup: React.FC = () => {
                   <Button
                     size="small"
                     type="link"
+                    onClick={onEdit}
+                    disabled={disabledEdit}
+                  >
+                    编辑
+                  </Button>
+                )}
+                {popupTrigger === 'click' && (
+                  <Button
+                    size="small"
+                    type="link"
                     danger
                     onClick={() => {
                       resetFeatures(
@@ -268,16 +291,6 @@ export const LayerPopup: React.FC = () => {
                     }}
                   >
                     删除
-                  </Button>
-                )}
-                {popupTrigger === 'click' && (
-                  <Button
-                    size="small"
-                    type="link"
-                    onClick={onEdit}
-                    disabled={disabledEdit}
-                  >
-                    编辑
                   </Button>
                 )}
               </div>

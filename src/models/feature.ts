@@ -75,10 +75,13 @@ export default () => {
     return editorText !== savedText;
   }, [editorText, savedText]);
 
-  const saveEditorText = () => {
+  const saveEditorText = (value?: string) => {
     try {
-      const features = transformFeatures(editorText);
-      setSavedText(editorText);
+      const features = transformFeatures(value ?? editorText);
+      if (value) {
+        setEditorText(value);
+      }
+      setSavedText(value ?? editorText);
       setFeatures(features);
       return features;
     } catch (e) {
