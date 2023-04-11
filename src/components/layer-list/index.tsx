@@ -59,7 +59,7 @@ export const LayerList: React.FC = () => {
         source={polygonSource}
         blend="normal"
         shape="fill"
-        color={getOpacityColor(layerColor, 0.5)}
+        color={getOpacityColor(layerColor, 0.85)}
       />
       <PolygonLayer
         source={polygonSource}
