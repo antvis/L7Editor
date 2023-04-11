@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select, Tooltip } from 'antd';
-import { cloneDeep, isEmpty, debounce } from 'lodash';
+import { cloneDeep, debounce, isEmpty } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { useModel } from 'umi';
 import NumberFilter from './numberFilter';
@@ -21,6 +21,11 @@ const FilterFormListControl: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [form] = Form.useForm();
 
+  const addVisible = useMemo(() => {
+    return !dataSource.length;
+  }, [dataSource]);
+
+  console.log(addVisible);
   const onValuesChange = (_: any, all: any) => {
     if (isEmpty(all.filterFromList)) {
       setFilters([]);
@@ -184,6 +189,7 @@ const FilterFormListControl: React.FC = () => {
                 ))}
                 <Button
                   type="dashed"
+                  disabled={addVisible}
                   onClick={() => {
                     add();
                   }}
