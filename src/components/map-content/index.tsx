@@ -91,28 +91,13 @@ export const MapContent: React.FC = () => {
                     content: { type: 'FeatureCollection', features: [] },
                   }),
                 );
-                setEditorText(
-                  prettierText({
-                    content: { type: 'FeatureCollection', features: [] },
-                  }),
-                );
-                setFeatures([]);
               }}
             />
           </Tooltip>
           <Tooltip trigger="hover" placement="left" overlay="平移中心点">
             <Button
               disabled={featureDisabled}
-              icon={
-                <IconFont
-                  style={{
-                    color: featureDisabled
-                      ? 'rgb(192 192 192)'
-                      : 'rgb(63 62 62)',
-                  }}
-                  type="icon-zishiying"
-                />
-              }
+              icon={<IconFont type="icon-zishiying" />}
               onClick={() => {
                 bboxAutoFit();
               }}

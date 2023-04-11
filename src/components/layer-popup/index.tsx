@@ -148,8 +148,6 @@ export const LayerPopup: React.FC = () => {
           properties: clickFeature?.properties,
         };
         features.splice(index, 1, newData);
-        setFeatures(features);
-        setEditorText(prettierText({ content: featureCollection(features) }));
         saveEditorText(prettierText({ content: featureCollection(features) }));
         draw.destroy();
         setIsDraw(false);

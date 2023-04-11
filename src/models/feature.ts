@@ -78,6 +78,9 @@ export default () => {
   const saveEditorText = (value?: string) => {
     try {
       const features = transformFeatures(value ?? editorText);
+      if (value) {
+        setEditorText(value);
+      }
       setSavedText(value ?? editorText);
       setFeatures(features);
       return features;
