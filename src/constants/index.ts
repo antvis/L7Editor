@@ -58,5 +58,5 @@ export const LngLatImportTypeOptions: Array<{
 ];
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_1q0gr6jx30qh.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_cxg3z3f6vte.js',
 });
