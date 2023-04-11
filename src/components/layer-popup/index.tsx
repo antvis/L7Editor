@@ -24,7 +24,6 @@ export const LayerPopup: React.FC = () => {
     resetFeatures,
     features,
     setFeatures,
-    setEditorText,
     isDraw,
     setIsDraw,
     saveEditorText,
@@ -127,25 +126,25 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
-  const onEdit = () => {
+  const onEdit = (featureValue: any) => {
     setIsDraw(true);
     const newFeatures = features.filter((item: any) => {
       return (
         item.properties[FeatureKey.Index] !==
-        clickFeature.properties?.[FeatureKey.Index]
+        featureValue.properties?.[FeatureKey.Index]
       );
     });
     const index = features.findIndex((v: any) => {
       return (
         v.properties[FeatureKey.Index] ===
-        clickFeature.properties?.[FeatureKey.Index]
+        featureValue.properties?.[FeatureKey.Index]
       );
     });
     const onChange = (v: any, draw: any) => {
       if (!v) {
         const newData = {
           ...draw.getData()[0],
-          properties: clickFeature?.properties,
+          properties: featureValue?.properties,
         };
         features.splice(index, 1, newData);
         saveEditorText(prettierText({ content: featureCollection(features) }));
@@ -154,11 +153,11 @@ export const LayerPopup: React.FC = () => {
       }
     };
     const options: any = {
-      initialData: [clickFeature],
+      initialData: [featureValue],
       maxCount: 1,
       style: colorStyle,
     };
-    const type = clickFeature?.geometry.type;
+    const type = featureValue?.geometry.type;
     let drawLayer: any;
     if (type === 'Point') {
       drawLayer = new DrawPoint(scene, {
@@ -173,9 +172,9 @@ export const LayerPopup: React.FC = () => {
       });
     } else if (type === 'LineString') {
       drawLayer = new DrawLine(scene, options);
-    } else if (type === 'Polygon' && isRect(clickFeature)) {
+    } else if (type === 'Polygon' && isRect(featureValue)) {
       drawLayer = new DrawRect(scene, options);
-    } else if (type === 'Polygon' && isCircle(clickFeature)) {
+    } else if (type === 'Polygon' && isCircle(featureValue)) {
       drawLayer = new DrawCircle(scene, options);
     } else {
       drawLayer = new DrawPolygon(scene, options);
@@ -191,8 +190,8 @@ export const LayerPopup: React.FC = () => {
   };
 
   const onLayerDblClick = (e: any) => {
-    setClickFeature(e.feature);
-    onEdit();
+    const { feature } = e;
+    onEdit(feature);
   };
 
   useEffect(() => {
@@ -267,7 +266,7 @@ export const LayerPopup: React.FC = () => {
                   <Button
                     size="small"
                     type="link"
-                    onClick={onEdit}
+                    onClick={() => onEdit(clickFeature)}
                     disabled={disabledEdit}
                   >
                     编辑
