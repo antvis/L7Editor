@@ -1,5 +1,5 @@
 import { FeatureKey } from '@/constants';
-import { useDrawStyle } from '@/hooks/useColor';
+import { useDrawStyle } from '@/hooks/useDrawStyle';
 import { EditOutlined } from '@ant-design/icons';
 import {
   ControlEvent,

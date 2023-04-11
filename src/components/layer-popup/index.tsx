@@ -1,5 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { useDrawStyle } from '@/hooks/useColor';
+import { useDrawStyle } from '@/hooks/useDrawStyle';
 import { isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
