@@ -26,7 +26,7 @@ const UrlUpload = forwardRef(({}, ref) => {
       <Form>
         <Form.Item
           name="url"
-          label="GeoJSON 地址"
+          label="URL"
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >
@@ -39,7 +39,7 @@ const UrlUpload = forwardRef(({}, ref) => {
           />
         </Form.Item>
       </Form>
-      <div style={{ color: '#777' }}>仅支持GeoJson数据格式</div>
+      <div style={{ color: '#777' }}>仅支持 GeoJSON 格式的数据</div>
     </>
   );
 });
