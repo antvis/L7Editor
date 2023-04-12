@@ -19,7 +19,7 @@ interface Props {
 }
 const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
   const { dataSource } = useModel('feature');
-  const { setFilters, filters } = useModel('filter');
+  const { setFilters } = useModel('filter');
 
   return (
     <div style={{ display: 'flex' }}>
