@@ -81,8 +81,8 @@ export function AmapLayerControl() {
         isIncludes('Buildings')
           ? amapAdd.add(buildings)
           : amapAdd.remove(buildings);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        // console.log(error);
       }
     }
   }, [layerType, scene]);
@@ -99,10 +99,7 @@ export function AmapLayerControl() {
                   onClick(item);
                 }}
               >
-                <div
-                  key={item.type}
-                  className="amap-info-item"
-                >
+                <div key={item.type} className="amap-info-item">
                   <img
                     src={item.image}
                     alt=""
