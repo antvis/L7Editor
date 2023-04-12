@@ -11,7 +11,7 @@ import {
   DrawRect,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import { featureCollection } from '@turf/turf';
+import { Feature, featureCollection } from '@turf/turf';
 import { Button, Descriptions, Empty, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
@@ -32,15 +32,15 @@ export const LayerPopup: React.FC = () => {
   const { colorStyle } = useDrawStyle();
   const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
-    PopupProps & { visible: boolean; featureIndex?: number }
+    PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
     lngLat: {
       lng: 0,
       lat: 0,
     },
     visible: false,
+    feature: null,
   });
-  const [clickFeature, setClickFeature] = useState<any>(null);
 
   const targetFeature = useMemo(() => {
     return features.find(
@@ -62,18 +62,17 @@ export const LayerPopup: React.FC = () => {
     });
   }, [allLayerList]);
 
-  const disabledEdit = useMemo(() => {
-    const reg = RegExp(/Multi/);
-    if (clickFeature) {
-      return reg.test(clickFeature.geometry.type);
+  const disabledEdit = (feature: Feature) => {
+    if (feature) {
+      const reg = RegExp(/Multi/);
+      return reg.test(feature.geometry.type);
     }
     return false;
-  }, [clickFeature]);
+  };
 
   const onLayerClick = useCallback(
     (e: any) => {
       if (!isDraw) {
-        setClickFeature(e.feature);
         const { lngLat, feature } = e;
         const featureIndex = feature.properties[FeatureKey.Index];
         if (
@@ -85,6 +84,7 @@ export const LayerPopup: React.FC = () => {
               ...oldPopupProps,
               visible: false,
               featureIndex: undefined,
+              feature: null,
             };
           });
         } else {
@@ -92,6 +92,7 @@ export const LayerPopup: React.FC = () => {
             lngLat,
             visible: true,
             featureIndex,
+            feature: e.feature,
           });
         }
       }
@@ -191,7 +192,7 @@ export const LayerPopup: React.FC = () => {
 
   const onLayerDblClick = (e: any) => {
     const { feature } = e;
-    if (!disabledEdit) {
+    if (!disabledEdit(feature)) {
       onEdit(feature);
     }
   };
@@ -268,8 +269,8 @@ export const LayerPopup: React.FC = () => {
                   <Button
                     size="small"
                     type="link"
-                    onClick={() => onEdit(clickFeature)}
-                    disabled={disabledEdit}
+                    onClick={() => onEdit(popupProps.feature)}
+                    disabled={disabledEdit(popupProps.feature)}
                   >
                     编辑
                   </Button>
