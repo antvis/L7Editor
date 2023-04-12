@@ -45,7 +45,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
             reject('请删除报错文件');
           }
           const data = uploadData.map((item) => item.features).flat();
-          if (FeatureCollectionVT.check(data)) {
+          if (FeatureCollectionVT.check(featureCollection(data))) {
             resolve(featureCollection(data));
           } else {
             message.info('请检查数据格式');
