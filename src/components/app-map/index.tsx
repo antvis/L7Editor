@@ -13,22 +13,19 @@ export interface AppMapProps {
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions } = useModel('global');
-  const { setScene, saveEditorText, editorText, setEditorText, setFeatures } =
-    useModel('feature');
+  const { setScene, saveEditorText, editorText } = useModel('feature');
 
   useMount(async () => {
     const url = getParamsNew('url');
     if (url) {
       try {
         const geoData = await getUrlFeatureCollection(url);
-        setEditorText(prettierText({ content: geoData }));
-        setFeatures(geoData.features);
+        saveEditorText(prettierText({ content: geoData }));
       } catch (e) {
         message.error(`${e}`);
-        setEditorText(
+        saveEditorText(
           JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
         );
-        setFeatures([]);
       }
     }
   });
@@ -37,7 +34,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
     if (FeatureCollectionVT.check(JSON.parse(editorText))) {
       saveEditorText();
     } else {
-      setEditorText(
+      saveEditorText(
         JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
       );
     }
