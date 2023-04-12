@@ -220,7 +220,7 @@ export const AppTable = () => {
       });
     });
     newColumns.push({
-      title: '删除',
+      title: '操作',
       key: 'action',
       width: 30,
       align: 'center',
