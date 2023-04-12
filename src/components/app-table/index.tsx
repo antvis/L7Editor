@@ -1,7 +1,17 @@
+import { FeatureKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
 import { featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
-import { Empty, Form, FormInstance, Input, InputNumber, Table, TableProps, Typography } from 'antd';
+import {
+  Empty,
+  Form,
+  FormInstance,
+  Input,
+  InputNumber,
+  Space,
+  Table,
+  Typography,
+} from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useModel } from 'umi';
@@ -24,7 +34,7 @@ const formatTableValue = (value: any) => {
   );
 };
 
-const FormContext = React.createContext<FormInstance| null>(null);
+const FormContext = React.createContext<FormInstance | null>(null);
 const EditableRow = ({ index, ...props }: any) => {
   const [form] = Form.useForm();
   return (
@@ -127,7 +137,8 @@ const components = {
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
-  const { features, setFeatures, setEditorText } = useModel('feature');
+  const { features, setFeatures, setEditorText, resetFeatures } =
+    useModel('feature');
   const [newDataSource, setNewDataSource] = useState<any>([]);
 
   useEffect(() => {
@@ -141,7 +152,7 @@ export const AppTable = () => {
   const defaultColumns = useMemo(() => {
     const newColumns: (ColumnTypes[any] & {
       editable?: boolean;
-      dataIndex: string;
+      dataIndex?: string;
     })[] = [];
     const featureKeyList = Array.from(
       new Set(
@@ -193,7 +204,7 @@ export const AppTable = () => {
         width: key.length > 20 ? 200 : 100,
         editable: true,
         render: formatTableValue,
-        filters: options.length ? options : undefined as any, 
+        filters: options.length ? options : (undefined as any),
         onFilter: (value: any, record: any) => {
           return (record[key] ?? '') === value;
         },
@@ -207,6 +218,28 @@ export const AppTable = () => {
             }
           : undefined,
       });
+    });
+    newColumns.push({
+      title: '删除',
+      key: 'action',
+      width: 30,
+      align: 'center',
+      fixed: 'left',
+      render: (_, record: any) => (
+        <Space size="middle">
+          <a
+            onClick={() => {
+              resetFeatures(
+                features.filter((_, index) => {
+                  return index !== record[FeatureKey.Index];
+                }),
+              );
+            }}
+          >
+            删除
+          </a>
+        </Space>
+      ),
     });
     return newColumns;
   }, [features, newDataSource]);
@@ -231,8 +264,8 @@ export const AppTable = () => {
     setNewDataSource(newData);
   };
 
-  const newColumns: TableProps['columns'] = useMemo(() => {
-    const columns = defaultColumns.map((col) => {
+  const newColumns = useMemo(() => {
+    const columns = defaultColumns.map((col: any) => {
       if (!col.editable) {
         return col;
       }
@@ -252,8 +285,6 @@ export const AppTable = () => {
     return columns;
   }, [defaultColumns]);
 
-
-
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newColumns?.length ? (
@@ -261,7 +292,7 @@ export const AppTable = () => {
           components={components}
           columns={newColumns}
           dataSource={newDataSource}
-          scroll={{ x: width-15, y: height - 54 }}
+          scroll={{ x: width - 15, y: height - 54 }}
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
