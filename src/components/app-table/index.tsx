@@ -264,7 +264,7 @@ export const AppTable = () => {
     setNewDataSource(newData);
   };
 
-  const newColumns: any = useMemo(() => {
+  const newColumns = useMemo(() => {
     const columns = defaultColumns.map((col: any) => {
       if (!col.editable) {
         return col;
