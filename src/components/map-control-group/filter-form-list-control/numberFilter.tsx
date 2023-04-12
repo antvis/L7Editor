@@ -1,5 +1,5 @@
 import { FilterNumberData } from '@/types/filter';
-import { Form, FormInstance, InputNumber, Select, Space } from 'antd';
+import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import { useModel } from 'umi';
