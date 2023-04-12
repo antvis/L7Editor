@@ -38,7 +38,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   }, [scene]);
 
   useEffect(() => {
-    bboxAutoFit();
+
     if (FeatureCollectionVT.check(JSON.parse(editorText))) {
       saveEditorText();
     } else {
