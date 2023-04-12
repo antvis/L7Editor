@@ -265,7 +265,7 @@ export const AppTable = () => {
   };
 
   const newColumns: any = useMemo(() => {
-    const columns = defaultColumns.map((col) => {
+    const columns = defaultColumns.map((col: any) => {
       if (!col.editable) {
         return col;
       }
