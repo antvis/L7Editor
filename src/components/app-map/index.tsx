@@ -13,7 +13,8 @@ export interface AppMapProps {
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions } = useModel('global');
-  const { setScene, saveEditorText, editorText } = useModel('feature');
+  const { setScene, saveEditorText, editorText, bboxAutoFit, scene } =
+    useModel('feature');
 
   useMount(async () => {
     const url = getParamsNew('url');
@@ -29,6 +30,12 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
       }
     }
   });
+
+  useEffect(() => {
+    if (scene) {
+      bboxAutoFit();
+    }
+  }, [scene]);
 
   useEffect(() => {
     if (FeatureCollectionVT.check(JSON.parse(editorText))) {

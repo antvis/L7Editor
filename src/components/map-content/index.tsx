@@ -81,7 +81,7 @@ export const MapContent: React.FC = () => {
               onClick={() => saveEditorText()}
             ></Button>
           </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="重置数据">
+          <Tooltip trigger="hover" placement="left" overlay="清空数据">
             <Button
               icon={<ClearOutlined />}
               disabled={featureDisabled}
