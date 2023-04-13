@@ -127,7 +127,7 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
-  const onEdit = (featureValue: any) => {
+  const onEdit = async (featureValue: any) => {
     setIsDraw(true);
     const newFeatures = features.filter((item: any) => {
       return (
@@ -165,9 +165,9 @@ export const LayerPopup: React.FC = () => {
         ...options,
         style: {
           point: {
-            normal: { shape: 'pointIcon', size: 20, color: layerColor },
-            hover: { shape: 'pointIcon', size: 20, color: layerColor },
-            active: { shape: 'pointIcon', size: 20, color: layerColor },
+            normal: { shape: 'drawImg', size: 20, color: layerColor },
+            hover: { shape: 'drawImg', size: 20, color: layerColor },
+            active: { shape: 'drawImg', size: 20, color: layerColor },
           },
         },
       });

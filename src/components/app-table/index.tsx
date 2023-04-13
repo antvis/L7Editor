@@ -292,7 +292,9 @@ export const AppTable = () => {
           components={components}
           columns={newColumns}
           dataSource={newDataSource}
+          bordered
           scroll={{ x: width - 15, y: height - 54 }}
+          size="small"
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />

@@ -1,9 +1,10 @@
 export function changeColor(
   color: Record<string, number>,
+  image: { x: number; y: number },
 ): Promise<HTMLImageElement> {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-  const img = new Image(100, 100);
+  const img = new Image(image.x, image.y);
   img.crossOrigin = 'Anonymous';
   img.src =
     'https://mdn.alipayobjects.com/huamei_nsuaz4/afts/img/A*770bQLV21hsAAAAAAAAAAAAADimPAQ/original';
@@ -12,6 +13,7 @@ export function changeColor(
     img.onload = function () {
       canvas.width = img.width;
       canvas.height = img.height;
+      ctx.imageSmoothingEnabled = true;
       ctx.drawImage(img, 0, 0, img.width, img.height);
 
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);

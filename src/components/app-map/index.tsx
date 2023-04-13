@@ -38,7 +38,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   }, [scene]);
 
   useEffect(() => {
-    if (FeatureCollectionVT.check(JSON.parse(editorText))) {
+    if (editorText && FeatureCollectionVT.check(JSON.parse(editorText))) {
       saveEditorText();
     } else {
       saveEditorText(
