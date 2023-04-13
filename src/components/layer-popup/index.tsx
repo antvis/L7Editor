@@ -12,7 +12,7 @@ import {
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import { Feature, featureCollection } from '@turf/turf';
-import { Button, Descriptions, Empty, Typography } from 'antd';
+import { Button, Descriptions, Empty, Tooltip, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 import './index.less';
@@ -266,14 +266,22 @@ export const LayerPopup: React.FC = () => {
               )}
               <div className="layer-popup__btn-group">
                 {popupTrigger === 'click' && (
-                  <Button
-                    size="small"
-                    type="link"
-                    onClick={() => onEdit(popupProps.feature)}
-                    disabled={disabledEdit(popupProps.feature)}
+                  <Tooltip
+                    title={
+                      disabledEdit(popupProps.feature)
+                        ? 'Multi 类型的 GeoJSON 不支持编辑'
+                        : ''
+                    }
                   >
-                    编辑
-                  </Button>
+                    <Button
+                      size="small"
+                      type="link"
+                      onClick={() => onEdit(popupProps.feature)}
+                      disabled={disabledEdit(popupProps.feature)}
+                    >
+                      编辑
+                    </Button>
+                  </Tooltip>
                 )}
                 {popupTrigger === 'click' && (
                   <Button
