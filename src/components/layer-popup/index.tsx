@@ -1,23 +1,47 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { Popup, PopupProps, useLayerList } from '@antv/larkmap';
-import { Button, Descriptions, Empty, Typography } from 'antd';
+import { useDrawStyle } from '@/hooks/useDrawStyle';
+import { isCircle, isRect } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
+import {
+  DrawCircle,
+  DrawEvent,
+  DrawLine,
+  DrawPoint,
+  DrawPolygon,
+  DrawRect,
+} from '@antv/l7-draw';
+import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
+import { Feature, featureCollection } from '@turf/turf';
+import { Button, Descriptions, Empty, Tooltip, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import './index.less';
 import { useModel } from 'umi';
+import './index.less';
 const { Paragraph } = Typography;
 
 export const LayerPopup: React.FC = () => {
-  const { resetFeatures, features } = useModel('feature');
+  const scene = useScene();
+  const {
+    resetFeatures,
+    features,
+    setFeatures,
+    isDraw,
+    setIsDraw,
+    saveEditorText,
+  } = useModel('feature');
+  const { layerColor } = useModel('global');
+  const { colorStyle } = useDrawStyle();
   const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
-    PopupProps & { visible: boolean; featureIndex?: number }
+    PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
     lngLat: {
       lng: 0,
       lat: 0,
     },
     visible: false,
+    feature: null,
   });
+
   const targetFeature = useMemo(() => {
     return features.find(
       (feature) =>
@@ -38,22 +62,49 @@ export const LayerPopup: React.FC = () => {
     });
   }, [allLayerList]);
 
+  const disabledEdit = (feature: Feature) => {
+    if (feature) {
+      const reg = RegExp(/Multi/);
+      return reg.test(feature.geometry.type);
+    }
+    return false;
+  };
+
   const onLayerClick = useCallback(
     (e: any) => {
-      const { lngLat, feature } = e;
-      const featureIndex = feature.properties[FeatureKey.Index];
-      if (
-        popupProps.visible &&
-        popupProps.featureIndex === feature.properties[FeatureKey.Index]
-      ) {
-        setPopupProps((oldPopupProps) => {
-          return {
-            ...oldPopupProps,
-            visible: false,
-            featureIndex: undefined,
-          };
-        });
-      } else {
+      if (!isDraw) {
+        const { lngLat, feature } = e;
+        const featureIndex = feature.properties[FeatureKey.Index];
+        if (
+          popupProps.visible &&
+          popupProps.featureIndex === feature.properties[FeatureKey.Index]
+        ) {
+          setPopupProps((oldPopupProps) => {
+            return {
+              ...oldPopupProps,
+              visible: false,
+              featureIndex: undefined,
+              feature: null,
+            };
+          });
+        } else {
+          setPopupProps({
+            lngLat,
+            visible: true,
+            featureIndex,
+            feature: e.feature,
+          });
+        }
+      }
+    },
+    [setPopupProps, popupProps, isDraw],
+  );
+
+  const onLayerMouseenter = useCallback(
+    (e: any) => {
+      if (!isDraw) {
+        const { lngLat, feature } = e;
+        const featureIndex = feature.properties[FeatureKey.Index];
         setPopupProps({
           lngLat,
           visible: true,
@@ -61,30 +112,97 @@ export const LayerPopup: React.FC = () => {
         });
       }
     },
-    [setPopupProps, popupProps],
+    [setPopupProps, popupProps, isDraw],
   );
 
-  const onLayerMouseenter = useCallback(
-    (e: any) => {
-      const { lngLat, feature } = e;
-      const featureIndex = feature.properties[FeatureKey.Index];
-      setPopupProps({
-        lngLat,
-        visible: true,
-        featureIndex,
-      });
-    },
-    [setPopupProps, popupProps],
-  );
   const onLayerMouseout = useCallback(() => {
-    setPopupProps((oldPopupProps) => {
-      return {
-        ...oldPopupProps,
-        visible: false,
-        featureIndex: undefined,
-      };
+    if (!isDraw) {
+      setPopupProps((oldPopupProps) => {
+        return {
+          ...oldPopupProps,
+          visible: false,
+          featureIndex: undefined,
+        };
+      });
+    }
+  }, [setPopupProps, popupProps, isDraw]);
+
+  const onEdit = (featureValue: any) => {
+    setIsDraw(true);
+    const newFeatures = features.filter((item: any) => {
+      return (
+        item.properties[FeatureKey.Index] !==
+        featureValue.properties?.[FeatureKey.Index]
+      );
     });
-  }, [setPopupProps, popupProps]);
+    const index = features.findIndex((v: any) => {
+      return (
+        v.properties[FeatureKey.Index] ===
+        featureValue.properties?.[FeatureKey.Index]
+      );
+    });
+    const onChange = (v: any, draw: any) => {
+      if (!v) {
+        const newData = {
+          ...draw.getData()[0],
+          properties: featureValue?.properties,
+        };
+        features.splice(index, 1, newData);
+        saveEditorText(prettierText({ content: featureCollection(features) }));
+        draw.destroy();
+        setIsDraw(false);
+      }
+    };
+    const options: any = {
+      initialData: [featureValue],
+      maxCount: 1,
+      style: colorStyle,
+    };
+    const type = featureValue?.geometry.type;
+    let drawLayer: any;
+    if (type === 'Point') {
+      drawLayer = new DrawPoint(scene, {
+        ...options,
+        style: {
+          point: {
+            normal: { shape: 'pointIcon', size: 20, color: layerColor },
+            hover: { shape: 'pointIcon', size: 20, color: layerColor },
+            active: { shape: 'pointIcon', size: 20, color: layerColor },
+          },
+        },
+      });
+    } else if (type === 'LineString') {
+      drawLayer = new DrawLine(scene, options);
+    } else if (type === 'Polygon' && isRect(featureValue)) {
+      drawLayer = new DrawRect(scene, options);
+    } else if (type === 'Polygon' && isCircle(featureValue)) {
+      drawLayer = new DrawCircle(scene, options);
+    } else {
+      drawLayer = new DrawPolygon(scene, options);
+    }
+    drawLayer.enable();
+    drawLayer.setActiveFeature(drawLayer.getData()[0]);
+    setFeatures(newFeatures);
+    drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
+    setPopupProps({
+      visible: false,
+      featureIndex: undefined,
+    });
+  };
+
+  const onLayerDblClick = (e: any) => {
+    const { feature } = e;
+    if (!disabledEdit(feature)) {
+      onEdit(feature);
+    }
+  };
+
+  useEffect(() => {
+    layerList.forEach((layer) => layer.on('dblclick', onLayerDblClick));
+    return () => {
+      layerList.forEach((layer) => layer.off('dblclick', onLayerDblClick));
+    };
+  }, [onLayerDblClick, layerList, popupTrigger, scene]);
 
   useEffect(() => {
     if (popupTrigger === 'click') {
@@ -92,7 +210,7 @@ export const LayerPopup: React.FC = () => {
       return () => {
         layerList.forEach((layer) => layer.off('click', onLayerClick));
       };
-    } else {
+    } else if (popupTrigger === 'hover') {
       layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
       layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
       return () => {
@@ -102,7 +220,7 @@ export const LayerPopup: React.FC = () => {
         layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
       };
     }
-  }, [onLayerClick, layerList, popupTrigger]);
+  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene]);
 
   return (
     <>
@@ -112,6 +230,7 @@ export const LayerPopup: React.FC = () => {
           <Popup
             lngLat={popupProps.lngLat}
             closeButton={false}
+            offsets={[0, 10]}
             followCursor={popupTrigger === 'hover' ? true : false}
           >
             <div
@@ -146,24 +265,24 @@ export const LayerPopup: React.FC = () => {
                 />
               )}
               <div className="layer-popup__btn-group">
-                {/*<Button*/}
-                {/*  type="primary"*/}
-                {/*  size="small"*/}
-                {/*  onClick={() => {*/}
-                {/*    const newFeatures = [...features];*/}
-                {/*    // @ts-ignore*/}
-                {/*    newFeatures[popupProps.featureIndex].properties[*/}
-                {/*      FeatureKey.IsEdit*/}
-                {/*    ] = true;*/}
-                {/*    resetFeatures(newFeatures);*/}
-                {/*    setPopupProps({*/}
-                {/*      visible: false,*/}
-                {/*      featureIndex: undefined,*/}
-                {/*    });*/}
-                {/*  }}*/}
-                {/*>*/}
-                {/*  编辑*/}
-                {/*</Button>*/}
+                {popupTrigger === 'click' && (
+                  <Tooltip
+                    title={
+                      disabledEdit(popupProps.feature)
+                        ? 'Multi 类型的 GeoJSON 不支持编辑'
+                        : ''
+                    }
+                  >
+                    <Button
+                      size="small"
+                      type="link"
+                      onClick={() => onEdit(popupProps.feature)}
+                      disabled={disabledEdit(popupProps.feature)}
+                    >
+                      编辑
+                    </Button>
+                  </Tooltip>
+                )}
                 {popupTrigger === 'click' && (
                   <Button
                     size="small"

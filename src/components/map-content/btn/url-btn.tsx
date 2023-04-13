@@ -1,4 +1,6 @@
+import { AppEditor } from '@/components/app-editor';
 import { CloudUploadOutlined } from '@ant-design/icons';
+import { Feature } from '@turf/turf';
 import {
   Button,
   Form,
@@ -9,13 +11,11 @@ import {
   TabsProps,
   Tooltip,
 } from 'antd';
-import { useModel } from 'umi';
 import { useRef, useState } from 'react';
-import { Feature } from '@turf/turf';
+import { useModel } from 'umi';
 import { FeatureCollectionVT } from '../../../constants/variable-type';
-import UrlUpload from '../url-tab-group/url-upload';
 import FileUpload from '../url-tab-group/file-upload';
-import { AppEditor } from '@/components/app-editor';
+import UrlUpload from '../url-tab-group/url-upload';
 import LngLatImportBtn from './lnglat-import-btn';
 
 /**
@@ -39,7 +39,7 @@ export const UrlBtn = () => {
   const items: TabsProps['items'] = [
     {
       key: 'url',
-      label: <div>url上传</div>,
+      label: <div>URL上传</div>,
       children: <UrlUpload ref={formRef} />,
     },
     {
@@ -49,9 +49,9 @@ export const UrlBtn = () => {
     },
     {
       key: 'script',
-      label: <div>javaScript脚本</div>,
+      label: <div>JavaScript脚本</div>,
       children: (
-        <div style={{ width: '100%', height: 400 }}>
+        <div style={{ width: '100%', height: 300 }}>
           <AppEditor language="javascript" ref={formRef} />
         </div>
       ),
@@ -77,8 +77,6 @@ export const UrlBtn = () => {
             : [...JSON.parse(editorText).features, ...newData.features];
         resetFeatures(featureData as Feature[]);
         handleCancel();
-      }else{
-        message.info('请检查数据格式')
       }
     } catch (error) {
       message.error(`${error}`);

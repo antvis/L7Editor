@@ -1,9 +1,25 @@
-import { Empty, Table, TableProps, Typography } from 'antd';
-import { useMemo, useRef } from 'react';
-import { useModel } from 'umi';
+import { FeatureKey } from '@/constants';
+import { prettierText } from '@/utils/prettier-text';
+import { featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
+import {
+  Empty,
+  Form,
+  FormInstance,
+  Input,
+  InputNumber,
+  Space,
+  Table,
+  Typography,
+} from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useModel } from 'umi';
 const { Text } = Typography;
+
+type EditableTableProps = Parameters<typeof Table>[0];
+
+type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 const formatTableValue = (value: any) => {
   if (isNull(value) || isUndefined(value)) {
@@ -18,20 +34,118 @@ const formatTableValue = (value: any) => {
   );
 };
 
+const FormContext = React.createContext<FormInstance | null>(null);
+const EditableRow = (props: any) => {
+  const [form] = Form.useForm();
+  return (
+    <Form form={form} component={false}>
+      <FormContext.Provider value={form}>
+        <tr {...props} />
+      </FormContext.Provider>
+    </Form>
+  );
+};
+const EditableCell = ({
+  editable,
+  children,
+  dataIndex,
+  record,
+  inputType,
+  handleSave,
+  ...restProps
+}: any) => {
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef<any>(null);
+  const form = useContext(FormContext);
+  useEffect(() => {
+    if (editing) {
+      inputRef.current?.focus();
+    }
+  }, [editing]);
+  const toggleEdit = () => {
+    setEditing(!editing);
+    form?.setFieldsValue(
+      inputType !== 'object'
+        ? {
+            [dataIndex]: record[dataIndex],
+          }
+        : { [dataIndex]: JSON.stringify(record[dataIndex]) },
+    );
+  };
+  const save = async () => {
+    try {
+      const values = await form?.validateFields();
+      const newValues =
+        (await inputType) === 'object'
+          ? { dataIndex: JSON.parse(values[dataIndex]) }
+          : values;
+      toggleEdit();
+      handleSave({
+        ...record,
+        ...newValues,
+        newValues,
+      });
+    } catch (errInfo) {
+      console.log('Save failed:', errInfo);
+    }
+  };
+  let childNode = children;
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{
+          margin: 0,
+        }}
+        name={dataIndex}
+      >
+        {inputType === 'number' ? (
+          <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
+        ) : (
+          <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        )}
+      </Form.Item>
+    ) : (
+      <div
+        className="editable-cell-value-wrap"
+        style={{
+          paddingRight: 24,
+        }}
+        onClick={toggleEdit}
+      >
+        {children}
+      </div>
+    );
+  }
+  return <td {...restProps}>{childNode}</td>;
+};
+
+const components = {
+  body: {
+    row: EditableRow,
+    cell: EditableCell,
+  },
+};
+
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
-  const { width = 0, height = 0 } = useSize(container) ?? {};
-  const { features } = useModel('feature');
+  const { height = 0 } = useSize(container) ?? {};
+  const { features, setFeatures, setEditorText, resetFeatures } =
+    useModel('feature');
+  const [newDataSource, setNewDataSource] = useState<any>([]);
 
-  const dataSource = useMemo(() => {
-    return features.map((item, index) => {
+  useEffect(() => {
+    const dataSource = features.map((item, index) => {
       const { properties } = item;
       return { __index: index + 1, ...properties };
     });
+    setNewDataSource(dataSource);
   }, [features]);
 
-  const columns = useMemo(() => {
-    const newColumns: TableProps<any>['columns'] = [];
+  const defaultColumns = useMemo(() => {
+    const newColumns: (ColumnTypes[any] & {
+      editable?: boolean;
+      dataIndex?: string;
+    })[] = [];
     const featureKeyList = Array.from(
       new Set(
         features
@@ -57,7 +171,7 @@ export const AppTable = () => {
 
     featureKeyList.forEach((key, index) => {
       const options = uniqBy(
-        dataSource
+        newDataSource
           .map((item: any) => item[key])
           .map((value: any) => {
             return {
@@ -68,20 +182,12 @@ export const AppTable = () => {
         'text',
       );
       newColumns.push({
-        title: (
-          <Text
-            style={key.length > 20 ? { width: 170 } : undefined}
-            ellipsis={{ tooltip: key }}
-          >
-            {key}
-          </Text>
-        ),
+        title: <div style={{ whiteSpace: 'nowrap' }}>{key}</div>,
         dataIndex: key,
         key: `${key}${index}`,
-        align: 'center',
-        width: key.length > 20 ? 200 : 100,
+        editable: true,
         render: formatTableValue,
-        filters: options.length ? options : undefined,
+        filters: options.length ? options : (undefined as any),
         onFilter: (value: any, record: any) => {
           return (record[key] ?? '') === value;
         },
@@ -96,16 +202,79 @@ export const AppTable = () => {
           : undefined,
       });
     });
+    newColumns.push({
+      title: '操作',
+      width: 100,
+      key: 'action',
+      render: (_, record: any) => (
+        <Space size="middle">
+          <a
+            onClick={() => {
+              resetFeatures(
+                features.filter((_, index) => {
+                  return index !== record[FeatureKey.Index];
+                }),
+              );
+            }}
+          >
+            删除
+          </a>
+        </Space>
+      ),
+    });
     return newColumns;
-  }, [features, dataSource]);
+  }, [features, newDataSource]);
+
+  const handleSave = (row: any) => {
+    const newData = [...newDataSource];
+    const index = newData.findIndex((item) => row.__index === item?.__index);
+    const item = newData[index];
+    newData.splice(index, 1, {
+      ...item,
+      ...row,
+    });
+    const { __index, newValues } = row;
+    const indexProperties = {
+      ...features[__index - 1].properties,
+      ...newValues,
+    };
+    const indexData = { ...features[__index - 1], properties: indexProperties };
+    features.splice(__index - 1, 1, indexData);
+    setFeatures(features);
+    setEditorText(prettierText({ content: featureCollection(features) }));
+    setNewDataSource(newData);
+  };
+
+  const newColumns = useMemo(() => {
+    const columns = defaultColumns.map((col: any) => {
+      if (!col.editable) {
+        return col;
+      }
+      return {
+        ...col,
+        onCell: (record: any) => ({
+          record,
+          editable: col.editable,
+          dataIndex: col.dataIndex,
+          title: col.title,
+          inputType: typeof record[col.dataIndex],
+          newDataSource,
+          handleSave,
+        }),
+      };
+    });
+    return columns;
+  }, [defaultColumns]);
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
-      {columns?.length ? (
+      {newColumns?.length ? (
         <Table
-          columns={columns}
-          dataSource={dataSource}
-          scroll={{ x: width, y: height - 54 }}
+          components={components}
+          columns={newColumns}
+          dataSource={newDataSource}
+          scroll={{ y: height - 54, x: 'max-content' }}
+          pagination={false}
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />

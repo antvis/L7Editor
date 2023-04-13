@@ -1,24 +1,23 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
+import { IconFont, LocalstorageKey } from '@/constants';
+import { prettierText } from '@/utils/prettier-text';
 import {
   ClearOutlined,
   CodeOutlined,
-  EnvironmentOutlined,
   SaveOutlined,
   TableOutlined,
 } from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
-import './index.less';
-import DownloadBtn from './btn/download-btn';
-import { SettingBtn } from './btn/setting-btn';
 import { AppTable } from '../app-table';
-import { UrlBtn } from './btn/url-btn';
+import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
-import { LocalstorageKey } from '@/constants';
-import { prettierText } from '@/utils/prettier-text';
+import { SettingBtn } from './btn/setting-btn';
+import { UrlBtn } from './btn/url-btn';
+import './index.less';
 
 export const MapContent: React.FC = () => {
   const { setEditorText, bboxAutoFit } = useModel('feature');
@@ -28,7 +27,8 @@ export const MapContent: React.FC = () => {
       defaultValue: 'code',
     },
   );
-  const { saveEditorText, savable } = useModel('feature');
+  const { saveEditorText, savable, setFeatures, features } =
+    useModel('feature');
 
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {
     e.preventDefault();
@@ -61,6 +61,10 @@ export const MapContent: React.FC = () => {
     },
   ];
 
+  const featureDisabled = useMemo(() => {
+    return !features.length;
+  }, [features]);
+
   return (
     <div className="map-content">
       <div className="map-content__left">
@@ -74,14 +78,15 @@ export const MapContent: React.FC = () => {
             <Button
               icon={<SaveOutlined />}
               disabled={!savable}
-              onClick={saveEditorText}
+              onClick={() => saveEditorText()}
             ></Button>
           </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="重置数据">
+          <Tooltip trigger="hover" placement="left" overlay="清空数据">
             <Button
               icon={<ClearOutlined />}
+              disabled={featureDisabled}
               onClick={() => {
-                setEditorText(
+                saveEditorText(
                   prettierText({
                     content: { type: 'FeatureCollection', features: [] },
                   }),
@@ -91,7 +96,8 @@ export const MapContent: React.FC = () => {
           </Tooltip>
           <Tooltip trigger="hover" placement="left" overlay="平移中心点">
             <Button
-              icon={<EnvironmentOutlined />}
+              disabled={featureDisabled}
+              icon={<IconFont type="icon-zishiying" />}
               onClick={() => {
                 bboxAutoFit();
               }}

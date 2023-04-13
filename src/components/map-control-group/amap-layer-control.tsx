@@ -1,6 +1,6 @@
-import { FlagOutlined } from '@ant-design/icons';
+import { IconFont } from '@/constants';
 import { CustomControl, useScene } from '@antv/larkmap';
-import { Popover } from 'antd';
+import { Checkbox, Popover } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
 interface AmapLayerProps {
@@ -66,43 +66,51 @@ export function AmapLayerControl() {
 
   useEffect(() => {
     if (scene) {
-      const amapAdd = scene.map as any;
-      const { roadNet, satellite, traffic, buildings } = layers.current;
+      try {
+        const amapAdd = scene.map as any;
+        const { roadNet, satellite, traffic, buildings } = layers.current;
 
-      isIncludes('Satellite')
-        ? amapAdd.add(satellite)
-        : amapAdd.remove(satellite);
+        isIncludes('Satellite')
+          ? amapAdd.add(satellite)
+          : amapAdd.remove(satellite);
 
-      isIncludes('RoadNet') ? amapAdd.add(roadNet) : amapAdd.remove(roadNet);
+        isIncludes('RoadNet') ? amapAdd.add(roadNet) : amapAdd.remove(roadNet);
 
-      isIncludes('Traffic') ? amapAdd.add(traffic) : amapAdd.remove(traffic);
+        isIncludes('Traffic') ? amapAdd.add(traffic) : amapAdd.remove(traffic);
 
-      isIncludes('Buildings')
-        ? amapAdd.add(buildings)
-        : amapAdd.remove(buildings);
+        isIncludes('Buildings')
+          ? amapAdd.add(buildings)
+          : amapAdd.remove(buildings);
+      } catch {
+        // console.log(error);
+      }
     }
   }, [layerType, scene]);
 
   const AmapLayer = () => {
     return (
       <div className="amap-info">
-        {amaplayerInfo.map((item) => {
-          return (
-            <div
-              key={item.type}
-              className="amap-info-item"
-              onClick={() => onClick(item)}
-              style={{
-                border: layerType.includes(item.type)
-                  ? '1px solid #1677ff'
-                  : 'none',
-              }}
-            >
-              <img src={item.image} alt="" className="amap-info-item-image" />
-              <h5>{item.title}</h5>
-            </div>
-          );
-        })}
+        <Checkbox.Group value={layerType}>
+          {amaplayerInfo.map((item) => {
+            return (
+              <Checkbox
+                value={item.type}
+                onClick={() => {
+                  onClick(item);
+                }}
+              >
+                <div key={item.type} className="amap-info-item">
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="amap-info-item-image"
+                  />
+                  <h5>{item.title}</h5>
+                </div>
+              </Checkbox>
+            );
+          })}
+        </Checkbox.Group>
       </div>
     );
   };
@@ -110,12 +118,12 @@ export function AmapLayerControl() {
   return (
     <CustomControl position="bottomright" className="l7-button-control">
       <Popover
-        title={<AmapLayer />}
+        content={<AmapLayer />}
         trigger="click"
         placement="leftTop"
-        overlayInnerStyle={{ width: 325, height: 265 }}
+        overlayInnerStyle={{ width: 345, height: 265 }}
       >
-        <FlagOutlined className="l7-amap-control" />
+        <IconFont type="icon-ditu" className="l7-amap-control" />
       </Popover>
     </CustomControl>
   );

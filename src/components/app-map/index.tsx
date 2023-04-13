@@ -1,6 +1,10 @@
 import { FeatureCollectionVT } from '@/constants';
+import { getParamsNew, getUrlFeatureCollection } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
-import React, { ReactNode, useEffect, useState } from 'react';
+import { useMount } from 'ahooks';
+import { message } from 'antd';
+import React, { ReactNode, useEffect } from 'react';
 import { useModel } from 'umi';
 
 export interface AppMapProps {
@@ -9,14 +13,35 @@ export interface AppMapProps {
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions } = useModel('global');
-  const { setScene, saveEditorText, editorText, setEditorText } =
+  const { setScene, saveEditorText, editorText, bboxAutoFit, scene } =
     useModel('feature');
+
+  useMount(async () => {
+    const url = getParamsNew('url');
+    if (url) {
+      try {
+        const geoData = await getUrlFeatureCollection(url);
+        saveEditorText(prettierText({ content: geoData }));
+      } catch (e) {
+        message.error(`${e}`);
+        saveEditorText(
+          JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
+        );
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (scene) {
+      bboxAutoFit();
+    }
+  }, [scene]);
 
   useEffect(() => {
     if (FeatureCollectionVT.check(JSON.parse(editorText))) {
       saveEditorText();
     } else {
-      setEditorText(
+      saveEditorText(
         JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
       );
     }

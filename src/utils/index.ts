@@ -1,6 +1,7 @@
-import { isUndefined } from 'lodash';
+import { center, coordAll, distance, Feature } from '@turf/turf';
 import Color from 'color';
 import dayjs from 'dayjs';
+import { isUndefined } from 'lodash';
 
 export const getOpacityColor = (color: string, alpha: number) => {
   const colorInstance = Color(color).fade(alpha);
@@ -32,12 +33,53 @@ export const getParamsNew = (key: string) => {
   return temData.get(key);
 };
 
+export const getUrlFeatureCollection = async (e: string) => {
+  try {
+    const json = await fetch(e);
+    const geoData = await json.json();
+    return geoData;
+  } catch (e) {
+    throw new Error('接口请求失败');
+  }
+};
+
 /**
  * 判断是否是Promise
  */
 
 export const isPromise = (obj: any) => {
-  return !isUndefined(obj) && obj instanceof Promise
+  return !isUndefined(obj) && obj instanceof Promise;
+};
+
+/**
+ * 判断是否为圆
+ */
+
+export const isCircle = (feature: Feature) => {
+  const centerPosition = center(feature).geometry.coordinates;
+  const distanceList = coordAll(feature).map((position) => {
+    return Math.round(
+      distance(position, centerPosition, {
+        units: 'meters',
+      }),
+    );
+  });
+  return Array.from(new Set(distanceList)).length === 1;
+};
+
+export const isRect = (feature: Feature) => {
+  const arrPoint = feature.geometry.coordinates[0];
+  const result = Array.from(new Set(arrPoint.flat(Infinity)));
+  if (
+    result.length === 4 &&
+    arrPoint[0][0] === arrPoint[1][0] &&
+    arrPoint[1][1] === arrPoint[2][1] &&
+    arrPoint[2][0] === arrPoint[3][0] &&
+    arrPoint[3][1] === arrPoint[4][1]
+  ) {
+    return true;
+  }
+  return false;
 };
 
 export * from './transform';

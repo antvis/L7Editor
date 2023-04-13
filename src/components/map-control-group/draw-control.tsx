@@ -1,18 +1,24 @@
 import { FeatureKey } from '@/constants';
+import { useDrawStyle } from '@/hooks/useDrawStyle';
 import { EditOutlined } from '@ant-design/icons';
-import { DrawControl as L7DrawControl, DrawEvent } from '@antv/l7-draw';
+import {
+  ControlEvent,
+  DrawControl as L7DrawControl,
+  DrawEvent,
+} from '@antv/l7-draw';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
-import { cloneDeep, fromPairs, merge } from 'lodash';
+import { cloneDeep, fromPairs } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 
 const DrawControl = () => {
   const scene = useScene();
+  const { colorStyle } = useDrawStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const { resetFeatures, features } = useModel('feature');
+  const { resetFeatures, features, setIsDraw } = useModel('feature');
   const { layerColor } = useModel('global');
   const editFeature = useMemo(
     () =>
@@ -28,17 +34,6 @@ const DrawControl = () => {
   useEffect(() => {
     let newDrawControl: L7DrawControl | undefined;
     if (scene) {
-      const commonStyle = {
-        normal: {
-          color: layerColor,
-        },
-        hover: {
-          color: layerColor,
-        },
-        active: {
-          color: layerColor,
-        },
-      };
       newDrawControl = new L7DrawControl(scene, {
         position: 'topleft',
         drawConfig: {
@@ -50,33 +45,14 @@ const DrawControl = () => {
         },
         commonDrawOptions: {
           maxCount: 1,
-          style: {
-            point: commonStyle,
-            line: commonStyle,
-            polygon: merge({}, commonStyle, {
-              normal: {
-                style: {
-                  opacity: 0.5,
-                },
-              },
-              hover: {
-                style: {
-                  opacity: 0.5,
-                },
-              },
-              active: {
-                style: {
-                  opacity: 0.5,
-                },
-              },
-            }),
-            dashLine: commonStyle,
-            midPoint: commonStyle,
-          },
+          style: colorStyle,
         },
       });
       setDrawControl(newDrawControl);
       scene.addControl(newDrawControl);
+      newDrawControl.on(ControlEvent.DrawChange, (newType) => {
+        setIsDraw(!!newType);
+      });
       const drawDom: any = document.querySelector('.l7-draw-control');
       drawDom.style.marginTop = 0;
       document.querySelector('#l7-draw-content')?.appendChild(drawDom);
@@ -111,6 +87,7 @@ const DrawControl = () => {
       newFeatures[index].geometry = feature.geometry;
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
+
       resetFeatures([...features]);
     },
     [resetFeatures, features, drawControl],

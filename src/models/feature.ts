@@ -4,14 +4,14 @@ import { transformFeatures } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { Scene } from '@antv/l7';
 import {
+  bbox,
   Feature,
   featureCollection,
   Geometry,
   GeometryCollection,
   getType,
-  bbox,
 } from '@turf/turf';
-import { useLocalStorageState, useMount } from 'ahooks';
+import { useLocalStorageState } from 'ahooks';
 import { message } from 'antd';
 import { flatMap, max, min } from 'lodash';
 import { useMemo, useState } from 'react';
@@ -41,6 +41,8 @@ export default () => {
       }
     >[]
   >([]);
+
+  const [isDraw, setIsDraw] = useState(false);
 
   const setFeatures = (features: Feature[]) => {
     _setFeatures(
@@ -73,10 +75,13 @@ export default () => {
     return editorText !== savedText;
   }, [editorText, savedText]);
 
-  const saveEditorText = () => {
+  const saveEditorText = (value?: string) => {
     try {
-      const features = transformFeatures(editorText);
-      setSavedText(editorText);
+      const features = transformFeatures(value ?? editorText);
+      if (value) {
+        setEditorText(value);
+      }
+      setSavedText(value ?? editorText);
       setFeatures(features);
       return features;
     } catch (e) {
@@ -145,5 +150,8 @@ export default () => {
     dataSource,
     bboxAutoFit,
     setScene,
+    scene,
+    isDraw,
+    setIsDraw,
   };
 };

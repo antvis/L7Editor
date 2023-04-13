@@ -1,39 +1,24 @@
-import { getParamsNew } from '@/utils';
-import { useMount } from 'ahooks';
+import { getUrlFeatureCollection } from '@/utils';
 import { Form, Input } from 'antd';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const UrlUpload = forwardRef(({}, ref) => {
-  const [inputGeoData, setInputGeoData] = useState(undefined);
   const [inputValue, setInputValue] = useState<string>('');
-  const checkWithRestData = async (e: string) => {
-    const json = await fetch(e);
-    const geoData = await json.json();
-    setInputGeoData(geoData);
-  };
-  useMount(async () => {
-    const url = getParamsNew('url');
-    if (url) {
-      checkWithRestData(url);
-    }
-  });
 
   useImperativeHandle(
     ref,
     () => ({
       getData: () =>
         new Promise((resolve, reject) => {
-          if (!inputValue) {
-            reject('请输入文本内容');
-          }
-          if (inputGeoData) {
-            resolve(inputGeoData);
-          } else {
+          if (inputValue) {
+            resolve(getUrlFeatureCollection(inputValue));
             reject('数据格式错误，仅支持 GeoJSON 格式');
+          } else {
+            reject('请输入文本内容');
           }
         }),
     }),
-    [inputGeoData],
+    [inputValue],
   );
 
   return (
@@ -41,20 +26,20 @@ const UrlUpload = forwardRef(({}, ref) => {
       <Form>
         <Form.Item
           name="url"
-          label="GeoJSON 地址"
+          label="URL"
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >
           <Input
             placeholder="https://..."
             onChange={(e) => {
-              checkWithRestData(e.target.value);
               setInputValue(e.target.value);
+              // checkWithRestData(e.target.value);
             }}
           />
         </Form.Item>
       </Form>
-      <div style={{ color: '#777' }}>仅支持GeoJson数据格式</div>
+      <div style={{ color: '#777' }}>仅支持 GeoJSON 格式的数据</div>
     </>
   );
 });
