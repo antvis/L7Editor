@@ -54,9 +54,13 @@ export const LayerList: React.FC = () => {
   useAsyncEffect(async () => {
     const newLayerColor = Color(layerColor).rgb().object();
     const imag2color = await changeColor(newLayerColor, { x: 400, y: 400 });
-    console.log(imag2color.src);
     scene.addImage('drawImg', imag2color);
   }, []);
+
+  const activeColor = useMemo(() => {
+    const newLayerColor = Color(layerColor).darken(0.3).hex()
+    return newLayerColor;
+  }, [layerColor]);
 
   return isMounted ? (
     <>
@@ -67,6 +71,7 @@ export const LayerList: React.FC = () => {
         shape="fill"
         color={layerColor}
         style={{ opacity: 0.15 }}
+        state={{ active: { color: activeColor } }}
       />
       <PolygonLayer
         source={polygonSource}
@@ -81,6 +86,7 @@ export const LayerList: React.FC = () => {
         blend="normal"
         color={layerColor}
         size={2}
+        state={{ active: { color: activeColor } }}
       />
       <PointLayer
         id={LayerId.PointLayer}
@@ -88,6 +94,7 @@ export const LayerList: React.FC = () => {
         blend="normal"
         size={20}
         shape="pointIcon"
+        state={{ active: { color: activeColor } }}
       />
     </>
   ) : null;

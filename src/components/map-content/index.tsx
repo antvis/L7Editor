@@ -20,7 +20,7 @@ import { UrlBtn } from './btn/url-btn';
 import './index.less';
 
 export const MapContent: React.FC = () => {
-  const { setEditorText, bboxAutoFit } = useModel('feature');
+  const { bboxAutoFit } = useModel('feature');
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
     {

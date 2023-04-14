@@ -1,6 +1,6 @@
 import { FeatureKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
-import { featureCollection } from '@turf/turf';
+import { bbox, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
 import {
   Empty,
@@ -16,6 +16,8 @@ import {
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useModel } from 'umi';
+import './index.less';
+
 const { Text } = Typography;
 
 type EditableTableProps = Parameters<typeof Table>[0];
@@ -53,6 +55,8 @@ const EditableCell = ({
   record,
   inputType,
   handleSave,
+  features,
+  scene,
   ...restProps
 }: any) => {
   const [editing, setEditing] = useState(false);
@@ -64,6 +68,21 @@ const EditableCell = ({
     }
   }, [editing]);
   const toggleEdit = () => {
+    if (scene) {
+      const bboxFit = features.filter((item: any) => {
+        return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
+      });
+      if (
+        bboxFit[0].geometry.type === 'Point' ||
+        bboxFit[0].geometry.type === 'MultiPoint'
+      ) {
+        scene.setCenter(bboxFit[0].geometry.coordinates);
+      } else {
+        const content = bbox(bboxFit[0]);
+        scene.fitBounds([[content[0], content[1]], [content[2], content[3]]]);
+      }
+    }
+
     setEditing(!editing);
     form?.setFieldsValue(
       inputType !== 'object'
@@ -82,7 +101,6 @@ const EditableCell = ({
             }
           : { [dataIndex]: JSON.stringify(record[dataIndex]) };
       const values = await form?.validateFields();
-      console.log(JSON.stringify(values) === JSON.stringify(fieldValue));
       if (JSON.stringify(values) !== JSON.stringify(fieldValue)) {
         const newValues =
           (await inputType) === 'object'
@@ -141,7 +159,7 @@ const components = {
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { height = 0 } = useSize(container) ?? {};
-  const { features, setFeatures, setEditorText, resetFeatures } =
+  const { features, setFeatures, setEditorText, resetFeatures, scene } =
     useModel('feature');
   const [newDataSource, setNewDataSource] = useState<any>([]);
 
@@ -197,7 +215,6 @@ export const AppTable = () => {
         title: (
           <Tooltip title={key}>
             <Text
-              // style={key.length > 20 ? { width: 170 } : undefined}
               style={{ overflow: 'hidden', width: 70 }}
               ellipsis={{ tooltip: key }}
             >
@@ -205,6 +222,8 @@ export const AppTable = () => {
             </Text>
           </Tooltip>
         ),
+        width: 200,
+        align: 'center',
         dataIndex: key,
         key: `${key}${index}`,
         editable: true,
@@ -283,6 +302,8 @@ export const AppTable = () => {
           title: col.title,
           inputType: typeof record[col.dataIndex],
           newDataSource,
+          features,
+          scene,
           handleSave,
         }),
       };
@@ -296,6 +317,7 @@ export const AppTable = () => {
         <Table
           components={components}
           columns={newColumns}
+          rowClassName={() => 'editable-row'}
           dataSource={newDataSource}
           bordered
           scroll={{ y: height - 54, x: 'max-content' }}
