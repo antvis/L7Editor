@@ -12,7 +12,6 @@ import {
   getType,
 } from '@turf/turf';
 import { useLocalStorageState } from 'ahooks';
-import { message } from 'antd';
 import { flatMap, max, min } from 'lodash';
 import { useMemo, useState } from 'react';
 import { useModel } from 'umi';
@@ -76,26 +75,22 @@ export default () => {
   }, [editorText, savedText]);
 
   const saveEditorText = (value?: string) => {
-    if (editorText) {
-      try {
-        const features = transformFeatures(value ?? editorText);
-        if (value) {
-          setEditorText(value);
-        }
-        setSavedText(value ?? editorText);
-        setFeatures(features);
-        return features;
-      } catch (e) {
-        message.warn('数据加载有误');
+    const emptyFeatures = JSON.stringify(
+      { type: 'FeatureCollection', features: [] },
+      null,
+      2,
+    );
+    try {
+      const features = transformFeatures(value ?? editorText);
+      if (value) {
+        setEditorText(value);
       }
-    } else {
-      setEditorText(
-        JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
-      );
-      setSavedText(
-        JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
-      );
-      setFeatures([]);
+      setSavedText(value ?? editorText);
+      setFeatures(features);
+      return features;
+    } catch (e) {
+      setEditorText(emptyFeatures);
+      setSavedText(emptyFeatures);
     }
   };
 

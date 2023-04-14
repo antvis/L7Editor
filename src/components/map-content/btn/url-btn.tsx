@@ -29,7 +29,7 @@ type DataType = 'cover' | 'merge';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures, editorText } = useModel('feature');
+  const { resetFeatures, features } = useModel('feature');
 
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
@@ -74,7 +74,7 @@ export const UrlBtn = () => {
         const featureData =
           selectRadio === 'cover'
             ? newData.features
-            : [...JSON.parse(editorText).features, ...newData.features];
+            : [...features, ...newData.features];
         resetFeatures(featureData as Feature[]);
         handleCancel();
       }

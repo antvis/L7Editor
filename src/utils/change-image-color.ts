@@ -1,4 +1,4 @@
-export function changeColor(
+export function getPointImage(
   color: Record<string, number>,
   image: { x: number; y: number },
 ): Promise<HTMLImageElement> {

@@ -1,4 +1,4 @@
-import { changeColor } from '@/utils/change-image-color';
+import { getPointImage } from '@/utils/change-image-color';
 import { SearchOutlined } from '@ant-design/icons';
 import {
   CustomControl,
@@ -43,7 +43,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
 
   useAsyncEffect(async () => {
     const newLayerColor = Color(layerColor).rgb().object();
-    setColorImg(await changeColor(newLayerColor, { x: 100, y: 100 }));
+    setColorImg(await getPointImage(newLayerColor, { x: 100, y: 100 }));
   }, [layerColor]);
 
   return (
@@ -125,7 +125,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
               </div>
             }
           >
-            <img style={{ width: 30, height: 30 }} src={colorImg.src} />
+            <img style={{ width: 40, height: 40 }} src={colorImg.src} />
           </Popover>
         </Marker>
       )}

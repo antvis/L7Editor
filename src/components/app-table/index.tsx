@@ -1,6 +1,7 @@
 import { FeatureKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
-import { bbox, featureCollection } from '@turf/turf';
+import { Scene } from '@antv/l7';
+import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
 import {
   Empty,
@@ -23,6 +24,18 @@ const { Text } = Typography;
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
+
+type EditableCellType = {
+  editable: boolean;
+  children: any;
+  dataIndex: string;
+  record: any;
+  inputType: string;
+  handleSave: (value: any) => void;
+  features: Feature[];
+  scene: Scene;
+  restProps: any;
+};
 
 const formatTableValue = (value: any) => {
   if (isNull(value) || isUndefined(value)) {
@@ -58,9 +71,8 @@ const EditableCell = ({
   features,
   scene,
   ...restProps
-}: any) => {
+}: EditableCellType) => {
   const [editing, setEditing] = useState(false);
-  const [hover, setHover] = useState(false);
   const inputRef = useRef<any>(null);
   const form = useContext(FormContext);
   useEffect(() => {
@@ -68,25 +80,29 @@ const EditableCell = ({
       inputRef.current?.focus();
     }
   }, [editing]);
+
   const toggleEdit = () => {
     if (scene) {
-      const bboxFit = features.filter((item: any) => {
+      const bboxFit = features.find((item: any) => {
         return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
       });
-      if (
-        bboxFit[0].geometry.type === 'Point' ||
-        bboxFit[0].geometry.type === 'MultiPoint'
-      ) {
-        scene.setCenter(bboxFit[0].geometry.coordinates);
-      } else {
-        const content = bbox(bboxFit[0]);
-        scene.fitBounds([
-          [content[0], content[1]],
-          [content[2], content[3]],
-        ]);
+      if (bboxFit) {
+        if (
+          bboxFit.geometry.type === 'Point' ||
+          bboxFit.geometry.type === 'MultiPoint'
+        ) {
+          console.log(bboxFit);
+          const content = center(bboxFit);
+          scene.setCenter(content.geometry.coordinates as [number, number]);
+        } else {
+          const content = bbox(bboxFit);
+          scene.fitBounds([
+            [content[0], content[1]],
+            [content[2], content[3]],
+          ]);
+        }
       }
     }
-
     setEditing(!editing);
     form?.setFieldsValue(
       inputType !== 'object'
@@ -95,8 +111,8 @@ const EditableCell = ({
           }
         : { [dataIndex]: JSON.stringify(record[dataIndex]) },
     );
-    setHover(false);
   };
+
   const save = async () => {
     try {
       const fieldValue =
@@ -108,7 +124,7 @@ const EditableCell = ({
       const values = await form?.validateFields();
       if (JSON.stringify(values) !== JSON.stringify(fieldValue)) {
         const newValues =
-          (await inputType) === 'object'
+          inputType === 'object'
             ? { [dataIndex]: JSON.parse(values[dataIndex]) }
             : values;
         toggleEdit();
@@ -124,7 +140,9 @@ const EditableCell = ({
       console.log('Save failed:', errInfo);
     }
   };
+
   let childNode = children;
+
   if (editable) {
     childNode = editing ? (
       <Form.Item
@@ -141,21 +159,11 @@ const EditableCell = ({
       </Form.Item>
     ) : (
       <div
-        className={
-          hover
-            ? 'editable-cell-value-wrap-hover'
-            : 'editable-cell-value-wrap'
-        }
+        className="editable-cell-value-wrap"
         style={{
           paddingRight: 24,
         }}
         onClick={toggleEdit}
-        onMouseEnter={() => {
-          setHover(true);
-        }}
-        onMouseLeave={() => {
-          setHover(false);
-        }}
       >
         {children}
       </div>
