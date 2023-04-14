@@ -60,6 +60,7 @@ const EditableCell = ({
   ...restProps
 }: any) => {
   const [editing, setEditing] = useState(false);
+  const [hover, setHover] = useState(false);
   const inputRef = useRef<any>(null);
   const form = useContext(FormContext);
   useEffect(() => {
@@ -79,7 +80,10 @@ const EditableCell = ({
         scene.setCenter(bboxFit[0].geometry.coordinates);
       } else {
         const content = bbox(bboxFit[0]);
-        scene.fitBounds([[content[0], content[1]], [content[2], content[3]]]);
+        scene.fitBounds([
+          [content[0], content[1]],
+          [content[2], content[3]],
+        ]);
       }
     }
 
@@ -91,6 +95,7 @@ const EditableCell = ({
           }
         : { [dataIndex]: JSON.stringify(record[dataIndex]) },
     );
+    setHover(false);
   };
   const save = async () => {
     try {
@@ -136,11 +141,21 @@ const EditableCell = ({
       </Form.Item>
     ) : (
       <div
-        className="editable-cell-value-wrap"
+        className={
+          hover
+            ? 'editable-cell-value-wrap-hover'
+            : 'editable-cell-value-wrap'
+        }
         style={{
           paddingRight: 24,
         }}
         onClick={toggleEdit}
+        onMouseEnter={() => {
+          setHover(true);
+        }}
+        onMouseLeave={() => {
+          setHover(false);
+        }}
       >
         {children}
       </div>
