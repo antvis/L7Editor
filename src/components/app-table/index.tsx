@@ -36,7 +36,7 @@ const formatTableValue = (value: any) => {
 };
 
 const FormContext = React.createContext<FormInstance | null>(null);
-const EditableRow = ({ index, ...props }: any) => {
+const EditableRow = (props: any) => {
   const [form] = Form.useForm();
   return (
     <Form form={form} component={false}>
@@ -47,14 +47,12 @@ const EditableRow = ({ index, ...props }: any) => {
   );
 };
 const EditableCell = ({
-  title,
   editable,
   children,
   dataIndex,
   record,
   inputType,
   handleSave,
-  newDataSource,
   ...restProps
 }: any) => {
   const [editing, setEditing] = useState(false);
@@ -111,12 +109,6 @@ const EditableCell = ({
           margin: 0,
         }}
         name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `请输入内容`,
-          },
-        ]}
       >
         {inputType === 'number' ? (
           <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
@@ -148,7 +140,7 @@ const components = {
 
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
-  const { width = 0, height = 0 } = useSize(container) ?? {};
+  const { height = 0 } = useSize(container) ?? {};
   const { features, setFeatures, setEditorText, resetFeatures } =
     useModel('feature');
   const [newDataSource, setNewDataSource] = useState<any>([]);
@@ -182,7 +174,7 @@ export const AppTable = () => {
         title: '序号',
         dataIndex: '__index',
         key: `__index`,
-        width: 70,
+        width: 80,
         align: 'center',
         fixed: 'left',
         sorter: (a: any, b: any) => a['__index'] - b['__index'],
@@ -215,8 +207,6 @@ export const AppTable = () => {
         ),
         dataIndex: key,
         key: `${key}${index}`,
-        align: 'center',
-        width: key.length > 20 ? 200 : 100,
         editable: true,
         render: formatTableValue,
         filters: options.length ? options : (undefined as any),
@@ -308,7 +298,7 @@ export const AppTable = () => {
           columns={newColumns}
           dataSource={newDataSource}
           bordered
-          scroll={{ x: width - 15, y: height - 54 }}
+          scroll={{ y: height - 54, x: 'max-content' }}
           size="small"
         />
       ) : (

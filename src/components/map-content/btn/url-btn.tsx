@@ -39,7 +39,7 @@ export const UrlBtn = () => {
   const items: TabsProps['items'] = [
     {
       key: 'url',
-      label: <div>url上传</div>,
+      label: <div>URL上传</div>,
       children: <UrlUpload ref={formRef} />,
     },
     {
@@ -54,9 +54,9 @@ export const UrlBtn = () => {
     },
     {
       key: 'script',
-      label: <div>javaScript脚本</div>,
+      label: <div>JavaScript脚本</div>,
       children: (
-        <div style={{ width: '100%', height: 400 }}>
+        <div style={{ width: '100%', height: 300 }}>
           <AppEditor language="javascript" ref={formRef} />
         </div>
       ),
