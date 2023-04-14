@@ -127,7 +127,7 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
-  const onEdit = async (featureValue: any) => {
+  const onEdit = (featureValue: any) => {
     setIsDraw(true);
     const newFeatures = features.filter((item: any) => {
       return (
