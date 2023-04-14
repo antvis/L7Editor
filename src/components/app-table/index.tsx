@@ -10,6 +10,7 @@ import {
   InputNumber,
   Space,
   Table,
+  Tooltip,
   Typography,
 } from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash';
@@ -76,17 +77,28 @@ const EditableCell = ({
   };
   const save = async () => {
     try {
+      const fieldValue =
+        inputType !== 'object'
+          ? {
+              [dataIndex]: record[dataIndex],
+            }
+          : { [dataIndex]: JSON.stringify(record[dataIndex]) };
       const values = await form?.validateFields();
-      const newValues =
-        (await inputType) === 'object'
-          ? { dataIndex: JSON.parse(values[dataIndex]) }
-          : values;
-      toggleEdit();
-      handleSave({
-        ...record,
-        ...newValues,
-        newValues,
-      });
+      console.log(JSON.stringify(values) === JSON.stringify(fieldValue));
+      if (JSON.stringify(values) !== JSON.stringify(fieldValue)) {
+        const newValues =
+          (await inputType) === 'object'
+            ? { [dataIndex]: JSON.parse(values[dataIndex]) }
+            : values;
+        toggleEdit();
+        handleSave({
+          ...record,
+          ...newValues,
+          newValues,
+        });
+      } else {
+        toggleEdit();
+      }
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
@@ -191,12 +203,15 @@ export const AppTable = () => {
       );
       newColumns.push({
         title: (
-          <Text
-            style={key.length > 20 ? { width: 170 } : undefined}
-            ellipsis={{ tooltip: key }}
-          >
-            {key}
-          </Text>
+          <Tooltip title={key}>
+            <Text
+              // style={key.length > 20 ? { width: 170 } : undefined}
+              style={{ overflow: 'hidden', width: 70 }}
+              ellipsis={{ tooltip: key }}
+            >
+              {key}
+            </Text>
+          </Tooltip>
         ),
         dataIndex: key,
         key: `${key}${index}`,
@@ -222,9 +237,9 @@ export const AppTable = () => {
     newColumns.push({
       title: '操作',
       key: 'action',
-      width: 30,
+      width: 70,
       align: 'center',
-      fixed: 'left',
+      fixed: 'right',
       render: (_, record: any) => (
         <Space size="middle">
           <a
@@ -286,7 +301,7 @@ export const AppTable = () => {
   }, [defaultColumns]);
 
   return (
-    <div style={{ width: '100%', height: '100%' }} ref={container}>
+    <div style={{ width: '100%', height: '98%' }} ref={container}>
       {newColumns?.length ? (
         <Table
           components={components}

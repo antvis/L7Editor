@@ -48,6 +48,11 @@ export const UrlBtn = () => {
       children: <FileUpload ref={formRef} />,
     },
     {
+      key: 'lnglat',
+      label: <div>经纬度上传</div>,
+      children: <LngLatImportBtn ref={formRef} />,
+    },
+    {
       key: 'script',
       label: <div>javaScript脚本</div>,
       children: (
@@ -55,11 +60,6 @@ export const UrlBtn = () => {
           <AppEditor language="javascript" ref={formRef} />
         </div>
       ),
-    },
-    {
-      key: 'lnglat',
-      label: <div>经纬度上传</div>,
-      children: <LngLatImportBtn ref={formRef} />,
     },
   ];
 
