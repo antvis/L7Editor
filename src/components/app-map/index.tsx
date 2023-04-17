@@ -1,3 +1,4 @@
+import { FeatureCollectionVT } from '@/constants';
 import { getParamsNew, getUrlFeatureCollection } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
@@ -37,9 +38,11 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   }, [scene]);
 
   useEffect(() => {
-    if (editorText) {
-      saveEditorText();
-    } else {
+    try {
+      if (FeatureCollectionVT.check(JSON.parse(editorText))) {
+        saveEditorText();
+      }
+    } catch {
       saveEditorText(
         JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
       );
