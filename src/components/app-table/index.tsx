@@ -34,6 +34,7 @@ type EditableCellType = {
   handleSave: (value: any) => void;
   features: Feature[];
   scene: Scene;
+  isDraw: boolean;
 };
 
 const formatTableValue = (value: any) => {
@@ -69,6 +70,7 @@ const EditableCell = ({
   handleSave,
   features,
   scene,
+  isDraw,
   ...restProps
 }: EditableCellType) => {
   const [editing, setEditing] = useState(false);
@@ -81,34 +83,37 @@ const EditableCell = ({
   }, [editing]);
 
   const toggleEdit = () => {
-    if (scene) {
-      const bboxFit = features.find((item: any) => {
-        return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
-      });
-      if (bboxFit) {
-        if (
-          bboxFit.geometry.type === 'Point' ||
-          bboxFit.geometry.type === 'MultiPoint'
-        ) {
-          const content = center(bboxFit);
-          scene.setCenter(content.geometry.coordinates as [number, number]);
-        } else {
-          const content = bbox(bboxFit);
-          scene.fitBounds([
-            [content[0], content[1]],
-            [content[2], content[3]],
-          ]);
+    console.log(isDraw);
+    if (!isDraw) {
+      if (scene) {
+        const bboxFit = features.find((item: any) => {
+          return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
+        });
+        if (bboxFit) {
+          if (
+            bboxFit.geometry.type === 'Point' ||
+            bboxFit.geometry.type === 'MultiPoint'
+          ) {
+            const content = center(bboxFit);
+            scene.setCenter(content.geometry.coordinates as [number, number]);
+          } else {
+            const content = bbox(bboxFit);
+            scene.fitBounds([
+              [content[0], content[1]],
+              [content[2], content[3]],
+            ]);
+          }
         }
       }
+      setEditing(!editing);
+      form?.setFieldsValue(
+        inputType !== 'object'
+          ? {
+              [dataIndex]: record[dataIndex],
+            }
+          : { [dataIndex]: JSON.stringify(record[dataIndex]) },
+      );
     }
-    setEditing(!editing);
-    form?.setFieldsValue(
-      inputType !== 'object'
-        ? {
-            [dataIndex]: record[dataIndex],
-          }
-        : { [dataIndex]: JSON.stringify(record[dataIndex]) },
-    );
   };
 
   const save = async () => {
@@ -157,7 +162,7 @@ const EditableCell = ({
       </Form.Item>
     ) : (
       <div
-        className="editable-cell-value-wrap"
+        className={!isDraw?"editable-cell-value-wrap":''}
         style={{
           paddingRight: 24,
         }}
@@ -180,7 +185,7 @@ const components = {
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { height = 0 } = useSize(container) ?? {};
-  const { features, setFeatures, setEditorText, resetFeatures, scene } =
+  const { features, setFeatures, setEditorText, resetFeatures, scene, isDraw } =
     useModel('feature');
   const [newDataSource, setNewDataSource] = useState<any>([]);
 
@@ -325,6 +330,7 @@ export const AppTable = () => {
           newDataSource,
           features,
           scene,
+          isDraw,
           handleSave,
         }),
       };
@@ -333,7 +339,7 @@ export const AppTable = () => {
   }, [defaultColumns]);
 
   return (
-    <div style={{ width: '100%', height: '98%' }} ref={container}>
+    <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newColumns?.length ? (
         <Table
           components={components}
