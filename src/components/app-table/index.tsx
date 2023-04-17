@@ -343,6 +343,7 @@ export const AppTable = () => {
           bordered
           scroll={{ y: height - 54, x: 'max-content' }}
           size="small"
+          pagination={false}
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
