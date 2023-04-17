@@ -55,7 +55,7 @@ export const LayerList: React.FC = () => {
 
 
   const activeColor = useMemo(() => {
-    const newLayerColor = Color(layerColor).darken(0.3).hex()
+    const newLayerColor = Color(layerColor).darken(0.8).hex()
     return newLayerColor;
   }, [layerColor]);
 
