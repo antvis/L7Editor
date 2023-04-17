@@ -37,7 +37,13 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   }, [scene]);
 
   useEffect(() => {
-    saveEditorText();
+    if (editorText) {
+      saveEditorText();
+    } else {
+      saveEditorText(
+        JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
+      );
+    }
   }, []);
 
   return (

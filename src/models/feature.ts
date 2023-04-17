@@ -12,6 +12,7 @@ import {
   getType,
 } from '@turf/turf';
 import { useLocalStorageState } from 'ahooks';
+import { message } from 'antd';
 import { flatMap, max, min } from 'lodash';
 import { useMemo, useState } from 'react';
 import { useModel } from 'umi';
@@ -80,15 +81,19 @@ export default () => {
       null,
       2,
     );
-    try {
-      const features = transformFeatures(value ?? editorText);
-      if (value) {
-        setEditorText(value);
+    if (editorText || value) {
+      try {
+        const features = transformFeatures(value ?? editorText);
+        if (value) {
+          setEditorText(value);
+        }
+        setSavedText(value ?? editorText);
+        setFeatures(features);
+        return features;
+      } catch (e) {
+        message.warn('数据加载有误');
       }
-      setSavedText(value ?? editorText);
-      setFeatures(features);
-      return features;
-    } catch (e) {
+    } else {
       setEditorText(emptyFeatures);
       setSavedText(emptyFeatures);
     }
