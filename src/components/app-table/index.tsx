@@ -9,6 +9,7 @@ import {
   FormInstance,
   Input,
   InputNumber,
+  message,
   Space,
   Table,
   Tooltip,
@@ -284,6 +285,7 @@ export const AppTable = () => {
                   return index !== record[FeatureKey.Index];
                 }),
               );
+              message.success('数据删除成功')
             }}
           >
             删除
