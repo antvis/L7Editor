@@ -165,9 +165,9 @@ export const LayerPopup: React.FC = () => {
         ...options,
         style: {
           point: {
-            normal: { shape: 'pointIcon', size: 20, color: layerColor },
-            hover: { shape: 'pointIcon', size: 20, color: layerColor },
-            active: { shape: 'pointIcon', size: 20, color: layerColor },
+            normal: { shape: 'drawImg', size: 20, color: layerColor },
+            hover: { shape: 'drawImg', size: 20, color: layerColor },
+            active: { shape: 'drawImg', size: 20, color: layerColor },
           },
         },
       });

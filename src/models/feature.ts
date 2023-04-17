@@ -76,16 +76,26 @@ export default () => {
   }, [editorText, savedText]);
 
   const saveEditorText = (value?: string) => {
-    try {
-      const features = transformFeatures(value ?? editorText);
-      if (value) {
-        setEditorText(value);
+    const emptyFeatures = JSON.stringify(
+      { type: 'FeatureCollection', features: [] },
+      null,
+      2,
+    );
+    if (editorText || value) {
+      try {
+        const features = transformFeatures(value ?? editorText);
+        if (value) {
+          setEditorText(value);
+        }
+        setSavedText(value ?? editorText);
+        setFeatures(features);
+        return features;
+      } catch (e) {
+        message.warn('数据加载有误');
       }
-      setSavedText(value ?? editorText);
-      setFeatures(features);
-      return features;
-    } catch (e) {
-      message.warn('数据加载有误');
+    } else {
+      setEditorText(emptyFeatures);
+      setSavedText(emptyFeatures);
     }
   };
 

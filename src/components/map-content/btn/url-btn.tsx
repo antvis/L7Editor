@@ -29,7 +29,7 @@ type DataType = 'cover' | 'merge';
 
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures, editorText } = useModel('feature');
+  const { resetFeatures, features } = useModel('feature');
 
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
@@ -48,6 +48,11 @@ export const UrlBtn = () => {
       children: <FileUpload ref={formRef} />,
     },
     {
+      key: 'lnglat',
+      label: <div>经纬度上传</div>,
+      children: <LngLatImportBtn ref={formRef} />,
+    },
+    {
       key: 'script',
       label: <div>JavaScript脚本</div>,
       children: (
@@ -55,11 +60,6 @@ export const UrlBtn = () => {
           <AppEditor language="javascript" ref={formRef} />
         </div>
       ),
-    },
-    {
-      key: 'lnglat',
-      label: <div>经纬度上传</div>,
-      children: <LngLatImportBtn ref={formRef} />,
     },
   ];
 
@@ -74,7 +74,7 @@ export const UrlBtn = () => {
         const featureData =
           selectRadio === 'cover'
             ? newData.features
-            : [...JSON.parse(editorText).features, ...newData.features];
+            : [...features, ...newData.features];
         resetFeatures(featureData as Feature[]);
         handleCancel();
       }

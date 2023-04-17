@@ -1,3 +1,4 @@
+import { getPointImage } from '@/utils/change-image-color';
 import { SearchOutlined } from '@ant-design/icons';
 import {
   CustomControl,
@@ -8,7 +9,9 @@ import {
 } from '@antv/larkmap';
 import { point } from '@turf/turf';
 import { useModel } from '@umijs/max';
+import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
+import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
 
 const LocationSearchControl: React.FC = React.memo(() => {
@@ -16,7 +19,9 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const [selectLocation, setSelectLocation] = useState<LocationSearchOption>();
   const [locationText, setLocationText] = useState('');
   const { features, resetFeatures } = useModel('feature');
+  const { layerColor } = useModel('global');
   const [isVisible, setIsVisible] = useState(false);
+  const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
 
   const syncMapCenter = useCallback(() => {
     if (scene) {
@@ -35,6 +40,11 @@ const LocationSearchControl: React.FC = React.memo(() => {
       scene?.off('zoomend', syncMapCenter);
     };
   }, [scene, syncMapCenter]);
+
+  useAsyncEffect(async () => {
+    const newLayerColor = Color(layerColor).rgb().object();
+    setColorImg(await getPointImage(newLayerColor, { x: 100, y: 100 }));
+  }, [layerColor]);
 
   return (
     <>
@@ -115,10 +125,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
               </div>
             }
           >
-            <img
-              style={{ width: 30, height: 30 }}
-              src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*mvOqTLxNOEAAAAAAAAAAAAAADmJ7AQ/original"
-            />
+            <img style={{ width: 40, height: 40 }} src={colorImg?.src} />
           </Popover>
         </Marker>
       )}

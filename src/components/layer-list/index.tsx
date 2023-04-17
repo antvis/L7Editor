@@ -1,6 +1,6 @@
 import { FeatureKey, LayerId } from '@/constants';
 import { useFilterFeature } from '@/hooks/useFilterFeature';
-import { changeColor } from '@/utils/change-image-color';
+import { getPointImage } from '@/utils/change-image-color';
 import {
   LineLayer,
   PointLayer,
@@ -46,9 +46,17 @@ export const LayerList: React.FC = () => {
 
   useAsyncEffect(async () => {
     const newLayerColor = Color(layerColor).rgb().object();
-    const imag2color = await changeColor(newLayerColor);
+    const imag2color = await getPointImage(newLayerColor, { x: 100, y: 100 });
+    const imagColor = await getPointImage(newLayerColor, { x: 400, y: 400 });
+    scene.addImage('drawImg', imagColor);
     scene.addImage('pointIcon', imag2color);
     setIsMounted(true);
+  }, [layerColor]);
+
+
+  const activeColor = useMemo(() => {
+    const newLayerColor = Color(layerColor).darken(0.3).hex()
+    return newLayerColor;
   }, [layerColor]);
 
   return isMounted ? (
@@ -60,6 +68,7 @@ export const LayerList: React.FC = () => {
         shape="fill"
         color={layerColor}
         style={{ opacity: 0.15 }}
+        state={{ active: { color: activeColor } }}
       />
       <PolygonLayer
         source={polygonSource}
@@ -74,6 +83,7 @@ export const LayerList: React.FC = () => {
         blend="normal"
         color={layerColor}
         size={2}
+        state={{ active: { color: activeColor } }}
       />
       <PointLayer
         id={LayerId.PointLayer}
@@ -81,6 +91,7 @@ export const LayerList: React.FC = () => {
         blend="normal"
         size={20}
         shape="pointIcon"
+        state={{ active: { color: activeColor } }}
       />
     </>
   ) : null;
