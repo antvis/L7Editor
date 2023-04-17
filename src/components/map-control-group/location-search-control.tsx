@@ -21,7 +21,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const { features, resetFeatures } = useModel('feature');
   const { layerColor } = useModel('global');
   const [isVisible, setIsVisible] = useState(false);
-  const [colorImg, setColorImg] = useState<any>();
+  const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
 
   const syncMapCenter = useCallback(() => {
     if (scene) {
@@ -125,7 +125,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
               </div>
             }
           >
-            <img style={{ width: 40, height: 40 }} src={colorImg.src} />
+            <img style={{ width: 40, height: 40 }} src={colorImg?.src} />
           </Popover>
         </Marker>
       )}

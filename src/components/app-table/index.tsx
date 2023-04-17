@@ -91,7 +91,6 @@ const EditableCell = ({
           bboxFit.geometry.type === 'Point' ||
           bboxFit.geometry.type === 'MultiPoint'
         ) {
-          console.log(bboxFit);
           const content = center(bboxFit);
           scene.setCenter(content.geometry.coordinates as [number, number]);
         } else {

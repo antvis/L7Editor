@@ -62,7 +62,6 @@ export const MapContent: React.FC = () => {
   ];
 
   const featureDisabled = useMemo(() => {
-    console.log(!savable);
     return !features.length && !savable;
   }, [features, savable]);
 
