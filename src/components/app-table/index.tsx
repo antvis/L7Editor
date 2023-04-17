@@ -34,7 +34,6 @@ type EditableCellType = {
   handleSave: (value: any) => void;
   features: Feature[];
   scene: Scene;
-  restProps: any;
 };
 
 const formatTableValue = (value: any) => {
