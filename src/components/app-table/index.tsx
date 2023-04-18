@@ -312,36 +312,33 @@ export const AppTable = () => {
     setNewDataSource(newData);
   };
 
-  const newColumns = () => {
-    const columns = defaultColumns.map((col: any) => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: (record: any) => ({
-          record,
-          editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          inputType: typeof record[col.dataIndex],
-          newDataSource,
-          features,
-          scene,
-          isDraw,
-          handleSave,
-        }),
-      };
-    });
-    return columns;
-  };
+  const newColumns = defaultColumns.map((col: any) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record: any) => ({
+        record,
+        editable: col.editable,
+        dataIndex: col.dataIndex,
+        title: col.title,
+        inputType: typeof record[col.dataIndex],
+        newDataSource,
+        features,
+        scene,
+        isDraw,
+        handleSave,
+      }),
+    };
+  });
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newDataSource?.length ? (
         <Table
           components={components}
-          columns={newColumns()}
+          columns={newColumns}
           rowClassName={() => 'editable-row'}
           dataSource={newDataSource}
           bordered
