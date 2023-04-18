@@ -312,7 +312,7 @@ export const AppTable = () => {
     setNewDataSource(newData);
   };
 
-  const newColumns = useMemo(() => {
+  const newColumns = () => {
     const columns = defaultColumns.map((col: any) => {
       if (!col.editable) {
         return col;
@@ -334,14 +334,15 @@ export const AppTable = () => {
       };
     });
     return columns;
-  }, [defaultColumns, scene, features, isDraw]);
+  };
+  console.log(newColumns());
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
-      {newColumns?.length ? (
+      {newColumns()?.length ? (
         <Table
           components={components}
-          columns={newColumns}
+          columns={newColumns()}
           rowClassName={() => 'editable-row'}
           dataSource={newDataSource}
           bordered
