@@ -84,25 +84,23 @@ const EditableCell = ({
   }, [editing]);
 
   const toggleEdit = () => {
-    if (!isDraw) {
-      if (scene) {
-        const bboxFit = features.find((item: any) => {
-          return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
-        });
-        if (bboxFit) {
-          if (
-            bboxFit.geometry.type === 'Point' ||
-            bboxFit.geometry.type === 'MultiPoint'
-          ) {
-            const content = center(bboxFit);
-            scene.setCenter(content.geometry.coordinates as [number, number]);
-          } else {
-            const content = bbox(bboxFit);
-            scene.fitBounds([
-              [content[0], content[1]],
-              [content[2], content[3]],
-            ]);
-          }
+    if (scene && !isDraw) {
+      const bboxFit = features.find((item: any) => {
+        return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
+      });
+      if (bboxFit) {
+        if (
+          bboxFit.geometry.type === 'Point' ||
+          bboxFit.geometry.type === 'MultiPoint'
+        ) {
+          const content = center(bboxFit);
+          scene.setCenter(content.geometry.coordinates as [number, number]);
+        } else {
+          const content = bbox(bboxFit);
+          scene.fitBounds([
+            [content[0], content[1]],
+            [content[2], content[3]],
+          ]);
         }
       }
       setEditing(!editing);
@@ -162,7 +160,7 @@ const EditableCell = ({
       </Form.Item>
     ) : (
       <div
-        className={!isDraw?"editable-cell-value-wrap":''}
+        className={!isDraw ? 'editable-cell-value-wrap' : ''}
         style={{
           paddingRight: 24,
         }}
@@ -284,7 +282,7 @@ export const AppTable = () => {
                   return index !== record[FeatureKey.Index];
                 }),
               );
-              message.success('数据删除成功')
+              message.success('数据删除成功');
             }}
           >
             删除
