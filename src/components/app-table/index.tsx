@@ -82,7 +82,6 @@ const EditableCell = ({
       inputRef.current?.focus();
     }
   }, [editing]);
-
   const toggleEdit = () => {
     if (scene && !isDraw) {
       const bboxFit = features.find((item: any) => {
@@ -335,7 +334,7 @@ export const AppTable = () => {
       };
     });
     return columns;
-  }, [defaultColumns]);
+  }, [defaultColumns, scene, features, isDraw]);
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
