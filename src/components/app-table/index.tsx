@@ -84,7 +84,6 @@ const EditableCell = ({
   }, [editing]);
 
   const toggleEdit = () => {
-    console.log(isDraw);
     if (!isDraw) {
       if (scene) {
         const bboxFit = features.find((item: any) => {
