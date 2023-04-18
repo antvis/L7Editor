@@ -192,7 +192,7 @@ export const LayerPopup: React.FC = () => {
 
   const onLayerDblClick = (e: any) => {
     const { feature } = e;
-    if (!disabledEdit(feature)) {
+    if (!disabledEdit(feature) && !isDraw) {
       onEdit(feature);
     }
   };
