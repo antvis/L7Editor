@@ -11,12 +11,19 @@ import {
   DrawRect,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import { Feature, featureCollection } from '@turf/turf';
+import {
+  Feature,
+  featureCollection,
+  Geometry,
+  GeometryCollection,
+} from '@turf/turf';
 import { Button, Descriptions, Empty, Tooltip, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 import './index.less';
 const { Paragraph } = Typography;
+
+type drawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
 
 export const LayerPopup: React.FC = () => {
   const scene = useScene();
@@ -127,29 +134,37 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
-  const onEdit = (featureValue: any) => {
+  const onEdit = (featureValue: Feature) => {
     setIsDraw(true);
-    const newFeatures = features.filter((item: any) => {
+    const newFeatures = features.filter((item: Feature) => {
       return (
+        //@ts-ignore
         item.properties[FeatureKey.Index] !==
+        //@ts-ignore
         featureValue.properties?.[FeatureKey.Index]
       );
     });
-    const index = features.findIndex((v: any) => {
+    const index = features.findIndex((item: Feature) => {
       return (
-        v.properties[FeatureKey.Index] ===
+        //@ts-ignore
+        item.properties[FeatureKey.Index] ===
+        //@ts-ignore
         featureValue.properties?.[FeatureKey.Index]
       );
     });
-    const onChange = (v: any, draw: any) => {
-      if (!v) {
-        console.log(draw.getData());
+    const onChange = (select: any, draw: drawType) => {
+      if (!select) {
+        const getData = draw.getData();
         const newData = {
-          ...draw.getData()[0],
+          ...getData?.[0],
           properties: featureValue?.properties,
         };
-        if (draw.getData().length) {
-          features.splice(index, 1, newData);
+        if (getData.length) {
+          features.splice(
+            index,
+            1,
+            newData as Feature<Geometry | GeometryCollection, {}>,
+          );
           saveEditorText(
             prettierText({ content: featureCollection(features) }),
           );
@@ -169,7 +184,7 @@ export const LayerPopup: React.FC = () => {
       style: colorStyle,
     };
     const type = featureValue?.geometry.type;
-    let drawLayer: any;
+    let drawLayer: drawType;
     if (type === 'Point') {
       drawLayer = new DrawPoint(scene, {
         ...options,
@@ -193,7 +208,9 @@ export const LayerPopup: React.FC = () => {
     drawLayer.enable();
     drawLayer.setActiveFeature(drawLayer.getData()[0]);
     setFeatures(newFeatures);
-    drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
+    drawLayer.on(DrawEvent.Select, (select: any) =>
+      onChange(select, drawLayer),
+    );
     setPopupProps({
       visible: false,
       featureIndex: undefined,
