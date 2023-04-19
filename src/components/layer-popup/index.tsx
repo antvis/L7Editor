@@ -23,7 +23,7 @@ import { useModel } from 'umi';
 import './index.less';
 const { Paragraph } = Typography;
 
-type drawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
+type DrawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
 
 export const LayerPopup: React.FC = () => {
   const scene = useScene();
@@ -134,14 +134,14 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
-  const onEdit = (featureValue: Feature) => {
+  const onEdit = (feature: Feature) => {
     setIsDraw(true);
     const newFeatures = features.filter((item: Feature) => {
       return (
         //@ts-ignore
         item.properties[FeatureKey.Index] !==
         //@ts-ignore
-        featureValue.properties?.[FeatureKey.Index]
+        feature.properties?.[FeatureKey.Index]
       );
     });
     const index = features.findIndex((item: Feature) => {
@@ -149,15 +149,15 @@ export const LayerPopup: React.FC = () => {
         //@ts-ignore
         item.properties[FeatureKey.Index] ===
         //@ts-ignore
-        featureValue.properties?.[FeatureKey.Index]
+        feature.properties?.[FeatureKey.Index]
       );
     });
-    const onChange = (select: any, draw: drawType) => {
-      if (!select) {
+    const onChange = (selectFeature: any, draw: DrawType) => {
+      if (!selectFeature) {
         const getData = draw.getData();
         const newData = {
           ...getData?.[0],
-          properties: featureValue?.properties,
+          properties: feature?.properties,
         };
         if (getData.length) {
           features.splice(
@@ -179,12 +179,12 @@ export const LayerPopup: React.FC = () => {
       }
     };
     const options: any = {
-      initialData: [featureValue],
+      initialData: [feature],
       maxCount: 1,
       style: colorStyle,
     };
-    const type = featureValue?.geometry.type;
-    let drawLayer: drawType;
+    const type = feature?.geometry.type;
+    let drawLayer: DrawType;
     if (type === 'Point') {
       drawLayer = new DrawPoint(scene, {
         ...options,
@@ -198,9 +198,9 @@ export const LayerPopup: React.FC = () => {
       });
     } else if (type === 'LineString') {
       drawLayer = new DrawLine(scene, options);
-    } else if (type === 'Polygon' && isRect(featureValue)) {
+    } else if (type === 'Polygon' && isRect(feature)) {
       drawLayer = new DrawRect(scene, options);
-    } else if (type === 'Polygon' && isCircle(featureValue)) {
+    } else if (type === 'Polygon' && isCircle(feature)) {
       drawLayer = new DrawCircle(scene, options);
     } else {
       drawLayer = new DrawPolygon(scene, options);
@@ -208,8 +208,8 @@ export const LayerPopup: React.FC = () => {
     drawLayer.enable();
     drawLayer.setActiveFeature(drawLayer.getData()[0]);
     setFeatures(newFeatures);
-    drawLayer.on(DrawEvent.Select, (select: any) =>
-      onChange(select, drawLayer),
+    drawLayer.on(DrawEvent.Select, (selectFeature: any) =>
+      onChange(selectFeature, drawLayer),
     );
     setPopupProps({
       visible: false,
