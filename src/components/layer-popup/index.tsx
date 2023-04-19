@@ -11,12 +11,19 @@ import {
   DrawRect,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import { Feature, featureCollection } from '@turf/turf';
+import {
+  Feature,
+  featureCollection,
+  Geometry,
+  GeometryCollection,
+} from '@turf/turf';
 import { Button, Descriptions, Empty, Tooltip, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 import './index.less';
 const { Paragraph } = Typography;
+
+type DrawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
 
 export const LayerPopup: React.FC = () => {
   const scene = useScene();
@@ -127,39 +134,57 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
-  const onEdit = (featureValue: any) => {
+  const onEdit = (feature: Feature) => {
     setIsDraw(true);
-    const newFeatures = features.filter((item: any) => {
+    const newFeatures = features.filter((item: Feature) => {
       return (
+        //@ts-ignore
         item.properties[FeatureKey.Index] !==
-        featureValue.properties?.[FeatureKey.Index]
+        //@ts-ignore
+        feature.properties?.[FeatureKey.Index]
       );
     });
-    const index = features.findIndex((v: any) => {
+    const index = features.findIndex((item: Feature) => {
       return (
-        v.properties[FeatureKey.Index] ===
-        featureValue.properties?.[FeatureKey.Index]
+        //@ts-ignore
+        item.properties[FeatureKey.Index] ===
+        //@ts-ignore
+        feature.properties?.[FeatureKey.Index]
       );
     });
-    const onChange = (v: any, draw: any) => {
-      if (!v) {
-        const newData = {
-          ...draw.getData()[0],
-          properties: featureValue?.properties,
-        };
-        features.splice(index, 1, newData);
-        saveEditorText(prettierText({ content: featureCollection(features) }));
+    const onChange = (selectFeature: any, draw: DrawType) => {
+      if (!selectFeature) {
+        const getData = draw.getData();
+        if (getData.length) {
+          const newData = {
+            ...getData[0],
+            properties: feature?.properties,
+          };
+          features.splice(
+            index,
+            1,
+            newData as Feature<Geometry | GeometryCollection, {}>,
+          );
+          saveEditorText(
+            prettierText({ content: featureCollection(features) }),
+          );
+        } else {
+          features.splice(index, 1);
+          saveEditorText(
+            prettierText({ content: featureCollection(features) }),
+          );
+        }
         draw.destroy();
         setIsDraw(false);
       }
     };
     const options: any = {
-      initialData: [featureValue],
+      initialData: [feature],
       maxCount: 1,
       style: colorStyle,
     };
-    const type = featureValue?.geometry.type;
-    let drawLayer: any;
+    const type = feature?.geometry.type;
+    let drawLayer: DrawType;
     if (type === 'Point') {
       drawLayer = new DrawPoint(scene, {
         ...options,
@@ -173,9 +198,9 @@ export const LayerPopup: React.FC = () => {
       });
     } else if (type === 'LineString') {
       drawLayer = new DrawLine(scene, options);
-    } else if (type === 'Polygon' && isRect(featureValue)) {
+    } else if (type === 'Polygon' && isRect(feature)) {
       drawLayer = new DrawRect(scene, options);
-    } else if (type === 'Polygon' && isCircle(featureValue)) {
+    } else if (type === 'Polygon' && isCircle(feature)) {
       drawLayer = new DrawCircle(scene, options);
     } else {
       drawLayer = new DrawPolygon(scene, options);
@@ -183,7 +208,9 @@ export const LayerPopup: React.FC = () => {
     drawLayer.enable();
     drawLayer.setActiveFeature(drawLayer.getData()[0]);
     setFeatures(newFeatures);
-    drawLayer.on(DrawEvent.Select, (v: any) => onChange(v, drawLayer));
+    drawLayer.on(DrawEvent.Select, (selectFeature: any) =>
+      onChange(selectFeature, drawLayer),
+    );
     setPopupProps({
       visible: false,
       featureIndex: undefined,
