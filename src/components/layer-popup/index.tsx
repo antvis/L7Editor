@@ -160,14 +160,13 @@ export const LayerPopup: React.FC = () => {
             ...getData[0],
             properties: feature?.properties,
           };
-          features.splice(
-            index,
-            1,
-            newData as Feature<Geometry | GeometryCollection, {}>,
-          );
-          saveEditorText(
-            prettierText({ content: featureCollection(features) }),
-          );
+          (features[index] = newData as Feature<
+            Geometry | GeometryCollection,
+            {}
+          >),
+            saveEditorText(
+              prettierText({ content: featureCollection(features) }),
+            );
         } else {
           features.splice(index, 1);
           saveEditorText(
