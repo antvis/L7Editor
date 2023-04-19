@@ -147,8 +147,17 @@ export const LayerPopup: React.FC = () => {
           ...draw.getData()[0],
           properties: featureValue?.properties,
         };
-        features.splice(index, 1, newData);
-        saveEditorText(prettierText({ content: featureCollection(features) }));
+        if (newData.type) {
+          features.splice(index, 1, newData);
+          saveEditorText(
+            prettierText({ content: featureCollection(features) }),
+          );
+        } else {
+          features.splice(index, 1);
+          saveEditorText(
+            prettierText({ content: featureCollection(features) }),
+          );
+        }
         draw.destroy();
         setIsDraw(false);
       }
