@@ -155,11 +155,11 @@ export const LayerPopup: React.FC = () => {
     const onChange = (selectFeature: any, draw: DrawType) => {
       if (!selectFeature) {
         const getData = draw.getData();
-        const newData = {
-          ...getData?.[0],
-          properties: feature?.properties,
-        };
         if (getData.length) {
+          const newData = {
+            ...getData[0],
+            properties: feature?.properties,
+          };
           features.splice(
             index,
             1,
