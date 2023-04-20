@@ -1,5 +1,4 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { useDrawStyle } from '@/hooks/useDrawStyle';
 import { isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
@@ -9,6 +8,7 @@ import {
   DrawPoint,
   DrawPolygon,
   DrawRect,
+  getSingleColorStyle,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
@@ -36,7 +36,6 @@ export const LayerPopup: React.FC = () => {
     saveEditorText,
   } = useModel('feature');
   const { layerColor } = useModel('global');
-  const { colorStyle } = useDrawStyle();
   const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
@@ -180,7 +179,7 @@ export const LayerPopup: React.FC = () => {
     const options: any = {
       initialData: [feature],
       maxCount: 1,
-      style: colorStyle,
+      style: getSingleColorStyle(layerColor),
     };
     const type = feature?.geometry.type;
     let drawLayer: DrawType;

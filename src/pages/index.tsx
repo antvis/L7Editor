@@ -7,12 +7,17 @@ import {
   ResizePanel,
 } from '@/components';
 import { ConfigProvider } from 'antd';
-import React from 'react';
 import zhCN from 'antd/es/locale/zh_CN';
+import React, { useMemo } from 'react';
 import './index.less';
 
 const L7DrawPro: React.FC = () => {
-  return (
+  console.log(/Mobi|Android|iPhone/i.test(navigator.userAgent));
+
+  const isPc = useMemo(() => {
+    return !/Mobi|Android|iPhone/i.test(navigator.userAgent);
+  }, []);
+  return isPc ? (
     <ConfigProvider locale={zhCN}>
       <div className="l7-draw-pro">
         <ResizePanel
@@ -27,6 +32,8 @@ const L7DrawPro: React.FC = () => {
         />
       </div>
     </ConfigProvider>
+  ) : (
+    <>显示请用PC端打开</>
   );
 };
 

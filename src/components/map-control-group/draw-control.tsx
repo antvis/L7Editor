@@ -1,10 +1,10 @@
 import { FeatureKey } from '@/constants';
-import { useDrawStyle } from '@/hooks/useDrawStyle';
 import { EditOutlined } from '@ant-design/icons';
 import {
   ControlEvent,
   DrawControl as L7DrawControl,
   DrawEvent,
+  getSingleColorStyle,
 } from '@antv/l7-draw';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
@@ -15,7 +15,6 @@ import { useModel } from 'umi';
 
 const DrawControl = () => {
   const scene = useScene();
-  const { colorStyle } = useDrawStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(true);
   const { resetFeatures, features, setIsDraw } = useModel('feature');
@@ -45,7 +44,7 @@ const DrawControl = () => {
         },
         commonDrawOptions: {
           maxCount: 1,
-          style: colorStyle,
+          style: getSingleColorStyle(layerColor),
         },
       });
       setDrawControl(newDrawControl);
