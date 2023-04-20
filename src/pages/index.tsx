@@ -12,11 +12,10 @@ import React, { useMemo } from 'react';
 import './index.less';
 
 const L7DrawPro: React.FC = () => {
-  console.log(/Mobi|Android|iPhone/i.test(navigator.userAgent));
-
   const isPc = useMemo(() => {
     return !/Mobi|Android|iPhone/i.test(navigator.userAgent);
   }, []);
+
   return isPc ? (
     <ConfigProvider locale={zhCN}>
       <div className="l7-draw-pro">
