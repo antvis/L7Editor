@@ -6,7 +6,7 @@ import {
   MapControlGroup,
   ResizePanel,
 } from '@/components';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, Result } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import React, { useMemo } from 'react';
 import './index.less';
@@ -32,7 +32,10 @@ const L7DrawPro: React.FC = () => {
       </div>
     </ConfigProvider>
   ) : (
-    <>请用PC端打开</>
+    <Result
+      status="404"
+      title="请用PC端打开"
+    />
   );
 };
 
