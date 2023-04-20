@@ -32,7 +32,7 @@ const L7DrawPro: React.FC = () => {
       </div>
     </ConfigProvider>
   ) : (
-    <>显示请用PC端打开</>
+    <>请用PC端打开</>
   );
 };
 
