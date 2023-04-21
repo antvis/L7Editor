@@ -1,7 +1,5 @@
 import { LngLatImportType } from '@/types';
 import { createFromIconfontCN } from '@ant-design/icons';
-import { Form, FormInstance } from 'antd';
-import React from 'react';
 
 export const RightPanelWidthRange = [20, 80];
 
