@@ -188,9 +188,24 @@ export const LayerPopup: React.FC = () => {
         ...options,
         style: {
           point: {
-            normal: { shape: 'drawImg', size: 20, color: layerColor },
-            hover: { shape: 'drawImg', size: 20, color: layerColor },
-            active: { shape: 'drawImg', size: 20, color: layerColor },
+            normal: {
+              shape: 'drawImg',
+              size: 20,
+              color: layerColor,
+            },
+            hover: {
+              shape: 'drawImg',
+              size: 20,
+              color: layerColor,
+            },
+            active: {
+              shape: 'drawImg',
+              size: 20,
+              color: layerColor,
+            },
+            style: {
+              offsets: [0, 25],
+            },
           },
         },
       });
@@ -230,22 +245,24 @@ export const LayerPopup: React.FC = () => {
   }, [onLayerDblClick, layerList, popupTrigger, scene]);
 
   useEffect(() => {
-    if (popupTrigger === 'click') {
-      layerList.forEach((layer) => layer.on('click', onLayerClick));
-      return () => {
-        layerList.forEach((layer) => layer.off('click', onLayerClick));
-      };
-    } else if (popupTrigger === 'hover') {
-      layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
-      layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
-      return () => {
-        layerList.forEach((layer) =>
-          layer.off('mouseenter', onLayerMouseenter),
-        );
-        layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
-      };
+    if (!isDraw) {
+      if (popupTrigger === 'click') {
+        layerList.forEach((layer) => layer.on('click', onLayerClick));
+        return () => {
+          layerList.forEach((layer) => layer.off('click', onLayerClick));
+        };
+      } else if (popupTrigger === 'hover') {
+        layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
+        layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
+        return () => {
+          layerList.forEach((layer) =>
+            layer.off('mouseenter', onLayerMouseenter),
+          );
+          layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
+        };
+      }
     }
-  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene]);
+  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene, isDraw]);
 
   return (
     <>

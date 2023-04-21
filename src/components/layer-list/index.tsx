@@ -53,9 +53,8 @@ export const LayerList: React.FC = () => {
     setIsMounted(true);
   }, [layerColor]);
 
-
   const activeColor = useMemo(() => {
-    const newLayerColor = Color(layerColor).darken(0.8).hex()
+    const newLayerColor = Color(layerColor).darken(0.8).hex();
     return newLayerColor;
   }, [layerColor]);
 
@@ -91,6 +90,8 @@ export const LayerList: React.FC = () => {
         blend="normal"
         size={20}
         shape="pointIcon"
+        //@ts-ignore
+        style={{ offsets: [0, 20] }}
         state={{ active: { color: activeColor } }}
       />
     </>

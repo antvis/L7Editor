@@ -108,7 +108,7 @@ export const MapContent: React.FC = () => {
         <div>
           <SettingBtn />
           <DownloadBtn />
-          <HandBackBtn />
+          {/* <HandBackBtn /> */}
           <DingImgBtn />
         </div>
       </div>
