@@ -188,9 +188,24 @@ export const LayerPopup: React.FC = () => {
         ...options,
         style: {
           point: {
-            normal: { shape: 'drawImg', size: 20, color: layerColor },
-            hover: { shape: 'drawImg', size: 20, color: layerColor },
-            active: { shape: 'drawImg', size: 20, color: layerColor },
+            normal: {
+              shape: 'drawImg',
+              size: 20,
+              color: layerColor,
+            },
+            hover: {
+              shape: 'drawImg',
+              size: 20,
+              color: layerColor,
+            },
+            active: {
+              shape: 'drawImg',
+              size: 20,
+              color: layerColor,
+            },
+            style: {
+              offsets: [0, 25],
+            },
           },
         },
       });
