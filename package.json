@@ -27,6 +27,7 @@
     "@antv/larkmap": "^1.0.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@mapbox/togeojson": "^0.16.0",
     "@turf/turf": "^6.5.0",
     "@types/classnames": "^2.3.1",
     "@types/color": "^3.0.3",

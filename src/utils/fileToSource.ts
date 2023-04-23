@@ -1,4 +1,5 @@
 import { FeatureCollectionVT } from '@/constants';
+import { togeojson } from '@mapbox/togeojson';
 /**
  * 生成唯一 ID
  */
@@ -124,5 +125,15 @@ export const parserTextFileToSource = async (
     return parserJsonToGeoJson(content, name, id);
   } else if (fileExtension === 'geojson') {
     return parserGeoJson(content, name, id);
+  } else if (fileExtension === 'kml') {
+    const reader = new FileReader();
+    reader.readAsText(file, 'utf-8');
+    reader.onload = (e: any) => {
+      const xml = new DOMParser().parseFromString(e.target.result, 'text/xml');
+      const geojson = togeojson.kml(xml, {
+        style: true,
+      });
+      console.log(geojson);
+    };
   }
 };
