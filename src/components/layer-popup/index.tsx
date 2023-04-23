@@ -1,5 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { featureIndex, isCircle, isRect } from '@/utils';
+import { isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
   DrawCircle,
@@ -160,7 +160,14 @@ export const LayerPopup: React.FC = () => {
         feature.properties?.[FeatureKey.Index]
       );
     });
-    const index = featureIndex(features, feature);
+    const index = features.findIndex((item: Feature) => {
+      return (
+        //@ts-ignore
+        item.properties[FeatureKey.Index] ===
+        //@ts-ignore
+        feature.properties?.[FeatureKey.Index]
+      );
+    });
     const onChange = (selectFeature: any, draw: DrawType) => {
       if (!selectFeature) {
         const getData = draw.getData();
@@ -277,20 +284,25 @@ export const LayerPopup: React.FC = () => {
   const save = (key: string, value: any) => {
     try {
       const formValue = form.getFieldValue('input');
-      if (value === formValue) {
-        setTableClick({ isInput: false, index: null });
-      } else {
+      if (value !== formValue) {
         const properties = {
           ...popupProps.feature.properties,
           [key]: formValue,
         };
         const feature = { ...popupProps.feature, properties };
         setPopupProps((event) => ({ ...event, feature }));
-        const index = featureIndex(features, feature);
+        const index = features.findIndex((item: Feature) => {
+          return (
+            //@ts-ignore
+            item.properties[FeatureKey.Index] ===
+            //@ts-ignore
+            feature.properties?.[FeatureKey.Index]
+          );
+        });
         features[index] = feature;
         saveEditorText(prettierText({ content: featureCollection(features) }));
-        setTableClick({ isInput: false, index: null });
       }
+      setTableClick({ isInput: false, index: null });
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }

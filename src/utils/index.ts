@@ -90,25 +90,4 @@ export const isRect = (feature: Feature) => {
   return false;
 };
 
-export const featureIndex = (
-  features: Feature<
-    Geometry | GeometryCollection,
-    {
-      //@ts-ignore
-      [FeatureKey.Index]: number;
-    }
-  >[],
-  feature: Feature,
-) => {
-  const index = features.findIndex((item: Feature) => {
-    return (
-      //@ts-ignore
-      item.properties[FeatureKey.Index] ===
-      //@ts-ignore
-      feature.properties?.[FeatureKey.Index]
-    );
-  });
-  return index;
-};
-
 export * from './transform';
