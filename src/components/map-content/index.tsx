@@ -94,7 +94,7 @@ export const MapContent: React.FC = () => {
               }}
             />
           </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="平移中心点">
+          <Tooltip trigger="hover" placement="left" overlay="缩放至所有元素可见">
             <Button
               disabled={featureDisabled}
               icon={<IconFont type="icon-zishiying" />}
