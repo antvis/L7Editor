@@ -79,11 +79,10 @@ export const UrlBtn = () => {
         resetFeatures(featureData as Feature[]);
         handleCancel();
       }
-      setConfirmLoading(false);
     } catch (error) {
-      setConfirmLoading(false);
       message.error(`${error}`);
     }
+    setConfirmLoading(false);
   };
   return (
     <>
