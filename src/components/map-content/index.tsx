@@ -14,7 +14,6 @@ import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
 import DownloadBtn from './btn/download-btn';
-import HandBackBtn from './btn/handback-btn';
 import { SettingBtn } from './btn/setting-btn';
 import { UrlBtn } from './btn/url-btn';
 import './index.less';

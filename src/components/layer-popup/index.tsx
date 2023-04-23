@@ -388,10 +388,6 @@ export const LayerPopup: React.FC = () => {
     );
   }, [featureFields, popupProps.feature]);
 
-  useEffect(() => {
-    console.log(popupProps);
-  }, [popupProps.feature]);
-
   return (
     <>
       {popupProps.visible &&
