@@ -30,7 +30,7 @@ type DataType = 'cover' | 'merge';
 export const UrlBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { resetFeatures, features } = useModel('feature');
-
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
 
@@ -68,6 +68,7 @@ export const UrlBtn = () => {
     setSelectRadio('cover');
   };
   const checkWithRestData = async () => {
+    setConfirmLoading(true);
     try {
       const newData = await formRef.current?.getData();
       if (FeatureCollectionVT.check(newData)) {
@@ -78,7 +79,9 @@ export const UrlBtn = () => {
         resetFeatures(featureData as Feature[]);
         handleCancel();
       }
+      setConfirmLoading(false);
     } catch (error) {
+      setConfirmLoading(false);
       message.error(`${error}`);
     }
   };
@@ -98,6 +101,7 @@ export const UrlBtn = () => {
           onOk={checkWithRestData}
           onCancel={handleCancel}
           destroyOnClose
+          confirmLoading={confirmLoading}
           width={1000}
         >
           <Tabs
