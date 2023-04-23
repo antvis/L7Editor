@@ -305,9 +305,8 @@ export const AppTable = () => {
       ...features[__index - 1].properties,
       ...newValues,
     };
-    const indexData = { ...features[__index - 1], properties: indexProperties };
-    features.splice(__index - 1, 1, indexData);
-    setFeatures(features);
+    const feature = { ...features[__index - 1], properties: indexProperties };
+    features[index] = feature;
     setEditorText(prettierText({ content: featureCollection(features) }));
     setNewDataSource(newData);
   };
