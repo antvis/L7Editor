@@ -1,5 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { isCircle, isRect } from '@/utils';
+import { featureIndex, isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
   DrawCircle,
@@ -27,13 +27,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 import './index.less';
 const { Paragraph } = Typography;
@@ -53,7 +47,6 @@ export const LayerPopup: React.FC = () => {
   } = useModel('feature');
   const { layerColor } = useModel('global');
   const { popupTrigger } = useModel('global');
-  const inputRef = useRef<any>(null);
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
@@ -167,14 +160,7 @@ export const LayerPopup: React.FC = () => {
         feature.properties?.[FeatureKey.Index]
       );
     });
-    const index = features.findIndex((item: Feature) => {
-      return (
-        //@ts-ignore
-        item.properties[FeatureKey.Index] ===
-        //@ts-ignore
-        feature.properties?.[FeatureKey.Index]
-      );
-    });
+    const index = featureIndex(features, feature);
     const onChange = (selectFeature: any, draw: DrawType) => {
       if (!selectFeature) {
         const getData = draw.getData();
@@ -288,13 +274,7 @@ export const LayerPopup: React.FC = () => {
     }
   }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene, isDraw]);
 
-  useEffect(() => {
-    if (tableClick.isInput) {
-      inputRef.current?.focus();
-    }
-  }, [tableClick.isInput]);
-
-  const save = async (key: string, value: any) => {
+  const save = (key: string, value: any) => {
     try {
       const formValue = form.getFieldValue('input');
       if (value === formValue) {
@@ -306,14 +286,7 @@ export const LayerPopup: React.FC = () => {
         };
         const feature = { ...popupProps.feature, properties };
         setPopupProps((event) => ({ ...event, feature }));
-        const index = features.findIndex((item: Feature) => {
-          return (
-            //@ts-ignore
-            item.properties[FeatureKey.Index] ===
-            //@ts-ignore
-            feature.properties?.[FeatureKey.Index]
-          );
-        });
+        const index = featureIndex(features, feature);
         features[index] = feature;
         saveEditorText(prettierText({ content: featureCollection(features) }));
         setTableClick({ isInput: false, index: null });
@@ -349,13 +322,13 @@ export const LayerPopup: React.FC = () => {
                         <Form.Item name="input">
                           {typeof value === 'number' ? (
                             <InputNumber
-                              ref={inputRef}
+                              autoFocus
                               onPressEnter={() => save(key, value)}
                               onBlur={() => save(key, value)}
                             />
                           ) : (
                             <Input
-                              ref={inputRef}
+                              autoFocus
                               onPressEnter={() => save(key, value)}
                               onBlur={() => save(key, value)}
                             />
