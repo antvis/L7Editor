@@ -282,30 +282,26 @@ export const LayerPopup: React.FC = () => {
   }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene, isDraw]);
 
   const save = (key: string, value: any) => {
-    try {
-      const formValue = form.getFieldValue('input');
-      if (value !== formValue) {
-        const properties = {
-          ...popupProps.feature.properties,
-          [key]: formValue,
-        };
-        const feature = { ...popupProps.feature, properties };
-        setPopupProps((event) => ({ ...event, feature }));
-        const index = features.findIndex((item: Feature) => {
-          return (
-            //@ts-ignore
-            item.properties[FeatureKey.Index] ===
-            //@ts-ignore
-            feature.properties?.[FeatureKey.Index]
-          );
-        });
-        features[index] = feature;
-        saveEditorText(prettierText({ content: featureCollection(features) }));
-      }
-      setTableClick({ isInput: false, index: null });
-    } catch (errInfo) {
-      console.log('Save failed:', errInfo);
+    const formValue = form.getFieldValue('input');
+    if (value !== formValue) {
+      const properties = {
+        ...popupProps.feature.properties,
+        [key]: formValue,
+      };
+      const feature = { ...popupProps.feature, properties };
+      setPopupProps((event) => ({ ...event, feature }));
+      const index = features.findIndex((item: Feature) => {
+        return (
+          //@ts-ignore
+          item.properties[FeatureKey.Index] ===
+          //@ts-ignore
+          feature.properties?.[FeatureKey.Index]
+        );
+      });
+      features[index] = feature;
+      saveEditorText(prettierText({ content: featureCollection(features) }));
     }
+    setTableClick({ isInput: false, index: null });
   };
 
   const popupTable = useMemo(() => {
