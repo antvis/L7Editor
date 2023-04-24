@@ -5,7 +5,7 @@ import { forwardRef, useImperativeHandle, useState } from 'react';
 const UrlUpload = forwardRef(({}, ref) => {
   const [inputValue, setInputValue] = useState<string>('');
 
-  const [radioValue, setRadioValue] = useState<string>('JSON');
+  const [radioValue, setRadioValue] = useState<string>('GeoJSON');
 
   useImperativeHandle(
     ref,
@@ -33,12 +33,12 @@ const UrlUpload = forwardRef(({}, ref) => {
           style={{ marginTop: 16, marginBottom: 4 }}
         >
           <Radio.Group
-            defaultValue="JSON"
+            defaultValue="GeoJSON"
             onChange={(e) => {
               setRadioValue(e.target.value);
             }}
           >
-            <Radio.Button value="JSON">JSON</Radio.Button>
+            <Radio.Button value="GeoJSON">GeoJSON</Radio.Button>
             <Radio.Button value="WKT">WKT</Radio.Button>
             <Radio.Button value="KML">KML</Radio.Button>
           </Radio.Group>
