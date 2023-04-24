@@ -378,7 +378,7 @@ export const LayerPopup: React.FC = () => {
             lngLat={popupProps.lngLat}
             closeButton={false}
             offsets={[0, 10]}
-            followCursor={popupTrigger === 'hover' ? true : false}
+            followCursor={popupTrigger === 'hover'}
           >
             <div
               className="layer-popup"
