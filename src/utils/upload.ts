@@ -1,4 +1,4 @@
-import { getUniqueId, parserTextFileToSource } from './fileToSource';
+import { parserTextFileToSource } from './fileToSource';
 interface newFile extends File {
   uid: string;
 }
@@ -13,7 +13,7 @@ export const parserFileToSource = async (file: newFile) => {
   let dataSource;
 
   try {
-    if (['csv', 'geojson', 'json'].includes(fileExtension)) {
+    if (['csv', 'geojson', 'json', 'kml', 'wkt'].includes(fileExtension)) {
       dataSource = await parserTextFileToSource(
         file,
         fileNames,

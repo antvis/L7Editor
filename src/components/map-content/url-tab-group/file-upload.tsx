@@ -57,15 +57,15 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
 
   return (
     <>
-      <Form>
+      <Form layout={'vertical'}>
         <Form.Item
           name="file"
-          label="文件上传"
+          label="文件上传 :"
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >
           <Upload
-            accept=".json,.geojson"
+            accept=".json,.geojson,.kml,.wkt"
             customRequest={customRequest}
             multiple
             onRemove={(file) => {
@@ -81,7 +81,9 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           </Upload>
         </Form.Item>
       </Form>
-      <div style={{ color: '#777' }}>仅支持.json, .geojson 后缀的文件</div>
+      <div style={{ color: '#777' }}>
+        仅支持.json, .geojson, .wkt, .kml后缀的文件
+      </div>
     </>
   );
 });

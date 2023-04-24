@@ -1,4 +1,6 @@
 import { FeatureCollectionVT } from '@/constants';
+import togeojson from '@mapbox/togeojson';
+import wkt from 'wkt';
 /**
  * 生成唯一 ID
  */
@@ -124,5 +126,35 @@ export const parserTextFileToSource = async (
     return parserJsonToGeoJson(content, name, id);
   } else if (fileExtension === 'geojson') {
     return parserGeoJson(content, name, id);
+  } else if (fileExtension === 'kml') {
+    const xml = new DOMParser().parseFromString(content, 'text/xml');
+    const geojson = await togeojson.kml(xml, {
+      style: true,
+    });
+    return {
+      id: id || getUniqueId(id),
+      metadata: { name },
+      data: geojson,
+      type: 'local',
+    };
+  } else if (fileExtension === 'wkt') {
+    const wktArr = content.split('\n');
+    const geojson = wktArr.map((item: string) => {
+      const data = {
+        type: 'Feature',
+        geometry: {},
+        properties: {},
+      };
+      return { ...data, geometry: wkt.parse(item) };
+    });
+    return {
+      id: id || getUniqueId(id),
+      metadata: { name },
+      data: {
+        type: 'FeatureCollection',
+        features: geojson,
+      },
+      type: 'local',
+    };
   }
 };

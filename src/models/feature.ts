@@ -138,7 +138,7 @@ export default () => {
   }, [features]);
 
   const bboxAutoFit = () => {
-    if (scene && features.length && autoFitBounds) {
+    if (scene && features.length) {
       const [lng1, lat1, lng2, lat2] = bbox(featureCollection(features));
       scene.fitBounds([
         [lng1, lat1],

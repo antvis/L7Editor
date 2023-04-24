@@ -1,9 +1,11 @@
 import { getUrlFeatureCollection } from '@/utils';
-import { Form, Input } from 'antd';
+import { Form, Input, Radio } from 'antd';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const UrlUpload = forwardRef(({}, ref) => {
   const [inputValue, setInputValue] = useState<string>('');
+
+  const [radioValue, setRadioValue] = useState<string>('GeoJSON');
 
   useImperativeHandle(
     ref,
@@ -11,22 +13,39 @@ const UrlUpload = forwardRef(({}, ref) => {
       getData: () =>
         new Promise((resolve, reject) => {
           if (inputValue) {
-            resolve(getUrlFeatureCollection(inputValue));
-            reject('数据格式错误，仅支持 GeoJSON 格式');
+            resolve(getUrlFeatureCollection(inputValue, radioValue));
+            reject('数据格式错误，请选择正确的数据类型');
           } else {
             reject('请输入文本内容');
           }
         }),
     }),
-    [inputValue],
+    [inputValue, radioValue],
   );
 
   return (
     <>
-      <Form>
+      <Form layout={'vertical'}>
+        <Form.Item
+          name="urlType"
+          label="数据类型 :"
+          rules={[{ required: true }]}
+          style={{ marginTop: 16, marginBottom: 4 }}
+        >
+          <Radio.Group
+            defaultValue="GeoJSON"
+            onChange={(e) => {
+              setRadioValue(e.target.value);
+            }}
+          >
+            <Radio.Button value="GeoJSON">GeoJSON</Radio.Button>
+            <Radio.Button value="WKT">WKT</Radio.Button>
+            <Radio.Button value="KML">KML</Radio.Button>
+          </Radio.Group>
+        </Form.Item>
         <Form.Item
           name="url"
-          label="URL"
+          label="URL地址 :"
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >
@@ -39,7 +58,6 @@ const UrlUpload = forwardRef(({}, ref) => {
           />
         </Form.Item>
       </Form>
-      <div style={{ color: '#777' }}>仅支持 GeoJSON 格式的数据</div>
     </>
   );
 });
