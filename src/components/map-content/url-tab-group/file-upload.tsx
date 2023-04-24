@@ -57,10 +57,10 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
 
   return (
     <>
-      <Form>
+      <Form layout={'vertical'}>
         <Form.Item
           name="file"
-          label="文件上传"
+          label="文件上传 :"
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >

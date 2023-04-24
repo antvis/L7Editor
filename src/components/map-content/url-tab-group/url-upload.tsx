@@ -25,13 +25,12 @@ const UrlUpload = forwardRef(({}, ref) => {
 
   return (
     <>
-      <Form>
+      <Form layout={'vertical'}>
         <Form.Item
           name="urlType"
-          label="URL类型"
+          label="数据类型 :"
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
-          tooltip="请选择url数据类型"
         >
           <Radio.Group
             defaultValue="JSON"
@@ -42,12 +41,11 @@ const UrlUpload = forwardRef(({}, ref) => {
             <Radio.Button value="JSON">JSON</Radio.Button>
             <Radio.Button value="WKT">WKT</Radio.Button>
             <Radio.Button value="KML">KML</Radio.Button>
-            {/* <Radio.Button value="d">Chengdu</Radio.Button> */}
           </Radio.Group>
         </Form.Item>
         <Form.Item
           name="url"
-          label="URL"
+          label="URL地址 :"
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >
