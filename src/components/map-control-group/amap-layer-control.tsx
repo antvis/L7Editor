@@ -82,7 +82,7 @@ export function AmapLayerControl() {
           ? amapAdd.add(buildings)
           : amapAdd.remove(buildings);
       } catch {
-        // console.log(error);
+
       }
     }
   }, [layerType, scene]);

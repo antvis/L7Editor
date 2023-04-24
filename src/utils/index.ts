@@ -1,6 +1,12 @@
 import { FeatureCollectionVT } from '@/constants';
 import togeojson from '@mapbox/togeojson';
-import { center, coordAll, distance, Feature } from '@turf/turf';
+import {
+  center,
+  coordAll,
+  distance,
+  Feature,
+  featureCollection,
+} from '@turf/turf';
 import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
@@ -52,24 +58,16 @@ export const getUrlFeatureCollection = async (
   } else if (urlType === 'WKT') {
     const WKT = await json.text();
     const wktArr = WKT.split('\n');
-    const geojson = wktArr.map((item: string) => {
-      const data = {
+    const geojson: Feature<any, {}>[] = wktArr.map((item: string) => {
+      const data: Feature<any, {}> = {
         type: 'Feature',
         geometry: {},
         properties: {},
       };
       return { ...data, geometry: wkt.parse(item) };
     });
-    if (
-      FeatureCollectionVT.check({
-        type: 'FeatureCollection',
-        features: geojson,
-      })
-    ) {
-      return {
-        type: 'FeatureCollection',
-        features: geojson,
-      };
+    if (FeatureCollectionVT.check(featureCollection(geojson))) {
+      return featureCollection(geojson);
     } else {
       message.error('请检查url是否与数据格式匹配');
     }
