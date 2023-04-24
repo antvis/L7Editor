@@ -1,10 +1,12 @@
+import { downloadText } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
 import { CloudDownloadOutlined } from '@ant-design/icons';
+import { coordAll, featureCollection } from '@turf/turf';
 import { useModel } from '@umijs/max';
 import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
-import { downloadText } from '@/utils';
-import { coordAll, featureCollection } from '@turf/turf';
-import { prettierText } from '@/utils/prettier-text';
+import tokml from 'tokml';
+import wkt from 'wkt';
 
 const DownloadMenuItems: MenuProps['items'] = [
   {
@@ -22,6 +24,14 @@ const DownloadMenuItems: MenuProps['items'] = [
   {
     key: 'Text',
     label: '下载当前编辑器输入数据',
+  },
+  {
+    key: 'KML',
+    label: '下载 KML 格式数据',
+  },
+  {
+    key: 'WKT',
+    label: '下载 WKT 格式数据',
   },
 ];
 
@@ -42,6 +52,16 @@ const DownloadBtn: React.FC = () => {
           .join(';'),
         'txt',
       );
+    } else if (key === 'KML') {
+      const kml = tokml(fc);
+      downloadText(kml, 'kml');
+    } else if (key === 'WKT') {
+      const wktArr = features.map((item) => {
+        const geometry = item.geometry;
+        const WKT = wkt.stringify(geometry);
+        return WKT;
+      });
+      downloadText(wktArr.join('\n'), 'wkt');
     } else {
       downloadText(editorText, 'json');
     }

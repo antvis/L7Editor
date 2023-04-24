@@ -65,7 +65,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           style={{ marginTop: 16, marginBottom: 4 }}
         >
           <Upload
-            accept=".json,.geojson,.kml"
+            accept=".json,.geojson,.kml,.wkt"
             customRequest={customRequest}
             multiple
             onRemove={(file) => {

@@ -1,12 +1,11 @@
-import {
-  center,
-  coordAll,
-  distance,
-  Feature,
-} from '@turf/turf';
+import { FeatureCollectionVT } from '@/constants';
+import togeojson from '@mapbox/togeojson';
+import { center, coordAll, distance, Feature } from '@turf/turf';
+import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { isUndefined } from 'lodash';
+import wkt from 'wkt';
 
 export const getOpacityColor = (color: string, alpha: number) => {
   const colorInstance = Color(color).fade(alpha);
@@ -38,13 +37,53 @@ export const getParamsNew = (key: string) => {
   return temData.get(key);
 };
 
-export const getUrlFeatureCollection = async (e: string) => {
-  try {
-    const json = await fetch(e);
-    const geoData = await json.json();
-    return geoData;
-  } catch (e) {
-    throw new Error('接口请求失败');
+export const getUrlFeatureCollection = async (
+  e: string,
+  urlType: string = 'JSON',
+) => {
+  const json = await fetch(e);
+  if (urlType === 'JSON') {
+    try {
+      const geoData = await json.json();
+      return geoData;
+    } catch (e) {
+      throw new Error('请检查url是否与数据格式匹配');
+    }
+  } else if (urlType === 'WKT') {
+    const WKT = await json.text();
+    const wktArr = WKT.split('\n');
+    const geojson = wktArr.map((item: string) => {
+      const data = {
+        type: 'Feature',
+        geometry: {},
+        properties: {},
+      };
+      return { ...data, geometry: wkt.parse(item) };
+    });
+    if (
+      FeatureCollectionVT.check({
+        type: 'FeatureCollection',
+        features: geojson,
+      })
+    ) {
+      return {
+        type: 'FeatureCollection',
+        features: geojson,
+      };
+    } else {
+      message.error('请检查url是否与数据格式匹配');
+    }
+  } else if (urlType === 'KML') {
+    const KML = await json.text();
+    const xml = new DOMParser().parseFromString(KML, 'text/xml');
+    if (xml.getElementsByTagName('parsererror').length > 0) {
+      message.error('请检查url是否与数据格式匹配');
+    } else {
+      const geojson = await togeojson.kml(xml, {
+        style: true,
+      });
+      return geojson;
+    }
   }
 };
 

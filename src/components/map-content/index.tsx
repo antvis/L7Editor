@@ -26,7 +26,7 @@ export const MapContent: React.FC = () => {
       defaultValue: 'code',
     },
   );
-  const { saveEditorText, savable, setFeatures, features } =
+  const { saveEditorText, savable, features } =
     useModel('feature');
 
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {

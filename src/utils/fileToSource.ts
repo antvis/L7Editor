@@ -1,5 +1,6 @@
 import { FeatureCollectionVT } from '@/constants';
-import { togeojson } from '@mapbox/togeojson';
+import togeojson from '@mapbox/togeojson';
+import wkt from 'wkt';
 /**
  * 生成唯一 ID
  */
@@ -126,14 +127,34 @@ export const parserTextFileToSource = async (
   } else if (fileExtension === 'geojson') {
     return parserGeoJson(content, name, id);
   } else if (fileExtension === 'kml') {
-    const reader = new FileReader();
-    reader.readAsText(file, 'utf-8');
-    reader.onload = (e: any) => {
-      const xml = new DOMParser().parseFromString(e.target.result, 'text/xml');
-      const geojson = togeojson.kml(xml, {
-        style: true,
-      });
-      console.log(geojson);
+    const xml = new DOMParser().parseFromString(content, 'text/xml');
+    const geojson = await togeojson.kml(xml, {
+      style: true,
+    });
+    return {
+      id: id || getUniqueId(id),
+      metadata: { name },
+      data: geojson,
+      type: 'local',
+    };
+  } else if (fileExtension === 'wkt') {
+    const wktArr = content.split('\n');
+    const geojson = wktArr.map((item: string) => {
+      const data = {
+        type: 'Feature',
+        geometry: {},
+        properties: {},
+      };
+      return { ...data, geometry: wkt.parse(item) };
+    });
+    return {
+      id: id || getUniqueId(id),
+      metadata: { name },
+      data: {
+        type: 'FeatureCollection',
+        features: geojson,
+      },
+      type: 'local',
     };
   }
 };
