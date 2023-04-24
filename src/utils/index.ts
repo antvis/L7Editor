@@ -44,10 +44,10 @@ export const getParamsNew = (key: string) => {
 };
 
 export const getUrlFeatureCollection = async (
-  e: string,
+  url: string,
   urlType: string = 'JSON',
 ) => {
-  const json = await fetch(e);
+  const json = await fetch(url);
   if (urlType === 'JSON') {
     try {
       const geoData = await json.json();
