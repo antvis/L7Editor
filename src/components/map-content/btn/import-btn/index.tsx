@@ -1,6 +1,6 @@
 import { AppEditor } from '@/components/app-editor';
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { Feature } from '@turf/turf';
+import { Feature, FeatureCollection } from '@turf/turf';
 import {
   Button,
   Form,
@@ -13,10 +13,10 @@ import {
 } from 'antd';
 import { useRef, useState } from 'react';
 import { useModel } from 'umi';
-import { FeatureCollectionVT } from '../../../constants/variable-type';
-import FileUpload from '../url-tab-group/file-upload';
-import UrlUpload from '../url-tab-group/url-upload';
+import { FeatureCollectionVT } from '../../../../constants/variable-type';
+import FileUpload from './file-upload';
 import LngLatImportBtn from './lnglat-import-btn';
+import UrlUpload from './url-upload';
 
 /**
  * Tab类型
@@ -27,9 +27,9 @@ type TabType = 'url' | 'file' | 'script' | 'lnglat';
  */
 type DataType = 'cover' | 'merge';
 
-export const UrlBtn = () => {
+export const ImportBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures, features } = useModel('feature');
+  const { resetFeatures, features, bboxAutoFit } = useModel('feature');
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
@@ -70,13 +70,12 @@ export const UrlBtn = () => {
   const checkWithRestData = async () => {
     setConfirmLoading(true);
     try {
-      const newData = await formRef.current?.getData();
-      if (FeatureCollectionVT.check(newData)) {
-        const featureData =
-          selectRadio === 'cover'
-            ? newData.features
-            : [...features, ...newData.features];
-        resetFeatures(featureData as Feature[]);
+      const fc = (await formRef.current?.getData()) as FeatureCollection;
+      if (FeatureCollectionVT.check(fc)) {
+        const newFeatures =
+          selectRadio === 'cover' ? fc.features : [...features, ...fc.features];
+        resetFeatures(newFeatures as Feature[]);
+        bboxAutoFit(newFeatures);
         handleCancel();
       }
     } catch (error) {

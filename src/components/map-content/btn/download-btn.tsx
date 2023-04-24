@@ -5,26 +5,28 @@ import { coordAll, featureCollection } from '@turf/turf';
 import { useModel } from '@umijs/max';
 import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
+// @ts-ignore
 import tokml from 'tokml';
+// @ts-ignore
 import wkt from 'wkt';
 
 const DownloadMenuItems: MenuProps['items'] = [
   {
     key: 'GeoJson',
-    label: '下载压缩的 GeoJson 格式数据',
+    label: '下载 GeoJSON 格式数据',
   },
-  {
-    key: 'FormatGeoJson',
-    label: '下载格式化的 GeoJson 格式数据',
-  },
+  // {
+  //   key: 'FormatGeoJson',
+  //   label: '下载格式化的 GeoJson 格式数据',
+  // },
   {
     key: 'LngLat',
     label: '下载 LngLat 格式数据',
   },
-  {
-    key: 'Text',
-    label: '下载当前编辑器输入数据',
-  },
+  // {
+  //   key: 'Text',
+  //   label: '下载当前编辑器输入数据',
+  // },
   {
     key: 'KML',
     label: '下载 KML 格式数据',
