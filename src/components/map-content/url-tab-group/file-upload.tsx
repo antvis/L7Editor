@@ -81,7 +81,9 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           </Upload>
         </Form.Item>
       </Form>
-      <div style={{ color: '#777' }}>仅支持.json, .geojson 后缀的文件</div>
+      <div style={{ color: '#777' }}>
+        仅支持.json, .geojson, .wkt, .kml后缀的文件
+      </div>
     </>
   );
 });
