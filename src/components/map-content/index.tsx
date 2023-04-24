@@ -5,7 +5,7 @@ import {
   ClearOutlined,
   CodeOutlined,
   SaveOutlined,
-  TableOutlined,
+  TableOutlined
 } from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Tabs, TabsProps, Tooltip } from 'antd';
@@ -14,11 +14,12 @@ import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
 import DownloadBtn from './btn/download-btn';
+import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
-import { UrlBtn } from './btn/url-btn';
 import './index.less';
 
 export const MapContent: React.FC = () => {
+  const { autoFitBounds } = useModel('global')
   const { bboxAutoFit } = useModel('feature');
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
@@ -26,15 +27,22 @@ export const MapContent: React.FC = () => {
       defaultValue: 'code',
     },
   );
-  const { saveEditorText, savable, features } =
-    useModel('feature');
+  const { saveEditorText, savable, features } = useModel('feature');
 
-  useKeyPress(['ctrl.s', 'meta.s'], (e) => {
-    e.preventDefault();
+  const onSave = () => {
     if (!savable) {
       return;
     }
-    saveEditorText();
+    const features = saveEditorText();
+    if (autoFitBounds) {
+
+      bboxAutoFit(features);
+    }
+  };
+
+  useKeyPress(['ctrl.s', 'meta.s'], (e) => {
+    e.preventDefault();
+    onSave()
   });
 
   const items: TabsProps['items'] = [
@@ -68,7 +76,7 @@ export const MapContent: React.FC = () => {
     <div className="map-content">
       <div className="map-content__left">
         <div>
-          <UrlBtn />
+          <ImportBtn />
           <Tooltip
             trigger="hover"
             placement="left"
@@ -77,7 +85,7 @@ export const MapContent: React.FC = () => {
             <Button
               icon={<SaveOutlined />}
               disabled={!savable}
-              onClick={() => saveEditorText()}
+              onClick={onSave}
             ></Button>
           </Tooltip>
           <Tooltip trigger="hover" placement="left" overlay="清空数据">
