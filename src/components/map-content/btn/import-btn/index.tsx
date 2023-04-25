@@ -1,6 +1,6 @@
 import { AppEditor } from '@/components/app-editor';
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { Feature } from '@turf/turf';
+import { Feature, FeatureCollection } from '@turf/turf';
 import {
   Button,
   Form,
@@ -13,10 +13,10 @@ import {
 } from 'antd';
 import { useRef, useState } from 'react';
 import { useModel } from 'umi';
-import { FeatureCollectionVT } from '../../../constants/variable-type';
-import FileUpload from '../url-tab-group/file-upload';
-import UrlUpload from '../url-tab-group/url-upload';
+import { FeatureCollectionVT } from '../../../../constants/variable-type';
+import FileUpload from './file-upload';
 import LngLatImportBtn from './lnglat-import-btn';
+import UrlUpload from './url-upload';
 
 /**
  * Tab类型
@@ -27,10 +27,10 @@ type TabType = 'url' | 'file' | 'script' | 'lnglat';
  */
 type DataType = 'cover' | 'merge';
 
-export const UrlBtn = () => {
+export const ImportBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures, editorText } = useModel('feature');
-
+  const { resetFeatures, features, bboxAutoFit } = useModel('feature');
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
 
@@ -48,6 +48,11 @@ export const UrlBtn = () => {
       children: <FileUpload ref={formRef} />,
     },
     {
+      key: 'lnglat',
+      label: <div>经纬度上传</div>,
+      children: <LngLatImportBtn ref={formRef} />,
+    },
+    {
       key: 'script',
       label: <div>JavaScript脚本</div>,
       children: (
@@ -56,11 +61,6 @@ export const UrlBtn = () => {
         </div>
       ),
     },
-    {
-      key: 'lnglat',
-      label: <div>经纬度上传</div>,
-      children: <LngLatImportBtn ref={formRef} />,
-    },
   ];
 
   const handleCancel = () => {
@@ -68,19 +68,20 @@ export const UrlBtn = () => {
     setSelectRadio('cover');
   };
   const checkWithRestData = async () => {
+    setConfirmLoading(true);
     try {
-      const newData = await formRef.current?.getData();
-      if (FeatureCollectionVT.check(newData)) {
-        const featureData =
-          selectRadio === 'cover'
-            ? newData.features
-            : [...JSON.parse(editorText).features, ...newData.features];
-        resetFeatures(featureData as Feature[]);
+      const fc = (await formRef.current?.getData()) as FeatureCollection;
+      if (FeatureCollectionVT.check(fc)) {
+        const newFeatures =
+          selectRadio === 'cover' ? fc.features : [...features, ...fc.features];
+        resetFeatures(newFeatures as Feature[]);
+        bboxAutoFit(newFeatures);
         handleCancel();
       }
     } catch (error) {
       message.error(`${error}`);
     }
+    setConfirmLoading(false);
   };
   return (
     <>
@@ -98,6 +99,7 @@ export const UrlBtn = () => {
           onOk={checkWithRestData}
           onCancel={handleCancel}
           destroyOnClose
+          confirmLoading={confirmLoading}
           width={1000}
         >
           <Tabs

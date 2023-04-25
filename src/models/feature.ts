@@ -15,11 +15,9 @@ import { useLocalStorageState } from 'ahooks';
 import { message } from 'antd';
 import { flatMap, max, min } from 'lodash';
 import { useMemo, useState } from 'react';
-import { useModel } from 'umi';
 
 export default () => {
   const [scene, setScene] = useState<Scene | null>(null);
-  const { autoFitBounds } = useModel('global');
 
   const [editorText, setEditorText] = useLocalStorageState(
     LocalstorageKey.EditorText,
@@ -76,17 +74,28 @@ export default () => {
   }, [editorText, savedText]);
 
   const saveEditorText = (value?: string) => {
-    try {
-      const features = transformFeatures(value ?? editorText);
-      if (value) {
-        setEditorText(value);
+    const emptyFeatures = JSON.stringify(
+      { type: 'FeatureCollection', features: [] },
+      null,
+      2,
+    );
+    let features: Feature[] = [];
+    if (editorText || value) {
+      try {
+        features = transformFeatures(value ?? editorText);
+        if (value) {
+          setEditorText(value);
+        }
+        setSavedText(value ?? editorText);
+        setFeatures(features);
+      } catch (e) {
+        message.warn('数据加载有误');
       }
-      setSavedText(value ?? editorText);
-      setFeatures(features);
-      return features;
-    } catch (e) {
-      message.warn('数据加载有误');
+    } else {
+      setEditorText(emptyFeatures);
+      setSavedText(emptyFeatures);
     }
+    return features;
   };
 
   const resetFeatures = (newFeatures: Feature[]) => {
@@ -103,33 +112,33 @@ export default () => {
         return { __index: index + 1, ...properties };
       },
     );
-    const featureKeyList: FilterField[] = Array.from(
+    const featureKeyList: FilterField[] = [];
+    Array.from(
       new Set(
         flatMap(features.map(({ properties }) => Object.keys(properties))),
       ),
-    )
-      .map((field: string) => {
-        const type = typeof data[0][field];
-        if (type === 'string' || type === 'boolean') {
-          const value = data.map((item) => String(item[field])) as string[];
-          return { type: 'string', field, value };
-        } else if (type === 'number') {
-          const value = data.map((item) => item[field]);
-          return {
-            type,
-            field,
-            min: min(value) as number,
-            max: max(value) as number,
-          };
-        }
-      })
-      .filter((item) => item);
+    ).forEach((field: string) => {
+      const type = typeof data[0][field];
+      if (type === 'string' || type === 'boolean') {
+        const value = data.map((item) => String(item[field])) as string[];
+        featureKeyList.push({ type: 'string', field, value });
+      } else if (type === 'number') {
+        const value = data.map((item) => item[field]);
+        featureKeyList.push({
+          type,
+          field,
+          min: min(value) as number,
+          max: max(value) as number,
+        });
+      }
+    });
     return featureKeyList;
   }, [features]);
 
-  const bboxAutoFit = () => {
-    if (scene && features.length && autoFitBounds) {
-      const [lng1, lat1, lng2, lat2] = bbox(featureCollection(features));
+  const bboxAutoFit = (currentFeatures?: Feature[]) => {
+    const realFeatures = currentFeatures ?? features;
+    if (scene && realFeatures.length) {
+      const [lng1, lat1, lng2, lat2] = bbox(featureCollection(realFeatures));
       scene.fitBounds([
         [lng1, lat1],
         [lng2, lat2],

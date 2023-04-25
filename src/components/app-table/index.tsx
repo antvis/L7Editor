@@ -1,6 +1,7 @@
 import { FeatureKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
-import { featureCollection } from '@turf/turf';
+import { Scene } from '@antv/l7';
+import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
 import {
   Empty,
@@ -8,18 +9,34 @@ import {
   FormInstance,
   Input,
   InputNumber,
+  message,
   Space,
   Table,
+  Tooltip,
   Typography,
 } from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useModel } from 'umi';
+import './index.less';
+
 const { Text } = Typography;
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
+
+type EditableCellType = {
+  editable: boolean;
+  children: any;
+  dataIndex: string;
+  record: any;
+  inputType: string;
+  handleSave: (value: any) => void;
+  features: Feature[];
+  scene: Scene;
+  isDraw: boolean;
+};
 
 const formatTableValue = (value: any) => {
   if (isNull(value) || isUndefined(value)) {
@@ -52,8 +69,11 @@ const EditableCell = ({
   record,
   inputType,
   handleSave,
+  features,
+  scene,
+  isDraw,
   ...restProps
-}: any) => {
+}: EditableCellType) => {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<any>(null);
   const form = useContext(FormContext);
@@ -63,33 +83,66 @@ const EditableCell = ({
     }
   }, [editing]);
   const toggleEdit = () => {
-    setEditing(!editing);
-    form?.setFieldsValue(
-      inputType !== 'object'
-        ? {
-            [dataIndex]: record[dataIndex],
-          }
-        : { [dataIndex]: JSON.stringify(record[dataIndex]) },
-    );
+    if (scene && !isDraw) {
+      const bboxFit = features.find((item: any) => {
+        return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
+      });
+      if (bboxFit) {
+        if (
+          bboxFit.geometry.type === 'Point' ||
+          bboxFit.geometry.type === 'MultiPoint'
+        ) {
+          const content = center(bboxFit);
+          scene.setCenter(content.geometry.coordinates as [number, number]);
+        } else {
+          const content = bbox(bboxFit);
+          scene.fitBounds([
+            [content[0], content[1]],
+            [content[2], content[3]],
+          ]);
+        }
+      }
+      setEditing(!editing);
+      form?.setFieldsValue(
+        inputType !== 'object'
+          ? {
+              [dataIndex]: record[dataIndex],
+            }
+          : { [dataIndex]: JSON.stringify(record[dataIndex]) },
+      );
+    }
   };
+
   const save = async () => {
     try {
+      const fieldValue =
+        inputType !== 'object'
+          ? {
+              [dataIndex]: record[dataIndex],
+            }
+          : { [dataIndex]: JSON.stringify(record[dataIndex]) };
       const values = await form?.validateFields();
-      const newValues =
-        (await inputType) === 'object'
-          ? { dataIndex: JSON.parse(values[dataIndex]) }
-          : values;
-      toggleEdit();
-      handleSave({
-        ...record,
-        ...newValues,
-        newValues,
-      });
+      if (JSON.stringify(values) !== JSON.stringify(fieldValue)) {
+        const newValues =
+          inputType === 'object'
+            ? { [dataIndex]: JSON.parse(values[dataIndex]) }
+            : values;
+        toggleEdit();
+        handleSave({
+          ...record,
+          ...newValues,
+          newValues,
+        });
+      } else {
+        toggleEdit();
+      }
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
   };
+
   let childNode = children;
+
   if (editable) {
     childNode = editing ? (
       <Form.Item
@@ -106,7 +159,7 @@ const EditableCell = ({
       </Form.Item>
     ) : (
       <div
-        className="editable-cell-value-wrap"
+        className={!isDraw ? 'editable-cell-value-wrap' : ''}
         style={{
           paddingRight: 24,
         }}
@@ -129,7 +182,7 @@ const components = {
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { height = 0 } = useSize(container) ?? {};
-  const { features, setFeatures, setEditorText, resetFeatures } =
+  const { features, setFeatures, setEditorText, resetFeatures, scene, isDraw } =
     useModel('feature');
   const [newDataSource, setNewDataSource] = useState<any>([]);
 
@@ -182,7 +235,18 @@ export const AppTable = () => {
         'text',
       );
       newColumns.push({
-        title: <div style={{ whiteSpace: 'nowrap' }}>{key}</div>,
+        title: (
+          <Tooltip title={key}>
+            <Text
+              style={{ overflow: 'hidden', width: 70 }}
+              ellipsis={{ tooltip: key }}
+            >
+              {key}
+            </Text>
+          </Tooltip>
+        ),
+        width: 200,
+        align: 'center',
         dataIndex: key,
         key: `${key}${index}`,
         editable: true,
@@ -204,8 +268,10 @@ export const AppTable = () => {
     });
     newColumns.push({
       title: '操作',
-      width: 100,
       key: 'action',
+      width: 70,
+      align: 'center',
+      fixed: 'right',
       render: (_, record: any) => (
         <Space size="middle">
           <a
@@ -215,6 +281,7 @@ export const AppTable = () => {
                   return index !== record[FeatureKey.Index];
                 }),
               );
+              message.success('数据删除成功');
             }}
           >
             删除
@@ -238,42 +305,44 @@ export const AppTable = () => {
       ...features[__index - 1].properties,
       ...newValues,
     };
-    const indexData = { ...features[__index - 1], properties: indexProperties };
-    features.splice(__index - 1, 1, indexData);
-    setFeatures(features);
+    const feature = { ...features[__index - 1], properties: indexProperties };
+    features[index] = feature;
     setEditorText(prettierText({ content: featureCollection(features) }));
     setNewDataSource(newData);
   };
 
-  const newColumns = useMemo(() => {
-    const columns = defaultColumns.map((col: any) => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: (record: any) => ({
-          record,
-          editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          inputType: typeof record[col.dataIndex],
-          newDataSource,
-          handleSave,
-        }),
-      };
-    });
-    return columns;
-  }, [defaultColumns]);
+  const newColumns = defaultColumns.map((col: any) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record: any) => ({
+        record,
+        editable: col.editable,
+        dataIndex: col.dataIndex,
+        title: col.title,
+        inputType: typeof record[col.dataIndex],
+        newDataSource,
+        features,
+        scene,
+        isDraw,
+        handleSave,
+      }),
+    };
+  });
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={container}>
-      {newColumns?.length ? (
+      {newDataSource?.length ? (
         <Table
           components={components}
           columns={newColumns}
+          rowClassName={() => 'editable-row'}
           dataSource={newDataSource}
+          bordered
           scroll={{ y: height - 54, x: 'max-content' }}
+          size="small"
           pagination={false}
         />
       ) : (

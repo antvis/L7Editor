@@ -22,7 +22,7 @@ export enum LayerId {
 
 export * from './variable-type';
 export const dingGroupImg =
-  'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*d7TMQpSiofwAAAAAAAAAAAAADmJ7AQ/original';
+  'https://mdn.alipayobjects.com/huamei_baaa7a/afts/img/A*mvwjR5RwS9QAAAAAAAAAAAAADqSCAQ/original';
 
 export const PrimaryColor = '#1677ff';
 

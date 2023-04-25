@@ -5,37 +5,44 @@ import {
   ClearOutlined,
   CodeOutlined,
   SaveOutlined,
-  TableOutlined,
+  TableOutlined
 } from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
-import { Button, Tabs, TabsProps, Tooltip } from 'antd';
+import { Button, Popconfirm, Tabs, TabsProps, Tooltip } from 'antd';
 import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
 import DownloadBtn from './btn/download-btn';
-import HandBackBtn from './btn/handback-btn';
+import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
-import { UrlBtn } from './btn/url-btn';
 import './index.less';
 
 export const MapContent: React.FC = () => {
-  const { setEditorText, bboxAutoFit } = useModel('feature');
+  const { autoFitBounds } = useModel('global')
+  const { bboxAutoFit } = useModel('feature');
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
     {
       defaultValue: 'code',
     },
   );
-  const { saveEditorText, savable, setFeatures, features } =
-    useModel('feature');
+  const { saveEditorText, savable, features } = useModel('feature');
 
-  useKeyPress(['ctrl.s', 'meta.s'], (e) => {
-    e.preventDefault();
+  const onSave = () => {
     if (!savable) {
       return;
     }
-    saveEditorText();
+    const features = saveEditorText();
+    if (autoFitBounds) {
+
+      bboxAutoFit(features);
+    }
+  };
+
+  useKeyPress(['ctrl.s', 'meta.s'], (e) => {
+    e.preventDefault();
+    onSave()
   });
 
   const items: TabsProps['items'] = [
@@ -62,14 +69,14 @@ export const MapContent: React.FC = () => {
   ];
 
   const featureDisabled = useMemo(() => {
-    return !features.length;
-  }, [features]);
+    return !features.length && !savable;
+  }, [features, savable]);
 
   return (
     <div className="map-content">
       <div className="map-content__left">
         <div>
-          <UrlBtn />
+          <ImportBtn />
           <Tooltip
             trigger="hover"
             placement="left"
@@ -78,23 +85,32 @@ export const MapContent: React.FC = () => {
             <Button
               icon={<SaveOutlined />}
               disabled={!savable}
-              onClick={() => saveEditorText()}
+              onClick={onSave}
             ></Button>
           </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="清空数据">
-            <Button
-              icon={<ClearOutlined />}
-              disabled={featureDisabled}
-              onClick={() => {
-                saveEditorText(
-                  prettierText({
-                    content: { type: 'FeatureCollection', features: [] },
-                  }),
-                );
-              }}
-            />
-          </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="平移中心点">
+          <Popconfirm
+            title="确认清空所有数据？"
+            onConfirm={() => {
+              saveEditorText(
+                prettierText({
+                  content: { type: 'FeatureCollection', features: [] },
+                }),
+              );
+            }}
+          >
+            <Tooltip trigger="hover" placement="left" overlay="清空数据">
+              <Button
+                icon={<ClearOutlined />}
+                disabled={featureDisabled}
+              />
+            </Tooltip>
+          </Popconfirm>
+
+          <Tooltip
+            trigger="hover"
+            placement="left"
+            overlay="缩放至所有元素可见"
+          >
             <Button
               disabled={featureDisabled}
               icon={<IconFont type="icon-zishiying" />}
@@ -108,7 +124,7 @@ export const MapContent: React.FC = () => {
         <div>
           <SettingBtn />
           <DownloadBtn />
-          <HandBackBtn />
+          {/* <HandBackBtn /> */}
           <DingImgBtn />
         </div>
       </div>

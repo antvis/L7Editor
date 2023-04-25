@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle } from 'react';
 import { Form, Input, Radio } from 'antd';
 import { useModel } from 'umi';
 import { LngLatImportType } from '@/types';
-import { featureCollection, FeatureCollection } from '@turf/turf';
+import { featureCollection } from '@turf/turf';
 
 const LngLatImportTypeOptions: Array<{
   label: string;
