@@ -24,7 +24,7 @@ const FilterFormListControl: React.FC = () => {
   const addVisible = useMemo(() => {
     return !dataSource.length;
   }, [dataSource]);
-  
+
   const onValuesChange = (_: any, all: any) => {
     if (isEmpty(all.filterFromList)) {
       setFilters([]);
@@ -83,8 +83,8 @@ const FilterFormListControl: React.FC = () => {
           <Form.List name="filterFromList">
             {(fields, { add, remove }) => (
               <>
-                {fields.map(({ key, name }, index) => (
-                  <div key={index.toString()} style={{ display: 'flex' }}>
+                {fields.map(({ name }, index) => (
+                  <div key={index.toString()} style={{ display: 'flex', marginBottom: 8 }}>
                     <Form.Item name={[name, 'logic']} initialValue="and">
                       <Select style={{ width: 70, marginRight: '8px' }}>
                         <Option value="and">并且</Option>
@@ -125,7 +125,7 @@ const FilterFormListControl: React.FC = () => {
                       >
                         {dataSource.map(({ field, type }) => {
                           return (
-                            <Option value={JSON.stringify({ field, type })}>
+                            <Option key={field} value={JSON.stringify({ field, type })}>
                               <i
                                 style={{
                                   fontSize: 20,
@@ -205,6 +205,7 @@ const FilterFormListControl: React.FC = () => {
       </div>
       <div className="l7-filter-switch">
         <button
+          type="button"
           className="l7-draw-control__btn"
           onClick={() => {
             setIsVisible(!isVisible);

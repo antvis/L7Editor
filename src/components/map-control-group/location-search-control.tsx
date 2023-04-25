@@ -111,7 +111,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  添加至 GeoJSON
+                  添加至数据
                 </Button>
                 <Button
                   danger

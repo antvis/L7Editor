@@ -8,7 +8,7 @@ import {
   TableOutlined
 } from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
-import { Button, Tabs, TabsProps, Tooltip } from 'antd';
+import { Button, Popconfirm, Tabs, TabsProps, Tooltip } from 'antd';
 import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
@@ -88,19 +88,24 @@ export const MapContent: React.FC = () => {
               onClick={onSave}
             ></Button>
           </Tooltip>
-          <Tooltip trigger="hover" placement="left" overlay="清空数据">
-            <Button
-              icon={<ClearOutlined />}
-              disabled={featureDisabled}
-              onClick={() => {
-                saveEditorText(
-                  prettierText({
-                    content: { type: 'FeatureCollection', features: [] },
-                  }),
-                );
-              }}
-            />
-          </Tooltip>
+          <Popconfirm
+            title="确认清空所有数据？"
+            onConfirm={() => {
+              saveEditorText(
+                prettierText({
+                  content: { type: 'FeatureCollection', features: [] },
+                }),
+              );
+            }}
+          >
+            <Tooltip trigger="hover" placement="left" overlay="清空数据">
+              <Button
+                icon={<ClearOutlined />}
+                disabled={featureDisabled}
+              />
+            </Tooltip>
+          </Popconfirm>
+
           <Tooltip
             trigger="hover"
             placement="left"
