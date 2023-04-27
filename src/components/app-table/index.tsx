@@ -182,7 +182,7 @@ const components = {
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { height = 0 } = useSize(container) ?? {};
-  const { features, setFeatures, setEditorText, resetFeatures, scene, isDraw } =
+  const { features, setEditorText, resetFeatures, scene, isDraw } =
     useModel('feature');
   const [newDataSource, setNewDataSource] = useState<any>([]);
 

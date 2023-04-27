@@ -1,5 +1,7 @@
 import { FeatureCollectionVT } from '@/constants';
+// @ts-ignore
 import togeojson from '@mapbox/togeojson';
+// @ts-ignore
 import wkt from 'wkt';
 /**
  * 生成唯一 ID
@@ -9,7 +11,8 @@ export const getUniqueId = (prefix?: string) => {
     /[xy]/g,
     function (c) {
       const r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      
+        v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     },
   );
@@ -37,11 +40,9 @@ export const readFileAsText = (file: File) => {
  */
 export const parserGeoJson = (content: string, name: string, id?: string) => {
   let originData: GeoJSON.FeatureCollection;
-  try {
-    originData = JSON.parse(content) as GeoJSON.FeatureCollection;
-  } catch (e) {
-    throw e;
-  }
+
+  originData = JSON.parse(content) as GeoJSON.FeatureCollection;
+
   return {
     id: id || getUniqueId(id),
     metadata: { name },
@@ -59,11 +60,8 @@ export const parserJsonToGeoJson = (
   id?: string,
 ) => {
   let data: Record<string, any>[];
-  try {
-    data = JSON.parse(content);
-  } catch (e) {
-    throw e;
-  }
+
+  data = JSON.parse(content);
 
   // 兼容 geojson 文件
   if (FeatureCollectionVT.check(data)) {
@@ -116,12 +114,8 @@ export const parserTextFileToSource = async (
     fileFullName.lastIndexOf('.') + 1,
   );
   let content: string;
+  content = await readFileAsText(file);
 
-  try {
-    content = await readFileAsText(file);
-  } catch (e) {
-    throw e;
-  }
   if (fileExtension === 'json') {
     return parserJsonToGeoJson(content, name, id);
   } else if (fileExtension === 'geojson') {

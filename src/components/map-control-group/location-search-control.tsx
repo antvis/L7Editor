@@ -51,6 +51,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
       <CustomControl position="topleft" style={{ display: 'flex' }}>
         <div className="l7-draw-switch" style={{ marginRight: '8px' }}>
           <button
+            type="button"
             className="l7-draw-control__btn"
             style={{ borderRight: 'none' }}
           >
