@@ -70,20 +70,27 @@ export function AmapLayerControl() {
         const amapAdd = scene.map as any;
         const { roadNet, satellite, traffic, buildings } = layers.current;
 
-        isIncludes('Satellite')
-          ? amapAdd.add(satellite)
-          : amapAdd.remove(satellite);
-
-        isIncludes('RoadNet') ? amapAdd.add(roadNet) : amapAdd.remove(roadNet);
-
-        isIncludes('Traffic') ? amapAdd.add(traffic) : amapAdd.remove(traffic);
-
-        isIncludes('Buildings')
-          ? amapAdd.add(buildings)
-          : amapAdd.remove(buildings);
-      } catch {
-
-      }
+        if (isIncludes('Satellite')) {
+          amapAdd.add(satellite);
+        } else {
+          amapAdd.remove(satellite);
+        }
+        if (isIncludes('RoadNet')) {
+          amapAdd.add(roadNet);
+        } else {
+          amapAdd.remove(roadNet);
+        }
+        if (isIncludes('Traffic')) {
+          amapAdd.add(traffic);
+        } else {
+          amapAdd.remove(traffic);
+        }
+        if (isIncludes('Buildings')) {
+          amapAdd.add(buildings);
+        } else {
+          amapAdd.remove(buildings);
+        }
+      } catch {}
     }
   }, [layerType, scene]);
 
@@ -91,9 +98,10 @@ export function AmapLayerControl() {
     return (
       <div className="amap-info">
         <Checkbox.Group value={layerType}>
-          {amaplayerInfo.map((item) => {
+          {amaplayerInfo.map((item, index) => {
             return (
               <Checkbox
+                key={index}
                 value={item.type}
                 onClick={() => {
                   onClick(item);

@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import * as turf from '@turf/turf';
+import _ from 'lodash';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 
 export function provideCompletionItems(
@@ -16,6 +16,7 @@ export function provideCompletionItems(
   };
   let suggestions: any[] = [];
   if (type === 'turf') {
+    // eslint-disable-next-line guard-for-in
     for (const key in turf) {
       const completionItem = {
         label: key,

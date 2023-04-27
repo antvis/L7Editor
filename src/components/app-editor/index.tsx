@@ -1,5 +1,8 @@
+import { isPromise } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -8,11 +11,8 @@ import React, {
 } from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import { useModel } from 'umi';
-import './index.less';
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
-import { prettierText } from '@/utils/prettier-text';
 import { provideCompletionItems } from './editortool';
-import { isPromise } from '@/utils';
+import './index.less';
 
 type Language = 'json' | 'javascript';
 
@@ -85,12 +85,14 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     ref,
     () => ({
       getData: () =>
+        // eslint-disable-next-line no-async-promise-executor
         new Promise(async (resolve, reject) => {
           let geoData;
           const funcResult = new Function(scriptContent);
           if (funcResult()) {
             geoData = funcResult();
           } else {
+            // eslint-disable-next-line no-eval
             const evalResult = eval(scriptContent);
             geoData = isPromise(evalResult) ? await evalResult : evalResult;
           }

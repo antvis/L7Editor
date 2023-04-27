@@ -28,7 +28,7 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
         <Select
           placeholder="请选择过滤逻辑"
           options={select}
-          onChange={(value) => {
+          onChange={() => {
             const newFilterFromList = cloneDeep(
               form.getFieldValue('filterFromList'),
             );
@@ -82,8 +82,8 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
               >
                 {(uniq(DataList?.value) ?? [])
                   .filter((item) => item !== 'undefined')
-                  .map((item) => (
-                    <Select.Option value={item}>
+                  .map((item, index) => (
+                    <Select.Option key={index} value={item}>
                       <Tooltip title={item}>{item}</Tooltip>
                     </Select.Option>
                   ))}

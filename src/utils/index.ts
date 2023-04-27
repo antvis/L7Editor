@@ -1,4 +1,5 @@
 import { FeatureCollectionVT } from '@/constants';
+// @ts-ignore
 import togeojson from '@mapbox/togeojson';
 import {
   center,
@@ -11,6 +12,7 @@ import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { isUndefined } from 'lodash';
+// @ts-ignore
 import wkt from 'wkt';
 
 export const getOpacityColor = (color: string, alpha: number) => {
@@ -58,8 +60,8 @@ export const getUrlFeatureCollection = async (
   } else if (urlType === 'WKT') {
     const WKT = await json.text();
     const wktArr = WKT.split('\n');
-    const geojson: Feature<any, {}>[] = wktArr.map((item: string) => {
-      const data: Feature<any, {}> = {
+    const geojson: Feature<any>[] = wktArr.map((item: string) => {
+      const data: Feature<any> = {
         type: 'Feature',
         geometry: {},
         properties: {},
@@ -110,6 +112,7 @@ export const isCircle = (feature: Feature) => {
 };
 
 export const isRect = (feature: Feature) => {
+  // @ts-ignore
   const arrPoint = feature.geometry.coordinates[0];
   const result = Array.from(new Set(arrPoint.flat(Infinity)));
   if (
