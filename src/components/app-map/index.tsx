@@ -1,4 +1,4 @@
-import { FeatureCollectionVT } from '@/constants';
+import { FeatureCollectionVT, MapBoxConfig } from '@/constants';
 import { getParamsNew, getUrlFeatureCollection } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
@@ -54,14 +54,12 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
     if (baseMap === 'Mapbox') {
       return {
         ...mapOptions,
-        style: 'mapbox://styles/zcxduo/ck2ypyb1r3q9o1co1766dex29',
-        token:
-          'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
+        ...MapBoxConfig,
       };
     }
     return omit(mapOptions, ['token']);
   }, [baseMap, mapOptions]);
-  console.log(newMapOptions, 'newMapOptions');
+
   return (
     <LarkMap
       style={{ height: '100%' }}

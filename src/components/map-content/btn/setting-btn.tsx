@@ -52,7 +52,7 @@ export const SettingBtn = () => {
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
             setBaseMap(e.baseMap);
-            // window.location.reload();
+            window.location.reload();
           }}
         >
           <Form.Item name="popupTrigger" label="图层气泡展示方式">
