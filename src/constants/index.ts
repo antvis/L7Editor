@@ -12,6 +12,7 @@ export enum LocalstorageKey {
   PopupTrigger = 'PopupTrigger',
   ActiveRightTabKey = 'ActiveRightTabKey',
   AutoFitBounds = 'AutoFitBounds',
+  BaseMap = 'BaseMap',
 }
 
 export enum LayerId {

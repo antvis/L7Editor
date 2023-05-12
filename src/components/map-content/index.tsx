@@ -5,7 +5,7 @@ import {
   ClearOutlined,
   CodeOutlined,
   SaveOutlined,
-  TableOutlined
+  TableOutlined,
 } from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Popconfirm, Tabs, TabsProps, Tooltip } from 'antd';
@@ -16,10 +16,11 @@ import { AppTable } from '../app-table';
 import DownloadBtn from './btn/download-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
+import ChangeLog from './btn/changelog-btn';
 import './index.less';
 
 export const MapContent: React.FC = () => {
-  const { autoFitBounds } = useModel('global')
+  const { autoFitBounds } = useModel('global');
   const { bboxAutoFit } = useModel('feature');
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
@@ -35,14 +36,13 @@ export const MapContent: React.FC = () => {
     }
     const features = saveEditorText();
     if (autoFitBounds) {
-
       bboxAutoFit(features);
     }
   };
 
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {
     e.preventDefault();
-    onSave()
+    onSave();
   });
 
   const items: TabsProps['items'] = [
@@ -99,10 +99,7 @@ export const MapContent: React.FC = () => {
             }}
           >
             <Tooltip trigger="hover" placement="left" overlay="清空数据">
-              <Button
-                icon={<ClearOutlined />}
-                disabled={featureDisabled}
-              />
+              <Button icon={<ClearOutlined />} disabled={featureDisabled} />
             </Tooltip>
           </Popconfirm>
 
@@ -124,6 +121,7 @@ export const MapContent: React.FC = () => {
         <div>
           <SettingBtn />
           <DownloadBtn />
+          <ChangeLog />
           {/* <HandBackBtn /> */}
           <DingImgBtn />
         </div>

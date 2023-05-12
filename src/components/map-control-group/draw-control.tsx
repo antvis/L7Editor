@@ -44,7 +44,7 @@ const DrawControl = () => {
         },
         commonDrawOptions: {
           maxCount: 1,
-          style: getSingleColorStyle(layerColor),
+          style: getSingleColorStyle(layerColor!),
         },
       });
       setDrawControl(newDrawControl);
