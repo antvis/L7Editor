@@ -5,8 +5,6 @@ import { useLocalStorageState } from 'ahooks';
 type MapOptions = LarkMapProps['mapOptions'];
 
 export default () => {
-  // const scene = useScene();
-
   const [rightWidth, setRightWidth] = useLocalStorageState(
     LocalstorageKey.RightPanelWidth,
     {
@@ -46,6 +44,13 @@ export default () => {
     defaultValue: 'click',
   });
 
+  const [baseMap, setBaseMap] = useLocalStorageState<'Gaode' | 'Mapbox'>(
+    LocalstorageKey.BaseMap,
+    {
+      defaultValue: 'Gaode',
+    },
+  );
+
   return {
     rightWidth,
     setRightWidth,
@@ -59,6 +64,7 @@ export default () => {
     setPopupTrigger,
     autoFitBounds,
     setAutoFitBounds,
-    // scene,
+    baseMap,
+    setBaseMap,
   };
 };

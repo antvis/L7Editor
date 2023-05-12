@@ -3,6 +3,7 @@ import {
   MouseLocationControl,
   ScaleControl,
   ZoomControl,
+  useScene,
 } from '@antv/larkmap';
 import React from 'react';
 import { AmapLayerControl } from './amap-layer-control';
@@ -14,6 +15,8 @@ import MapThemeControl from './map-theme-control';
 // import SaveMapOptionsControl from './save-map-options-control';
 
 export const MapControlGroup: React.FC = ({}) => {
+  const scene = useScene();
+
   return (
     <>
       <DrawControl />
@@ -21,7 +24,7 @@ export const MapControlGroup: React.FC = ({}) => {
       <ScaleControl />
       <LocationSearchControl />
       <MouseLocationControl />
-      <AmapLayerControl />
+      {scene.getType() !== 'mapbox' && <AmapLayerControl />}
       <MapThemeControl />
       {/*<SaveMapOptionsControl />*/}
       <LayerColorControl />
