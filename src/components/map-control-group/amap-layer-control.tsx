@@ -136,7 +136,7 @@ export function AmapLayerControl() {
             }}
           >
             <div key={GOOGLE_SATELLITE.type} className="amap-info-item">
-              <img src={''} alt="" className="amap-info-item-image" />
+              <img src={GOOGLE_SATELLITE.image} alt="" className="amap-info-item-image" />
               <h5>{GOOGLE_SATELLITE.title}</h5>
             </div>
           </Checkbox>
