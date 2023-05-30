@@ -1,4 +1,4 @@
-import { parserTextFileToSource } from './fileToSource';
+import { parserTextFileToSource } from './file-to-source';
 interface newFile extends File {
   uid: string;
 }

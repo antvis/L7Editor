@@ -1,5 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
-import { isCircle, isRect } from '@/utils';
+import { getDrawStyle, isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
   DrawCircle,
@@ -8,7 +8,6 @@ import {
   DrawPoint,
   DrawPolygon,
   DrawRect,
-  getSingleColorStyle,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
@@ -196,7 +195,7 @@ export const LayerPopup: React.FC = () => {
     const options: any = {
       initialData: [feature],
       maxCount: 1,
-      style: getSingleColorStyle(layerColor),
+      style: getDrawStyle(layerColor),
     };
     const type = feature?.geometry.type;
     let drawLayer: DrawType;

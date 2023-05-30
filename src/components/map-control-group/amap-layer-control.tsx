@@ -1,7 +1,8 @@
-import { IconFont } from '@/constants';
+import {IconFont, LocalstorageKey} from '@/constants';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover } from 'antd';
 import { useEffect, useRef, useState } from 'react';
+import {useLocalStorageState} from "ahooks";
 
 interface AmapLayerProps {
   type: string;
@@ -56,7 +57,9 @@ const url2 =
 
 export function AmapLayerControl() {
   const scene = useScene();
-  const [layerType, setLayerType] = useState<string[]>([]);
+  const [layerTypes, setLayerType] = useLocalStorageState<string[]>(LocalstorageKey.LayerTypes, {
+    defaultValue: []
+  });
 
   const layers = useRef(
     scene.getType() !== 'mapbox'
@@ -78,7 +81,7 @@ export function AmapLayerControl() {
     });
   };
 
-  const isIncludes = (type: string) => layerType.includes(type);
+  const isIncludes = (type: string) => layerTypes.includes(type);
 
   useEffect(() => {
     if (scene && scene.getType() !== 'mapbox') {
@@ -86,25 +89,37 @@ export function AmapLayerControl() {
         const amapAdd = scene.map as any;
         const { roadNet, satellite, traffic, buildings } = layers.current;
 
-        isIncludes('Satellite')
-          ? amapAdd.add(satellite)
-          : amapAdd.remove(satellite);
+        if (isIncludes('Satellite')) {
+          amapAdd.add(satellite);
+        } else {
+          amapAdd.remove(satellite);
+        }
 
-        isIncludes('RoadNet') ? amapAdd.add(roadNet) : amapAdd.remove(roadNet);
+        if (isIncludes('RoadNet')) {
+          amapAdd.add(roadNet);
+        } else {
+          amapAdd.remove(roadNet);
+        }
 
-        isIncludes('Traffic') ? amapAdd.add(traffic) : amapAdd.remove(traffic);
+        if (isIncludes('Traffic')) {
+          amapAdd.add(traffic);
+        } else {
+          amapAdd.remove(traffic);
+        }
 
-        isIncludes('Buildings')
-          ? amapAdd.add(buildings)
-          : amapAdd.remove(buildings);
+        if (isIncludes('Buildings')) {
+          amapAdd.add(buildings);
+        } else {
+          amapAdd.remove(buildings);
+        }
       } catch {}
     }
-  }, [layerType, scene]);
+  }, [layerTypes, scene]);
 
   const AmapLayer = () => {
     return (
       <div className="amap-info">
-        <Checkbox.Group value={layerType}>
+        <Checkbox.Group value={layerTypes}>
           {scene.getType() !== 'mapbox' && (
             <>
               {amaplayerInfo.map((item) => {
@@ -159,7 +174,7 @@ export function AmapLayerControl() {
         >
           <IconFont type="icon-ditu" className="l7-amap-control" />
         </Popover>
-        {!!layerType.includes(GOOGLE_SATELLITE.type) && (
+        {layerTypes.includes(GOOGLE_SATELLITE.type) && (
           <>
             <RasterLayer
               zIndex={1}

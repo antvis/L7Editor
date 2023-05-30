@@ -1,10 +1,10 @@
 import { FeatureKey } from '@/constants';
+import { getDrawStyle } from '@/utils';
 import { EditOutlined } from '@ant-design/icons';
 import {
   ControlEvent,
   DrawControl as L7DrawControl,
   DrawEvent,
-  getSingleColorStyle,
 } from '@antv/l7-draw';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
@@ -44,7 +44,7 @@ const DrawControl = () => {
         },
         commonDrawOptions: {
           maxCount: 1,
-          style: getSingleColorStyle(layerColor!),
+          style: getDrawStyle(layerColor!),
         },
       });
       setDrawControl(newDrawControl);
