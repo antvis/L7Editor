@@ -1,8 +1,8 @@
-import {IconFont, LocalstorageKey} from '@/constants';
+import { IconFont, LocalstorageKey } from '@/constants';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
+import { useLocalStorageState } from 'ahooks';
 import { Checkbox, Popover } from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import {useLocalStorageState} from "ahooks";
+import { useEffect, useRef } from 'react';
 
 interface AmapLayerProps {
   type: string;
@@ -57,9 +57,12 @@ const url2 =
 
 export function AmapLayerControl() {
   const scene = useScene();
-  const [layerTypes, setLayerType] = useLocalStorageState<string[]>(LocalstorageKey.LayerTypes, {
-    defaultValue: []
-  });
+  const [layerTypes, setLayerType] = useLocalStorageState<string[]>(
+    LocalstorageKey.LayerTypes,
+    {
+      defaultValue: [],
+    },
+  );
 
   const layers = useRef(
     scene.getType() !== 'mapbox'
@@ -81,7 +84,7 @@ export function AmapLayerControl() {
     });
   };
 
-  const isIncludes = (type: string) => layerTypes.includes(type);
+  const isIncludes = (type: string) => layerTypes?.includes(type);
 
   useEffect(() => {
     if (scene && scene.getType() !== 'mapbox') {
@@ -130,6 +133,7 @@ export function AmapLayerControl() {
                     onClick={() => {
                       onClick(item);
                     }}
+                    disabled={isIncludes(GOOGLE_SATELLITE.type)}
                   >
                     <div key={item.type} className="amap-info-item">
                       <img
@@ -151,7 +155,11 @@ export function AmapLayerControl() {
             }}
           >
             <div key={GOOGLE_SATELLITE.type} className="amap-info-item">
-              <img src={GOOGLE_SATELLITE.image} alt="" className="amap-info-item-image" />
+              <img
+                src={GOOGLE_SATELLITE.image}
+                alt=""
+                className="amap-info-item-image"
+              />
               <h5>{GOOGLE_SATELLITE.title}</h5>
             </div>
           </Checkbox>
@@ -174,7 +182,7 @@ export function AmapLayerControl() {
         >
           <IconFont type="icon-ditu" className="l7-amap-control" />
         </Popover>
-        {layerTypes.includes(GOOGLE_SATELLITE.type) && (
+        {isIncludes(GOOGLE_SATELLITE.type) && (
           <>
             <RasterLayer
               zIndex={1}
