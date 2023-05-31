@@ -1,5 +1,7 @@
 import { FeatureCollectionVT } from '@/constants';
+// @ts-ignore
 import togeojson from '@mapbox/togeojson';
+// @ts-ignore
 import wkt from 'wkt';
 /**
  * 生成唯一 ID
@@ -9,7 +11,7 @@ export const getUniqueId = (prefix?: string) => {
     /[xy]/g,
     function (c) {
       const r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
+        v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     },
   );
