@@ -16,6 +16,7 @@ export default () => {
     {
       defaultValue: {
         style: 'normal',
+        maxZoom: 24,
       },
     },
   );

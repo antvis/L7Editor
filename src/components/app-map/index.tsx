@@ -13,7 +13,7 @@ export interface AppMapProps {
 }
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
-  const { mapOptions, baseMap } = useModel('global');
+  const { mapOptions: baseMapOptions, baseMap } = useModel('global');
   const { setScene, saveEditorText, editorText, bboxAutoFit, scene } =
     useModel('feature');
 
@@ -50,20 +50,20 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
     }
   }, []);
 
-  const newMapOptions = useMemo(() => {
+  const mapOptions = useMemo(() => {
     if (baseMap === 'Mapbox') {
       return {
-        ...mapOptions,
+        ...baseMapOptions,
         ...MapBoxConfig,
       };
     }
-    return omit(mapOptions, ['token']);
-  }, [baseMap, mapOptions]);
+    return omit(baseMapOptions, ['token']);
+  }, [baseMap, baseMapOptions]);
 
   return (
     <LarkMap
       style={{ height: '100%' }}
-      mapOptions={newMapOptions}
+      mapOptions={mapOptions}
       mapType={baseMap}
       onSceneLoaded={setScene}
     >

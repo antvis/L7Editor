@@ -13,6 +13,7 @@ export enum LocalstorageKey {
   ActiveRightTabKey = 'ActiveRightTabKey',
   AutoFitBounds = 'AutoFitBounds',
   BaseMap = 'BaseMap',
+  LayerTypes = 'LayerTypes',
 }
 
 export enum LayerId {
@@ -67,3 +68,5 @@ export const MapBoxConfig = {
   token:
     'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
 };
+
+export const LayerZIndex = 100;
