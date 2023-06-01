@@ -1,4 +1,5 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
+import HandBackBtn from '@/components/map-content/btn/handback-btn';
 import { IconFont, LocalstorageKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
 import {
@@ -122,7 +123,7 @@ export const MapContent: React.FC = () => {
           <SettingBtn />
           <DownloadBtn />
           <ChangeLog />
-          {/* <HandBackBtn /> */}
+          <HandBackBtn />
           <DingImgBtn />
         </div>
       </div>
