@@ -8,7 +8,10 @@ export default () => {
     {
       label: '2023-05-12',
       children: '设置中增加mapbox底图',
-    },
+    },{
+      label: '2023-05-31',
+      children: '添加谷歌卫星遥感图层',
+    }
   ];
   return (
     <div>
