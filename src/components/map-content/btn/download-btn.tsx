@@ -65,7 +65,7 @@ const DownloadBtn: React.FC = () => {
       });
       downloadText(wktArr.join('\n'), 'wkt');
     } else {
-      downloadText(editorText, 'json');
+      downloadText(editorText as string, 'json');
     }
   };
 

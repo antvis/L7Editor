@@ -1,3 +1,4 @@
+import useFilter from '@/recoil/filter';
 import { FilterNumberData } from '@/types/filter';
 import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash';
@@ -19,7 +20,7 @@ interface Props {
 }
 const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
   const { dataSource } = useModel('feature');
-  const { setFilters } = useModel('filter');
+  const { setFilters } = useFilter();
 
   return (
     <div style={{ display: 'flex' }}>

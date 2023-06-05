@@ -21,7 +21,7 @@ const SaveMapOptionsControl: React.FC = () => {
   return (
     <CustomControl position="bottomright">
       <Tooltip overlay="保存地图状态" placement="right">
-        <button className="l7-button-control" onClick={onSave}>
+        <button className="l7-button-control" onClick={onSave} type="button">
           <i className="iconfont icon-ditu l7-iconfont"></i>
         </button>
       </Tooltip>

@@ -3,9 +3,7 @@ import { DingdingOutlined } from '@ant-design/icons';
 import { Button, Popover } from 'antd';
 import React from 'react';
 
-interface IProps {}
-
-const DingImgBtn: React.FC<IProps> = () => {
+const DingImgBtn: React.FC = () => {
   return (
     <Popover
       overlayStyle={{ padding: 0 }}

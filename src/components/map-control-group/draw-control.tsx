@@ -141,6 +141,7 @@ const DrawControl = () => {
     <CustomControl position="topleft" style={{ display: 'flex' }}>
       <div className="l7-draw-switch">
         <button
+          type="button"
           className="l7-draw-control__btn"
           style={{ borderRight: 'none' }}
         >

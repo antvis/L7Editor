@@ -1,4 +1,5 @@
 import { isEmptyFilter } from '@/hooks/useFilterFeature';
+import useFilter from '@/recoil/filter';
 import {
   DeleteOutlined,
   FieldBinaryOutlined,
@@ -17,7 +18,7 @@ import StringFilter from './stringFilter';
 const { Option } = Select;
 const FilterFormListControl: React.FC = () => {
   const { dataSource } = useModel('feature');
-  const { setFilters, filters } = useModel('filter');
+  const { setFilters, filters } = useFilter();
   const [isVisible, setIsVisible] = useState(false);
   const [form] = Form.useForm();
 
@@ -84,7 +85,10 @@ const FilterFormListControl: React.FC = () => {
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ name }, index) => (
-                  <div key={index.toString()} style={{ display: 'flex', marginBottom: 8 }}>
+                  <div
+                    key={index.toString()}
+                    style={{ display: 'flex', marginBottom: 8 }}
+                  >
                     <Form.Item name={[name, 'logic']} initialValue="and">
                       <Select style={{ width: 70, marginRight: '8px' }}>
                         <Option value="and">并且</Option>
@@ -125,7 +129,10 @@ const FilterFormListControl: React.FC = () => {
                       >
                         {dataSource.map(({ field, type }) => {
                           return (
-                            <Option key={field} value={JSON.stringify({ field, type })}>
+                            <Option
+                              key={field}
+                              value={JSON.stringify({ field, type })}
+                            >
                               <i
                                 style={{
                                   fontSize: 20,

@@ -1,8 +1,10 @@
+import useFilter from '@/recoil/filter';
 import { Feature, Geometry, GeometryCollection } from '@turf/turf';
-import { useState, useEffect } from 'react';
-import { FilterNode } from './../types/filter';
-import { useModel } from 'umi';
 import { isEmpty, isUndefined } from 'lodash';
+import { useEffect } from 'react';
+import { atom, useRecoilState } from 'recoil';
+import { useModel } from 'umi';
+import { FilterNode } from './../types/filter';
 
 export function isEmptyFilter(filter: FilterNode) {
   const { operator, value, type, field } = filter;
@@ -53,11 +55,17 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
   }
 }
 
-type Features = Feature<Geometry | GeometryCollection, {}>;
+type Features = Feature<Geometry | GeometryCollection, Record<string, any>>;
+
+export const filterFeature = atom<Features[]>({
+  key: 'filterFeature',
+  default: [],
+});
+
 export function useFilterFeature() {
   const { features } = useModel('feature');
-  const { filters: newFilters } = useModel('filter');
-  const [newFeatures, setNewFeatures] = useState<Features[]>([]);
+  const { filters: newFilters } = useFilter();
+  const [newFeatures, setNewFeatures] = useRecoilState(filterFeature);
 
   useEffect(() => {
     if (isEmpty(newFilters)) {
@@ -88,6 +96,7 @@ export function useFilterFeature() {
         });
       });
     }
+
     setNewFeatures(newFeature);
   }, [features, newFilters]);
 

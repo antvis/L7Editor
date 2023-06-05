@@ -1,3 +1,4 @@
+import useFilter from '@/recoil/filter';
 import { FilterStringData } from '@/types/filter';
 import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
 import { cloneDeep, uniq } from 'lodash';
@@ -17,7 +18,7 @@ interface Props {
 }
 const StringFilter: React.FC<Props> = ({ name, index, form }) => {
   const { dataSource } = useModel('feature');
-  const { setFilters } = useModel('filter');
+  const { setFilters } = useFilter();
 
   return (
     <div style={{ display: 'flex' }}>

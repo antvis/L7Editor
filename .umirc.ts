@@ -14,6 +14,7 @@ export default defineConfig({
     '@border-radius-base': '4px',
     '@primary-color': '#1677ff',
   },
+  mfsu: false,
   favicons: [
     'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
   ],

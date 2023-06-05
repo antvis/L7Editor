@@ -5,12 +5,6 @@ import { Checkbox, Popover, Tabs, TabsProps } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { useEffect, useRef } from 'react';
 
-interface AmapLayerProps {
-  type: string;
-  title: string;
-  image: string;
-}
-
 /**
  * Satellite 卫星图
  * RoadNet   路网图
@@ -111,8 +105,8 @@ export function AmapLayerControl() {
     }
   }, [layerTypes, scene]);
 
-  const onCheckboxChange = (e: CheckboxValueType[]) => {
-    setLayerType(e);
+  const onCheckboxChange = (e: (CheckboxValueType | string)[]) => {
+    setLayerType(e as string[]);
   };
 
   const AmapLayer = () => {

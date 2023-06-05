@@ -8,7 +8,7 @@ import {
   PolygonLayerProps,
   useScene,
 } from '@antv/larkmap';
-import { Feature, featureCollection } from '@turf/turf';
+import { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
 import { groupBy } from 'lodash';
@@ -20,6 +20,7 @@ export const LayerList: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
   const { layerColor } = useModel('global');
   const { newFeatures } = useFilterFeature();
+
   const [
     pointSource,
     lineSource,
@@ -39,7 +40,7 @@ export const LayerList: React.FC = () => {
 
     return [pointList, lineStringList, polygonList].map((features) => {
       return {
-        data: featureCollection(features),
+        data: { type: 'FeatureCollection', features },
       };
     });
   }, [newFeatures]);

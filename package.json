@@ -53,6 +53,7 @@
     "re-resizable": "^6.9.9",
     "react-color": "^2.19.3",
     "react-monaco-editor": "^0.49.0",
+    "recoil": "^0.7.7",
     "tokml": "^0.4.0",
     "typescript": "^4.1.2",
     "variable-type": "^1.0.0",
