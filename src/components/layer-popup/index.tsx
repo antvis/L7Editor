@@ -29,6 +29,7 @@ import {
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
 import './index.less';
+import useStyle from './styles';
 const { Paragraph } = Typography;
 
 type DrawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
@@ -44,6 +45,7 @@ export const LayerPopup: React.FC = () => {
     setIsDraw,
     saveEditorText,
   } = useModel('feature');
+  const styles = useStyle();
   const { layerColor } = useModel('global');
   const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
@@ -306,7 +308,7 @@ export const LayerPopup: React.FC = () => {
   const popupTable = useMemo(() => {
     return featureFields.length ? (
       <div
-        className="layer-popup__info"
+        className={styles.layerPopupInfo}
         onWheel={(e) => {
           e.stopPropagation();
         }}
@@ -380,13 +382,13 @@ export const LayerPopup: React.FC = () => {
             followCursor={popupTrigger === 'hover'}
           >
             <div
-              className="layer-popup"
+              className={styles.layerPopup}
               onClick={(e) => {
                 e.stopPropagation();
               }}
             >
               {popupTable}
-              <div className="layer-popup__btn-group">
+              <div className={styles.layerPopupBtnGroup}>
                 {popupTrigger === 'click' && (
                   <Tooltip
                     title={

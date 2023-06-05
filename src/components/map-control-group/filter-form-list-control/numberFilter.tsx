@@ -3,6 +3,7 @@ import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import { useModel } from 'umi';
+import useStyle from '../styles';
 
 const select = [
   { label: '>', value: '>' },
@@ -20,6 +21,7 @@ interface Props {
 const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
   const { dataSource } = useModel('feature');
   const { setFilters } = useModel('filter');
+  const styles = useStyle();
 
   return (
     <div style={{ display: 'flex' }}>
@@ -28,7 +30,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
           style={{ width: '100px', marginRight: '8px' }}
           placeholder="请选择过滤逻辑"
           options={select}
-          onChange={(value) => {
+          onChange={() => {
             const newFilterFromList = cloneDeep(
               form.getFieldValue('filterFromList'),
             );
@@ -62,7 +64,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
           );
           if (filterFromList[index].operator === 'BETWEEN') {
             return (
-              <div className="filter-between">
+              <div className={styles.filterBetween}>
                 <Form.Item name={[name, 'min']} style={{ width: '70px' }}>
                   <InputNumber
                     placeholder="请输入筛选值"

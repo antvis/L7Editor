@@ -14,15 +14,17 @@ import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
+import ChangeLog from './btn/changelog-btn';
 import DownloadBtn from './btn/download-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
-import ChangeLog from './btn/changelog-btn';
 import './index.less';
+import useStyle from './styles';
 
 export const MapContent: React.FC = () => {
   const { autoFitBounds } = useModel('global');
   const { bboxAutoFit } = useModel('feature');
+  const styles = useStyle();
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
     {
@@ -74,8 +76,8 @@ export const MapContent: React.FC = () => {
   }, [features, savable]);
 
   return (
-    <div className="map-content">
-      <div className="map-content__left">
+    <div className={styles.mapContent}>
+      <div className={styles.mapContentLeft}>
         <div>
           <ImportBtn />
           <Tooltip
@@ -129,7 +131,7 @@ export const MapContent: React.FC = () => {
       </div>
       <Tabs
         activeKey={activeTab}
-        className="map-content__right"
+        className={styles.mapContentRight}
         defaultActiveKey="code"
         items={items}
         onChange={(e) => {

@@ -12,6 +12,7 @@ import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
+import useStyle from './styles';
 
 const DrawControl = () => {
   const scene = useScene();
@@ -19,6 +20,7 @@ const DrawControl = () => {
   const [isVisible, setIsVisible] = useState(true);
   const { resetFeatures, features, setIsDraw } = useModel('feature');
   const { layerColor } = useModel('global');
+  const styles = useStyle();
   const editFeature = useMemo(
     () =>
       cloneDeep(
@@ -139,13 +141,13 @@ const DrawControl = () => {
 
   return (
     <CustomControl position="topleft" style={{ display: 'flex' }}>
-      <div className="l7-draw-switch">
+      <div className={styles.l7DrawSwitch}>
         <button
+          type="button"
           className="l7-draw-control__btn"
           style={{ borderRight: 'none' }}
         >
           <EditOutlined
-            className="l7-draw-icon"
             style={{ fontSize: 16, lineHeight: '30px' }}
             onClick={() => {
               setIsVisible(!isVisible);
@@ -153,7 +155,9 @@ const DrawControl = () => {
           />
         </button>
       </div>
-      <div id="l7-draw-content" />
+      <div className={styles.l7DrawControl}>
+        <div id="l7-draw-content" />
+      </div>
     </CustomControl>
   );
 };

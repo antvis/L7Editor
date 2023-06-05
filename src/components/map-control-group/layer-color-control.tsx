@@ -1,34 +1,44 @@
 import { CustomControl } from '@antv/larkmap';
-import { Popover } from 'antd';
+import { ColorPicker } from 'antd';
+import classNames from 'classnames';
 import React from 'react';
-import { SketchPicker } from 'react-color';
 import { useModel } from 'umi';
-import './index.less';
+import useStyle from './styles';
 
 const LayerColorControl: React.FC = () => {
   const { layerColor, setLayerColor } = useModel('global');
+  const styles = useStyle();
 
   return (
-    <CustomControl className="l7-button-control" position="bottomright">
-      <Popover
-        trigger="click"
-        overlayClassName="color-picker-control__tooltip"
-        placement="bottomRight"
-        content={
-          <SketchPicker
-            color={layerColor}
-            onChange={({ rgb }) => {
-              const { r, g, b, a } = rgb;
-              setLayerColor(`rgba(${[r, g, b, a].join(', ')})`);
-            }}
-          />
-        }
-      >
-        <div
-          className="color-picker-control__inner"
-          style={{ backgroundColor: layerColor }}
-        ></div>
-      </Popover>
+    <CustomControl
+      className={classNames([styles.l7ButtonControl, 'l7-button-control'])}
+      position="bottomright"
+    >
+      <ColorPicker
+        className={styles.colorPickerControlInner}
+        format="rgb"
+        defaultValue={layerColor}
+        onChange={(val) => {
+          setLayerColor(val.toRgbString());
+        }}
+        presets={[
+          {
+            label: '常用颜色',
+            colors: [
+              '#F5222D',
+              '#FA8C16',
+              '#FADB14',
+              '#8BBB11',
+              '#52C41A',
+              '#13A8A8',
+              '#1677FF',
+              '#2F54EB',
+              '#722ED1',
+              '#EB2F96',
+            ],
+          },
+        ]}
+      />
     </CustomControl>
   );
 };

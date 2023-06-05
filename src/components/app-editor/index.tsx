@@ -1,5 +1,8 @@
+import { isPromise } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -8,11 +11,8 @@ import React, {
 } from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import { useModel } from 'umi';
-import './index.less';
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
-import { prettierText } from '@/utils/prettier-text';
 import { provideCompletionItems } from './editortool';
-import { isPromise } from '@/utils';
+import useStyle from './styles';
 
 type Language = 'json' | 'javascript';
 
@@ -27,6 +27,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
+  const styles = useStyle();
 
   // document format
   monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
@@ -112,7 +113,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   }, [language, editorText]);
 
   return (
-    <div ref={setContainer} className="app-editor">
+    <div ref={setContainer} className={styles.appEditor}>
       <MonacoEditor
         width={width}
         height={height}

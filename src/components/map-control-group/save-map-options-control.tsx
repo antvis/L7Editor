@@ -1,10 +1,13 @@
 import { CustomControl, useScene } from '@antv/larkmap';
-import { message, Tooltip } from 'antd';
+import { message } from 'antd';
+import classNames from 'classnames';
 import React from 'react';
 import { useModel } from 'umi';
+import useStyle from './styles';
 
 const SaveMapOptionsControl: React.FC = () => {
   const scene = useScene();
+  const styles = useStyle();
   const { setMapOptions } = useModel('global');
   const onSave = () => {
     const { lng, lat } = scene.getCenter();
@@ -20,11 +23,13 @@ const SaveMapOptionsControl: React.FC = () => {
 
   return (
     <CustomControl position="bottomright">
-      <Tooltip overlay="保存地图状态" placement="right">
-        <button className="l7-button-control" onClick={onSave}>
-          <i className="iconfont icon-ditu l7-iconfont"></i>
-        </button>
-      </Tooltip>
+      <button
+        className={classNames([styles.l7ButtonControl, 'l7-button-control'])}
+        onClick={onSave}
+        type="button"
+      >
+        <i className="iconfont icon-ditu l7-iconfont"></i>
+      </button>
     </CustomControl>
   );
 };
