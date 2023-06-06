@@ -1,66 +1,31 @@
-import { LocalstorageKey, PrimaryColor } from '@/constants';
-import { LarkMapProps } from '@antv/larkmap';
 import { useRecoilState } from 'recoil';
-import { useDefaultRecoilState } from './atom';
-
-type MapOptions = LarkMapProps['mapOptions'];
+import {
+  activeTabState,
+  autoFitBoundsState,
+  baseMapState,
+  hideEditorState,
+  layerColorState,
+  mapOptionState,
+  popupTriggerState,
+  rightWidthState,
+} from './atomState';
 
 export default function useGlobal() {
-  const [rightWidth, setRightWidth] = useRecoilState(
-    useDefaultRecoilState<number>({
-      storageKey: LocalstorageKey.RightPanelWidth,
-      storageValue: 50,
-      stateKey: 'rightWidth',
-    }),
-  );
+  const [rightWidth, setRightWidth] = useRecoilState(rightWidthState);
 
-  const [mapOptions, setMapOptions] = useRecoilState(
-    useDefaultRecoilState<MapOptions>({
-      storageKey: LocalstorageKey.MapOptions,
-      storageValue: { style: 'normal', maxZoom: 24 },
-      stateKey: 'mapOption',
-    }),
-  );
+  const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
 
-  const [layerColor, setLayerColor] = useRecoilState(
-    useDefaultRecoilState<string>({
-      storageKey: LocalstorageKey.LayerColor,
-      storageValue: PrimaryColor,
-      stateKey: 'layerColor',
-    }),
-  );
+  const [layerColor, setLayerColor] = useRecoilState(layerColorState);
 
-  const [hideEditor, setHideEditor] = useRecoilState(
-    useDefaultRecoilState<boolean>({
-      storageKey: LocalstorageKey.HideEditor,
-      storageValue: false,
-      stateKey: 'hideEdit',
-    }),
-  );
+  const [hideEditor, setHideEditor] = useRecoilState(hideEditorState);
 
-  const [autoFitBounds, setAutoFitBounds] = useRecoilState(
-    useDefaultRecoilState<boolean>({
-      storageKey: LocalstorageKey.AutoFitBounds,
-      storageValue: true,
-      stateKey: 'isAutoFit',
-    }),
-  );
+  const [autoFitBounds, setAutoFitBounds] = useRecoilState(autoFitBoundsState);
 
-  const [popupTrigger, setPopupTrigger] = useRecoilState(
-    useDefaultRecoilState<'click' | 'hover'>({
-      storageKey: LocalstorageKey.PopupTrigger,
-      storageValue: 'click',
-      stateKey: 'popupTrigger',
-    }),
-  );
+  const [popupTrigger, setPopupTrigger] = useRecoilState(popupTriggerState);
 
-  const [baseMap, setBaseMap] = useRecoilState(
-    useDefaultRecoilState<'Gaode' | 'Mapbox'>({
-      storageKey: LocalstorageKey.BaseMap,
-      storageValue: 'Gaode',
-      stateKey: 'baseMap',
-    }),
-  );
+  const [baseMap, setBaseMap] = useRecoilState(baseMapState);
+
+  const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
   return {
     rightWidth,
@@ -77,5 +42,7 @@ export default function useGlobal() {
     setBaseMap,
     autoFitBounds,
     setAutoFitBounds,
+    activeTab,
+    setActiveTab,
   };
 }

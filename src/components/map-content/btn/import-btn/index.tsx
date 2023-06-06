@@ -1,6 +1,8 @@
 import { AppEditor } from '@/components/app-editor';
+import useFeature from '@/recoil/feature';
+import { IFeature } from '@/types';
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { Feature, FeatureCollection } from '@turf/turf';
+import { FeatureCollection } from '@turf/turf';
 import {
   Button,
   Form,
@@ -12,7 +14,6 @@ import {
   Tooltip,
 } from 'antd';
 import { useRef, useState } from 'react';
-import { useModel } from 'umi';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
 import FileUpload from './file-upload';
 import LngLatImportBtn from './lnglat-import-btn';
@@ -29,7 +30,7 @@ type DataType = 'cover' | 'merge';
 
 export const ImportBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { resetFeatures, features, bboxAutoFit } = useModel('feature');
+  const { resetFeatures, features, bboxAutoFit } = useFeature();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('url');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
@@ -74,7 +75,7 @@ export const ImportBtn = () => {
       if (FeatureCollectionVT.check(fc)) {
         const newFeatures =
           selectRadio === 'cover' ? fc.features : [...features, ...fc.features];
-        resetFeatures(newFeatures as Feature[]);
+        resetFeatures(newFeatures as IFeature);
         bboxAutoFit(newFeatures);
         handleCancel();
       }

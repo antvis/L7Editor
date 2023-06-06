@@ -1,10 +1,10 @@
 // @ts-ignore
 import { RightPanelWidthRange } from '@/constants';
+import useGlobal from '@/recoil/global';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';
 import React, { ReactNode, useMemo, useState } from 'react';
-import { useModel } from 'umi';
 import './index.less';
 
 export interface ResizePanelProps {
@@ -13,8 +13,7 @@ export interface ResizePanelProps {
 }
 
 export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
-  const { rightWidth, setRightWidth, hideEditor, setHideEditor } =
-    useModel('global');
+  const { hideEditor, setHideEditor, rightWidth, setRightWidth } = useGlobal();
   const [resizePanel, setResizePanel] = useState<HTMLDivElement | null>(null);
   const [minRightWidth, maxRightWidth] = RightPanelWidthRange;
   const { width: containerWidth = 0 } = useSize(resizePanel) ?? {};

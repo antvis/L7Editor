@@ -1,5 +1,11 @@
+/* eslint-disable no-eval */
+/* eslint-disable no-async-promise-executor */
+import useFeature from '@/recoil/feature';
+import { isPromise } from '@/utils';
+import { prettierText } from '@/utils/prettier-text';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -7,12 +13,8 @@ import React, {
   useState,
 } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import { useModel } from 'umi';
-import './index.less';
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
-import { prettierText } from '@/utils/prettier-text';
 import { provideCompletionItems } from './editortool';
-import { isPromise } from '@/utils';
+import './index.less';
 
 type Language = 'json' | 'javascript';
 
@@ -23,7 +25,7 @@ type EditorProps = {
 
 export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const { language = 'json' } = props;
-  const { editorText, setEditorText } = useModel('feature');
+  const { editorText, setEditorText } = useFeature();
   const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};

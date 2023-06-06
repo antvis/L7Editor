@@ -1,13 +1,8 @@
-import { atom, useRecoilState } from 'recoil';
-import { FilterNode } from './../types/filter';
+import { useRecoilState } from 'recoil';
+import { filterState } from './atomState';
 
 export default function useFilter() {
-  const [filters, setFilters] = useRecoilState(
-    atom<FilterNode[]>({
-      key: 'filter',
-      default: [],
-    }),
-  );
+  const [filters, setFilters] = useRecoilState(filterState);
 
   return {
     filters,

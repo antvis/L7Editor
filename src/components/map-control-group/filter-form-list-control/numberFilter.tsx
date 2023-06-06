@@ -1,9 +1,9 @@
+import useFeature from '@/recoil/feature';
 import useFilter from '@/recoil/filter';
 import { FilterNumberData } from '@/types/filter';
 import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import { useModel } from 'umi';
 
 const select = [
   { label: '>', value: '>' },
@@ -19,9 +19,8 @@ interface Props {
   form: FormInstance;
 }
 const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
-  const { dataSource } = useModel('feature');
   const { setFilters } = useFilter();
-
+  const { dataSource } = useFeature();
   return (
     <div style={{ display: 'flex' }}>
       <Form.Item name={[name, 'operator']}>
@@ -29,7 +28,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
           style={{ width: '100px', marginRight: '8px' }}
           placeholder="请选择过滤逻辑"
           options={select}
-          onChange={(value) => {
+          onChange={() => {
             const newFilterFromList = cloneDeep(
               form.getFieldValue('filterFromList'),
             );

@@ -1,9 +1,9 @@
+import useFeature from '@/recoil/feature';
 import useFilter from '@/recoil/filter';
 import { Feature, Geometry, GeometryCollection } from '@turf/turf';
 import { isEmpty, isUndefined } from 'lodash';
 import { useEffect } from 'react';
-import { atom, useRecoilState } from 'recoil';
-import { useModel } from 'umi';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { FilterNode } from './../types/filter';
 
 export function isEmptyFilter(filter: FilterNode) {
@@ -57,28 +57,30 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
 
 type Features = Feature<Geometry | GeometryCollection, Record<string, any>>;
 
-export const filterFeature = atom<Features[]>({
+export const filterFeatures = atom<Features[]>({
   key: 'filterFeature',
   default: [],
 });
 
 export function useFilterFeature() {
-  const { features } = useModel('feature');
+  const { features } = useFeature();
   const { filters: newFilters } = useFilter();
-  const [newFeatures, setNewFeatures] = useRecoilState(filterFeature);
+
+  const setFilterFeature = useSetRecoilState(filterFeatures);
+  const filterFeature = useRecoilValue(filterFeatures);
 
   useEffect(() => {
     if (isEmpty(newFilters)) {
-      setNewFeatures(features);
+      setFilterFeature([...features]);
       return;
     }
-    let newFeature = features;
+    let newFeature = [...features];
     // 过滤空值
-    const setnotEmptyFilter = newFilters.filter((a) => !isEmptyFilter(a));
+    const setNotEmptyFilter = newFilters.filter((a) => !isEmptyFilter(a));
     // 查找 and 条件 且
-    const andFilters = setnotEmptyFilter.filter((item) => item.logic === 'and');
+    const andFilters = setNotEmptyFilter.filter((item) => item.logic === 'and');
     // 查找 or 条件 或
-    const orFilters = setnotEmptyFilter.filter((item) => item.logic === 'or');
+    const orFilters = setNotEmptyFilter.filter((item) => item.logic === 'or');
 
     if (!isEmpty(orFilters)) {
       newFeature = newFeature.filter(({ properties }) => {
@@ -96,12 +98,10 @@ export function useFilterFeature() {
         });
       });
     }
-
-    setNewFeatures(newFeature);
-  }, [features, newFilters]);
+    setFilterFeature(newFeature);
+  }, [features, newFilters, setFilterFeature]);
 
   return {
-    newFeatures,
-    setNewFeatures,
+    newFeatures: filterFeature,
   };
 }

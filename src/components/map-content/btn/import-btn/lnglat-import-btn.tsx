@@ -1,8 +1,8 @@
-import { forwardRef, useImperativeHandle } from 'react';
-import { Form, Input, Radio } from 'antd';
-import { useModel } from 'umi';
+import useLnglat from '@/recoil/lnglat';
 import { LngLatImportType } from '@/types';
 import { featureCollection } from '@turf/turf';
+import { Form, Input, Radio } from 'antd';
+import { forwardRef, useImperativeHandle } from 'react';
 
 const LngLatImportTypeOptions: Array<{
   label: string;
@@ -28,7 +28,7 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
     importLngLatText,
     lngLatImportType,
     setLngLatImportType,
-  } = useModel('lnglat');
+  } = useLnglat();
 
   useImperativeHandle(
     ref,

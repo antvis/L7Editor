@@ -1,6 +1,8 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
 import HandBackBtn from '@/components/map-content/btn/handback-btn';
-import { IconFont, LocalstorageKey } from '@/constants';
+import { IconFont } from '@/constants';
+import useFeature from '@/recoil/feature';
+import useGlobal from '@/recoil/global';
 import { prettierText } from '@/utils/prettier-text';
 import {
   ClearOutlined,
@@ -8,28 +10,20 @@ import {
   SaveOutlined,
   TableOutlined,
 } from '@ant-design/icons';
-import { useKeyPress, useLocalStorageState } from 'ahooks';
+import { useKeyPress } from 'ahooks';
 import { Button, Popconfirm, Tabs, TabsProps, Tooltip } from 'antd';
 import React, { useMemo } from 'react';
-import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
+import ChangeLog from './btn/changelog-btn';
 import DownloadBtn from './btn/download-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
-import ChangeLog from './btn/changelog-btn';
 import './index.less';
 
 export const MapContent: React.FC = () => {
-  const { autoFitBounds } = useModel('global');
-  const { bboxAutoFit } = useModel('feature');
-  const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
-    LocalstorageKey.ActiveRightTabKey,
-    {
-      defaultValue: 'code',
-    },
-  );
-  const { saveEditorText, savable, features } = useModel('feature');
+  const { autoFitBounds, activeTab, setActiveTab } = useGlobal();
+  const { saveEditorText, savable, bboxAutoFit, features } = useFeature();
 
   const onSave = () => {
     if (!savable) {

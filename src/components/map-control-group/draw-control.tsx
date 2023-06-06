@@ -1,4 +1,7 @@
 import { FeatureKey } from '@/constants';
+import useFeature from '@/recoil/feature';
+import useGlobal from '@/recoil/global';
+import { IFeature } from '@/types';
 import { getDrawStyle } from '@/utils';
 import { EditOutlined } from '@ant-design/icons';
 import {
@@ -11,14 +14,13 @@ import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useModel } from 'umi';
 
 const DrawControl = () => {
   const scene = useScene();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const { resetFeatures, features, setIsDraw } = useModel('feature');
-  const { layerColor } = useModel('global');
+  const { setIsDraw, resetFeatures, features } = useFeature();
+  const { layerColor } = useGlobal();
   const editFeature = useMemo(
     () =>
       cloneDeep(
@@ -71,7 +73,7 @@ const DrawControl = () => {
       };
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-      resetFeatures([...features, newFeature]);
+      resetFeatures([...features, newFeature] as IFeature);
     },
     [resetFeatures, features, drawControl],
   );

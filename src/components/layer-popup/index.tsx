@@ -1,4 +1,6 @@
 import { FeatureKey, LayerId } from '@/constants';
+import useFeature from '@/recoil/feature';
+import useGlobal from '@/recoil/global';
 import { getDrawStyle, isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
@@ -27,7 +29,6 @@ import {
   Typography,
 } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useModel } from 'umi';
 import './index.less';
 const { Paragraph } = Typography;
 
@@ -37,15 +38,14 @@ export const LayerPopup: React.FC = () => {
   const [form] = Form.useForm();
   const scene = useScene();
   const {
+    saveEditorText,
+    isDraw,
+    setIsDraw,
     resetFeatures,
     features,
     setFeatures,
-    isDraw,
-    setIsDraw,
-    saveEditorText,
-  } = useModel('feature');
-  const { layerColor } = useModel('global');
-  const { popupTrigger } = useModel('global');
+  } = useFeature();
+  const { layerColor, popupTrigger } = useGlobal();
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
@@ -175,9 +175,10 @@ export const LayerPopup: React.FC = () => {
             ...getData[0],
             properties: feature?.properties,
           };
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           (features[index] = newData as Feature<
             Geometry | GeometryCollection,
-            {}
+            Record<string, any>
           >),
             saveEditorText(
               prettierText({ content: featureCollection(features) }),
@@ -360,6 +361,7 @@ export const LayerPopup: React.FC = () => {
                 </Descriptions.Item>
               );
             }
+            return null;
           })}
         </Descriptions>
       </div>

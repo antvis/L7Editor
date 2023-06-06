@@ -1,11 +1,11 @@
+import useGlobal from '@/recoil/global';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { message, Tooltip } from 'antd';
 import React from 'react';
-import { useModel } from 'umi';
 
 const SaveMapOptionsControl: React.FC = () => {
   const scene = useScene();
-  const { setMapOptions } = useModel('global');
+  const { setMapOptions } = useGlobal();
   const onSave = () => {
     const { lng, lat } = scene.getCenter();
     setMapOptions((oldMapOptions) => {

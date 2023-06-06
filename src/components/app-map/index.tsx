@@ -1,4 +1,6 @@
 import { FeatureCollectionVT, MapBoxConfig } from '@/constants';
+import useFeature from '@/recoil/feature';
+import useGlobal from '@/recoil/global';
 import { getParamsNew, getUrlFeatureCollection } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
@@ -6,16 +8,15 @@ import { useMount } from 'ahooks';
 import { message } from 'antd';
 import { omit } from 'lodash';
 import React, { ReactNode, useEffect, useMemo } from 'react';
-import { useModel } from 'umi';
 
 export interface AppMapProps {
   children?: ReactNode;
 }
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
-  const { mapOptions: baseMapOptions, baseMap } = useModel('global');
-  const { setScene, saveEditorText, editorText, bboxAutoFit, scene } =
-    useModel('feature');
+  const { mapOptions: baseMapOptions, baseMap } = useGlobal();
+  const { saveEditorText, editorText, scene, setScene, bboxAutoFit } =
+    useFeature();
 
   useMount(async () => {
     const url = getParamsNew('url');

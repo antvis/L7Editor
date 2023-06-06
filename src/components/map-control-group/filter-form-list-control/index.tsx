@@ -1,4 +1,5 @@
 import { isEmptyFilter } from '@/hooks/useFilterFeature';
+import useFeature from '@/recoil/feature';
 import useFilter from '@/recoil/filter';
 import {
   DeleteOutlined,
@@ -12,12 +13,11 @@ import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select, Tooltip } from 'antd';
 import { cloneDeep, debounce, isEmpty } from 'lodash';
 import React, { useMemo, useState } from 'react';
-import { useModel } from 'umi';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
 const { Option } = Select;
 const FilterFormListControl: React.FC = () => {
-  const { dataSource } = useModel('feature');
+  const { dataSource } = useFeature();
   const { setFilters, filters } = useFilter();
   const [isVisible, setIsVisible] = useState(false);
   const [form] = Form.useForm();

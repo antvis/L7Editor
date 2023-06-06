@@ -1,8 +1,7 @@
-import { FeatureKey, LocalstorageKey } from '@/constants';
+import { FeatureKey } from '@/constants';
 import { FilterField } from '@/types/filter';
 import { transformFeatures } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
-import { Scene } from '@antv/l7';
 import {
   bbox,
   Feature,
@@ -13,14 +12,14 @@ import {
 import { message } from 'antd';
 import { flatMap, max, min } from 'lodash';
 import { useMemo } from 'react';
-import { atom, useRecoilState } from 'recoil';
-import { useDefaultRecoilState } from './atom';
-
-const defaultValue = JSON.stringify(
-  { type: 'FeatureCollection', features: [] },
-  null,
-  2,
-);
+import { useRecoilState } from 'recoil';
+import {
+  editorTextState,
+  featureState,
+  isDrawState,
+  savedTextState,
+  sceneState,
+} from './atomState';
 
 type IFeature = Feature<
   Geometry | GeometryCollection,
@@ -31,39 +30,12 @@ type IFeature = Feature<
 >[];
 
 export default function useFeature() {
-  const [editorText, setEditorText] = useRecoilState(
-    useDefaultRecoilState<string>({
-      stateKey: 'editorText',
-      storageKey: LocalstorageKey.EditorText,
-      storageValue: defaultValue,
-    }),
-  );
+  const [editorText, setEditorText] = useRecoilState(editorTextState);
+  const [savedText, setSavedText] = useRecoilState(savedTextState);
+  const [features, setFeatures] = useRecoilState(featureState);
+  const [isDraw, setIsDraw] = useRecoilState(isDrawState);
 
-  const [savedText, setSavedText] = useRecoilState(
-    atom({
-      key: 'savedText',
-      default: '',
-    }),
-  );
-  const [features, setFeatures] = useRecoilState(
-    atom<IFeature>({
-      key: 'features',
-      default: [],
-    }),
-  );
-  const [isDraw, setIsDraw] = useRecoilState(
-    atom<boolean>({
-      key: 'isDraw',
-      default: false,
-    }),
-  );
-
-  const [scene, setScene] = useRecoilState(
-    atom<Scene | null>({
-      key: 'scene',
-      default: null,
-    }),
-  );
+  const [scene, setScene] = useRecoilState(sceneState);
 
   const savable = useMemo(() => {
     return editorText !== savedText;
@@ -134,6 +106,7 @@ export default function useFeature() {
 
   const bboxAutoFit = (currentFeatures?: Feature[]) => {
     const realFeatures = currentFeatures ?? features;
+
     if (scene && realFeatures.length) {
       const [lng1, lat1, lng2, lat2] = bbox(featureCollection(realFeatures));
       scene.fitBounds([

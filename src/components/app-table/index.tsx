@@ -1,4 +1,5 @@
 import { FeatureKey } from '@/constants';
+import useFeature from '@/recoil/feature';
 import { prettierText } from '@/utils/prettier-text';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
@@ -17,7 +18,6 @@ import {
 } from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useModel } from 'umi';
 import './index.less';
 
 const { Text } = Typography;
@@ -182,8 +182,8 @@ const components = {
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const { height = 0 } = useSize(container) ?? {};
-  const { features, setEditorText, resetFeatures, scene, isDraw } =
-    useModel('feature');
+  const { setEditorText, isDraw, scene, features, resetFeatures } =
+    useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
 
   useEffect(() => {
@@ -344,6 +344,7 @@ export const AppTable = () => {
           scroll={{ y: height - 54, x: 'max-content' }}
           size="small"
           pagination={false}
+          rowKey={'__index'}
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />

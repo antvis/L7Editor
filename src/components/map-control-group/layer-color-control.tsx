@@ -1,12 +1,12 @@
+import useGlobal from '@/recoil/global';
 import { CustomControl } from '@antv/larkmap';
 import { Popover } from 'antd';
 import React from 'react';
 import { SketchPicker } from 'react-color';
-import { useModel } from 'umi';
 import './index.less';
 
 const LayerColorControl: React.FC = () => {
-  const { layerColor, setLayerColor } = useModel('global');
+  const { layerColor, setLayerColor } = useGlobal();
 
   return (
     <CustomControl className="l7-button-control" position="bottomright">
