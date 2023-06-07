@@ -8,9 +8,10 @@ import {
   featureCollection,
   Geometry,
   GeometryCollection,
+  getType,
 } from '@turf/turf';
 import { message } from 'antd';
-import { flatMap, max, min } from 'lodash';
+import { cloneDeep, flatMap, max, min } from 'lodash';
 import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import {
@@ -32,7 +33,7 @@ type IFeature = Feature<
 export default function useFeature() {
   const [editorText, setEditorText] = useRecoilState(editorTextState);
   const [savedText, setSavedText] = useRecoilState(savedTextState);
-  const [features, setFeatures] = useRecoilState(featureState);
+  const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
 
   const [scene, setScene] = useRecoilState(sceneState);
@@ -40,6 +41,33 @@ export default function useFeature() {
   const savable = useMemo(() => {
     return editorText !== savedText;
   }, [editorText, savedText]);
+
+  const setFeatures = (f: Feature[]) => {
+    _setFeatures(
+      // @ts-ignore
+      cloneDeep(f).map((feature, featureIndex) => {
+        feature.properties = {
+          ...feature.properties,
+          [FeatureKey.Index]: featureIndex,
+        };
+        // @ts-ignore
+        if (!feature.properties?.[FeatureKey.DrawType]) {
+          // @ts-ignore
+          feature.properties[FeatureKey.DrawType] = (() => {
+            const type = getType(feature);
+            if (/Point/.test(type)) {
+              return 'point';
+            }
+            if (/LineString/.test(type)) {
+              return 'line';
+            }
+            return 'polygon';
+          })();
+        }
+        return feature;
+      }),
+    );
+  };
 
   const saveEditorText = (value?: string) => {
     const emptyFeatures = JSON.stringify(

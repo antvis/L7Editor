@@ -99,7 +99,6 @@ export const LayerPopup: React.FC = () => {
         const featureIndex = feature.properties[FeatureKey.Index];
         const isIndex =
           popupProps.featureIndex === feature.properties[FeatureKey.Index];
-
         if (popupProps.visible && isIndex) {
           setPopupProps((oldPopupProps) => {
             return {
