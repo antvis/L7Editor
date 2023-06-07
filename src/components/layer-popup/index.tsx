@@ -97,10 +97,10 @@ export const LayerPopup: React.FC = () => {
       if (!isDraw) {
         const { lngLat, feature } = e;
         const featureIndex = feature.properties[FeatureKey.Index];
-        if (
-          popupProps.visible &&
-          popupProps.featureIndex === feature.properties[FeatureKey.Index]
-        ) {
+        const isIndex =
+          popupProps.featureIndex === feature.properties[FeatureKey.Index];
+
+        if (popupProps.visible && isIndex) {
           setPopupProps((oldPopupProps) => {
             return {
               ...oldPopupProps,
@@ -109,14 +109,14 @@ export const LayerPopup: React.FC = () => {
               feature: null,
             };
           });
-        } else {
-          setPopupProps({
-            lngLat,
-            visible: true,
-            featureIndex,
-            feature: e.feature,
-          });
+          return;
         }
+        setPopupProps({
+          lngLat,
+          visible: true,
+          featureIndex,
+          feature: e.feature,
+        });
       }
     },
     [setPopupProps, popupProps, isDraw],
@@ -262,24 +262,22 @@ export const LayerPopup: React.FC = () => {
   }, [onLayerDblClick, layerList, popupTrigger, scene]);
 
   useEffect(() => {
-    if (!isDraw) {
-      if (popupTrigger === 'click') {
-        layerList.forEach((layer) => layer.on('click', onLayerClick));
-        return () => {
-          layerList.forEach((layer) => layer.off('click', onLayerClick));
-        };
-      } else if (popupTrigger === 'hover') {
-        layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
-        layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
-        return () => {
-          layerList.forEach((layer) =>
-            layer.off('mouseenter', onLayerMouseenter),
-          );
-          layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
-        };
-      }
-    }
-  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene, isDraw]);
+    const layerEvent = {
+      click: [{ event: 'click', click: onLayerClick }],
+      hover: [
+        { event: 'mouseenter', click: onLayerMouseenter },
+        { event: 'mouseout', click: onLayerMouseout },
+      ],
+    };
+    layerEvent[popupTrigger].forEach((e) => {
+      layerList.forEach((layer) => layer.on(e.event, e.click));
+    });
+    return () => {
+      layerEvent[popupTrigger].forEach((e) => {
+        layerList.forEach((layer) => layer.off(e.event, e.click));
+      });
+    };
+  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene]);
 
   const save = (key: string, value: any) => {
     const formValue = form.getFieldValue('input');

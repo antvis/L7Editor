@@ -5,6 +5,7 @@ import {
   baseMapState,
   hideEditorState,
   layerColorState,
+  layerTypeState,
   mapOptionState,
   popupTriggerState,
   rightWidthState,
@@ -27,6 +28,8 @@ export default function useGlobal() {
 
   const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
+  const [layerType, setLayerType] = useRecoilState(layerTypeState);
+
   return {
     rightWidth,
     setRightWidth,
@@ -44,5 +47,7 @@ export default function useGlobal() {
     setAutoFitBounds,
     activeTab,
     setActiveTab,
+    layerType,
+    setLayerType,
   };
 }

@@ -1,6 +1,6 @@
-import { IconFont, LocalstorageKey } from '@/constants';
+import { IconFont } from '@/constants';
+import useGlobal from '@/recoil/global';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
-import { useLocalStorageState } from 'ahooks';
 import { Checkbox, Popover, Tabs, TabsProps } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { useEffect, useRef } from 'react';
@@ -52,12 +52,7 @@ const url2 =
 
 export function AmapLayerControl() {
   const scene = useScene();
-  const [layerTypes, setLayerType] = useLocalStorageState<string[]>(
-    LocalstorageKey.LayerTypes,
-    {
-      defaultValue: [],
-    },
-  );
+  const { layerType, setLayerType } = useGlobal();
 
   const layers = useRef(
     scene.getType() !== 'mapbox'
@@ -70,7 +65,7 @@ export function AmapLayerControl() {
       : {},
   );
 
-  const isIncludes = (type: string) => layerTypes?.includes(type);
+  const isIncludes = (type: string) => layerType?.includes(type);
 
   useEffect(() => {
     if (scene && scene.getType() !== 'mapbox') {
@@ -103,7 +98,7 @@ export function AmapLayerControl() {
         }
       } catch {}
     }
-  }, [layerTypes, scene]);
+  }, [layerType, scene]);
 
   const onCheckboxChange = (e: (CheckboxValueType | string)[]) => {
     setLayerType(e as string[]);
@@ -112,7 +107,7 @@ export function AmapLayerControl() {
   const AmapLayer = () => {
     return (
       <div className="amap-info">
-        <Checkbox.Group value={layerTypes} onChange={onCheckboxChange}>
+        <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
           {scene.getType() !== 'mapbox' && (
             <>
               {amaplayerInfo.map((item) => {
@@ -147,7 +142,7 @@ export function AmapLayerControl() {
       label: `谷歌图层`,
       children: (
         <div className="amap-info">
-          <Checkbox.Group value={layerTypes} onChange={onCheckboxChange}>
+          <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
             <Checkbox value={GOOGLE_SATELLITE.type}>
               <div key={GOOGLE_SATELLITE.type} className="amap-info-item">
                 <img

@@ -1,4 +1,4 @@
-import { FeatureKey, LocalstorageKey } from '@/constants';
+import { FeatureKey, LocalStorageKey } from '@/constants';
 import { FilterField } from '@/types/filter';
 import { transformFeatures } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
@@ -20,7 +20,7 @@ export default () => {
   const [scene, setScene] = useState<Scene | null>(null);
 
   const [editorText, setEditorText] = useLocalStorageState(
-    LocalstorageKey.EditorText,
+    LocalStorageKey.EditorText,
     {
       defaultValue: JSON.stringify(
         { type: 'FeatureCollection', features: [] },

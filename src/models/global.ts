@@ -1,4 +1,4 @@
-import { LocalstorageKey, PrimaryColor } from '@/constants';
+import { LocalStorageKey, PrimaryColor } from '@/constants';
 import { LarkMapProps } from '@antv/larkmap';
 import { useLocalStorageState } from 'ahooks';
 
@@ -6,13 +6,13 @@ type MapOptions = LarkMapProps['mapOptions'];
 
 export default () => {
   const [rightWidth, setRightWidth] = useLocalStorageState(
-    LocalstorageKey.RightPanelWidth,
+    LocalStorageKey.RightPanelWidth,
     {
       defaultValue: 50,
     },
   );
   const [mapOptions, setMapOptions] = useLocalStorageState<MapOptions>(
-    LocalstorageKey.MapOptions,
+    LocalStorageKey.MapOptions,
     {
       defaultValue: {
         style: 'normal',
@@ -21,19 +21,19 @@ export default () => {
     },
   );
   const [layerColor, setLayerColor] = useLocalStorageState(
-    LocalstorageKey.LayerColor,
+    LocalStorageKey.LayerColor,
     {
       defaultValue: PrimaryColor,
     },
   );
   const [hideEditor, setHideEditor] = useLocalStorageState(
-    LocalstorageKey.HideEditor,
+    LocalStorageKey.HideEditor,
     {
       defaultValue: false,
     },
   );
   const [autoFitBounds, setAutoFitBounds] = useLocalStorageState(
-    LocalstorageKey.AutoFitBounds,
+    LocalStorageKey.AutoFitBounds,
     {
       defaultValue: true,
     },
@@ -41,12 +41,12 @@ export default () => {
 
   const [popupTrigger, setPopupTrigger] = useLocalStorageState<
     'click' | 'hover'
-  >(LocalstorageKey.PopupTrigger, {
+  >(LocalStorageKey.PopupTrigger, {
     defaultValue: 'click',
   });
 
   const [baseMap, setBaseMap] = useLocalStorageState<'Gaode' | 'Mapbox'>(
-    LocalstorageKey.BaseMap,
+    LocalStorageKey.BaseMap,
     {
       defaultValue: 'Gaode',
     },

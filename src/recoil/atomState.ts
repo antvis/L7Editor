@@ -1,4 +1,4 @@
-import { LocalstorageKey, PrimaryColor } from '@/constants';
+import { LocalStorageKey, PrimaryColor } from '@/constants';
 import { IFeature, LngLatImportType } from '@/types';
 import { FilterNode } from '@/types/filter';
 import { Scene } from '@antv/l7';
@@ -52,7 +52,7 @@ const sceneState = atom<Scene | null>({
 const editorTextState = atom<string>({
   key: 'editorText',
   default: JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
-  effects: [localStorageEffect(LocalstorageKey.EditorText)],
+  effects: [localStorageEffect(LocalStorageKey.EditorText)],
 });
 
 const lnglatTypeState = atom<LngLatImportType>({
@@ -68,49 +68,55 @@ const lnglatTextState = atom({
 const rightWidthState = atom<number>({
   key: 'rightWidth',
   default: 40,
-  effects: [localStorageEffect(LocalstorageKey.RightPanelWidth)],
+  effects: [localStorageEffect(LocalStorageKey.RightPanelWidth)],
 });
 
 const mapOptionState = atom<LarkMapProps['mapOptions']>({
   key: 'mapOptions',
   default: { style: 'normal', maxZoom: 24 },
-  effects: [localStorageEffect(LocalstorageKey.MapOptions)],
+  effects: [localStorageEffect(LocalStorageKey.MapOptions)],
 });
 
 const layerColorState = atom<string>({
   key: 'layerColor',
   default: PrimaryColor,
-  effects: [localStorageEffect(LocalstorageKey.LayerColor)],
+  effects: [localStorageEffect(LocalStorageKey.LayerColor)],
 });
 
 const hideEditorState = atom<boolean>({
   key: 'hideEditor',
   default: false,
-  effects: [localStorageEffect(LocalstorageKey.HideEditor)],
+  effects: [localStorageEffect(LocalStorageKey.HideEditor)],
 });
 
 const autoFitBoundsState = atom<boolean>({
   key: 'autoFitBounds',
   default: true,
-  effects: [localStorageEffect(LocalstorageKey.AutoFitBounds)],
+  effects: [localStorageEffect(LocalStorageKey.AutoFitBounds)],
 });
 
 const popupTriggerState = atom<'click' | 'hover'>({
   key: 'popupTrigger',
   default: 'click',
-  effects: [localStorageEffect(LocalstorageKey.PopupTrigger)],
+  effects: [localStorageEffect(LocalStorageKey.PopupTrigger)],
 });
 
 const baseMapState = atom<'Gaode' | 'Mapbox'>({
   key: 'baseMap',
   default: 'Gaode',
-  effects: [localStorageEffect(LocalstorageKey.BaseMap)],
+  effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
 
 const activeTabState = atom<'code' | 'table'>({
   key: 'activeTab',
   default: 'code',
-  effects: [localStorageEffect(LocalstorageKey.ActiveRightTabKey)],
+  effects: [localStorageEffect(LocalStorageKey.ActiveRightTabKey)],
+});
+
+const layerTypeState = atom<string[]>({
+  key: 'layerType',
+  default: [],
+  effects: [localStorageEffect(LocalStorageKey.LayerTypes)],
 });
 
 export {
@@ -130,4 +136,5 @@ export {
   popupTriggerState,
   baseMapState,
   isDrawState,
+  layerTypeState,
 };
