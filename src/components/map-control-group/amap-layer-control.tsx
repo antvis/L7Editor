@@ -85,19 +85,16 @@ export function AmapLayerControl() {
         } else {
           amapAdd.remove(satellite);
         }
-
         if (isIncludes('RoadNet')) {
           amapAdd.add(roadNet);
         } else {
           amapAdd.remove(roadNet);
         }
-
         if (isIncludes('Traffic')) {
           amapAdd.add(traffic);
         } else {
           amapAdd.remove(traffic);
         }
-
         if (isIncludes('Buildings')) {
           amapAdd.add(buildings);
         } else {

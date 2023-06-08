@@ -38,22 +38,22 @@ type FilterNumber = FilterBase & {
       }
   );
 
-/** 日期型筛选器 */
-type FilterDate = FilterBase & {
-  /** 日期粒度 */
-  granularity?: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
-} & (
-    | {
-        type: 'date';
-        operator: 'between';
-        value: [string, string];
-      }
-    | {
-        type: 'date';
-        operator: '>' | '<';
-        value: string;
-      }
-  );
+// /** 日期型筛选器 */
+// type FilterDate = FilterBase & {
+//   /** 日期粒度 */
+//   granularity?: 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
+// } & (
+//     | {
+//         type: 'date';
+//         operator: 'between';
+//         value: [string, string];
+//       }
+//     | {
+//         type: 'date';
+//         operator: '>' | '<';
+//         value: string;
+//       }
+//   );
 
 type BaseFilterField = {
   type: number | string;

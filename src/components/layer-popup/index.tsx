@@ -13,8 +13,6 @@ import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
   Feature,
   featureCollection,
-  Geometry,
-  GeometryCollection,
 } from '@turf/turf';
 import {
   Button,
@@ -177,10 +175,8 @@ export const LayerPopup: React.FC = () => {
             ...getData[0],
             properties: feature?.properties,
           };
-          (features[index] = newData as Feature<
-            Geometry | GeometryCollection,
-            {}
-          >),
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          (features[index] = newData as any),
             saveEditorText(
               prettierText({ content: featureCollection(features) }),
             );
@@ -362,6 +358,7 @@ export const LayerPopup: React.FC = () => {
                 </Descriptions.Item>
               );
             }
+            return null;
           })}
         </Descriptions>
       </div>

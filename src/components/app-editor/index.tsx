@@ -86,12 +86,14 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     ref,
     () => ({
       getData: () =>
+        // eslint-disable-next-line no-async-promise-executor
         new Promise(async (resolve, reject) => {
           let geoData;
           const funcResult = new Function(scriptContent);
           if (funcResult()) {
             geoData = funcResult();
           } else {
+            // eslint-disable-next-line no-eval
             const evalResult = eval(scriptContent);
             geoData = isPromise(evalResult) ? await evalResult : evalResult;
           }
