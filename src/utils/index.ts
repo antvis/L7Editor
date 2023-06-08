@@ -1,4 +1,4 @@
-import { FeatureCollectionVT } from '@/constants';
+import { FeatureCollectionVT, LayerZIndex } from '@/constants';
 // @ts-ignore
 import togeojson from '@mapbox/togeojson';
 import {
@@ -12,12 +12,26 @@ import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { isUndefined } from 'lodash';
+import { getSingleColorStyle } from '@antv/l7-draw';
 // @ts-ignore
 import wkt from 'wkt';
 
 export const getOpacityColor = (color: string, alpha: number) => {
   const colorInstance = Color(color).fade(alpha);
   return `rgba(${colorInstance.array().join(', ')})`;
+};
+
+export const getDrawStyle = (color: string) => {
+  const style = getSingleColorStyle(color);
+  Object.keys(style).forEach((key) => {
+    // @ts-ignore
+    style[key].options = {
+      // @ts-ignore
+      ...style[key].options,
+      zIndex: LayerZIndex,
+    };
+  });
+  return style;
 };
 
 /**
@@ -60,8 +74,8 @@ export const getUrlFeatureCollection = async (
   } else if (urlType === 'WKT') {
     const WKT = await json.text();
     const wktArr = WKT.split('\n');
-    const geojson: Feature<any>[] = wktArr.map((item: string) => {
-      const data: Feature<any> = {
+    const geojson: Feature<any, any>[] = wktArr.map((item: string) => {
+      const data: Feature<any, any> = {
         type: 'Feature',
         geometry: {},
         properties: {},

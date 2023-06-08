@@ -18,7 +18,7 @@ import {
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useModel } from 'umi';
-import './index.less';
+import useStyle from './styles';
 
 const { Text } = Typography;
 
@@ -76,6 +76,7 @@ const EditableCell = ({
 }: EditableCellType) => {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<any>(null);
+  const styles = useStyle();
   const form = useContext(FormContext);
   useEffect(() => {
     if (editing) {
@@ -159,7 +160,7 @@ const EditableCell = ({
       </Form.Item>
     ) : (
       <div
-        className={!isDraw ? 'editable-cell-value-wrap' : ''}
+        className={!isDraw ? styles.editableCellValueWrap : ''}
         style={{
           paddingRight: 24,
         }}

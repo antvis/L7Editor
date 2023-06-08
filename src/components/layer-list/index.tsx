@@ -1,4 +1,4 @@
-import { FeatureKey, LayerId } from '@/constants';
+import { FeatureKey, LayerId, LayerZIndex } from '@/constants';
 import { useFilterFeature } from '@/hooks/useFilterFeature';
 import { getPointImage } from '@/utils/change-image-color';
 import {
@@ -68,6 +68,7 @@ export const LayerList: React.FC = () => {
         color={layerColor}
         style={{ opacity: 0.15 }}
         state={{ active: { color: activeColor } }}
+        zIndex={LayerZIndex}
       />
       <PolygonLayer
         source={polygonSource}
@@ -75,6 +76,7 @@ export const LayerList: React.FC = () => {
         blend="normal"
         color={layerColor}
         size={2}
+        zIndex={LayerZIndex}
       />
       <LineLayer
         id={LayerId.LineLayer}
@@ -83,6 +85,7 @@ export const LayerList: React.FC = () => {
         color={layerColor}
         size={2}
         state={{ active: { color: activeColor } }}
+        zIndex={LayerZIndex}
       />
       <PointLayer
         id={LayerId.PointLayer}
@@ -93,6 +96,7 @@ export const LayerList: React.FC = () => {
         //@ts-ignore
         style={{ offsets: [0, 20] }}
         state={{ active: { color: activeColor } }}
+        zIndex={LayerZIndex}
       />
     </>
   ) : null;

@@ -12,6 +12,8 @@ export enum LocalstorageKey {
   PopupTrigger = 'PopupTrigger',
   ActiveRightTabKey = 'ActiveRightTabKey',
   AutoFitBounds = 'AutoFitBounds',
+  BaseMap = 'BaseMap',
+  LayerTypes = 'LayerTypes',
 }
 
 export enum LayerId {
@@ -60,3 +62,11 @@ export const LngLatImportTypeOptions: Array<{
 export const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/a/font_3567033_cxg3z3f6vte.js',
 });
+
+export const MapBoxConfig = {
+  style: 'mapbox://styles/zcxduo/ck2ypyb1r3q9o1co1766dex29',
+  token:
+    'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
+};
+
+export const LayerZIndex = 100;

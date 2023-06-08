@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Form, Modal, Radio, Switch } from 'antd';
+import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
 import { useModel } from 'umi';
 
 export const SettingBtn = () => {
-  const { popupTrigger, setPopupTrigger, autoFitBounds, setAutoFitBounds } =
-    useModel('global');
+  const {
+    popupTrigger,
+    setPopupTrigger,
+    autoFitBounds,
+    setAutoFitBounds,
+    baseMap,
+    setBaseMap,
+  } = useModel('global');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [form] = Form.useForm();
@@ -25,7 +31,9 @@ export const SettingBtn = () => {
 
   return (
     <>
-      <Button icon={<SettingOutlined />} onClick={showModal}></Button>
+      <Tooltip title="地图设置">
+        <Button icon={<SettingOutlined />} onClick={showModal}></Button>
+      </Tooltip>
       <Modal
         title="设置"
         open={isModalOpen}
@@ -37,12 +45,14 @@ export const SettingBtn = () => {
       >
         <Form
           form={form}
-          initialValues={{ popupTrigger, autoFitBounds }}
+          initialValues={{ popupTrigger, autoFitBounds, baseMap }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
+            setBaseMap(e.baseMap);
+            window.location.reload();
           }}
         >
           <Form.Item name="popupTrigger" label="图层气泡展示方式">
@@ -58,6 +68,13 @@ export const SettingBtn = () => {
             label="自动缩放至所有元素可见"
           >
             <Switch />
+          </Form.Item>
+
+          <Form.Item name="baseMap" label="地图底图切换">
+            <Radio.Group>
+              <Radio.Button value="Gaode">高德</Radio.Button>
+              <Radio.Button value="Mapbox">Mapbox</Radio.Button>
+            </Radio.Group>
           </Form.Item>
         </Form>
       </Modal>

@@ -1,11 +1,12 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
+import HandBackBtn from '@/components/map-content/btn/handback-btn';
 import { IconFont, LocalstorageKey } from '@/constants';
 import { prettierText } from '@/utils/prettier-text';
 import {
   ClearOutlined,
   CodeOutlined,
   SaveOutlined,
-  TableOutlined
+  TableOutlined,
 } from '@ant-design/icons';
 import { useKeyPress, useLocalStorageState } from 'ahooks';
 import { Button, Popconfirm, Tabs, TabsProps, Tooltip } from 'antd';
@@ -13,14 +14,17 @@ import React, { useMemo } from 'react';
 import { useModel } from 'umi';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
+import ChangeLog from './btn/changelog-btn';
 import DownloadBtn from './btn/download-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
-import './index.less';
+import './index.css';
+import useStyle from './styles';
 
 export const MapContent: React.FC = () => {
-  const { autoFitBounds } = useModel('global')
+  const { autoFitBounds } = useModel('global');
   const { bboxAutoFit } = useModel('feature');
+  const styles = useStyle();
   const [activeTab, setActiveTab] = useLocalStorageState<'code' | 'table'>(
     LocalstorageKey.ActiveRightTabKey,
     {
@@ -35,14 +39,13 @@ export const MapContent: React.FC = () => {
     }
     const features = saveEditorText();
     if (autoFitBounds) {
-
       bboxAutoFit(features);
     }
   };
 
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {
     e.preventDefault();
-    onSave()
+    onSave();
   });
 
   const items: TabsProps['items'] = [
@@ -73,8 +76,8 @@ export const MapContent: React.FC = () => {
   }, [features, savable]);
 
   return (
-    <div className="map-content">
-      <div className="map-content__left">
+    <div className={styles.mapContent}>
+      <div className={styles.mapContentLeft}>
         <div>
           <ImportBtn />
           <Tooltip
@@ -99,10 +102,7 @@ export const MapContent: React.FC = () => {
             }}
           >
             <Tooltip trigger="hover" placement="left" overlay="清空数据">
-              <Button
-                icon={<ClearOutlined />}
-                disabled={featureDisabled}
-              />
+              <Button icon={<ClearOutlined />} disabled={featureDisabled} />
             </Tooltip>
           </Popconfirm>
 
@@ -124,13 +124,14 @@ export const MapContent: React.FC = () => {
         <div>
           <SettingBtn />
           <DownloadBtn />
-          {/* <HandBackBtn /> */}
+          <ChangeLog />
+          <HandBackBtn />
           <DingImgBtn />
         </div>
       </div>
       <Tabs
         activeKey={activeTab}
-        className="map-content__right"
+        className={styles.mapContentRight}
         defaultActiveKey="code"
         items={items}
         onChange={(e) => {

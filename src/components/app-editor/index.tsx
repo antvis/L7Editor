@@ -12,7 +12,7 @@ import React, {
 import MonacoEditor from 'react-monaco-editor';
 import { useModel } from 'umi';
 import { provideCompletionItems } from './editortool';
-import './index.less';
+import useStyle from './styles';
 
 type Language = 'json' | 'javascript';
 
@@ -27,6 +27,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
+  const styles = useStyle();
 
   // document format
   monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
@@ -114,7 +115,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   }, [language, editorText]);
 
   return (
-    <div ref={setContainer} className="app-editor">
+    <div ref={setContainer} className={styles.appEditor}>
       <MonacoEditor
         width={width}
         height={height}

@@ -9,16 +9,17 @@ import {
 import { ConfigProvider, Result } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import React, { useMemo } from 'react';
-import './index.less';
+import useStyle from './styles';
 
 const L7DrawPro: React.FC = () => {
+  const styles = useStyle();
   const isPc = useMemo(() => {
     return !/Mobi|Android|iPhone/i.test(navigator.userAgent);
   }, []);
 
   return isPc ? (
     <ConfigProvider locale={zhCN}>
-      <div className="l7-draw-pro">
+      <div className={styles.l7DrawPro}>
         <ResizePanel
           left={
             <AppMap>
@@ -32,10 +33,7 @@ const L7DrawPro: React.FC = () => {
       </div>
     </ConfigProvider>
   ) : (
-    <Result
-      status="404"
-      title="请用PC端打开"
-    />
+    <Result status="404" title="请用PC端打开" />
   );
 };
 

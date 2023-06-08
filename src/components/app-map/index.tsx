@@ -1,10 +1,11 @@
-import { FeatureCollectionVT } from '@/constants';
+import { FeatureCollectionVT, MapBoxConfig } from '@/constants';
 import { getParamsNew, getUrlFeatureCollection } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';
-import React, { ReactNode, useEffect } from 'react';
+import { omit } from 'lodash';
+import React, { ReactNode, useEffect, useMemo } from 'react';
 import { useModel } from 'umi';
 
 export interface AppMapProps {
@@ -12,7 +13,7 @@ export interface AppMapProps {
 }
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
-  const { mapOptions } = useModel('global');
+  const { mapOptions: baseMapOptions, baseMap } = useModel('global');
   const { setScene, saveEditorText, editorText, bboxAutoFit, scene } =
     useModel('feature');
 
@@ -39,7 +40,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
 
   useEffect(() => {
     try {
-      if (FeatureCollectionVT.check(JSON.parse(editorText))) {
+      if (FeatureCollectionVT.check(JSON.parse(editorText!))) {
         saveEditorText();
       }
     } catch {
@@ -49,10 +50,21 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
     }
   }, []);
 
+  const mapOptions = useMemo(() => {
+    if (baseMap === 'Mapbox') {
+      return {
+        ...baseMapOptions,
+        ...MapBoxConfig,
+      };
+    }
+    return omit(baseMapOptions, ['token']);
+  }, [baseMap, baseMapOptions]);
+
   return (
     <LarkMap
       style={{ height: '100%' }}
       mapOptions={mapOptions}
+      mapType={baseMap}
       onSceneLoaded={setScene}
     >
       {children}
