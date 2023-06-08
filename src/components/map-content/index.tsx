@@ -18,7 +18,7 @@ import ChangeLog from './btn/changelog-btn';
 import DownloadBtn from './btn/download-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
-import './index.less';
+import './index.css';
 import useStyle from './styles';
 
 export const MapContent: React.FC = () => {

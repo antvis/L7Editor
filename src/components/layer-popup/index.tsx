@@ -10,10 +10,7 @@ import {
   DrawRect,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import {
-  Feature,
-  featureCollection,
-} from '@turf/turf';
+import { Feature, featureCollection } from '@turf/turf';
 import {
   Button,
   Descriptions,
@@ -26,7 +23,7 @@ import {
 } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useModel } from 'umi';
-import './index.less';
+import './index.css';
 import useStyle from './styles';
 const { Paragraph } = Typography;
 
