@@ -1,6 +1,5 @@
 import { FeatureCollectionVT, MapBoxConfig } from '@/constants';
-import useFeature from '@/recoil/feature';
-import useGlobal from '@/recoil/global';
+import { useFeature, useGlobal } from '@/recoil';
 import { getParamsNew, getUrlFeatureCollection } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';

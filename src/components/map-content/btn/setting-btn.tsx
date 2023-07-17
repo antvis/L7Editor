@@ -1,6 +1,7 @@
-import useGlobal from '@/recoil/global';
+import { useGlobal } from '@/recoil';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
+import React from 'react';
 import { useState } from 'react';
 
 export const SettingBtn = () => {

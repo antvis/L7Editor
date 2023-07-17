@@ -1,4 +1,4 @@
-import useGlobal from '@/recoil/global';
+import { useGlobal } from '@/recoil';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { message, Tooltip } from 'antd';
 import React from 'react';

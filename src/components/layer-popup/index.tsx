@@ -1,6 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
-import useFeature from '@/recoil/feature';
-import useGlobal from '@/recoil/global';
+import { useFeature, useGlobal } from '@/recoil';
 import { getDrawStyle, isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {

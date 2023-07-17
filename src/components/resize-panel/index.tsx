@@ -1,6 +1,5 @@
-// @ts-ignore
 import { RightPanelWidthRange } from '@/constants';
-import useGlobal from '@/recoil/global';
+import { useGlobal } from '@/recoil';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';

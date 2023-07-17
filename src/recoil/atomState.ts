@@ -1,4 +1,4 @@
-import { LocalStorageKey, PrimaryColor } from '@/constants';
+import { LocalStorageKey } from '@/constants';
 import { IFeature, LngLatImportType } from '@/types';
 import { FilterNode } from '@/types/filter';
 import { Scene } from '@antv/l7';
@@ -7,19 +7,19 @@ import { atom, DefaultValue } from 'recoil';
 
 const localStorageEffect =
   (key: string) =>
-  ({ setSelf, onSet }: any) => {
-    const getValue = localStorage.getItem(key);
-    if (getValue) {
-      setSelf(JSON.parse(getValue));
-    }
-    onSet((newValue: Record<string, any>) => {
-      if (newValue instanceof DefaultValue) {
-        localStorage.removeItem(key);
-      } else {
-        localStorage.setItem(key, JSON.stringify(newValue));
+    ({ setSelf, onSet }: any) => {
+      const getValue = localStorage.getItem(key);
+      if (getValue) {
+        setSelf(JSON.parse(getValue));
       }
-    });
-  };
+      onSet((newValue: Record<string, any>) => {
+        if (newValue instanceof DefaultValue) {
+          localStorage.removeItem(key);
+        } else {
+          localStorage.setItem(key, JSON.stringify(newValue));
+        }
+      });
+    };
 
 const filterState = atom<FilterNode[]>({
   key: 'filter',
@@ -57,7 +57,6 @@ const editorTextState = atom<string>({
 
 const lnglatTypeState = atom<LngLatImportType>({
   key: 'lnglatType',
-  default: 'Point',
 });
 
 const lnglatTextState = atom({
@@ -67,19 +66,16 @@ const lnglatTextState = atom({
 
 const rightWidthState = atom<number>({
   key: 'rightWidth',
-  default: 40,
   effects: [localStorageEffect(LocalStorageKey.RightPanelWidth)],
 });
 
 const mapOptionState = atom<LarkMapProps['mapOptions']>({
   key: 'mapOptions',
-  default: { style: 'normal', maxZoom: 24 },
   effects: [localStorageEffect(LocalStorageKey.MapOptions)],
 });
 
 const layerColorState = atom<string>({
   key: 'layerColor',
-  default: PrimaryColor,
   effects: [localStorageEffect(LocalStorageKey.LayerColor)],
 });
 
@@ -91,25 +87,21 @@ const hideEditorState = atom<boolean>({
 
 const autoFitBoundsState = atom<boolean>({
   key: 'autoFitBounds',
-  default: true,
   effects: [localStorageEffect(LocalStorageKey.AutoFitBounds)],
 });
 
 const popupTriggerState = atom<'click' | 'hover'>({
   key: 'popupTrigger',
-  default: 'click',
   effects: [localStorageEffect(LocalStorageKey.PopupTrigger)],
 });
 
 const baseMapState = atom<'Gaode' | 'Mapbox'>({
   key: 'baseMap',
-  default: 'Gaode',
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
 
 const activeTabState = atom<'code' | 'table'>({
   key: 'activeTab',
-  default: 'code',
   effects: [localStorageEffect(LocalStorageKey.ActiveRightTabKey)],
 });
 

@@ -1,4 +1,4 @@
-import useGlobal from '@/recoil/global';
+import { useGlobal } from '@/recoil';
 import { MapThemeControl as LarkMapMapThemeControl } from '@antv/larkmap';
 import React from 'react';
 

@@ -1,8 +1,9 @@
 import { IconFont } from '@/constants';
-import useGlobal from '@/recoil/global';
+import { useGlobal } from '@/recoil';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover, Tabs, TabsProps } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import React from 'react';
 import { useEffect, useRef } from 'react';
 
 /**
@@ -57,11 +58,11 @@ export function AmapLayerControl() {
   const layers = useRef(
     scene.getType() !== 'mapbox'
       ? {
-          satellite: new AMap.TileLayer.Satellite(),
-          roadNet: new AMap.TileLayer.RoadNet(),
-          traffic: new AMap.TileLayer.Traffic(),
-          buildings: new AMap.Buildings(),
-        }
+        satellite: new AMap.TileLayer.Satellite(),
+        roadNet: new AMap.TileLayer.RoadNet(),
+        traffic: new AMap.TileLayer.Traffic(),
+        buildings: new AMap.Buildings(),
+      }
       : {},
   );
 
@@ -96,7 +97,7 @@ export function AmapLayerControl() {
         } else {
           amapAdd.remove(buildings);
         }
-      } catch {}
+      } catch { }
     }
   }, [layerType, scene]);
 
@@ -119,7 +120,7 @@ export function AmapLayerControl() {
                         alt=""
                         className="amap-info-item-image"
                       />
-                      <h5>{item.title}</h5>
+                      <h5 style={{ marginTop: 0 }}>{item.title}</h5>
                     </div>
                   </Checkbox>
                 );
@@ -150,7 +151,7 @@ export function AmapLayerControl() {
                   alt=""
                   className="amap-info-item-image"
                 />
-                <h5>{GOOGLE_SATELLITE.title}</h5>
+                <h5 style={{ marginTop: 0 }}>{GOOGLE_SATELLITE.title}</h5>
               </div>
             </Checkbox>
           </Checkbox.Group>
@@ -161,7 +162,7 @@ export function AmapLayerControl() {
 
   return (
     <>
-      <CustomControl position="bottomright" className="l7-button-control">
+      <CustomControl position="bottomright" className="l7-amap">
         <Popover
           content={
             <Tabs items={scene.getType() !== 'mapbox' ? items : [items[1]]} />
@@ -170,7 +171,7 @@ export function AmapLayerControl() {
           placement="leftTop"
           overlayInnerStyle={{
             width: 370,
-            height: scene.getType() !== 'mapbox' ? 310 : 190,
+            height: scene.getType() !== 'mapbox' ? 330 : 190,
           }}
         >
           <IconFont type="icon-ditu" className="l7-amap-control" />

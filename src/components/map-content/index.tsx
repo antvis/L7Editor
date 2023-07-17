@@ -1,8 +1,7 @@
 import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
 import HandBackBtn from '@/components/map-content/btn/handback-btn';
 import { IconFont } from '@/constants';
-import useFeature from '@/recoil/feature';
-import useGlobal from '@/recoil/global';
+import { useFeature, useGlobal } from '@/recoil';
 import { prettierText } from '@/utils/prettier-text';
 import {
   ClearOutlined,

@@ -1,6 +1,6 @@
 import { FeatureKey, LayerId, LayerZIndex } from '@/constants';
 import { useFilterFeature } from '@/hooks/useFilterFeature';
-import useGlobal from '@/recoil/global';
+import { useGlobal } from '@/recoil';
 import { getPointImage } from '@/utils/change-image-color';
 import {
   LineLayer,

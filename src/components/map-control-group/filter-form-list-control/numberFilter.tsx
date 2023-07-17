@@ -1,6 +1,5 @@
-import useFeature from '@/recoil/feature';
-import useFilter from '@/recoil/filter';
-import { FilterNumberData } from '@/types/filter';
+import { useFeature, useFilter } from '@/recoil';
+import { FilterNumberData } from '@/types';
 import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash';
 import React from 'react';

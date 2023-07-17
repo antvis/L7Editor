@@ -1,5 +1,5 @@
 import { FeatureKey } from '@/constants';
-import useFeature from '@/recoil/feature';
+import { useFeature } from '@/recoil';
 import { prettierText } from '@/utils/prettier-text';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
@@ -106,8 +106,8 @@ const EditableCell = ({
       form?.setFieldsValue(
         inputType !== 'object'
           ? {
-              [dataIndex]: record[dataIndex],
-            }
+            [dataIndex]: record[dataIndex],
+          }
           : { [dataIndex]: JSON.stringify(record[dataIndex]) },
       );
     }
@@ -118,8 +118,8 @@ const EditableCell = ({
       const fieldValue =
         inputType !== 'object'
           ? {
-              [dataIndex]: record[dataIndex],
-            }
+            [dataIndex]: record[dataIndex],
+          }
           : { [dataIndex]: JSON.stringify(record[dataIndex]) };
       const values = await form?.validateFields();
       if (JSON.stringify(values) !== JSON.stringify(fieldValue)) {
@@ -258,11 +258,11 @@ export const AppTable = () => {
         filterSearch: true,
         sorter: !options.length
           ? (a: any, b: any) => {
-              return (
-                (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
-                (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
-              );
-            }
+            return (
+              (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
+              (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
+            );
+          }
           : undefined,
       });
     });

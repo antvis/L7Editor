@@ -85,7 +85,7 @@ export default function useFeature() {
         setSavedText(value ?? editorText);
         setFeatures(newFeatures as IFeature);
       } catch (e) {
-        message.warn('数据加载有误');
+        message.warning('数据加载有误');
       }
     } else {
       setEditorText(emptyFeatures);

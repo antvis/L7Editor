@@ -1,5 +1,4 @@
-import useFeature from '@/recoil/feature';
-import useGlobal from '@/recoil/global';
+import { useFeature, useGlobal } from '@/recoil';
 import { getPointImage } from '@/utils/change-image-color';
 import { SearchOutlined } from '@ant-design/icons';
 import {
@@ -57,7 +56,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
             style={{ borderRight: 'none' }}
           >
             <SearchOutlined
-              className="l7-draw-icon"
+              // className="l7-draw-icon"
               style={{ fontSize: 16, lineHeight: '30px' }}
               onClick={() => {
                 setIsVisible(!isVisible);

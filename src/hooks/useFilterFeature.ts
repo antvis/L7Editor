@@ -1,5 +1,4 @@
-import useFeature from '@/recoil/feature';
-import useFilter from '@/recoil/filter';
+import { useFeature, useFilter } from '../recoil';
 import { Feature, Geometry, GeometryCollection } from '@turf/turf';
 import { isEmpty, isUndefined } from 'lodash';
 import { useEffect } from 'react';

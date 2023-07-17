@@ -1,6 +1,5 @@
 import { isEmptyFilter } from '@/hooks/useFilterFeature';
-import useFeature from '@/recoil/feature';
-import useFilter from '@/recoil/filter';
+import { useFeature, useFilter } from '@/recoil';
 import {
   DeleteOutlined,
   FieldBinaryOutlined,
@@ -71,7 +70,7 @@ const FilterFormListControl: React.FC = () => {
   }, [filters]);
 
   return (
-    <CustomControl position="topright" style={{ display: 'flex' }}>
+    <CustomControl position="topright" style={{ display: 'flex', }}>
       <div
         className="l7-filter"
         style={{ display: isVisible ? 'block' : 'none' }}
@@ -220,7 +219,7 @@ const FilterFormListControl: React.FC = () => {
         >
           {!isFilterActive ? (
             <FilterOutlined
-              className="l7-draw-icon"
+              // className="l7-draw-icon"
               style={{
                 lineHeight: '30px',
               }}

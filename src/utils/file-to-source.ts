@@ -1,23 +1,10 @@
-import { FeatureCollectionVT } from '@/constants';
+/* eslint-disable no-useless-catch */
+import { FeatureCollectionVT } from '../constants';
 // @ts-ignore
 import togeojson from '@mapbox/togeojson';
 // @ts-ignore
 import wkt from 'wkt';
-/**
- * 生成唯一 ID
- */
-export const getUniqueId = (prefix?: string) => {
-  const unique = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-    /[xy]/g,
-    function (c) {
-      const r = (Math.random() * 16) | 0,
-        v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    },
-  );
-
-  return prefix ? `${prefix}_${unique}` : unique;
-};
+import { uniqueId } from 'lodash'
 
 export const readFileAsText = (file: File) => {
   return new Promise<string>((resolve, reject) => {
@@ -45,7 +32,7 @@ export const parserGeoJson = (content: string, name: string, id?: string) => {
     throw e;
   }
   return {
-    id: id || getUniqueId(id),
+    id: id || uniqueId(id),
     metadata: { name },
     data: originData,
     type: 'local',
@@ -72,38 +59,13 @@ export const parserJsonToGeoJson = (
     return parserGeoJson(content, name, id);
   }
   return {
-    id: id || getUniqueId(id),
+    id: id || uniqueId(id),
     metadata: { name },
     data,
     type: 'local',
   };
 };
 
-// /**
-//  * 解析 CSV 文件数据至数据集格式
-//  */
-// export const parserCSVToSource = (
-//   content: string,
-//   name: string,
-//   id?: string,
-// ) => {
-//   let data: Record<string, any>[];
-//     console.log(content,'content')
-//   try {
-//     data =
-//       papaparse.parse<any>(content, { header: true, skipEmptyLines: true })
-//         .data ?? [];
-//   } catch (e) {
-//     throw e;
-//   }
-
-//   return {
-//     id: id || getUniqueId(id),
-//     metadata: { name },
-//     data,
-//     type: 'local',
-//   };
-// };
 
 /* 解析文本文件至数据集格式
  * 文本文件有： json geojson csv
@@ -134,7 +96,7 @@ export const parserTextFileToSource = async (
       style: true,
     });
     return {
-      id: id || getUniqueId(id),
+      id: id || uniqueId(id),
       metadata: { name },
       data: geojson,
       type: 'local',
@@ -150,7 +112,7 @@ export const parserTextFileToSource = async (
       return { ...data, geometry: wkt.parse(item) };
     });
     return {
-      id: id || getUniqueId(id),
+      id: id || uniqueId(id),
       metadata: { name },
       data: {
         type: 'FeatureCollection',

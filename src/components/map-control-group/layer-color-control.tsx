@@ -1,34 +1,20 @@
-import useGlobal from '@/recoil/global';
+import { useGlobal } from '@/recoil';
 import { CustomControl } from '@antv/larkmap';
-import { Popover } from 'antd';
+import { ColorPicker } from 'antd';
 import React from 'react';
-import { SketchPicker } from 'react-color';
 import './index.less';
 
 const LayerColorControl: React.FC = () => {
   const { layerColor, setLayerColor } = useGlobal();
 
   return (
-    <CustomControl className="l7-button-control" position="bottomright">
-      <Popover
-        trigger="click"
-        overlayClassName="color-picker-control__tooltip"
-        placement="bottomRight"
-        content={
-          <SketchPicker
-            color={layerColor}
-            onChange={({ rgb }) => {
-              const { r, g, b, a } = rgb;
-              setLayerColor(`rgba(${[r, g, b, a].join(', ')})`);
-            }}
-          />
-        }
-      >
-        <div
-          className="color-picker-control__inner"
-          style={{ backgroundColor: layerColor }}
-        ></div>
-      </Popover>
+    <CustomControl position="bottomright">
+      <ColorPicker value={layerColor}
+        className="l7-color-control"
+        onChange={(value, hex) => {
+          setLayerColor(hex)
+        }}
+      />
     </CustomControl>
   );
 };

@@ -1,6 +1,6 @@
 /* eslint-disable no-eval */
 /* eslint-disable no-async-promise-executor */
-import useFeature from '@/recoil/feature';
+import { useFeature } from '@/recoil';
 import { isPromise } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { useMount, useSize } from 'ahooks';

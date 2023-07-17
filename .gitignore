@@ -12,3 +12,5 @@
 /.mfsu
 /.idea
 yarn.lock
+/.dumi
+/package-lock.json

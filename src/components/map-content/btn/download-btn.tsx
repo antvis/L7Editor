@@ -1,4 +1,4 @@
-import useFeature from '@/recoil/feature';
+import { useFeature } from '@/recoil';
 import { downloadText } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { CloudDownloadOutlined } from '@ant-design/icons';
