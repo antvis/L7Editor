@@ -1,7 +1,9 @@
 import { LarkMapProps } from "@antv/larkmap";
-import { LngLatImportType } from ".";
+import { IFeature, LngLatImportType } from ".";
 
 export type L7EditorProps = {
+  onFeatureChange?: (feature: IFeature) => void;
+
   editConfig: {
     /**
       * 图层颜色

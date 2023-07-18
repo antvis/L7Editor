@@ -1,21 +1,24 @@
 import { RightPanelWidthRange } from '@/constants';
-import { useGlobal } from '@/recoil';
+import { useGlobal, useFeature } from '@/recoil';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';
-import React, { ReactNode, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { IFeature } from '@/types'
 import './index.less';
 
 export interface ResizePanelProps {
   left: ReactNode;
   right: ReactNode;
+  onFeatureChange: (features: IFeature) => void
 }
 
-export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
+export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeatureChange }) => {
   const { hideEditor, setHideEditor, rightWidth, setRightWidth } = useGlobal();
   const [resizePanel, setResizePanel] = useState<HTMLDivElement | null>(null);
   const [minRightWidth, maxRightWidth] = RightPanelWidthRange;
   const { width: containerWidth = 0 } = useSize(resizePanel) ?? {};
+  const { features } = useFeature()
 
   const onResize = (event: Event) => {
     const { left = 0 } = resizePanel?.getBoundingClientRect() ?? {};
@@ -34,6 +37,10 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
   const calcRightWidth = useMemo(() => {
     return hideEditor ? 0 : rightWidth;
   }, [hideEditor, rightWidth]);
+
+  useEffect(() => {
+    onFeatureChange(features)
+  }, [features])
 
   return (
     <div

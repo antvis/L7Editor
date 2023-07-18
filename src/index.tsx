@@ -26,7 +26,7 @@ import { L7EditorProps } from './types';
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 const L7Editor = (props: L7EditorProps) => {
-  const { editConfig } = props
+  const { editConfig, onFeatureChange } = props
   const isPc = useMemo(() => {
     return !/Mobi|Android|iPhone/i.test(navigator.userAgent);
   }, []);
@@ -48,6 +48,11 @@ const L7Editor = (props: L7EditorProps) => {
     <RecoilRoot initializeState={initializeState}>
       <ConfigProvider locale={zhCN}>
         <ResizePanel
+          onFeatureChange={(e) => {
+            if (onFeatureChange) {
+              onFeatureChange(e)
+            }
+          }}
           left={
             <AppMap>
               <MapControlGroup />

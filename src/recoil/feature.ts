@@ -68,7 +68,6 @@ export default function useFeature() {
       }),
     );
   };
-
   const saveEditorText = (value?: string) => {
     const emptyFeatures = JSON.stringify(
       { type: 'FeatureCollection', features: [] },
