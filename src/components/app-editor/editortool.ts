@@ -18,6 +18,7 @@ export function provideCompletionItems(
   };
   let suggestions: any[] = [];
   if (type === 'turf') {
+    // eslint-disable-next-line guard-for-in
     for (const key in turf) {
       const completionItem = {
         label: key,

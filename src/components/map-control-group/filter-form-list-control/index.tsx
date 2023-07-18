@@ -14,12 +14,15 @@ import { cloneDeep, debounce, isEmpty } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
+import useStyle from '../styles';
+
 const { Option } = Select;
 const FilterFormListControl: React.FC = () => {
   const { dataSource } = useFeature();
   const { setFilters, filters } = useFilter();
   const [isVisible, setIsVisible] = useState(false);
   const [form] = Form.useForm();
+  const styles = useStyle();
 
   const addVisible = useMemo(() => {
     return !dataSource.length;
@@ -72,7 +75,7 @@ const FilterFormListControl: React.FC = () => {
   return (
     <CustomControl position="topright" style={{ display: 'flex', }}>
       <div
-        className="l7-filter"
+        className={styles.l7Filter}
         style={{ display: isVisible ? 'block' : 'none' }}
       >
         <Form
@@ -209,7 +212,7 @@ const FilterFormListControl: React.FC = () => {
           </Form.List>
         </Form>
       </div>
-      <div className="l7-filter-switch">
+      <div className={styles.l7FilterSwitch}>
         <button
           type="button"
           className="l7-draw-control__btn"

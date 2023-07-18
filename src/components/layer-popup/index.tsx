@@ -11,12 +11,7 @@ import {
   DrawRect,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import {
-  Feature,
-  featureCollection,
-  Geometry,
-  GeometryCollection,
-} from '@turf/turf';
+import { Feature, Geometry, GeometryCollection, featureCollection } from '@turf/turf';
 import {
   Button,
   Descriptions,
@@ -28,7 +23,8 @@ import {
   Typography,
 } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import './index.less';
+
+import useStyle from './styles';
 const { Paragraph } = Typography;
 
 type DrawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
@@ -45,6 +41,8 @@ export const LayerPopup: React.FC = () => {
     setFeatures,
   } = useFeature();
   const { layerColor, popupTrigger } = useGlobal();
+
+  const styles = useStyle();
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
@@ -303,7 +301,7 @@ export const LayerPopup: React.FC = () => {
   const popupTable = useMemo(() => {
     return featureFields.length ? (
       <div
-        className="layer-popup__info"
+        className={styles.layerPopupInfo}
         onWheel={(e) => {
           e.stopPropagation();
         }}
@@ -378,13 +376,13 @@ export const LayerPopup: React.FC = () => {
             followCursor={popupTrigger === 'hover'}
           >
             <div
-              className="layer-popup"
+              className={styles.layerPopup}
               onClick={(e) => {
                 e.stopPropagation();
               }}
             >
               {popupTable}
-              <div className="layer-popup__btn-group">
+              <div className={styles.layerPopupBtnGroup}>
                 {popupTrigger === 'click' && (
                   <Tooltip
                     title={

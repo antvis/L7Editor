@@ -14,7 +14,7 @@ import React, {
 } from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import { provideCompletionItems } from './editortool';
-import './index.less';
+import useStyle from './styles';
 
 type Language = 'json' | 'javascript';
 
@@ -29,6 +29,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
+  const styles = useStyle();
 
   // document format
   monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
@@ -87,12 +88,14 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     ref,
     () => ({
       getData: () =>
+        // eslint-disable-next-line no-async-promise-executor
         new Promise(async (resolve, reject) => {
           let geoData;
           const funcResult = new Function(scriptContent);
           if (funcResult()) {
             geoData = funcResult();
           } else {
+            // eslint-disable-next-line no-eval
             const evalResult = eval(scriptContent);
             geoData = isPromise(evalResult) ? await evalResult : evalResult;
           }
@@ -114,7 +117,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   }, [language, editorText]);
 
   return (
-    <div ref={setContainer} className="app-editor">
+    <div ref={setContainer} className={styles.appEditor}>
       <MonacoEditor
         width={width}
         height={height}

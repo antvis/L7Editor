@@ -14,9 +14,11 @@ import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash';
 import React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import useStyle from './styles';
 
 const DrawControl = () => {
   const scene = useScene();
+  const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(true);
   const { setIsDraw, resetFeatures, features } = useFeature();
@@ -141,7 +143,7 @@ const DrawControl = () => {
 
   return (
     <CustomControl position="topleft" style={{ display: 'flex' }}>
-      <div className="l7-draw-switch">
+      <div className={styles.l7DrawSwitch}>
         <button
           type="button"
           className="l7-draw-control__btn"
@@ -156,7 +158,9 @@ const DrawControl = () => {
           />
         </button>
       </div>
-      <div id="l7-draw-content" />
+      <div className={styles.l7DrawControl}>
+        <div id="l7-draw-content" />
+      </div>
     </CustomControl>
   );
 };

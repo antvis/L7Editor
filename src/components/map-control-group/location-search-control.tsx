@@ -13,6 +13,7 @@ import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
+import useStyle from './styles';
 
 const LocationSearchControl: React.FC = React.memo(() => {
   const scene = useScene();
@@ -22,6 +23,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const { layerColor } = useGlobal();
   const [isVisible, setIsVisible] = useState(false);
   const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
+  const styles = useStyle();
 
   const syncMapCenter = useCallback(() => {
     if (scene) {
@@ -49,7 +51,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
   return (
     <>
       <CustomControl position="topleft" style={{ display: 'flex' }}>
-        <div className="l7-draw-switch" style={{ marginRight: '8px' }}>
+        <div className={styles.l7DrawSwitch} style={{ marginRight: '8px' }}>
           <button
             type="button"
             className="l7-draw-control__btn"
@@ -64,7 +66,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
             />
           </button>
         </div>
-        <div className="l7-location-search">
+        <div className={styles.l7LocationSearch}>
           {isVisible && (
             <LocationSearch
               getPopupContainer={() =>

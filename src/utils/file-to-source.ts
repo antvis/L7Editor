@@ -26,11 +26,9 @@ export const readFileAsText = (file: File) => {
  */
 export const parserGeoJson = (content: string, name: string, id?: string) => {
   let originData: GeoJSON.FeatureCollection;
-  try {
-    originData = JSON.parse(content) as GeoJSON.FeatureCollection;
-  } catch (e) {
-    throw e;
-  }
+
+  originData = JSON.parse(content) as GeoJSON.FeatureCollection;
+
   return {
     id: id || uniqueId(id),
     metadata: { name },
@@ -48,11 +46,8 @@ export const parserJsonToGeoJson = (
   id?: string,
 ) => {
   let data: Record<string, any>[];
-  try {
-    data = JSON.parse(content);
-  } catch (e) {
-    throw e;
-  }
+
+  data = JSON.parse(content);
 
   // 兼容 geojson 文件
   if (FeatureCollectionVT.check(data)) {
@@ -80,12 +75,8 @@ export const parserTextFileToSource = async (
     fileFullName.lastIndexOf('.') + 1,
   );
   let content: string;
+  content = await readFileAsText(file);
 
-  try {
-    content = await readFileAsText(file);
-  } catch (e) {
-    throw e;
-  }
   if (fileExtension === 'json') {
     return parserJsonToGeoJson(content, name, id);
   } else if (fileExtension === 'geojson') {

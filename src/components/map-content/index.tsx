@@ -19,10 +19,12 @@ import DownloadBtn from './btn/download-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
 import './index.less';
+import useStyle from './styles';
 
 export const MapContent: React.FC = () => {
   const { autoFitBounds, activeTab, setActiveTab } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit, features } = useFeature();
+  const styles = useStyle()
 
   const onSave = () => {
     if (!savable) {
@@ -67,8 +69,8 @@ export const MapContent: React.FC = () => {
   }, [features, savable]);
 
   return (
-    <div className="map-content">
-      <div className="map-content__left">
+    <div className={styles.mapContent}>
+      <div className={styles.mapContentLeft}>
         <div>
           <ImportBtn />
           <Tooltip
@@ -122,7 +124,7 @@ export const MapContent: React.FC = () => {
       </div>
       <Tabs
         activeKey={activeTab}
-        className="map-content__right"
+        className={styles.mapContentRight}
         defaultActiveKey="code"
         items={items}
         onChange={(e) => {

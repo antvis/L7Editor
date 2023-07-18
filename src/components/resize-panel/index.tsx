@@ -5,7 +5,7 @@ import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { IFeature } from '@/types'
-import './index.less';
+import useStyle from './styles';
 
 export interface ResizePanelProps {
   left: ReactNode;
@@ -19,6 +19,7 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeature
   const [minRightWidth, maxRightWidth] = RightPanelWidthRange;
   const { width: containerWidth = 0 } = useSize(resizePanel) ?? {};
   const { features } = useFeature()
+  const styles = useStyle();
 
   const onResize = (event: Event) => {
     const { left = 0 } = resizePanel?.getBoundingClientRect() ?? {};
@@ -44,13 +45,13 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeature
 
   return (
     <div
-      className="resize-panel"
+      className={styles.resizePanel}
       ref={(ref: HTMLDivElement) => {
         setResizePanel(ref);
       }}
     >
       <div
-        className="resize-panel__left"
+        className={styles.resizePanelLeft}
         style={{ width: `${100 - calcRightWidth}%` }}
       >
         {left}
@@ -68,9 +69,9 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeature
         }}
         minWidth={`${(minRightWidth / 100) * containerWidth}px`}
         maxWidth={`${(maxRightWidth / 100) * containerWidth}px`}
-        className="resize-panel__right"
+        className={styles.resizePanelRight}
         handleClasses={{
-          left: 'resize-panel__drag-line',
+          left: styles.resizePanelDragLine,
         }}
         handleStyles={{
           left: { width: 6, left: -3 },
@@ -83,7 +84,7 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeature
       >
         {right}
         <div
-          className="resize-panel__toggle-btn"
+          className={styles.resizePanelToggleBtn}
           onClick={() => {
             setHideEditor(!hideEditor);
           }}
