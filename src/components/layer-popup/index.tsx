@@ -11,7 +11,12 @@ import {
   DrawRect,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import { Feature, Geometry, GeometryCollection, featureCollection } from '@turf/turf';
+import {
+  Feature,
+  featureCollection,
+  Geometry,
+  GeometryCollection,
+} from '@turf/turf';
 import {
   Button,
   Descriptions,
@@ -164,6 +169,7 @@ export const LayerPopup: React.FC = () => {
       );
     });
     const onChange = (selectFeature: any, draw: DrawType) => {
+      console.log(draw);
       if (!selectFeature) {
         const getData = draw.getData();
         if (getData.length) {

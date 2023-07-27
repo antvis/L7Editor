@@ -1,18 +1,23 @@
 import { defineConfig } from '@umijs/max';
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
+  apiParser: {},
+  resolve: {
+    // 配置入口文件路径，API 解析将从这里开始
+    entryFile: './src/index.tsx',
+  },
   title: 'L7Editor',
-  hash: true,
-  base: '/',
-  publicPath: '/',
   outputPath: 'docs-dist',
+  copy: isProduction ? ['docs/CNAME'] : [],
   themeConfig: {
     carrier: 'L7 Editor',
     pc: {
       primaryColor: '#1677ff',
-      borderRadiusBase: '4px'
+      borderRadiusBase: '4px',
     },
+    footer: false,
   },
   alias: {
     '@': require('path').resolve(__dirname, 'src'),

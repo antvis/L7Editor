@@ -4,13 +4,13 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
-import { IFeature } from '@/types'
 import useStyle from './styles';
+import { Feature } from '@turf/turf';
 
 export interface ResizePanelProps {
   left: ReactNode;
   right: ReactNode;
-  onFeatureChange: (features: IFeature) => void
+  onFeatureChange: (features: Feature[]) => void
 }
 
 export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeatureChange }) => {
