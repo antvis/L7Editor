@@ -9,7 +9,7 @@ export default defineConfig({
     entryFile: './src/index.tsx',
   },
   title: 'L7Editor',
-  outputPath: 'docs-dist',
+  outputPath: 'dist',
   copy: isProduction ? ['docs/CNAME'] : [],
   themeConfig: {
     carrier: 'L7 Editor',
