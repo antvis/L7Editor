@@ -1,8 +1,8 @@
+import { useFeature } from '@/recoil';
 import { downloadText } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { coordAll, featureCollection } from '@turf/turf';
-import { useModel } from '@umijs/max';
 import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
 // @ts-ignore
@@ -38,7 +38,7 @@ const DownloadMenuItems: MenuProps['items'] = [
 ];
 
 const DownloadBtn: React.FC = () => {
-  const { features, editorText } = useModel('feature');
+  const { editorText, features } = useFeature();
 
   const onDownload = (key: string) => {
     const fc = featureCollection(features);
@@ -65,7 +65,7 @@ const DownloadBtn: React.FC = () => {
       });
       downloadText(wktArr.join('\n'), 'wkt');
     } else {
-      downloadText(editorText, 'json');
+      downloadText(editorText as string, 'json');
     }
   };
 

@@ -7,13 +7,14 @@ const useStyle = () => {
 
   const { colorBgContainer, boxShadow } = token;
   return {
-    colorPickerControlInner: css`
-      height: 20px;
-      width: 20px;
-      margin: 0 -6px;
+    l7amap: css`
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
       border-radius: 2px;
-      overflow: hidden;
-      cursor: pointer;
+      background-color: #fff;
+      box-shadow: 0 0 6px #9a9a9a !important;
     `,
     amapInfo: css`
       margin-top: 10px;
@@ -88,8 +89,15 @@ const useStyle = () => {
       }
     `,
     l7ButtonControl: css`
-      box-shadow: ${boxShadow} !important;
+      min-width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 2px;
+      box-shadow: 0 0 6px #9a9a9a;
+      padding: 0;
+      cursor: pointer;
     `,
+
   };
 };
 export default useStyle;

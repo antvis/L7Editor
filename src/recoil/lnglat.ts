@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { first, isEqual, last } from 'lodash';
-import { LngLatImportType } from '@/types';
-import { Feature, Position, lineString, point, polygon } from '@turf/turf';
 import { LngLatVT } from '@/constants';
+import { Feature, lineString, point, polygon, Position } from '@turf/turf';
+import { first, isEqual, last } from 'lodash';
+import { useRecoilState } from 'recoil';
+import { lnglatTextState, lnglatTypeState } from './atomState';
 
-export default () => {
+export default function useLnglat() {
   const [lngLatImportType, setLngLatImportType] =
-    useState<LngLatImportType>('Point');
-  const [lngLatText, setLngLatText] = useState('');
+    useRecoilState(lnglatTypeState);
+
+  const [lngLatText, setLngLatText] = useRecoilState(lnglatTextState);
 
   const importLngLatText = (text: string) => {
     const featurePositionList: Position[][] = text
@@ -58,4 +59,4 @@ export default () => {
     setLngLatText,
     importLngLatText,
   };
-};
+}

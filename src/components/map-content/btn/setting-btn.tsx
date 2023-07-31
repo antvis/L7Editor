@@ -1,18 +1,14 @@
-import { useState } from 'react';
+import { useGlobal } from '@/recoil';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
-import { useModel } from 'umi';
+import React from 'react';
+import { useState } from 'react';
 
 export const SettingBtn = () => {
-  const {
-    popupTrigger,
-    setPopupTrigger,
-    autoFitBounds,
-    setAutoFitBounds,
-    baseMap,
-    setBaseMap,
-  } = useModel('global');
+  const { baseMap, setBaseMap } = useGlobal();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { popupTrigger, setPopupTrigger, autoFitBounds, setAutoFitBounds } =
+    useGlobal();
 
   const [form] = Form.useForm();
 

@@ -1,8 +1,9 @@
+import useFeature from '@/recoil/feature';
+import useFilter from '@/recoil/filter';
 import { FilterStringData } from '@/types/filter';
 import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
 import { cloneDeep, uniq } from 'lodash';
 import React from 'react';
-import { useModel } from 'umi';
 
 const select = [
   { label: '包含', value: 'IN' },
@@ -16,9 +17,8 @@ interface Props {
   form: FormInstance;
 }
 const StringFilter: React.FC<Props> = ({ name, index, form }) => {
-  const { dataSource } = useModel('feature');
-  const { setFilters } = useModel('filter');
-
+  const { setFilters } = useFilter();
+  const { dataSource } = useFeature();
   return (
     <div style={{ display: 'flex' }}>
       <Form.Item
@@ -82,8 +82,8 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
               >
                 {(uniq(DataList?.value) ?? [])
                   .filter((item) => item !== 'undefined')
-                  .map((item, index) => (
-                    <Select.Option key={index} value={item}>
+                  .map((item) => (
+                    <Select.Option value={item} key={item}>
                       <Tooltip title={item}>{item}</Tooltip>
                     </Select.Option>
                   ))}

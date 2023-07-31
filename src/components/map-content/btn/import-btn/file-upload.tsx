@@ -3,9 +3,10 @@ import { parserFileToSource } from '@/utils/upload';
 import { UploadOutlined } from '@ant-design/icons';
 import { featureCollection } from '@turf/turf';
 import { Button, Form, message, Upload, UploadFile } from 'antd';
+import React from 'react';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
-const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
+const FileUpload = forwardRef<any>(function FileUpload({ }, ref) {
   const [uploadData, setUploadData] = useState<Record<string, any>[]>([]);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 

@@ -1,30 +1,31 @@
 import { defineConfig } from '@umijs/max';
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  title: 'L7 Editor',
-  antd: {},
-  access: {},
-  model: {},
-  initialState: {},
-  request: {},
-  layout: false,
-  hash: true,
-  theme: {
-    '@border-radius-base': '4px',
-    '@primary-color': '#1677ff',
+  apiParser: {},
+  resolve: {
+    // 配置入口文件路径，API 解析将从这里开始
+    entryFile: './src/index.tsx',
   },
+  title: 'L7Editor',
+  outputPath: 'docs-dist',
+  copy: isProduction ? ['docs/CNAME'] : [],
+  themeConfig: {
+    carrier: 'L7 Editor',
+    pc: {
+      primaryColor: '#1677ff',
+      borderRadiusBase: '4px',
+    },
+    footer: false,
+  },
+  alias: {
+    '@': require('path').resolve(__dirname, 'src'),
+  },
+  mfsu: false,
+  logo: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
   favicons: [
     'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
-  ],
-  // base: '/geojson-viewer',
-  // publicPath: '/geojson-viewer/',
-  routes: [
-    {
-      name: '首页',
-      path: '/',
-      component: './index',
-    },
   ],
   headScripts: [
     'https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js',
@@ -38,14 +39,6 @@ export default defineConfig({
         s.parentNode.insertBefore(hm, s);
       })();`,
   ],
-  // proxy:{
-  //   "/api":{
-  //     "target":"https://hz.5i5j.com",
-  //     "changeOrigin":true,
-  //     "pathRewrite":{"/api":''}
-  //   }
-  // },
-  // @ts-ignore
   chainWebpack: (config) => {
     config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
       {

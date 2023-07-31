@@ -1,4 +1,5 @@
 import { FeatureKey, LayerId } from '@/constants';
+import { useFeature, useGlobal } from '@/recoil';
 import { getDrawStyle, isCircle, isRect } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
 import {
@@ -10,7 +11,12 @@ import {
   DrawRect,
 } from '@antv/l7-draw';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import { Feature, featureCollection } from '@turf/turf';
+import {
+  Feature,
+  featureCollection,
+  Geometry,
+  GeometryCollection,
+} from '@turf/turf';
 import {
   Button,
   Descriptions,
@@ -22,8 +28,7 @@ import {
   Typography,
 } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useModel } from 'umi';
-import './index.css';
+
 import useStyle from './styles';
 const { Paragraph } = Typography;
 
@@ -33,16 +38,16 @@ export const LayerPopup: React.FC = () => {
   const [form] = Form.useForm();
   const scene = useScene();
   const {
+    saveEditorText,
+    isDraw,
+    setIsDraw,
     resetFeatures,
     features,
     setFeatures,
-    isDraw,
-    setIsDraw,
-    saveEditorText,
-  } = useModel('feature');
+  } = useFeature();
+  const { layerColor, popupTrigger } = useGlobal();
+
   const styles = useStyle();
-  const { layerColor } = useModel('global');
-  const { popupTrigger } = useModel('global');
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
@@ -94,10 +99,9 @@ export const LayerPopup: React.FC = () => {
       if (!isDraw) {
         const { lngLat, feature } = e;
         const featureIndex = feature.properties[FeatureKey.Index];
-        if (
-          popupProps.visible &&
-          popupProps.featureIndex === feature.properties[FeatureKey.Index]
-        ) {
+        const isIndex =
+          popupProps.featureIndex === feature.properties[FeatureKey.Index];
+        if (popupProps.visible && isIndex) {
           setPopupProps((oldPopupProps) => {
             return {
               ...oldPopupProps,
@@ -106,14 +110,14 @@ export const LayerPopup: React.FC = () => {
               feature: null,
             };
           });
-        } else {
-          setPopupProps({
-            lngLat,
-            visible: true,
-            featureIndex,
-            feature: e.feature,
-          });
+          return;
         }
+        setPopupProps({
+          lngLat,
+          visible: true,
+          featureIndex,
+          feature: e.feature,
+        });
       }
     },
     [setPopupProps, popupProps, isDraw],
@@ -165,6 +169,7 @@ export const LayerPopup: React.FC = () => {
       );
     });
     const onChange = (selectFeature: any, draw: DrawType) => {
+      console.log(draw);
       if (!selectFeature) {
         const getData = draw.getData();
         if (getData.length) {
@@ -173,7 +178,10 @@ export const LayerPopup: React.FC = () => {
             properties: feature?.properties,
           };
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          (features[index] = newData as any),
+          (features[index] = newData as Feature<
+            Geometry | GeometryCollection,
+            Record<string, any>
+          >),
             saveEditorText(
               prettierText({ content: featureCollection(features) }),
             );
@@ -256,24 +264,22 @@ export const LayerPopup: React.FC = () => {
   }, [onLayerDblClick, layerList, popupTrigger, scene]);
 
   useEffect(() => {
-    if (!isDraw) {
-      if (popupTrigger === 'click') {
-        layerList.forEach((layer) => layer.on('click', onLayerClick));
-        return () => {
-          layerList.forEach((layer) => layer.off('click', onLayerClick));
-        };
-      } else if (popupTrigger === 'hover') {
-        layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
-        layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
-        return () => {
-          layerList.forEach((layer) =>
-            layer.off('mouseenter', onLayerMouseenter),
-          );
-          layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
-        };
-      }
-    }
-  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene, isDraw]);
+    const layerEvent = {
+      click: [{ event: 'click', click: onLayerClick }],
+      hover: [
+        { event: 'mouseenter', click: onLayerMouseenter },
+        { event: 'mouseout', click: onLayerMouseout },
+      ],
+    };
+    layerEvent[popupTrigger].forEach((e) => {
+      layerList.forEach((layer) => layer.on(e.event, e.click));
+    });
+    return () => {
+      layerEvent[popupTrigger].forEach((e) => {
+        layerList.forEach((layer) => layer.off(e.event, e.click));
+      });
+    };
+  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene]);
 
   const save = (key: string, value: any) => {
     const formValue = form.getFieldValue('input');

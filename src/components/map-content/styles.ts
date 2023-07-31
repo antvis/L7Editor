@@ -9,7 +9,7 @@ const useStyle = () => {
   return {
     mapContent: css`
       display: flex;
-      height: 100%;
+      height: 100vh;
     `,
     mapContentRight: css`
       height: 100%;

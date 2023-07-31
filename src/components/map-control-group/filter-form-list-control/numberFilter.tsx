@@ -1,8 +1,8 @@
-import { FilterNumberData } from '@/types/filter';
+import { useFeature, useFilter } from '@/recoil';
+import { FilterNumberData } from '@/types';
 import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import { useModel } from 'umi';
 import useStyle from '../styles';
 
 const select = [
@@ -19,8 +19,8 @@ interface Props {
   form: FormInstance;
 }
 const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
-  const { dataSource } = useModel('feature');
-  const { setFilters } = useModel('filter');
+  const { setFilters } = useFilter();
+  const { dataSource } = useFeature();
   const styles = useStyle();
 
   return (

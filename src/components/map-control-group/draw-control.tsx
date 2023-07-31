@@ -1,4 +1,6 @@
 import { FeatureKey } from '@/constants';
+import { useFeature, useGlobal } from '@/recoil';
+import { IFeature } from '@/types';
 import { getDrawStyle } from '@/utils';
 import { EditOutlined } from '@ant-design/icons';
 import {
@@ -10,17 +12,17 @@ import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash';
+import React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useModel } from 'umi';
 import useStyle from './styles';
 
 const DrawControl = () => {
   const scene = useScene();
+  const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const { resetFeatures, features, setIsDraw } = useModel('feature');
-  const { layerColor } = useModel('global');
-  const styles = useStyle();
+  const { setIsDraw, resetFeatures, features } = useFeature();
+  const { layerColor } = useGlobal();
   const editFeature = useMemo(
     () =>
       cloneDeep(
@@ -73,7 +75,7 @@ const DrawControl = () => {
       };
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-      resetFeatures([...features, newFeature]);
+      resetFeatures([...features, newFeature] as IFeature);
     },
     [resetFeatures, features, drawControl],
   );
@@ -148,6 +150,7 @@ const DrawControl = () => {
           style={{ borderRight: 'none' }}
         >
           <EditOutlined
+            // className="l7-draw-icon"
             style={{ fontSize: 16, lineHeight: '30px' }}
             onClick={() => {
               setIsVisible(!isVisible);

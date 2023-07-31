@@ -1,5 +1,6 @@
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Tooltip } from 'antd';
+import React from 'react';
 
 export default () => {
   const onHandback = () => {
@@ -7,7 +8,7 @@ export default () => {
   };
   return (
     <Tooltip title="帮助文档">
-    <Button icon={<QuestionCircleOutlined />} onClick={onHandback}></Button>
+      <Button icon={<QuestionCircleOutlined />} onClick={onHandback}></Button>
     </Tooltip>
   );
 };

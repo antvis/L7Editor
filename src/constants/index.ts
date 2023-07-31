@@ -3,7 +3,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 
 export const RightPanelWidthRange = [20, 80];
 
-export enum LocalstorageKey {
+export enum LocalStorageKey {
   RightPanelWidth = 'RightPanelWidth',
   MapOptions = 'MapOptions',
   LayerColor = 'LayerColor',

@@ -1,26 +1,22 @@
+import { useGlobal } from '@/recoil';
 import { CustomControl } from '@antv/larkmap';
 import { ColorPicker } from 'antd';
-import classNames from 'classnames';
 import React from 'react';
-import { useModel } from 'umi';
 import useStyle from './styles';
+import classNames from 'classnames';
 
 const LayerColorControl: React.FC = () => {
-  const { layerColor, setLayerColor } = useModel('global');
+  const { layerColor, setLayerColor } = useGlobal();
   const styles = useStyle();
 
   return (
-    <CustomControl
-      className={classNames([styles.l7ButtonControl, 'l7-button-control'])}
-      position="bottomright"
-    >
-      <ColorPicker
-        className={styles.colorPickerControlInner}
-        format="rgb"
-        defaultValue={layerColor}
-        onChange={(val) => {
-          setLayerColor(val.toRgbString());
+    <CustomControl position="bottomright" >
+      <ColorPicker value={layerColor}
+        className={classNames([styles.l7ButtonControl])}
+        onChange={(value, hex) => {
+          setLayerColor(hex)
         }}
+        format="rgb"
         presets={[
           {
             label: '常用颜色',

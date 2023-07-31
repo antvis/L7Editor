@@ -1,5 +1,6 @@
 import { FeatureKey, LayerId, LayerZIndex } from '@/constants';
 import { useFilterFeature } from '@/hooks/useFilterFeature';
+import { useGlobal } from '@/recoil';
 import { getPointImage } from '@/utils/change-image-color';
 import {
   LineLayer,
@@ -8,18 +9,18 @@ import {
   PolygonLayerProps,
   useScene,
 } from '@antv/larkmap';
-import { Feature, featureCollection } from '@turf/turf';
+import { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
-import { groupBy } from 'lodash';
+import { cloneDeep, groupBy } from 'lodash';
 import React, { useMemo, useState } from 'react';
-import { useModel } from 'umi';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
-  const { layerColor } = useModel('global');
+  const { layerColor } = useGlobal();
   const { newFeatures } = useFilterFeature();
+
   const [
     pointSource,
     lineSource,
@@ -30,7 +31,7 @@ export const LayerList: React.FC = () => {
       LineString: lineStringList = [],
       Point: pointList = [],
     }: Record<string, Feature[]> = groupBy(
-      newFeatures.filter((feature) => {
+      cloneDeep(newFeatures).filter((feature) => {
         // @ts-ignore
         return !feature.properties?.[FeatureKey.IsEdit];
       }),
@@ -39,7 +40,7 @@ export const LayerList: React.FC = () => {
 
     return [pointList, lineStringList, polygonList].map((features) => {
       return {
-        data: featureCollection(features),
+        data: { type: 'FeatureCollection', features },
       };
     });
   }, [newFeatures]);

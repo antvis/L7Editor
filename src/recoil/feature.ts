@@ -1,8 +1,7 @@
-import { FeatureKey, LocalstorageKey } from '@/constants';
+import { FeatureKey } from '@/constants';
 import { FilterField } from '@/types/filter';
 import { transformFeatures } from '@/utils';
 import { prettierText } from '@/utils/prettier-text';
-import { Scene } from '@antv/l7';
 import {
   bbox,
   Feature,
@@ -11,41 +10,42 @@ import {
   GeometryCollection,
   getType,
 } from '@turf/turf';
-import { useLocalStorageState } from 'ahooks';
 import { message } from 'antd';
-import { flatMap, max, min } from 'lodash';
-import { useMemo, useState } from 'react';
+import { cloneDeep, flatMap, max, min } from 'lodash';
+import { useMemo } from 'react';
+import { useRecoilState } from 'recoil';
+import {
+  editorTextState,
+  featureState,
+  isDrawState,
+  savedTextState,
+  sceneState,
+} from './atomState';
 
-export default () => {
-  const [scene, setScene] = useState<Scene | null>(null);
+type IFeature = Feature<
+  Geometry | GeometryCollection,
+  {
+    // @ts-ignore
+    [FeatureKey.Index]: number;
+  }
+>[];
 
-  const [editorText, setEditorText] = useLocalStorageState(
-    LocalstorageKey.EditorText,
-    {
-      defaultValue: JSON.stringify(
-        { type: 'FeatureCollection', features: [] },
-        null,
-        2,
-      ),
-    },
-  );
-  const [savedText, setSavedText] = useState('');
-  const [features, _setFeatures] = useState<
-    Feature<
-      Geometry | GeometryCollection,
-      {
-        // @ts-ignore
-        [FeatureKey.Index]: number;
-      }
-    >[]
-  >([]);
+export default function useFeature() {
+  const [editorText, setEditorText] = useRecoilState(editorTextState);
+  const [savedText, setSavedText] = useRecoilState(savedTextState);
+  const [features, _setFeatures] = useRecoilState(featureState);
+  const [isDraw, setIsDraw] = useRecoilState(isDrawState);
 
-  const [isDraw, setIsDraw] = useState(false);
+  const [scene, setScene] = useRecoilState(sceneState);
 
-  const setFeatures = (features: Feature[]) => {
+  const savable = useMemo(() => {
+    return editorText !== savedText;
+  }, [editorText, savedText]);
+
+  const setFeatures = (f: Feature[]) => {
     _setFeatures(
       // @ts-ignore
-      features.map((feature, featureIndex) => {
+      cloneDeep(f).map((feature, featureIndex) => {
         feature.properties = {
           ...feature.properties,
           [FeatureKey.Index]: featureIndex,
@@ -68,37 +68,32 @@ export default () => {
       }),
     );
   };
-
-  const savable = useMemo(() => {
-    return editorText !== savedText;
-  }, [editorText, savedText]);
-
   const saveEditorText = (value?: string) => {
     const emptyFeatures = JSON.stringify(
       { type: 'FeatureCollection', features: [] },
       null,
       2,
     );
-    let features: Feature[] = [];
+    let newFeatures: Feature[] = [];
     if (editorText || value) {
       try {
-        features = transformFeatures(value ?? editorText);
+        newFeatures = transformFeatures(value ?? editorText);
         if (value) {
           setEditorText(value);
         }
         setSavedText(value ?? editorText);
-        setFeatures(features);
+        setFeatures(newFeatures as IFeature);
       } catch (e) {
-        message.warn('数据加载有误');
+        message.warning('数据加载有误');
       }
     } else {
       setEditorText(emptyFeatures);
       setSavedText(emptyFeatures);
     }
-    return features;
+    return newFeatures;
   };
 
-  const resetFeatures = (newFeatures: Feature[]) => {
+  const resetFeatures = (newFeatures: IFeature) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
     setEditorText(newText);
     setSavedText(newText);
@@ -113,6 +108,7 @@ export default () => {
       },
     );
     const featureKeyList: FilterField[] = [];
+
     Array.from(
       new Set(
         flatMap(features.map(({ properties }) => Object.keys(properties))),
@@ -137,6 +133,7 @@ export default () => {
 
   const bboxAutoFit = (currentFeatures?: Feature[]) => {
     const realFeatures = currentFeatures ?? features;
+
     if (scene && realFeatures.length) {
       const [lng1, lat1, lng2, lat2] = bbox(featureCollection(realFeatures));
       scene.fitBounds([
@@ -158,9 +155,9 @@ export default () => {
     resetFeatures,
     dataSource,
     bboxAutoFit,
-    setScene,
-    scene,
-    isDraw,
     setIsDraw,
+    isDraw,
+    scene,
+    setScene,
   };
-};
+}

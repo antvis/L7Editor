@@ -1,3 +1,4 @@
+import { useFeature, useGlobal } from '@/recoil';
 import { getPointImage } from '@/utils/change-image-color';
 import { SearchOutlined } from '@ant-design/icons';
 import {
@@ -8,7 +9,6 @@ import {
   useScene,
 } from '@antv/larkmap';
 import { point } from '@turf/turf';
-import { useModel } from '@umijs/max';
 import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
@@ -19,8 +19,8 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const scene = useScene();
   const [selectLocation, setSelectLocation] = useState<LocationSearchOption>();
   const [locationText, setLocationText] = useState('');
-  const { features, resetFeatures } = useModel('feature');
-  const { layerColor } = useModel('global');
+  const { features, resetFeatures } = useFeature();
+  const { layerColor } = useGlobal();
   const [isVisible, setIsVisible] = useState(false);
   const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
   const styles = useStyle();
@@ -58,6 +58,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
             style={{ borderRight: 'none' }}
           >
             <SearchOutlined
+              // className="l7-draw-icon"
               style={{ fontSize: 16, lineHeight: '30px' }}
               onClick={() => {
                 setIsVisible(!isVisible);

@@ -1,8 +1,9 @@
-import { IconFont, LocalstorageKey } from '@/constants';
+import { IconFont } from '@/constants';
+import { useGlobal } from '@/recoil';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
-import { useLocalStorageState } from 'ahooks';
 import { Checkbox, Popover, Tabs, TabsProps } from 'antd';
-import classNames from 'classnames';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import React from 'react';
 import { useEffect, useRef } from 'react';
 import useStyle from './styles';
 
@@ -54,25 +55,20 @@ const url2 =
 export function AmapLayerControl() {
   const scene = useScene();
   const styles = useStyle();
-  const [layerTypes, setLayerType] = useLocalStorageState<string[]>(
-    LocalstorageKey.LayerTypes,
-    {
-      defaultValue: [],
-    },
-  );
+  const { layerType, setLayerType } = useGlobal();
 
   const layers = useRef(
     scene.getType() !== 'mapbox'
       ? {
-          satellite: new AMap.TileLayer.Satellite(),
-          roadNet: new AMap.TileLayer.RoadNet(),
-          traffic: new AMap.TileLayer.Traffic(),
-          buildings: new AMap.Buildings(),
-        }
+        satellite: new AMap.TileLayer.Satellite(),
+        roadNet: new AMap.TileLayer.RoadNet(),
+        traffic: new AMap.TileLayer.Traffic(),
+        buildings: new AMap.Buildings(),
+      }
       : {},
   );
 
-  const isIncludes = (type: string) => layerTypes?.includes(type);
+  const isIncludes = (type: string) => layerType?.includes(type);
 
   useEffect(() => {
     if (scene && scene.getType() !== 'mapbox') {
@@ -100,18 +96,18 @@ export function AmapLayerControl() {
         } else {
           amapAdd.remove(buildings);
         }
-      } catch {}
+      } catch { }
     }
-  }, [layerTypes, scene]);
+  }, [layerType, scene]);
 
-  const onCheckboxChange = (e: any[]) => {
-    setLayerType(e);
+  const onCheckboxChange = (e: (CheckboxValueType | string)[]) => {
+    setLayerType(e as string[]);
   };
 
   const AmapLayer = () => {
     return (
       <div className={styles.amapInfo}>
-        <Checkbox.Group value={layerTypes} onChange={onCheckboxChange}>
+        <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
           {scene.getType() !== 'mapbox' && (
             <>
               {amaplayerInfo.map((item) => {
@@ -123,7 +119,7 @@ export function AmapLayerControl() {
                         alt=""
                         className={styles.amapInfoItemImage}
                       />
-                      <h5>{item.title}</h5>
+                      <h5 style={{ marginTop: 0 }}>{item.title}</h5>
                     </div>
                   </Checkbox>
                 );
@@ -145,8 +141,8 @@ export function AmapLayerControl() {
       key: '2',
       label: `谷歌图层`,
       children: (
-        <div className="amap-info">
-          <Checkbox.Group value={layerTypes} onChange={onCheckboxChange}>
+        <div className={styles.amapInfo}>
+          <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
             <Checkbox value={GOOGLE_SATELLITE.type}>
               <div key={GOOGLE_SATELLITE.type} className={styles.amapInfoItem}>
                 <img
@@ -154,7 +150,7 @@ export function AmapLayerControl() {
                   alt=""
                   className={styles.amapInfoItemImage}
                 />
-                <h5>{GOOGLE_SATELLITE.title}</h5>
+                <h5 style={{ marginTop: 0 }}>{GOOGLE_SATELLITE.title}</h5>
               </div>
             </Checkbox>
           </Checkbox.Group>
@@ -164,43 +160,38 @@ export function AmapLayerControl() {
   ];
 
   return (
-    <>
-      <CustomControl
-        position="bottomright"
-        className={classNames([styles.l7ButtonControl, 'l7-button-control'])}
+    <CustomControl position="bottomright" className={styles.l7amap}>
+      <Popover
+        content={
+          <Tabs items={scene.getType() !== 'mapbox' ? items : [items[1]]} />
+        }
+        trigger="click"
+        placement="leftTop"
+        overlayInnerStyle={{
+          width: 370,
+          height: scene.getType() !== 'mapbox' ? 330 : 190,
+        }}
       >
-        <Popover
-          content={
-            <Tabs items={scene.getType() !== 'mapbox' ? items : [items[1]]} />
-          }
-          trigger="click"
-          placement="leftTop"
-          overlayInnerStyle={{
-            width: 370,
-            height: scene.getType() !== 'mapbox' ? 310 : 190,
-          }}
-        >
-          <IconFont type="icon-ditu" className={styles.l7AmapControl} />
-        </Popover>
-        {isIncludes(GOOGLE_SATELLITE.type) && (
-          <>
-            <RasterLayer
-              zIndex={1}
-              source={{
-                data: url1,
-                parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
-              }}
-            />
-            <RasterLayer
-              zIndex={1}
-              source={{
-                data: url2,
-                parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
-              }}
-            />
-          </>
-        )}
-      </CustomControl>
-    </>
+        <IconFont type="icon-ditu" className={styles.l7AmapControl} />
+      </Popover>
+      {isIncludes(GOOGLE_SATELLITE.type) && (
+        <>
+          <RasterLayer
+            zIndex={1}
+            source={{
+              data: url1,
+              parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
+            }}
+          />
+          <RasterLayer
+            zIndex={1}
+            source={{
+              data: url2,
+              parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
+            }}
+          />
+        </>
+      )}
+    </CustomControl>
   );
 }
