@@ -9,9 +9,9 @@
   "license": "MIT",
   "author": "oujinhui.ojh",
   "scripts": {
-    "build": "father build",
-    "deploy": "gh-pages -d dist",
     "start": "dumi dev",
+    "build": "dumi build",
+    "package:build": "father build",
     "format": "prettier --cache --write .",
     "postinstall": "max setup",
     "prepare": "dumi setup",
