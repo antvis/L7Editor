@@ -1,24 +1,14 @@
 import { AppEditor } from '@/components/app-editor';
+import { FeatureCollectionVT } from '@/constants/variable-type';
 import { useFeature } from '@/recoil';
 import { IFeature } from '@/types';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
-import {
-  Button,
-  Form,
-  message,
-  Modal,
-  Radio,
-  Tabs,
-  TabsProps,
-  Tooltip,
-} from 'antd';
-import { useRef, useState } from 'react';
-import { FeatureCollectionVT } from '@/constants/variable-type';
+import { Button, Form, message, Modal, Radio, Tabs, TabsProps } from 'antd';
+import React, { useRef, useState } from 'react';
 import FileUpload from './file-upload';
 import LngLatImportBtn from './lnglat-import-btn';
 import UrlUpload from './url-upload';
-import React from 'react';
 
 /**
  * Tab类型
@@ -87,13 +77,12 @@ export const ImportBtn = () => {
   };
   return (
     <>
-      <Tooltip overlay="导入 GeoJSON" placement="left">
-        <Button
-          icon={<CloudUploadOutlined />}
-          onClick={() => setIsModalOpen(true)}
-        />
-      </Tooltip>
-
+      <Button
+        icon={<CloudUploadOutlined />}
+        onClick={() => setIsModalOpen(true)}
+      >
+        上传
+      </Button>
       {isModalOpen && (
         <Modal
           title="上传"

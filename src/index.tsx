@@ -24,6 +24,7 @@ import { ConfigProvider, Result, TabsProps } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import React, { useMemo } from 'react';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
+import { AppHeader } from './components';
 import { AppEditor } from './components/app-editor';
 import { AppTable } from './components/app-table';
 import { PrimaryColor } from './constants';
@@ -95,21 +96,24 @@ const L7Editor = (props: L7EditorProps) => {
   return isPc ? (
     <RecoilRoot initializeState={initializeState}>
       <ConfigProvider locale={zhCN}>
-        <ResizePanel
-          onFeatureChange={(e) => {
-            if (onFeatureChange) {
-              onFeatureChange(e);
+        <div>
+          <AppHeader />
+          <ResizePanel
+            onFeatureChange={(e) => {
+              if (onFeatureChange) {
+                onFeatureChange(e);
+              }
+            }}
+            left={
+              <AppMap>
+                <MapControlGroup />
+                <LayerList />
+                <LayerPopup />
+              </AppMap>
             }
-          }}
-          left={
-            <AppMap>
-              <MapControlGroup />
-              <LayerList />
-              <LayerPopup />
-            </AppMap>
-          }
-          right={<MapContent tabItem={newTabItem} />}
-        />
+            right={<MapContent tabItem={newTabItem} />}
+          />
+        </div>
       </ConfigProvider>
     </RecoilRoot>
   ) : (

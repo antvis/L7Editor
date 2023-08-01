@@ -1,8 +1,7 @@
 import { useGlobal } from '@/recoil';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export const SettingBtn = () => {
   const { baseMap, setBaseMap } = useGlobal();
@@ -28,7 +27,9 @@ export const SettingBtn = () => {
   return (
     <>
       <Tooltip title="地图设置">
-        <Button icon={<SettingOutlined />} onClick={showModal}></Button>
+        <Button icon={<SettingOutlined />} onClick={showModal}>
+          设置
+        </Button>
       </Tooltip>
       <Modal
         title="设置"

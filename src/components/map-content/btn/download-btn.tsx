@@ -78,7 +78,7 @@ const DownloadBtn: React.FC = () => {
         },
       }}
     >
-      <Button icon={<CloudDownloadOutlined />}></Button>
+      <Button icon={<CloudDownloadOutlined />}>下载</Button>
     </Dropdown>
   );
 };
