@@ -1,5 +1,6 @@
 import { FeatureCollectionVT, LayerZIndex } from '@/constants';
 // @ts-ignore
+import { getSingleColorStyle } from '@antv/l7-draw';
 import togeojson from '@mapbox/togeojson';
 import {
   center,
@@ -12,7 +13,6 @@ import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { isUndefined } from 'lodash';
-import { getSingleColorStyle } from '@antv/l7-draw';
 // @ts-ignore
 import wkt from 'wkt';
 

@@ -1,5 +1,6 @@
 import { LarkMapProps } from '@antv/larkmap';
 import { Feature } from '@turf/turf';
+import { TabsProps } from 'antd';
 import { IFeature, LngLatImportType } from '.';
 
 export type EditorConfigProps = {
@@ -58,6 +59,11 @@ export type EditorConfigProps = {
    * @default false
    */
   hidePanel?: boolean;
+  /**
+   * 标签页item项
+   * @default []
+   */
+  tabs?: TabsProps['items'];
 };
 
 export type L7EditorProps = {

@@ -16,7 +16,7 @@ const useStyle = () => {
       width: calc(100% - 33px);
     `,
     mapContentLeft: css`
-      height: 100%;
+      height: 100vh;
       width: 33px;
       border-right: 1px solid ${colorBorder};
       display: flex;

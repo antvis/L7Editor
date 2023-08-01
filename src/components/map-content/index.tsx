@@ -3,17 +3,10 @@ import HandBackBtn from '@/components/map-content/btn/handback-btn';
 import { IconFont } from '@/constants';
 import { useFeature, useGlobal } from '@/recoil';
 import { prettierText } from '@/utils/prettier-text';
-import {
-  ClearOutlined,
-  CodeOutlined,
-  SaveOutlined,
-  TableOutlined,
-} from '@ant-design/icons';
+import { ClearOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Popconfirm, Tabs, TabsProps, Tooltip } from 'antd';
+import { Button, Popconfirm, Tabs, Tooltip } from 'antd';
 import React, { useMemo } from 'react';
-import { AppEditor } from '../app-editor';
-import { AppTable } from '../app-table';
 import ChangeLog from './btn/changelog-btn';
 import DownloadBtn from './btn/download-btn';
 import { ImportBtn } from './btn/import-btn';
@@ -21,10 +14,10 @@ import { SettingBtn } from './btn/setting-btn';
 import './index.less';
 import useStyle from './styles';
 
-export const MapContent: React.FC = () => {
+export const MapContent: React.FC = ({ tabItem }) => {
   const { autoFitBounds, activeTab, setActiveTab } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit, features } = useFeature();
-  const styles = useStyle()
+  const styles = useStyle();
 
   const onSave = () => {
     if (!savable) {
@@ -40,29 +33,6 @@ export const MapContent: React.FC = () => {
     e.preventDefault();
     onSave();
   });
-
-  const items: TabsProps['items'] = [
-    {
-      key: 'code',
-      label: (
-        <div>
-          <CodeOutlined style={{ marginLeft: 5 }} />
-          编辑器
-        </div>
-      ),
-      children: <AppEditor />,
-    },
-    {
-      key: 'table',
-      label: (
-        <div>
-          <TableOutlined style={{ marginLeft: 5 }} />
-          表格
-        </div>
-      ),
-      children: <AppTable />,
-    },
-  ];
 
   const featureDisabled = useMemo(() => {
     return !features.length && !savable;
@@ -126,7 +96,7 @@ export const MapContent: React.FC = () => {
         activeKey={activeTab}
         className={styles.mapContentRight}
         defaultActiveKey="code"
-        items={items}
+        items={tabItem}
         onChange={(e) => {
           setActiveTab(e as 'code' | 'table');
         }}

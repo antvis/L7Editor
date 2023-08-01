@@ -2,18 +2,9 @@ import { L7Editor } from '@antv/l7-editor';
 import './index.less';
 
 import { Feature } from '@turf/turf';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export default () => {
-  useEffect(() => {
-    fetch(
-      'https://mdn.alipayobjects.com/meshy_cmder/afts/file/A*KXLZTKHYXMYAAAAAAAAAAAAADql2AA?t=5gsmUYr5DrwSDbmR6uhVf0QVXSDvJpmCqjBEHx0uGl4DAAAAZAAAdqlkwO6F',
-    )
-      .then((res) => res.text())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
   return (
     <div className="content">
       <L7Editor
@@ -39,6 +30,13 @@ export default () => {
               },
             ],
           },
+          tabs: [
+            {
+              key: '1',
+              label: <div>拓展1</div>,
+              children: <>111</>,
+            },
+          ],
         }}
         onFeatureChange={(feature: Feature[]) => {
           console.log('onFeatureChange', feature);

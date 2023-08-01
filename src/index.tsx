@@ -19,10 +19,13 @@ import {
   popupTriggerState,
   rightWidthState,
 } from '@/recoil/atomState';
-import { ConfigProvider, Result } from 'antd';
+import { CodeOutlined, TableOutlined } from '@ant-design/icons';
+import { ConfigProvider, Result, TabsProps } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import React, { useMemo } from 'react';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
+import { AppEditor } from './components/app-editor';
+import { AppTable } from './components/app-table';
 import { PrimaryColor } from './constants';
 import { L7EditorProps } from './types';
 
@@ -57,6 +60,38 @@ const L7Editor = (props: L7EditorProps) => {
     };
   }, [editorConfig]);
 
+  const items: TabsProps['items'] = [
+    {
+      key: 'code',
+      label: (
+        <div>
+          <CodeOutlined style={{ marginLeft: 5 }} />
+          编辑器
+        </div>
+      ),
+      children: <AppEditor />,
+    },
+    {
+      key: 'table',
+      label: (
+        <div>
+          <TableOutlined style={{ marginLeft: 5 }} />
+          表格
+        </div>
+      ),
+      children: <AppTable />,
+    },
+  ];
+
+  const newTabItem: TabsProps['items'] = useMemo(() => {
+    if (editorConfig.tabs?.length) {
+      return [...items, ...editorConfig.tabs];
+    }
+    return items;
+  }, [editorConfig.tabs]);
+
+  console.log(newTabItem);
+
   return isPc ? (
     <RecoilRoot initializeState={initializeState}>
       <ConfigProvider locale={zhCN}>
@@ -73,7 +108,7 @@ const L7Editor = (props: L7EditorProps) => {
               <LayerPopup />
             </AppMap>
           }
-          right={<MapContent />}
+          right={<MapContent tabItem={newTabItem} />}
         />
       </ConfigProvider>
     </RecoilRoot>

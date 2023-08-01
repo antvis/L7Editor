@@ -92,9 +92,7 @@ const useStyle = () => {
       min-width: 28px;
       height: 28px;
       border: none;
-      border-radius: 2px;
       box-shadow: 0 0 6px #9a9a9a;
-      padding: 0;
       cursor: pointer;
     `,
 
