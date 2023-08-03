@@ -1,7 +1,7 @@
-import { dingGroupImg } from '@/constants';
 import { DingdingOutlined } from '@ant-design/icons';
 import { Button, Popover } from 'antd';
 import React from 'react';
+import { dingGroupImg } from '../../../constants';
 
 const DingImgBtn: React.FC = () => {
   return (

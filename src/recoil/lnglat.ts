@@ -1,4 +1,4 @@
-import { LngLatVT } from '@/constants';
+import { LngLatVT } from '../constants';
 import { Feature, lineString, point, polygon, Position } from '@turf/turf';
 import { first, isEqual, last } from 'lodash';
 import { useRecoilState } from 'recoil';

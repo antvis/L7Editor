@@ -1,7 +1,5 @@
-import { FeatureKey, LayerId, LayerZIndex } from '@/constants';
-import { useFilterFeature } from '@/hooks/useFilterFeature';
+//@ts-ignore
 import { useGlobal } from '@/recoil';
-import { getPointImage } from '@/utils/change-image-color';
 import {
   LineLayer,
   PointLayer,
@@ -14,6 +12,9 @@ import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
 import { cloneDeep, groupBy } from 'lodash';
 import React, { useMemo, useState } from 'react';
+import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
+import { useFilterFeature } from '../../hooks/useFilterFeature';
+import { getPointImage } from '../../utils/change-image-color';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();

@@ -1,28 +1,28 @@
+//@ts-ignore
 import { useLnglat } from '@/recoil';
-import { LngLatImportType } from '@/types';
 import { featureCollection } from '@turf/turf';
 import { Form, Input, Radio } from 'antd';
-import React from 'react';
-import { forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { LngLatImportType } from '../../../../types';
 
 const LngLatImportTypeOptions: Array<{
   label: string;
   value: LngLatImportType;
 }> = [
-    {
-      label: '点',
-      value: 'Point',
-    },
-    {
-      label: '线',
-      value: 'LingString',
-    },
-    {
-      label: '面',
-      value: 'Polygon',
-    },
-  ];
-const LngLatImportBtn = forwardRef(({ }, ref) => {
+  {
+    label: '点',
+    value: 'Point',
+  },
+  {
+    label: '线',
+    value: 'LingString',
+  },
+  {
+    label: '面',
+    value: 'Polygon',
+  },
+];
+const LngLatImportBtn = forwardRef(({}, ref) => {
   const {
     lngLatText,
     setLngLatText,

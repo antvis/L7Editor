@@ -1,6 +1,6 @@
-import { FeatureCollectionVT, LayerZIndex } from '@/constants';
-// @ts-ignore
 import { getSingleColorStyle } from '@antv/l7-draw';
+import { FeatureCollectionVT, LayerZIndex } from '../constants';
+//@ts-ignore
 import togeojson from '@mapbox/togeojson';
 import {
   center,

@@ -1,11 +1,12 @@
-import { AppEditor } from '@/components/app-editor';
-import { FeatureCollectionVT } from '@/constants/variable-type';
+//@ts-ignore
 import { useFeature } from '@/recoil';
-import { IFeature } from '@/types';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
 import { Button, Form, message, Modal, Radio, Tabs, TabsProps } from 'antd';
 import React, { useRef, useState } from 'react';
+import { AppEditor } from '../../../app-editor';
+import { FeatureCollectionVT } from '../../../../constants/variable-type';
+import { IFeature } from '../../../../types';
 import FileUpload from './file-upload';
 import LngLatImportBtn from './lnglat-import-btn';
 import UrlUpload from './url-upload';

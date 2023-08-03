@@ -1,5 +1,5 @@
-import { LngLatImportType } from '@/types';
 import { createFromIconfontCN } from '@ant-design/icons';
+import { LngLatImportType } from '../types';
 
 export const RightPanelWidthRange = [20, 80];
 

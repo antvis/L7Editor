@@ -1,16 +1,17 @@
-import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
-import HandBackBtn from '@/components/map-content/btn/handback-btn';
-import { IconFont } from '@/constants';
+//@ts-ignore
 import { useFeature, useGlobal } from '@/recoil';
-import { prettierText } from '@/utils/prettier-text';
 import { ClearOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Popconfirm } from 'antd';
 import React, { useMemo } from 'react';
-import ChangeLog from '../map-content/btn/changelog-btn';
-import DownloadBtn from '../map-content/btn/download-btn';
-import { ImportBtn } from '../map-content/btn/import-btn';
-import { SettingBtn } from '../map-content/btn/setting-btn';
+import { IconFont } from '../../constants';
+import { prettierText } from '../../utils/prettier-text';
+import ChangeLog from './btn/changelog-btn';
+import DingImgBtn from './btn/ding-img-btn';
+import DownloadBtn from './btn/download-btn';
+import HandBackBtn from './btn/handback-btn';
+import { ImportBtn } from './btn/import-btn';
+import { SettingBtn } from './btn/setting-btn';
 import useStyle from './styles';
 
 export const AppHeader: React.FC = () => {

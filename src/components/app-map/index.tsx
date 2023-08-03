@@ -1,12 +1,13 @@
-import { FeatureCollectionVT, MapBoxConfig } from '@/constants';
+//@ts-ignore
 import { useFeature, useGlobal } from '@/recoil';
-import { getParamsNew, getUrlFeatureCollection } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';
 import { omit } from 'lodash';
 import React, { ReactNode, useEffect, useMemo } from 'react';
+import { FeatureCollectionVT, MapBoxConfig } from '../../constants';
+import { getParamsNew, getUrlFeatureCollection } from '../../utils';
+import { prettierText } from '../../utils/prettier-text';
 
 export interface AppMapProps {
   children?: ReactNode;

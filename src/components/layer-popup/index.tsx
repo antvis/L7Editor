@@ -1,7 +1,5 @@
-import { FeatureKey, LayerId } from '@/constants';
+//@ts-ignore
 import { useFeature, useGlobal } from '@/recoil';
-import { getDrawStyle, isCircle, isRect } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import {
   DrawCircle,
   DrawEvent,
@@ -28,6 +26,9 @@ import {
   Typography,
 } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FeatureKey, LayerId } from '../../constants';
+import { getDrawStyle, isCircle, isRect } from '../../utils';
+import { prettierText } from '../../utils/prettier-text';
 
 import useStyle from './styles';
 const { Paragraph } = Typography;
@@ -68,7 +69,7 @@ export const LayerPopup: React.FC = () => {
 
   const targetFeature = useMemo(() => {
     return features.find(
-      (feature) =>
+      (feature: { properties: { [x: string]: number | undefined } }) =>
         // @ts-ignore
         feature.properties?.[FeatureKey.Index] === popupProps.featureIndex,
     );
@@ -271,10 +272,12 @@ export const LayerPopup: React.FC = () => {
         { event: 'mouseout', click: onLayerMouseout },
       ],
     };
+    //@ts-ignore
     layerEvent[popupTrigger].forEach((e) => {
       layerList.forEach((layer) => layer.on(e.event, e.click));
     });
     return () => {
+      //@ts-ignore
       layerEvent[popupTrigger].forEach((e) => {
         layerList.forEach((layer) => layer.off(e.event, e.click));
       });
@@ -414,7 +417,7 @@ export const LayerPopup: React.FC = () => {
                     danger
                     onClick={() => {
                       resetFeatures(
-                        features.filter((_, index) => {
+                        features.filter((_: any, index: number) => {
                           return index !== popupProps.featureIndex;
                         }),
                       );

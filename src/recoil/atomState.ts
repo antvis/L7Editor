@@ -1,25 +1,25 @@
-import { LocalStorageKey } from '@/constants';
-import { IFeature, LngLatImportType } from '@/types';
-import { FilterNode } from '@/types/filter';
 import { Scene } from '@antv/l7';
 import { LarkMapProps } from '@antv/larkmap';
 import { atom, DefaultValue } from 'recoil';
+import { IFeature, LngLatImportType } from '..//types';
+import { FilterNode } from '..//types/filter';
+import { LocalStorageKey } from '../constants';
 
 const localStorageEffect =
   (key: string) =>
-    ({ setSelf, onSet }: any) => {
-      const getValue = localStorage.getItem(key);
-      if (getValue) {
-        setSelf(JSON.parse(getValue));
+  ({ setSelf, onSet }: any) => {
+    const getValue = localStorage.getItem(key);
+    if (getValue) {
+      setSelf(JSON.parse(getValue));
+    }
+    onSet((newValue: Record<string, any>) => {
+      if (newValue instanceof DefaultValue) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, JSON.stringify(newValue));
       }
-      onSet((newValue: Record<string, any>) => {
-        if (newValue instanceof DefaultValue) {
-          localStorage.removeItem(key);
-        } else {
-          localStorage.setItem(key, JSON.stringify(newValue));
-        }
-      });
-    };
+    });
+  };
 
 const filterState = atom<FilterNode[]>({
   key: 'filter',

@@ -1,10 +1,11 @@
+//@ts-ignore
 import { useFeature } from '@/recoil';
-import { downloadText } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { coordAll, featureCollection } from '@turf/turf';
 import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
+import { downloadText } from '../../../utils';
+import { prettierText } from '../../../utils/prettier-text';
 // @ts-ignore
 import tokml from 'tokml';
 // @ts-ignore
@@ -58,7 +59,7 @@ const DownloadBtn: React.FC = () => {
       const kml = tokml(fc);
       downloadText(kml, 'kml');
     } else if (key === 'WKT') {
-      const wktArr = features.map((item) => {
+      const wktArr = features.map((item: { geometry: any }) => {
         const geometry = item.geometry;
         const WKT = wkt.stringify(geometry);
         return WKT;

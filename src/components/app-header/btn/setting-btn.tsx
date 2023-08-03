@@ -1,3 +1,4 @@
+//@ts-ignore
 import { useGlobal } from '@/recoil';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';

@@ -5,12 +5,11 @@ import {
   MapContent,
   MapControlGroup,
   ResizePanel,
-} from '@/components';
+} from './components';
 import {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
-  editorTextState,
   hideEditorState,
   layerColorState,
   layerTypeState,
@@ -18,7 +17,7 @@ import {
   mapOptionState,
   popupTriggerState,
   rightWidthState,
-} from '@/recoil/atomState';
+} from './recoil/atomState';
 import { CodeOutlined, TableOutlined } from '@ant-design/icons';
 import { ConfigProvider, Result, TabsProps } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -51,11 +50,6 @@ const L7Editor = (props: L7EditorProps) => {
       set(popupTriggerState, editorConfig?.popupTrigger ?? 'click');
       set(activeTabState, editorConfig?.activeTab ?? 'code');
       set(lnglatTypeState, editorConfig?.lnglatType ?? 'Point');
-      set(
-        editorTextState,
-        JSON.stringify(editorConfig?.feature, null, 2) ??
-          JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
-      );
       set(layerTypeState, editorConfig?.layerType ?? []);
       set(hideEditorState, editorConfig?.hidePanel ?? false);
     };
@@ -91,8 +85,6 @@ const L7Editor = (props: L7EditorProps) => {
     return items;
   }, [editorConfig.tabs]);
 
-  console.log(newTabItem);
-
   return isPc ? (
     <RecoilRoot initializeState={initializeState}>
       <ConfigProvider locale={zhCN}>
@@ -111,7 +103,9 @@ const L7Editor = (props: L7EditorProps) => {
                 <LayerPopup />
               </AppMap>
             }
-            right={<MapContent tabItem={newTabItem} />}
+            right={
+              <MapContent tabItem={newTabItem} feature={editorConfig.feature} />
+            }
           />
         </div>
       </ConfigProvider>

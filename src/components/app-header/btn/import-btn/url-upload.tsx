@@ -1,9 +1,8 @@
-import { getUrlFeatureCollection } from '@/utils';
 import { Form, Input, Radio } from 'antd';
-import React from 'react';
-import { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import { getUrlFeatureCollection } from '../../../../utils';
 
-const UrlUpload = forwardRef(({ }, ref) => {
+const UrlUpload = forwardRef(({}, ref) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const [radioValue, setRadioValue] = useState<string>('GeoJSON');

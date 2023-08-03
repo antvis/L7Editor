@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-catch */
 import { FeatureCollectionVT } from '../constants';
 // @ts-ignore
 import togeojson from '@mapbox/togeojson';

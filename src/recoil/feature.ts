@@ -1,7 +1,3 @@
-import { FeatureKey } from '@/constants';
-import { FilterField } from '@/types/filter';
-import { transformFeatures } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import {
   bbox,
   Feature,
@@ -14,6 +10,10 @@ import { message } from 'antd';
 import { cloneDeep, flatMap, max, min } from 'lodash';
 import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
+import { FeatureKey } from '../constants';
+import { FilterField } from '../types/filter';
+import { transformFeatures } from '../utils';
+import { prettierText } from '../utils/prettier-text';
 import {
   editorTextState,
   featureState,

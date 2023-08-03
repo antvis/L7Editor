@@ -1,8 +1,5 @@
-/* eslint-disable no-eval */
-/* eslint-disable no-async-promise-executor */
+//@ts-ignore
 import { useFeature } from '@/recoil';
-import { isPromise } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
@@ -13,6 +10,8 @@ import React, {
   useState,
 } from 'react';
 import MonacoEditor from 'react-monaco-editor';
+import { isPromise } from '../../utils';
+import { prettierText } from '../../utils/prettier-text';
 import { provideCompletionItems } from './editortool';
 import useStyle from './styles';
 

@@ -1,16 +1,26 @@
-import { useGlobal } from '@/recoil';
+//@ts-ignore
+import { useFeature, useGlobal } from '@/recoil';
 import { Tabs, TabsProps } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { IFeature } from '../../types';
 import './index.less';
 import useStyle from './styles';
 
 export interface MapContentProps {
   tabItem: TabsProps['items'];
+  feature?: IFeature;
 }
 
-export const MapContent: React.FC<MapContentProps> = ({ tabItem }) => {
+export const MapContent: React.FC<MapContentProps> = ({ tabItem, feature }) => {
   const { activeTab, setActiveTab } = useGlobal();
+  const { saveEditorText } = useFeature();
   const styles = useStyle();
+
+  useEffect(() => {
+    if (feature) {
+      saveEditorText(JSON.stringify(feature, null, 2));
+    }
+  }, [feature]);
 
   return (
     <div className={styles.mapContent}>
