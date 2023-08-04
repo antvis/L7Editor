@@ -47,7 +47,7 @@ export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
   );
   aTag.setAttribute(
     'download',
-    `${dayjs().format('YYYY-HH-MM HH:mm:ss')}.${ext}`,
+    `${dayjs().format('YYYY-MM-DD')}.${ext}`,
   );
   aTag.style.display = 'none';
   document.body.appendChild(aTag);
