@@ -170,7 +170,6 @@ export const LayerPopup: React.FC = () => {
       );
     });
     const onChange = (selectFeature: any, draw: DrawType) => {
-      console.log(draw);
       if (!selectFeature) {
         const getData = draw.getData();
         if (getData.length) {
