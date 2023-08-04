@@ -79,7 +79,9 @@ const DownloadBtn: React.FC = () => {
         },
       }}
     >
-      <Button icon={<CloudDownloadOutlined />}>下载</Button>
+      <Button id="l7-editor-driver-download" icon={<CloudDownloadOutlined />}>
+        下载
+      </Button>
     </Dropdown>
   );
 };

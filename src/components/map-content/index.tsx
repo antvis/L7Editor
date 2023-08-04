@@ -23,7 +23,7 @@ export const MapContent: React.FC<MapContentProps> = ({ tabItem, feature }) => {
   }, [feature]);
 
   return (
-    <div className={styles.mapContent}>
+    <div className={styles.mapContent} id="l7-editor-driver-panel">
       <Tabs
         activeKey={activeTab}
         className={styles.mapContentRight}

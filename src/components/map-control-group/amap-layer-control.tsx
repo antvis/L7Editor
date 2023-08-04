@@ -172,7 +172,7 @@ export function AmapLayerControl() {
           height: scene.getType() !== 'mapbox' ? 330 : 190,
         }}
       >
-        <IconFont type="icon-ditu" className={styles.l7AmapControl} />
+        <IconFont id='l7-editor-driver-aMap' type="icon-ditu" className={styles.l7AmapControl} />
       </Popover>
       {isIncludes(GOOGLE_SATELLITE.type) && (
         <>

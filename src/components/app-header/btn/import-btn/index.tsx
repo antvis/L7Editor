@@ -81,6 +81,7 @@ export const ImportBtn = () => {
       <Button
         icon={<CloudUploadOutlined />}
         onClick={() => setIsModalOpen(true)}
+        id='l7-editor-driver-upload'
       >
         上传
       </Button>

@@ -1,4 +1,11 @@
+import { CodeOutlined, TableOutlined } from '@ant-design/icons';
+import { ConfigProvider, Result, TabsProps } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
+import 'driver.js/dist/driver.css';
+import React, { useMemo } from 'react';
+import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
 import {
+  AppHeader,
   AppMap,
   LayerList,
   LayerPopup,
@@ -6,6 +13,9 @@ import {
   MapControlGroup,
   ResizePanel,
 } from './components';
+import { AppEditor } from './components/app-editor';
+import { AppTable } from './components/app-table';
+import { PrimaryColor } from './constants';
 import {
   activeTabState,
   autoFitBoundsState,
@@ -18,21 +28,13 @@ import {
   popupTriggerState,
   rightWidthState,
 } from './recoil/atomState';
-import { CodeOutlined, TableOutlined } from '@ant-design/icons';
-import { ConfigProvider, Result, TabsProps } from 'antd';
-import zhCN from 'antd/es/locale/zh_CN';
-import React, { useMemo } from 'react';
-import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
-import { AppHeader } from './components';
-import { AppEditor } from './components/app-editor';
-import { AppTable } from './components/app-table';
-import { PrimaryColor } from './constants';
 import { L7EditorProps } from './types';
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 const L7Editor = (props: L7EditorProps) => {
   const { editorConfig, onFeatureChange } = props;
+
   const isPc = useMemo(() => {
     return !/Mobi|Android|iPhone/i.test(navigator.userAgent);
   }, []);
@@ -69,7 +71,7 @@ const L7Editor = (props: L7EditorProps) => {
     {
       key: 'table',
       label: (
-        <div>
+        <div id='l7-editor-driver-table'>
           <TableOutlined style={{ marginLeft: 5 }} />
           表格
         </div>
@@ -88,7 +90,7 @@ const L7Editor = (props: L7EditorProps) => {
   return isPc ? (
     <RecoilRoot initializeState={initializeState}>
       <ConfigProvider locale={zhCN}>
-        <div>
+        <div id="l7-editor-driver">
           <AppHeader />
           <ResizePanel
             onFeatureChange={(e) => {
@@ -104,7 +106,10 @@ const L7Editor = (props: L7EditorProps) => {
               </AppMap>
             }
             right={
-              <MapContent tabItem={newTabItem} feature={editorConfig?.feature} />
+              <MapContent
+                tabItem={newTabItem}
+                feature={editorConfig?.feature}
+              />
             }
           />
         </div>

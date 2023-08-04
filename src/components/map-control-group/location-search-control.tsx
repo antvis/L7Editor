@@ -53,6 +53,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
       <CustomControl position="topleft" style={{ display: 'flex' }}>
         <div className={styles.l7DrawSwitch} style={{ marginRight: '8px' }}>
           <button
+            id="l7-editor-driver-citySelect"
             type="button"
             className="l7-draw-control__btn"
             style={{ borderRight: 'none' }}

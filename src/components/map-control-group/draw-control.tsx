@@ -141,24 +141,26 @@ const DrawControl = () => {
   }, [editFeature, drawControl]);
 
   return (
-    <CustomControl position="topleft" style={{ display: 'flex' }}>
-      <div className={styles.l7DrawSwitch}>
-        <button
-          type="button"
-          className="l7-draw-control__btn"
-          style={{ borderRight: 'none' }}
-        >
-          <EditOutlined
-            // className="l7-draw-icon"
-            style={{ fontSize: 16, lineHeight: '30px' }}
-            onClick={() => {
-              setIsVisible(!isVisible);
-            }}
-          />
-        </button>
-      </div>
-      <div className={styles.l7DrawControl}>
-        <div id="l7-draw-content" />
+    <CustomControl position="topleft">
+      <div style={{ display: 'flex' }} id='l7-editor-driver-draw'>
+        <div className={styles.l7DrawSwitch}>
+          <button
+            type="button"
+            className="l7-draw-control__btn"
+            style={{ borderRight: 'none' }}
+          >
+            <EditOutlined
+              // className="l7-draw-icon"
+              style={{ fontSize: 16, lineHeight: '30px' }}
+              onClick={() => {
+                setIsVisible(!isVisible);
+              }}
+            />
+          </button>
+        </div>
+        <div className={styles.l7DrawControl}>
+          <div id="l7-draw-content" />
+        </div>
       </div>
     </CustomControl>
   );
