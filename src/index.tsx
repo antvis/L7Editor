@@ -39,7 +39,7 @@ const L7Editor = (props: L7EditorProps) => {
 
   const initializeState = useMemo(() => {
     return ({ set }: MutableSnapshot) => {
-      set(baseMapState, editorConfig.baseMap ?? 'Gaode');
+      set(baseMapState, editorConfig?.baseMap ?? 'Gaode');
       set(layerColorState, editorConfig?.primaryColor ?? PrimaryColor);
       set(rightWidthState, editorConfig?.rightWidth ?? 40);
       set(
@@ -79,11 +79,11 @@ const L7Editor = (props: L7EditorProps) => {
   ];
 
   const newTabItem: TabsProps['items'] = useMemo(() => {
-    if (editorConfig.tabs?.length) {
+    if (editorConfig?.tabs?.length) {
       return [...items, ...editorConfig.tabs];
     }
     return items;
-  }, [editorConfig.tabs]);
+  }, [editorConfig?.tabs]);
 
   return isPc ? (
     <RecoilRoot initializeState={initializeState}>
@@ -104,7 +104,7 @@ const L7Editor = (props: L7EditorProps) => {
               </AppMap>
             }
             right={
-              <MapContent tabItem={newTabItem} feature={editorConfig.feature} />
+              <MapContent tabItem={newTabItem} feature={editorConfig?.feature} />
             }
           />
         </div>

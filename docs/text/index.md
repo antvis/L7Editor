@@ -21,8 +21,9 @@ title: L7Editor文档
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
 | activeTab | 侧面板展示 | `'code'｜'table'` | `code` |
-| Feater | 初始化数据 | `feature[]` | `-` |
+| feater | 初始化数据 | `feature[]` | `-` |
 | layerType | 底图选择 | `string[]` | `[]` |
+| tabs | 右侧标签页 | `absProps['items']` 详见[antd](https://ant.design/components/tabs-cn/#tabs) | `[]` |
 
 #### `layerType`
 
@@ -43,6 +44,21 @@ editConfig={{ layerType: ['Satellite','RoadNet'] }}
 | RoadNet         | 高德路网图 |
 | Buildings       | 高德楼块图 |
 | Traffic         | 高德路况图 |
+
+#### tabs
+
+标签页
+
+```js
+    editorConfig={{
+        tabs: [
+            {
+              key: '1',
+              label: <div>自定义</div>,
+              children: <></>,
+            },
+        ]}}
+```
 
 #### `onFeatureChange`
 
