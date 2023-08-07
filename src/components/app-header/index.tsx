@@ -1,8 +1,12 @@
-import { ClearOutlined, FlagOutlined, SaveOutlined } from '@ant-design/icons';
+import {
+  AimOutlined,
+  ClearOutlined,
+  FlagOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, MenuProps, Popconfirm, Tour, TourProps } from 'antd';
 import React, { useMemo, useState } from 'react';
-import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
 import ChangeLog from './btn/changelog-btn';
@@ -112,8 +116,8 @@ export const AppHeader: React.FC = () => {
       target: () => document.getElementById('l7-editor-driver-clear')!,
     },
     {
-      title: '自适应',
-      description: '点击自适应按钮 地图将自动缩放的 GeoJSON 数据位置',
+      title: '智能缩放',
+      description: '点击智能缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
       target: () => document.getElementById('l7-editor-driver-auto')!,
     },
     {
@@ -228,12 +232,12 @@ export const AppHeader: React.FC = () => {
         <Button
           id="l7-editor-driver-auto"
           disabled={featureDisabled}
-          icon={<IconFont type="icon-zishiying" />}
+          icon={<AimOutlined />}
           onClick={() => {
             bboxAutoFit();
           }}
         >
-          自适应
+          智能缩放
         </Button>
       </div>
       <div className={styles.mapContentRight}>

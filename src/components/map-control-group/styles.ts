@@ -13,8 +13,8 @@ const useStyle = () => {
       line-height: 28px;
       text-align: center;
       border-radius: 2px;
-      background-color: #fff;
-      box-shadow: 0 0 6px #9a9a9a !important;
+      background-color: ${colorBgContainer};
+      box-shadow: ${boxShadow} !important;
     `,
     amapInfo: css`
       margin-top: 10px;
@@ -92,10 +92,9 @@ const useStyle = () => {
       min-width: 28px;
       height: 28px;
       border: none;
-      box-shadow: 0 0 6px #9a9a9a;
+      box-shadow: ${boxShadow};
       cursor: pointer;
     `,
-
   };
 };
 export default useStyle;

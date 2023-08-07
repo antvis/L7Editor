@@ -5,7 +5,7 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorBorder } = token;
+  const { colorBorder, colorBgBase } = token;
   return {
     mapContentLeft: css`
       height: 33px;
@@ -14,7 +14,7 @@ const useStyle = () => {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      background: #fff;
+      background: ${colorBgBase};
       .ant-btn {
         border: 0;
       }
