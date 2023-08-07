@@ -1,9 +1,9 @@
-import { useFeature, useGlobal } from '../../recoil';
 import { ClearOutlined, FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, MenuProps, Popconfirm, Tour, TourProps } from 'antd';
 import React, { useMemo, useState } from 'react';
 import { IconFont } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
 import ChangeLog from './btn/changelog-btn';
 import DingImgBtn from './btn/ding-img-btn';
@@ -154,9 +154,14 @@ export const AppHeader: React.FC = () => {
       target: () => document.getElementById('l7-editor-driver-aMap')!,
     },
     {
+      title: '主题色',
+      description: '选择不同主题色来修改地图渲染主题颜色',
+      target: () => document.getElementsByClassName('l7-editor-driver-theme')[0]!,
+    },
+    {
       title: '颜色选择器',
       description: '选择颜色来修改地图渲染颜色',
-      target: () => document.getElementById('l7-editor-driver-aMap')!,
+      target: () => document.getElementById('l7-editor-driver-color')!,
     },
     {
       title: '编辑器',
