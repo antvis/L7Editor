@@ -1,5 +1,3 @@
-//@ts-ignore
-import { useFeature, useGlobal } from '@/recoil';
 import {
   DrawCircle,
   DrawEvent,
@@ -27,6 +25,7 @@ import {
 } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
 

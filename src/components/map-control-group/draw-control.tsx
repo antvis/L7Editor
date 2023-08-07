@@ -1,7 +1,3 @@
-import { FeatureKey } from '@/constants';
-import { useFeature, useGlobal } from '@/recoil';
-import { IFeature } from '@/types';
-import { getDrawStyle } from '@/utils';
 import { EditOutlined } from '@ant-design/icons';
 import {
   ControlEvent,
@@ -13,6 +9,10 @@ import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FeatureKey } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
+import { IFeature } from '../../types';
+import { getDrawStyle } from '../../utils';
 import useStyle from './styles';
 
 const DrawControl = () => {
@@ -142,7 +142,7 @@ const DrawControl = () => {
 
   return (
     <CustomControl position="topleft">
-      <div style={{ display: 'flex' }} id='l7-editor-driver-draw'>
+      <div style={{ display: 'flex' }} id="l7-editor-driver-draw">
         <div className={styles.l7DrawSwitch}>
           <button
             type="button"

@@ -1,8 +1,8 @@
-import { useGlobal } from '@/recoil';
 import { CustomControl } from '@antv/larkmap';
 import { ColorPicker } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
+import { useGlobal } from '../../recoil';
 import useStyle from './styles';
 
 const LayerColorControl: React.FC = () => {

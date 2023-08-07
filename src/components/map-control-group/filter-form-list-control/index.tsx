@@ -1,5 +1,3 @@
-import { isEmptyFilter } from '@/hooks/useFilterFeature';
-import { useFeature, useFilter } from '@/recoil';
 import {
   DeleteOutlined,
   FieldBinaryOutlined,
@@ -12,9 +10,11 @@ import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select, Tooltip } from 'antd';
 import { cloneDeep, debounce, isEmpty } from 'lodash';
 import React, { useMemo, useState } from 'react';
+import { isEmptyFilter } from '../../../hooks/useFilterFeature';
+import { useFeature, useFilter } from '../../../recoil';
+import useStyle from '../styles';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
-import useStyle from '../styles';
 
 const { Option } = Select;
 const FilterFormListControl: React.FC = () => {
@@ -73,7 +73,7 @@ const FilterFormListControl: React.FC = () => {
   }, [filters]);
 
   return (
-    <CustomControl position="topright" style={{ display: 'flex', }}>
+    <CustomControl position="topright" style={{ display: 'flex' }}>
       <div
         className={styles.l7Filter}
         style={{ display: isVisible ? 'block' : 'none' }}

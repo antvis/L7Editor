@@ -1,5 +1,4 @@
-//@ts-ignore
-import { useFeature, useGlobal } from '@/recoil';
+import { useFeature, useGlobal } from '../../recoil';
 import { ClearOutlined, FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, MenuProps, Popconfirm, Tour, TourProps } from 'antd';

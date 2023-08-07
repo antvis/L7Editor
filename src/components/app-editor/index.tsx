@@ -1,5 +1,4 @@
-//@ts-ignore
-import { useFeature } from '@/recoil';
+import { useFeature } from '../../recoil';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';

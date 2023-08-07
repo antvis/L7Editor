@@ -1,5 +1,4 @@
-//@ts-ignore
-import { useFeature, useGlobal } from '@/recoil';
+import { useFeature, useGlobal } from '../../recoil';
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';

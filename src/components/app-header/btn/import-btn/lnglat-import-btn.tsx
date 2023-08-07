@@ -1,5 +1,4 @@
-//@ts-ignore
-import { useLnglat } from '@/recoil';
+import { useLnglat } from '../../../../recoil';
 import { featureCollection } from '@turf/turf';
 import { Form, Input, Radio } from 'antd';
 import React, { forwardRef, useImperativeHandle } from 'react';
