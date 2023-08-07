@@ -156,7 +156,9 @@ export const AppHeader: React.FC = () => {
     {
       title: '主题色',
       description: '选择不同主题色来修改地图渲染主题颜色',
-      target: () => document.getElementsByClassName('l7-editor-driver-theme')[0]!,
+      //@ts-ignore
+      target: () =>
+        document.getElementsByClassName('l7-editor-driver-theme')[0]!,
     },
     {
       title: '颜色选择器',
