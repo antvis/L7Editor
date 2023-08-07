@@ -21,7 +21,7 @@ title: L7Editor文档
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
 | activeTab | 侧面板展示 | `'code'｜'table'` | `code` |
-| feater | 初始化数据 | `feature[]` | `-` |
+| feature | 初始化数据 | `feature[]` | `-` |
 | layerType | 底图选择 | `string[]` | `[]` |
 | tabs | 右侧标签页 | `absProps['items']` 详见[antd](https://ant.design/components/tabs-cn/#tabs) | `[]` |
 

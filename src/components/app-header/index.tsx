@@ -1,10 +1,14 @@
-import { ClearOutlined, FlagOutlined, SaveOutlined } from '@ant-design/icons';
+import {
+  AimOutlined,
+  ClearOutlined,
+  FlagOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, MenuProps, Popconfirm, Tour, TourProps } from 'antd';
 import React, { useMemo, useState } from 'react';
-import { IconFont } from '../../constants';
-import { useFeature, useGlobal } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
+import { useFeature, useGlobal } from '../../recoil';
 import ChangeLog from './btn/changelog-btn';
 import DingImgBtn from './btn/ding-img-btn';
 import DownloadBtn from './btn/download-btn';
@@ -112,8 +116,8 @@ export const AppHeader: React.FC = () => {
       target: () => document.getElementById('l7-editor-driver-clear')!,
     },
     {
-      title: '自适应',
-      description: '点击自适应按钮 地图将自动缩放的 GeoJSON 数据位置',
+      title: '智能缩放',
+      description: '点击智能缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
       target: () => document.getElementById('l7-editor-driver-auto')!,
     },
     {
@@ -154,9 +158,16 @@ export const AppHeader: React.FC = () => {
       target: () => document.getElementById('l7-editor-driver-aMap')!,
     },
     {
+      title: '主题色',
+      description: '选择不同主题色来修改地图渲染主题颜色',
+      //@ts-ignore
+      target: () =>
+        document.getElementsByClassName('l7-editor-driver-theme')[0]!,
+    },
+    {
       title: '颜色选择器',
       description: '选择颜色来修改地图渲染颜色',
-      target: () => document.getElementById('l7-editor-driver-aMap')!,
+      target: () => document.getElementById('l7-editor-driver-color')!,
     },
     {
       title: '编辑器',
@@ -225,12 +236,12 @@ export const AppHeader: React.FC = () => {
         <Button
           id="l7-editor-driver-auto"
           disabled={featureDisabled}
-          icon={<IconFont type="icon-zishiying" />}
+          icon={<AimOutlined />}
           onClick={() => {
             bboxAutoFit();
           }}
         >
-          自适应
+          智能缩放
         </Button>
       </div>
       <div className={styles.mapHeaderRight}>

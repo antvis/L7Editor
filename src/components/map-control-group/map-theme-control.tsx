@@ -7,6 +7,7 @@ const MapThemeControl: React.FC = () => {
 
   return (
     <LarkMapMapThemeControl
+      className="l7-editor-driver-theme"
       position="bottomright"
       onSelectChange={(style) => {
         setMapOptions((oldMapOptions) => {
