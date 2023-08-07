@@ -1,9 +1,9 @@
-import { useFeature, useGlobal } from '../../recoil';
 import { ClearOutlined, FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, MenuProps, Popconfirm, Tour, TourProps } from 'antd';
 import React, { useMemo, useState } from 'react';
 import { IconFont } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
 import ChangeLog from './btn/changelog-btn';
 import DingImgBtn from './btn/ding-img-btn';
@@ -189,8 +189,12 @@ export const AppHeader: React.FC = () => {
   };
 
   return (
-    <div className={styles.mapContentLeft} id="l7-editor-driver-header">
-      <div>
+    <div className={styles.mapHeader}>
+      <div className={styles.mapHeaderLeft}>
+        <img
+          className={styles.mapHeaderLogo}
+          src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*baTHQ5Z-p_gAAAAAAAAAAAAADmJ7AQ/original"
+        />
         <ImportBtn />
         <Button
           id="l7-editor-driver-save"
@@ -229,7 +233,7 @@ export const AppHeader: React.FC = () => {
           自适应
         </Button>
       </div>
-      <div className={styles.mapContentRight}>
+      <div className={styles.mapHeaderRight}>
         <SettingBtn />
         <DownloadBtn />
         <ChangeLog />

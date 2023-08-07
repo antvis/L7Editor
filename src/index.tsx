@@ -1,7 +1,6 @@
 import { CodeOutlined, TableOutlined } from '@ant-design/icons';
 import { ConfigProvider, Result, TabsProps } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
-import 'driver.js/dist/driver.css';
 import React, { useMemo } from 'react';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
 import {
