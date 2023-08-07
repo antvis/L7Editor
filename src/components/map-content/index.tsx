@@ -1,5 +1,4 @@
-//@ts-ignore
-import { useFeature, useGlobal } from '@/recoil';
+import { useFeature, useGlobal } from '../../recoil';
 import { Tabs, TabsProps } from 'antd';
 import React, { useEffect } from 'react';
 import { IFeature } from '../../types';

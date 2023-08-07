@@ -1,5 +1,3 @@
-import { useFeature, useGlobal } from '@/recoil';
-import { getPointImage } from '@/utils/change-image-color';
 import { SearchOutlined } from '@ant-design/icons';
 import {
   CustomControl,
@@ -13,6 +11,8 @@ import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useFeature, useGlobal } from '../../recoil';
+import { getPointImage } from '../../utils/change-image-color';
 import useStyle from './styles';
 
 const LocationSearchControl: React.FC = React.memo(() => {

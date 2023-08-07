@@ -1,6 +1,6 @@
-import { useGlobal } from '@/recoil';
 import { MapThemeControl as LarkMapMapThemeControl } from '@antv/larkmap';
 import React from 'react';
+import { useGlobal } from '../../recoil';
 
 const MapThemeControl: React.FC = () => {
   const { setMapOptions } = useGlobal();

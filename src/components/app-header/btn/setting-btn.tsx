@@ -1,8 +1,7 @@
-//@ts-ignore
-import { useGlobal } from '@/recoil';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
 import React, { useState } from 'react';
+import { useGlobal } from '../../../recoil';
 
 export const SettingBtn = () => {
   const { baseMap, setBaseMap } = useGlobal();
@@ -28,7 +27,11 @@ export const SettingBtn = () => {
   return (
     <>
       <Tooltip title="地图设置">
-        <Button id='l7-editor-driver-set' icon={<SettingOutlined />} onClick={showModal}>
+        <Button
+          id="l7-editor-driver-set"
+          icon={<SettingOutlined />}
+          onClick={showModal}
+        >
           设置
         </Button>
       </Tooltip>

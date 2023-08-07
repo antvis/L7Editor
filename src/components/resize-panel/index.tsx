@@ -1,24 +1,28 @@
-import { RightPanelWidthRange } from '@/constants';
-import { useGlobal, useFeature } from '@/recoil';
 import { CaretRightOutlined } from '@ant-design/icons';
+import { Feature } from '@turf/turf';
 import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { RightPanelWidthRange } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
 import useStyle from './styles';
-import { Feature } from '@turf/turf';
 
 export interface ResizePanelProps {
   left: ReactNode;
   right: ReactNode;
-  onFeatureChange: (features: Feature[]) => void
+  onFeatureChange: (features: Feature[]) => void;
 }
 
-export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeatureChange }) => {
+export const ResizePanel: React.FC<ResizePanelProps> = ({
+  left,
+  right,
+  onFeatureChange,
+}) => {
   const { hideEditor, setHideEditor, rightWidth, setRightWidth } = useGlobal();
   const [resizePanel, setResizePanel] = useState<HTMLDivElement | null>(null);
   const [minRightWidth, maxRightWidth] = RightPanelWidthRange;
   const { width: containerWidth = 0 } = useSize(resizePanel) ?? {};
-  const { features } = useFeature()
+  const { features } = useFeature();
   const styles = useStyle();
 
   const onResize = (event: Event) => {
@@ -40,8 +44,8 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right, onFeature
   }, [hideEditor, rightWidth]);
 
   useEffect(() => {
-    onFeatureChange(features)
-  }, [features])
+    onFeatureChange(features);
+  }, [features]);
 
   return (
     <div

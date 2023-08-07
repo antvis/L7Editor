@@ -1,11 +1,10 @@
-//@ts-ignore
-import { useFeature } from '@/recoil';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { coordAll, featureCollection } from '@turf/turf';
 import { Button, Dropdown, MenuProps } from 'antd';
 import React from 'react';
 import { downloadText } from '../../../utils';
 import { prettierText } from '../../../utils/prettier-text';
+import { useFeature } from './../../../recoil';
 // @ts-ignore
 import tokml from 'tokml';
 // @ts-ignore

@@ -1,5 +1,3 @@
-//@ts-ignore
-import { useFeature } from '@/recoil';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
@@ -18,6 +16,7 @@ import {
 import { isNull, isUndefined, uniqBy } from 'lodash';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { FeatureKey } from '../../constants';
+import { useFeature } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
 import useStyle from './styles';
 

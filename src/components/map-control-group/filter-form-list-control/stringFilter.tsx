@@ -1,9 +1,9 @@
-import useFeature from '@/recoil/feature';
-import useFilter from '@/recoil/filter';
-import { FilterStringData } from '@/types/filter';
 import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
 import { cloneDeep, uniq } from 'lodash';
 import React from 'react';
+import useFeature from '../../../recoil/feature';
+import useFilter from '../../../recoil/filter';
+import { FilterStringData } from '../../../types/filter';
 
 const select = [
   { label: '包含', value: 'IN' },

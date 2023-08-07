@@ -1,13 +1,13 @@
-import { useGlobal } from '@/recoil';
 import { CustomControl, useScene } from '@antv/larkmap';
-import { Tooltip, message } from 'antd';
+import { message, Tooltip } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
+import { useGlobal } from '../../recoil';
 import useStyle from './styles';
 
 const SaveMapOptionsControl: React.FC = () => {
   const scene = useScene();
-  const styles = useStyle()
+  const styles = useStyle();
   const { setMapOptions } = useGlobal();
   const onSave = () => {
     const { lng, lat } = scene.getCenter();
@@ -32,7 +32,6 @@ const SaveMapOptionsControl: React.FC = () => {
           <i className="iconfont icon-ditu l7-iconfont"></i>
         </button>
       </Tooltip>
-
     </CustomControl>
   );
 };
