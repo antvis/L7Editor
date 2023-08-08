@@ -1,7 +1,6 @@
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';
-import { omit } from 'lodash';
 import React, { ReactNode, useEffect, useMemo } from 'react';
 import { FeatureCollectionVT, MapBoxConfig } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
@@ -54,11 +53,10 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const mapOptions = useMemo(() => {
     if (baseMap === 'Mapbox') {
       return {
-        ...baseMapOptions,
         ...MapBoxConfig,
       };
     }
-    return omit(baseMapOptions, ['token']);
+    return baseMapOptions;
   }, [baseMap, baseMapOptions]);
 
   return (
