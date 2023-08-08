@@ -1,10 +1,9 @@
-import { IconFont } from '../../constants';
-import { useGlobal } from '../../recoil';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover, Tabs, TabsProps } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import React from 'react';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { IconFont } from '../../constants';
+import { useGlobal } from '../../recoil';
 import useStyle from './styles';
 
 /**
@@ -13,7 +12,7 @@ import useStyle from './styles';
  * Traffic   路况图
  * Buildings 楼块图
  */
-const amaplayerInfo = [
+const AmapLayerList = [
   {
     type: 'Satellite',
     title: '卫星图',
@@ -47,12 +46,12 @@ const GOOGLE_SATELLITE = {
     'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
 };
 
-const url1 =
+const TILE_MAP_URL =
   'https://www.google.com/maps/vt?lyrs=s@820&gl=cn&x={x}&y={y}&z={z}';
-const url2 =
+const TILE_MARK_URL =
   'https://tiles{1-3}.geovisearth.com/base/v1/cat/{z}/{x}/{y}?format=png&tmsIds=w&token=b2a0cfc132cd60b61391b9dd63c15711eadb9b38a9943e3f98160d5710aef788';
 
-export function AmapLayerControl() {
+export function OfficialLayerControl() {
   const scene = useScene();
   const styles = useStyle();
   const { layerType, setLayerType } = useGlobal();
@@ -60,11 +59,11 @@ export function AmapLayerControl() {
   const layers = useRef(
     scene.getType() !== 'mapbox'
       ? {
-        satellite: new AMap.TileLayer.Satellite(),
-        roadNet: new AMap.TileLayer.RoadNet(),
-        traffic: new AMap.TileLayer.Traffic(),
-        buildings: new AMap.Buildings(),
-      }
+          satellite: new AMap.TileLayer.Satellite(),
+          roadNet: new AMap.TileLayer.RoadNet(),
+          traffic: new AMap.TileLayer.Traffic(),
+          buildings: new AMap.Buildings(),
+        }
       : {},
   );
 
@@ -96,7 +95,7 @@ export function AmapLayerControl() {
         } else {
           amapAdd.remove(buildings);
         }
-      } catch { }
+      } catch {}
     }
   }, [layerType, scene]);
 
@@ -110,7 +109,7 @@ export function AmapLayerControl() {
         <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
           {scene.getType() !== 'mapbox' && (
             <>
-              {amaplayerInfo.map((item) => {
+              {AmapLayerList.map((item) => {
                 return (
                   <Checkbox key={item.type} value={item.type}>
                     <div key={item.type} className={styles.amapInfoItem}>
@@ -172,21 +171,25 @@ export function AmapLayerControl() {
           height: scene.getType() !== 'mapbox' ? 330 : 190,
         }}
       >
-        <IconFont id='l7-editor-driver-aMap' type="icon-ditu" className={styles.l7AmapControl} />
+        <IconFont
+          id="l7-editor-driver-aMap"
+          type="icon-ditu"
+          className={styles.l7AmapControl}
+        />
       </Popover>
       {isIncludes(GOOGLE_SATELLITE.type) && (
         <>
           <RasterLayer
             zIndex={1}
             source={{
-              data: url1,
+              data: TILE_MAP_URL,
               parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
             }}
           />
           <RasterLayer
             zIndex={1}
             source={{
-              data: url2,
+              data: TILE_MARK_URL,
               parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
             }}
           />
