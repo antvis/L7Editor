@@ -4,7 +4,7 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBorder, colorBgContainer, boxShadow } = token;
+  const { colorBorder, colorBgContainer } = token;
 
   return {
     mapHeader: css`
@@ -16,7 +16,6 @@ const useStyle = () => {
       justify-content: space-between;
       align-items: center;
       background: ${colorBgContainer};
-      box-shadow: ${boxShadow};
       z-index: 1;
       .ant-btn {
         border: 0;

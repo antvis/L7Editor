@@ -60,6 +60,12 @@ const useStyle = () => {
       padding: 16px;
       margin-right: 8px;
       box-shadow: ${boxShadow} !important;
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+      .ant-btn {
+        margin-left: px;
+      }
     `,
     l7DrawSwitch: css`
       height: 30px;
@@ -89,11 +95,18 @@ const useStyle = () => {
       }
     `,
     l7ButtonControl: css`
-      min-width: 28px;
+      min-width: auto;
+      width: 28px;
       height: 28px;
       border: none;
       box-shadow: ${boxShadow};
       cursor: pointer;
+      border-radius: 2px;
+      .ant-color-picker-color-block {
+        border-radius: 2px;
+        width: 22px;
+        height: 22px;
+      }
     `,
   };
 };
