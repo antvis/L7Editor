@@ -202,31 +202,7 @@ export const LayerPopup: React.FC = () => {
     const type = feature?.geometry.type;
     let drawLayer: DrawType;
     if (type === 'Point') {
-      drawLayer = new DrawPoint(scene, {
-        ...options,
-        style: {
-          point: {
-            normal: {
-              shape: 'drawImg',
-              size: 20,
-              color: layerColor,
-            },
-            hover: {
-              shape: 'drawImg',
-              size: 20,
-              color: layerColor,
-            },
-            active: {
-              shape: 'drawImg',
-              size: 20,
-              color: layerColor,
-            },
-            style: {
-              offsets: [0, 25],
-            },
-          },
-        },
-      });
+      drawLayer = new DrawPoint(scene, options);
     } else if (type === 'LineString') {
       drawLayer = new DrawLine(scene, options);
     } else if (type === 'Polygon' && isRect(feature)) {

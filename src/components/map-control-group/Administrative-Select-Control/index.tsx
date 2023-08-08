@@ -1,15 +1,27 @@
 import { CaretDownOutlined, CloseOutlined } from '@ant-design/icons';
-import { CustomControl } from '@antv/larkmap';
+import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
+import { Feature, featureCollection, LineString, lineString } from '@turf/turf';
 import { Button, message, Popover, Select, Spin, Tabs } from 'antd';
 import cls from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import { CityContent } from './Component/CityView';
 import { ProvinceContent } from './Component/ProvinceView';
-import { BoundsUrl, CityUrl, CLS_PREFIX } from './constant';
+import { CityUrl, CLS_PREFIX } from './constant';
 import { parserCityData, treeToArr } from './helper';
 import useStyle from './style';
 import type { ICity, IData } from './types';
+
+const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
+  shape: 'line',
+  color: '#ff0000',
+  size: 4,
+  zIndex: LayerZIndex,
+  style: {
+    opacity: 0.8,
+  },
+};
 
 export const AdministrativeSelectControl = () => {
   const { scene } = useFeature();
@@ -18,6 +30,9 @@ export const AdministrativeSelectControl = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cityData, setCityData] = useState<IData>();
+  const [selectCity, setSelectCity] = useState<ICity | null>(null);
+  const [districtFeature, setDistrictFeature] =
+    useState<Feature<LineString> | null>(null);
 
   useEffect(() => {
     fetch(CityUrl)
@@ -27,56 +42,58 @@ export const AdministrativeSelectControl = () => {
       });
   }, []);
 
-  const selectOptions = () => {
+  const cityOptions = useMemo(() => {
     if (!cityData) return [];
     return treeToArr([cityData.cities]).map((item) => {
       return {
-        value: JSON.stringify(item),
+        ...item,
         label: `${item.name}(${item.spell})`,
-      };
+      } as ICity;
     });
-  };
+  }, [cityData]);
 
-  const getBoundsData = (value: ICity) => {
-    setLoading(true);
-    try {
-      if (value.level === 'country' && scene ) {
+  useEffect(() => {
+    if (selectCity) {
+      setLoading(true);
+      if (selectCity.level === 'country' && scene) {
         setLoading(false);
         scene.setZoomAndCenter(3, [116.3683244, 39.915085]);
+        return;
       }
-      const code = value.adcode;
-      const level = value.level;
-      fetch(`${BoundsUrl}${level}/${code}_${level}_${level}.json`)
-        .then((item) => item.json())
-        .then(() => {
-          setLoading(false);
-          if (scene && cityData) {
-            const data = treeToArr([cityData.cities]).find(
-              (item: ICity) => item.name === value.name,
-            );
-            if (data) {
-              scene.setZoomAndCenter(11, [data.lng, data.lat]);
-            }
+      setLoading(true);
+      fetch(
+        `https://restapi.amap.com/v3/config/district?keywords=${selectCity.name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === '1' && res.districts?.length && scene) {
+            const [lng, lat] = (res.districts[0].center as string)
+              .split(',')
+              .map((item) => +item);
+            scene.setZoomAndCenter(11, [lng, lat]);
+            const positions = (res.districts[0].polyline as string)
+              .split(';')
+              .map((item) => item.split(',').map((num) => +num));
+            setDistrictFeature(lineString(positions));
           }
+        })
+        .catch(() => {
+          message.error('围栏数据请求失败');
+        })
+        .finally(() => {
+          setLoading(false);
         });
-    } catch {
-      setLoading(false);
-      message.error('围栏数据请求失败');
+    } else {
+      setDistrictFeature(null);
     }
-  };
+  }, [selectCity]);
 
-  const onSelectChange = (value: string) => {
-    const newValue = JSON.parse(value || '');
+  const onClickItem = (city: ICity) => {
     setOpen(false);
-    setCityName(newValue.name);
-    if (newValue) getBoundsData(newValue);
-  };
-
-  const onClickItem = (v: ICity) => {
-    setOpen(false);
-    setCityName(v.name);
-    console.log(v);
-    if (v) getBoundsData(v);
+    setCityName(city.name);
+    if (city) {
+      setSelectCity(city);
+    }
   };
 
   const items = [
@@ -106,12 +123,18 @@ export const AdministrativeSelectControl = () => {
       showSearch
       placeholder="请输入城市"
       optionFilterProp="children"
-      onChange={onSelectChange}
+      onChange={(adCode, city) => {
+        onClickItem(city as ICity);
+      }}
       style={{ width: 150 }}
-      filterOption={(input, option) =>
-        (option?.label as string).toLowerCase().includes(input.toLowerCase())
+      filterOption={(input, item) =>
+        (item?.label as string).toLowerCase().includes(input.toLowerCase())
       }
-      options={selectOptions()}
+      fieldNames={{
+        label: 'label',
+        value: 'adcode',
+      }}
+      options={cityOptions}
     />
   );
 
@@ -148,6 +171,7 @@ export const AdministrativeSelectControl = () => {
 
   const onRest = () => {
     setCityName('全国');
+    setSelectCity(null);
   };
 
   const getTitle = () => {
@@ -166,33 +190,42 @@ export const AdministrativeSelectControl = () => {
   };
 
   return (
-    <CustomControl position={'topleft'} className={CLS_PREFIX}>
-      <Popover
-        overlayClassName={cls(`${CLS_PREFIX}__popover`, style.popover)}
-        placement={'right'}
-        title={getTitle()}
-        content={content}
-        open={open}
-        onOpenChange={setOpen}
-        trigger="click"
-        destroyTooltipOnHide
-      >
-        <Spin spinning={loading}>
-          <div className={cls(`${CLS_PREFIX}`, style.popoverContent)}>
-            <div className={cls(`${CLS_PREFIX}__title`, style.popoverTitle)}>
-              <div
-                className={cls(
-                  `${CLS_PREFIX}__title-name`,
-                  style.popoverTitleName,
-                )}
-              >
-                {cityName.replace('市', '').replace('省', '')}
+    <>
+      <CustomControl position={'topleft'} className={CLS_PREFIX}>
+        <Popover
+          overlayClassName={cls(`${CLS_PREFIX}__popover`, style.popover)}
+          placement={'right'}
+          title={getTitle()}
+          content={content}
+          open={open}
+          onOpenChange={setOpen}
+          trigger="click"
+          destroyTooltipOnHide
+        >
+          <Spin spinning={loading}>
+            <div className={cls(`${CLS_PREFIX}`, style.popoverContent)}>
+              <div className={cls(`${CLS_PREFIX}__title`, style.popoverTitle)}>
+                <div
+                  className={cls(
+                    `${CLS_PREFIX}__title-name`,
+                    style.popoverTitleName,
+                  )}
+                >
+                  {cityName.replace('市', '').replace('省', '')}
+                </div>
+                <CaretDownOutlined rotate={open ? 180 : 0} />
               </div>
-              <CaretDownOutlined rotate={open ? 180 : 0} />
             </div>
-          </div>
-        </Spin>
-      </Popover>
-    </CustomControl>
+          </Spin>
+        </Popover>
+      </CustomControl>
+
+      <LineLayer
+        source={{
+          data: featureCollection(districtFeature ? [districtFeature] : []),
+        }}
+        {...DistrictLayerOptions}
+      />
+    </>
   );
 };
