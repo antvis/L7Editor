@@ -5,12 +5,11 @@ import {
   SaveOutlined,
 } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, MenuProps, Popconfirm, Tour, TourProps } from 'antd';
+import { Button, Dropdown, Popconfirm, Tour, TourProps } from 'antd';
 import React, { useMemo, useState } from 'react';
-import { prettierText } from '../../utils/prettier-text';
 import { useFeature, useGlobal } from '../../recoil';
-import ChangeLog from './btn/changelog-btn';
-import DingImgBtn from './btn/ding-img-btn';
+import { prettierText } from '../../utils/prettier-text';
+import { DropdownMenuItems } from './constants';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import { ImportBtn } from './btn/import-btn';
@@ -184,17 +183,6 @@ export const AppHeader: React.FC = () => {
     },
   ];
 
-  const DownloadMenuItems: MenuProps['items'] = [
-    {
-      key: 'basics',
-      label: '平台基础使用文档',
-    },
-    {
-      key: 'function',
-      label: '全功能使用引导',
-    },
-  ];
-
   const onDownload = (key: string) => {
     setOpen({ key, open: true });
   };
@@ -247,11 +235,10 @@ export const AppHeader: React.FC = () => {
       <div className={styles.mapHeaderRight}>
         <SettingBtn />
         <DownloadBtn />
-        <ChangeLog />
         <HandBackBtn />
         <Dropdown
           menu={{
-            items: DownloadMenuItems,
+            items: DropdownMenuItems,
             onClick: ({ key }) => {
               onDownload(key);
             },
@@ -259,7 +246,6 @@ export const AppHeader: React.FC = () => {
         >
           <Button icon={<FlagOutlined />}>引导</Button>
         </Dropdown>
-        <DingImgBtn />
       </div>
       <Tour
         open={open.open}

@@ -1,41 +1,15 @@
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { coordAll, featureCollection } from '@turf/turf';
-import { Button, Dropdown, MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
 import React from 'react';
 import { downloadText } from '../../../utils';
 import { prettierText } from '../../../utils/prettier-text';
 import { useFeature } from './../../../recoil';
+import { DownloadMenuItems } from '../constants';
 // @ts-ignore
 import tokml from 'tokml';
 // @ts-ignore
 import wkt from 'wkt';
-
-const DownloadMenuItems: MenuProps['items'] = [
-  {
-    key: 'GeoJson',
-    label: '下载 GeoJSON 格式数据',
-  },
-  // {
-  //   key: 'FormatGeoJson',
-  //   label: '下载格式化的 GeoJson 格式数据',
-  // },
-  {
-    key: 'LngLat',
-    label: '下载 LngLat 格式数据',
-  },
-  // {
-  //   key: 'Text',
-  //   label: '下载当前编辑器输入数据',
-  // },
-  {
-    key: 'KML',
-    label: '下载 KML 格式数据',
-  },
-  {
-    key: 'WKT',
-    label: '下载 WKT 格式数据',
-  },
-];
 
 const DownloadBtn: React.FC = () => {
   const { editorText, features } = useFeature();
