@@ -17,7 +17,8 @@ import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
 
 const { Option } = Select;
-const FilterFormListControl: React.FC = () => {
+
+const FilterControl: React.FC = () => {
   const { dataSource } = useFeature();
   const { setFilters, filters } = useFilter();
   const [isVisible, setIsVisible] = useState(false);
@@ -241,4 +242,4 @@ const FilterFormListControl: React.FC = () => {
   );
 };
 
-export default FilterFormListControl;
+export default FilterControl;
