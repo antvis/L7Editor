@@ -5,6 +5,7 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React from 'react';
+import { AdministrativeSelectControl } from './administer';
 import { AmapLayerControl } from './amap-layer-control';
 import DrawControl from './draw-control';
 import FilterFormListControl from './filter-form-list-control';
@@ -17,13 +18,13 @@ export const MapControlGroup: React.FC = ({}) => {
   return (
     <>
       <DrawControl />
+      <AdministrativeSelectControl />
       <ZoomControl />
       <ScaleControl />
       <LocationSearchControl />
       <MouseLocationControl />
       <AmapLayerControl />
       <MapThemeControl />
-      {/*<SaveMapOptionsControl />*/}
       <LayerColorControl />
       <FullscreenControl position="bottomright" />
       <FilterFormListControl />
