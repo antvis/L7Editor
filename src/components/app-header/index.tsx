@@ -9,11 +9,11 @@ import { Button, Dropdown, Popconfirm, Tour, TourProps } from 'antd';
 import React, { useMemo, useState } from 'react';
 import { useFeature, useGlobal } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
-import { DropdownMenuItems } from './constants';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
+import { DropdownMenuItems } from './constants';
 import useStyle from './styles';
 
 type openType = {
@@ -120,14 +120,14 @@ export const AppHeader: React.FC = () => {
       target: () => document.getElementById('l7-editor-driver-auto')!,
     },
     {
-      title: '设置',
-      description: '用户可设置一些初始化配置',
-      target: () => document.getElementById('l7-editor-driver-set')!,
-    },
-    {
       title: '下载',
       description: '点击下载可将 GeoJSON 数据下载为指定数据格式',
       target: () => document.getElementById('l7-editor-driver-download')!,
+    },
+    {
+      title: '设置',
+      description: '用户可设置一些初始化配置',
+      target: () => document.getElementById('l7-editor-driver-set')!,
     },
     {
       title: '绘制',
@@ -233,9 +233,7 @@ export const AppHeader: React.FC = () => {
         </Button>
       </div>
       <div className={styles.mapHeaderRight}>
-        <SettingBtn />
         <DownloadBtn />
-        <HandBackBtn />
         <Dropdown
           menu={{
             items: DropdownMenuItems,
@@ -246,6 +244,8 @@ export const AppHeader: React.FC = () => {
         >
           <Button icon={<FlagOutlined />}>引导</Button>
         </Dropdown>
+        <HandBackBtn />
+        <SettingBtn />
       </div>
       <Tour
         open={open.open}

@@ -26,7 +26,7 @@ export const HandBackMenuItems: MenuProps['items'] = [
   },
   {
     key: 'ding',
-    label: '联系方式',
+    label: '联系我们',
   },
 ];
 
