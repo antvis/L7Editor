@@ -15,7 +15,7 @@ const useStyle = () => {
   return {
     resizePanel: css`
       width: 100%;
-      height: calc(100% - 34px);
+      height: calc(100% - 50px);
       display: flex;
       position: absolute;
     `,
