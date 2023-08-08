@@ -40,9 +40,9 @@ export const AdministrativeSelectControl = () => {
   const getBoundsData = (value: ICity) => {
     setLoading(true);
     try {
-      if (value.level === 'country') {
+      if (value.level === 'country' && scene ) {
         setLoading(false);
-        return;
+        scene.setZoomAndCenter(3, [116.3683244, 39.915085]);
       }
       const code = value.adcode;
       const level = value.level;
