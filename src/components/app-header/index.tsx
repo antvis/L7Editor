@@ -5,16 +5,15 @@ import {
   SaveOutlined,
 } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, MenuProps, Popconfirm, Tour, TourProps } from 'antd';
+import { Button, Dropdown, Popconfirm, Tour, TourProps } from 'antd';
 import React, { useMemo, useState } from 'react';
-import { prettierText } from '../../utils/prettier-text';
 import { useFeature, useGlobal } from '../../recoil';
-import ChangeLog from './btn/changelog-btn';
-import DingImgBtn from './btn/ding-img-btn';
+import { prettierText } from '../../utils/prettier-text';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
+import { DropdownMenuItems } from './constants';
 import useStyle from './styles';
 
 type openType = {
@@ -121,14 +120,14 @@ export const AppHeader: React.FC = () => {
       target: () => document.getElementById('l7-editor-driver-auto')!,
     },
     {
-      title: '设置',
-      description: '用户可设置一些初始化配置',
-      target: () => document.getElementById('l7-editor-driver-set')!,
-    },
-    {
       title: '下载',
       description: '点击下载可将 GeoJSON 数据下载为指定数据格式',
       target: () => document.getElementById('l7-editor-driver-download')!,
+    },
+    {
+      title: '设置',
+      description: '用户可设置一些初始化配置',
+      target: () => document.getElementById('l7-editor-driver-set')!,
     },
     {
       title: '绘制',
@@ -184,17 +183,6 @@ export const AppHeader: React.FC = () => {
     },
   ];
 
-  const DownloadMenuItems: MenuProps['items'] = [
-    {
-      key: 'basics',
-      label: '平台基础使用文档',
-    },
-    {
-      key: 'function',
-      label: '全功能使用引导',
-    },
-  ];
-
   const onDownload = (key: string) => {
     setOpen({ key, open: true });
   };
@@ -245,13 +233,10 @@ export const AppHeader: React.FC = () => {
         </Button>
       </div>
       <div className={styles.mapHeaderRight}>
-        <SettingBtn />
         <DownloadBtn />
-        <ChangeLog />
-        <HandBackBtn />
         <Dropdown
           menu={{
-            items: DownloadMenuItems,
+            items: DropdownMenuItems,
             onClick: ({ key }) => {
               onDownload(key);
             },
@@ -259,7 +244,8 @@ export const AppHeader: React.FC = () => {
         >
           <Button icon={<FlagOutlined />}>引导</Button>
         </Dropdown>
-        <DingImgBtn />
+        <HandBackBtn />
+        <SettingBtn />
       </div>
       <Tour
         open={open.open}
