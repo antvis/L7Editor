@@ -6,8 +6,8 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React from 'react';
+import { AdministrativeSelectControl } from './Administrative-Select-Control';
 import { useGlobal } from '../../recoil';
-import { AdministrativeSelectControl } from './administer';
 import DrawControl from './draw-control';
 import FilterControl from './filter-form-list-control';
 import LayerColorControl from './layer-color-control';
