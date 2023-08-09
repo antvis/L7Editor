@@ -27,6 +27,12 @@ const useStyle = () => {
       height: 24px;
       margin-right: 4px;
     `,
+    mapHeaderTitle: css`
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 4px;
+      margin-right: 16px;
+    `,
     mapHeaderLeft: css`
       display: flex;
       align-items: center;

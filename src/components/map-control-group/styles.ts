@@ -54,11 +54,16 @@ const useStyle = () => {
       font-size: 16px;
       cursor: pointer;
     `,
+    l7FilterPanel: css`
+      position: relative;
+    `,
     l7Filter: css`
       display: flex;
       background: ${colorBgContainer};
       padding: 16px;
       margin-right: 8px;
+      position: absolute;
+      right: 40px;
       box-shadow: ${boxShadow} !important;
       .ant-form-item {
         margin-bottom: 0;
@@ -83,6 +88,11 @@ const useStyle = () => {
     `,
     l7LocationSearch: css`
       box-shadow: ${boxShadow} !important;
+      .larkmap-select-selector {
+        height: 30px !important;
+        width: 200px;
+        border: 0px !important;
+      }
     `,
     filterBetween: css`
       display: flex;
@@ -106,6 +116,12 @@ const useStyle = () => {
         border-radius: 2px;
         width: 22px;
         height: 22px;
+      }
+    `,
+    l7LocationSearchPanel: css`
+      display: flex;
+      > * {
+        margin-right: 8px;
       }
     `,
   };

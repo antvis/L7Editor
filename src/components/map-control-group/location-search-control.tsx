@@ -1,4 +1,3 @@
-import { SearchOutlined } from '@ant-design/icons';
 import {
   CustomControl,
   LocationSearch,
@@ -13,6 +12,7 @@ import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFeature, useGlobal } from '../../recoil';
 import { getPointImage } from '../../utils/change-image-color';
+import { AdministrativeSelect } from './Administrative-Select-Control';
 import useStyle from './styles';
 
 const LocationSearchControl: React.FC = React.memo(() => {
@@ -21,7 +21,6 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const [locationText, setLocationText] = useState('');
   const { features, resetFeatures } = useFeature();
   const { layerColor } = useGlobal();
-  const [isVisible, setIsVisible] = useState(false);
   const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
   const styles = useStyle();
 
@@ -50,47 +49,33 @@ const LocationSearchControl: React.FC = React.memo(() => {
 
   return (
     <>
-      <CustomControl position="topleft" style={{ display: 'flex' }}>
-        <div className={styles.l7DrawSwitch} style={{ marginRight: '8px' }}>
-          <button
-            id="l7-editor-driver-citySelect"
-            type="button"
-            className="l7-draw-control__btn"
-            style={{ borderRight: 'none' }}
-          >
-            <SearchOutlined
-              // className="l7-draw-icon"
-              style={{ fontSize: 16, lineHeight: '30px' }}
-              onClick={() => {
-                setIsVisible(!isVisible);
-              }}
-            />
-          </button>
-        </div>
-        <div className={styles.l7LocationSearch}>
-          {isVisible && (
-            <LocationSearch
-              getPopupContainer={() =>
-                document.querySelector('.larkmap') as HTMLElement
-              }
-              style={{ width: 200 }}
-              value={selectLocation?.name}
-              searchParams={{
-                key: '98d10f05a2da96697313a2ce35ebf1a2',
-                location: locationText,
-              }}
-              onChange={(_, item) => {
-                if (item) {
-                  const currentZoom = scene.getZoom();
-                  scene.setZoomAndCenter(currentZoom > 16 ? currentZoom : 16, [
-                    item.longitude,
-                    item.latitude,
-                  ]);
+      <CustomControl position="topleft">
+        <div id="l7-editor-driver-citySelect" style={{ display: 'flex' }}>
+          <div className={styles.l7LocationSearch}>
+            <div className={styles.l7LocationSearchPanel}>
+              <AdministrativeSelect />
+              <LocationSearch
+                getPopupContainer={() =>
+                  document.querySelector('.larkmap') as HTMLElement
                 }
-                setSelectLocation(item);
-              }}
-            />
-          )}
+                value={selectLocation?.name}
+                searchParams={{
+                  key: '98d10f05a2da96697313a2ce35ebf1a2',
+                  location: locationText,
+                }}
+                onChange={(_, item) => {
+                  if (item) {
+                    const currentZoom = scene.getZoom();
+                    scene.setZoomAndCenter(
+                      currentZoom > 16 ? currentZoom : 16,
+                      [item.longitude, item.latitude],
+                    );
+                  }
+                  setSelectLocation(item);
+                }}
+              />
+            </div>
+          </div>
         </div>
       </CustomControl>
 

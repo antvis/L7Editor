@@ -8,6 +8,7 @@ export type ICity = {
   pinyin: string;
   title: string;
   children: ICity[];
+  label?: string;
 } & HotCities;
 
 export type IData = {

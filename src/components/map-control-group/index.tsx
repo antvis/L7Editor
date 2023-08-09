@@ -6,7 +6,6 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React from 'react';
-import { AdministrativeSelectControl } from './Administrative-Select-Control';
 import { useGlobal } from '../../recoil';
 import DrawControl from './draw-control';
 import FilterControl from './filter-form-list-control';
@@ -22,17 +21,16 @@ export const MapControlGroup: React.FC = ({}) => {
   return (
     <>
       <DrawControl />
-      <AdministrativeSelectControl />
       <ZoomControl />
       <ScaleControl />
       <LocationSearchControl />
       <MouseLocationControl />
+      <FilterControl />
       {baseMap === 'Gaode' && <OfficialLayerControl />}
       <MapThemeControl />
       <GeoLocateControl position="bottomright" />
       <LayerColorControl />
       <FullscreenControl position="bottomright" />
-      <FilterControl />
     </>
   );
 };
