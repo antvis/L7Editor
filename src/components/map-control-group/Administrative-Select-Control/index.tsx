@@ -1,4 +1,3 @@
-import { CaretDownOutlined, CloseOutlined } from '@ant-design/icons';
 import { LineLayer, LineLayerProps } from '@antv/larkmap';
 import {
   Feature,
@@ -6,22 +5,16 @@ import {
   MultiLineString,
   multiLineString,
 } from '@turf/turf';
-import { Button, message, Popover, Select, Spin, Tabs } from 'antd';
-import cls from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
+import { Cascader, message } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
+import React, { useEffect, useState } from 'react';
 import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';
-import { CityContent } from './Component/CityView';
-import { ProvinceContent } from './Component/ProvinceView';
-import { CityUrl, CLS_PREFIX } from './constant';
-import { parserCityData, treeToArr } from './helper';
-import useStyle from './style';
-import type { ICity, IData } from './types';
 
 const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
   shape: 'line',
   color: '#ff0000',
-  size: 4,
+  size: 2,
   zIndex: LayerZIndex,
   style: {
     opacity: 0.8,
@@ -30,43 +23,46 @@ const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
 
 export const AdministrativeSelect = () => {
   const { scene } = useFeature();
-  const style = useStyle();
-  const [cityName, setCityName] = useState('全国');
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [cityData, setCityData] = useState<IData>();
-  const [selectCity, setSelectCity] = useState<ICity | null>(null);
   const [districtFeature, setDistrictFeature] =
     useState<Feature<MultiLineString> | null>(null);
+  const [data, setData] = useState();
+  const [changeData, setChangeData] = useState<any>(undefined);
+
+  const getCascadeData = (list: any) => {
+    if (list.length) {
+      return list.map((item: any) => {
+        const { center, name, districts, adcode } = item;
+        return {
+          adcode,
+          value: center,
+          label: name,
+          children: getCascadeData(districts),
+        };
+      });
+    } else {
+      return [];
+    }
+  };
 
   useEffect(() => {
-    fetch(CityUrl)
+    fetch(
+      'https://restapi.amap.com/v3/config/district?key=98d10f05a2da96697313a2ce35ebf1a2&keywords=中华人民共和国&subdistrict=3&extensions=base',
+    )
       .then((res) => res.json())
       .then((res) => {
-        setCityData(parserCityData(res) as IData);
+        setData(getCascadeData(res.districts[0].districts));
       });
   }, []);
 
-  const cityOptions = useMemo(() => {
-    if (!cityData) return [];
-    return treeToArr([cityData.cities]).map((item) => {
-      return {
-        ...item,
-        label: `${item.name}(${item.spell})`,
-      } as ICity;
-    });
-  }, [cityData]);
+  const onChange = (value: string[], option: any) => {
+    console.log(option);
+    setChangeData(option);
+  };
 
-  useEffect(() => {
-    if (selectCity) {
-      setLoading(true);
-      if (selectCity.level === 'country' && scene) {
-        setLoading(false);
-        scene.setZoomAndCenter(3, [116.3683244, 39.915085]);
-        return;
-      }
-      setLoading(true);
-      const name = selectCity.name.replace(/[省市]$/, '');
+  const onDropdownVisibleChange = (open: boolean) => {
+    if (!open && changeData) {
+      const data = changeData[changeData.length - 1];
+      const name = data.adcode;
       fetch(
         `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
       )
@@ -88,150 +84,37 @@ export const AdministrativeSelect = () => {
                 );
               });
             });
-
             setDistrictFeature(multiLineString(positions));
           }
         })
         .catch(() => {
           message.error('围栏数据请求失败');
-        })
-        .finally(() => {
-          setLoading(false);
         });
-    } else {
+    }
+    if (!open && !changeData) {
       setDistrictFeature(null);
     }
-  }, [selectCity]);
-
-  const onClickItem = (city: ICity) => {
-    setOpen(false);
-    setCityName(city.name);
-    if (city) {
-      setSelectCity(city);
-    }
   };
 
-  const items = [
-    {
-      label: '按省份',
-      key: 'province',
-      children: (
-        <ProvinceContent
-          onClickItem={onClickItem}
-          cityData={cityData as IData}
-        />
-      ),
-    },
-    {
-      label: '按城市',
-      key: 'city',
-      children: (
-        <CityContent onClickItem={onClickItem} cityData={cityData as IData} />
-      ),
-    },
-  ];
-
-  const extraContent = (
-    <Select
-      popupClassName={style.selectOption}
-      size="small"
-      showSearch
-      placeholder="请输入城市"
-      optionFilterProp="children"
-      onChange={(adCode, city) => {
-        onClickItem(city as ICity);
-      }}
-      style={{ width: 150 }}
-      filterOption={(input, item) =>
-        (item?.label as string).toLowerCase().includes(input.toLowerCase())
-      }
-      fieldNames={{
-        label: 'label',
-        value: 'adcode',
-      }}
-      options={cityOptions}
-    />
-  );
-
-  const content = (
-    <div className={cls(`${CLS_PREFIX}__content`)}>
-      <div
-        className={cls(`${CLS_PREFIX}__content-header`, style.tabContentTitle)}
-      >
-        {cityData &&
-          cityData.hotCities.map((hot) => {
-            return (
-              <div
-                key={hot.name}
-                onClick={() => onClickItem(hot as ICity)}
-                className={cls(
-                  `${CLS_PREFIX}__content-header-item`,
-                  style.tabContentItem,
-                )}
-              >
-                {hot.name.replace('市', '')}
-              </div>
-            );
-          })}
-      </div>
-      <Tabs
-        size="small"
-        defaultActiveKey="province"
-        tabBarExtraContent={extraContent}
-        items={items}
-        destroyInactiveTabPane
-      />
-    </div>
-  );
-
-  const onRest = () => {
-    setCityName('全国');
-    setSelectCity(null);
-  };
-
-  const getTitle = () => {
-    return (
-      <div className={style.popoverName}>
-        <div>所在区域:{cityName.replace('市', '').replace('省', '')}</div>
-        <Button
-          type="text"
-          size="small"
-          icon={<CloseOutlined />}
-          onClick={() => onRest()}
-          style={{ marginLeft: 8 }}
-        />
-      </div>
+  const filter = (inputValue: string, path: DefaultOptionType[]) =>
+    path.some(
+      (option) =>
+        (option.label as string)
+          .toLowerCase()
+          .indexOf(inputValue.toLowerCase()) > -1,
     );
-  };
 
   return (
     <>
-      <Popover
-        overlayClassName={cls(`${CLS_PREFIX}__popover`, style.popover)}
-        placement={'bottom'}
-        title={getTitle()}
-        content={content}
-        open={open}
-        onOpenChange={setOpen}
-        trigger="click"
-        destroyTooltipOnHide
-      >
-        <Spin spinning={loading}>
-          <div className={cls(`${CLS_PREFIX}`, style.popoverContent)}>
-            <div className={cls(`${CLS_PREFIX}__title`, style.popoverTitle)}>
-              <div
-                className={cls(
-                  `${CLS_PREFIX}__title-name`,
-                  style.popoverTitleName,
-                )}
-              >
-                {cityName.replace('市', '').replace('省', '')}
-              </div>
-              <CaretDownOutlined rotate={open ? 180 : 0} />
-            </div>
-          </div>
-        </Spin>
-      </Popover>
+      <Cascader
+        options={data}
+        onChange={onChange}
+        allowClear
+        showSearch={{ filter }}
+        placeholder="请选择市、县"
+        onDropdownVisibleChange={onDropdownVisibleChange}
+        changeOnSelect
+      />
 
       <LineLayer
         source={{
