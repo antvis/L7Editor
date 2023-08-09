@@ -3,6 +3,7 @@ import {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
+  convertState,
   hideEditorState,
   layerColorState,
   layerTypeState,
@@ -30,6 +31,8 @@ export default function useGlobal() {
 
   const [layerType, setLayerType] = useRecoilState(layerTypeState);
 
+  const [convert, setConvert] = useRecoilState(convertState);
+
   return {
     rightWidth,
     setRightWidth,
@@ -49,5 +52,7 @@ export default function useGlobal() {
     setActiveTab,
     layerType,
     setLayerType,
+    convert,
+    setConvert,
   };
 }

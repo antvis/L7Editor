@@ -7,6 +7,7 @@ import {
   getType,
 } from '@turf/turf';
 import { message } from 'antd';
+import gcoord from 'gcoord';
 import { cloneDeep, flatMap, max, min } from 'lodash';
 import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
@@ -22,6 +23,7 @@ import {
   sceneState,
   wktTextState,
 } from './atomState';
+import useGlobal from './global';
 
 type IFeature = Feature<
   Geometry | GeometryCollection,
@@ -36,7 +38,7 @@ export default function useFeature() {
   const [savedText, setSavedText] = useRecoilState(savedTextState);
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
-
+  const { convert } = useGlobal();
   const [wktText, setWktText] = useRecoilState(wktTextState);
 
   const [scene, setScene] = useRecoilState(sceneState);
@@ -46,9 +48,37 @@ export default function useFeature() {
   }, [editorText, savedText]);
 
   const setFeatures = (f: Feature[]) => {
+    let newFeatures: Feature[] = [];
+    if (convert === 'notConvert') {
+      newFeatures = f;
+    } else if (convert === 'GCJ02') {
+      const feature = gcoord.transform(
+        //@ts-ignore
+        {
+          type: 'FeatureCollection',
+          features: f,
+        },
+        gcoord.WGS84,
+        gcoord.GCJ02,
+      );
+      //@ts-ignore
+      newFeatures = feature.features;
+    } else {
+      const feature = gcoord.transform(
+        //@ts-ignore
+        {
+          type: 'FeatureCollection',
+          features: f,
+        },
+        gcoord.GCJ02,
+        gcoord.WGS84,
+      );
+      //@ts-ignore
+      newFeatures = feature.features;
+    }
     _setFeatures(
       // @ts-ignore
-      cloneDeep(f).map((feature, featureIndex) => {
+      cloneDeep(newFeatures).map((feature, featureIndex) => {
         feature.properties = {
           ...feature.properties,
           [FeatureKey.Index]: featureIndex,
@@ -81,6 +111,7 @@ export default function useFeature() {
     if (editorText || value) {
       try {
         newFeatures = transformFeatures(value ?? editorText);
+        console.log(newFeatures, 'sadasad');
         if (value) {
           setEditorText(value);
         }
@@ -98,6 +129,7 @@ export default function useFeature() {
 
   const resetFeatures = (newFeatures: IFeature) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
+    console.log(newFeatures, 'xzcxzcxz');
     setEditorText(newText);
     setSavedText(newText);
     setFeatures(newFeatures);

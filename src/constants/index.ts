@@ -15,6 +15,7 @@ export enum LocalStorageKey {
   BaseMap = 'BaseMap',
   LayerTypes = 'LayerTypes',
   WktText = 'WktText',
+  Convert = 'Convert',
 }
 
 export enum LayerId {

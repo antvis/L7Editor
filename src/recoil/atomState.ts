@@ -117,6 +117,12 @@ const layerTypeState = atom<string[]>({
   effects: [localStorageEffect(LocalStorageKey.LayerTypes)],
 });
 
+const convertState = atom<string>({
+  key: 'convert',
+  default: 'notConvert',
+  effects: [localStorageEffect(LocalStorageKey.Convert)],
+});
+
 export {
   featureState,
   filterState,
@@ -136,4 +142,5 @@ export {
   isDrawState,
   layerTypeState,
   wktTextState,
+  convertState,
 };

@@ -1,13 +1,20 @@
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
+import { Button, Form, Modal, Radio, Select, Switch, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { useGlobal } from '../../../recoil';
 
 export const SettingBtn = () => {
-  const { baseMap, setBaseMap } = useGlobal();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { popupTrigger, setPopupTrigger, autoFitBounds, setAutoFitBounds } =
-    useGlobal();
+  const {
+    baseMap,
+    setBaseMap,
+    popupTrigger,
+    setPopupTrigger,
+    autoFitBounds,
+    setAutoFitBounds,
+    convert,
+    setConvert,
+  } = useGlobal();
 
   const [form] = Form.useForm();
 
@@ -46,13 +53,19 @@ export const SettingBtn = () => {
       >
         <Form
           form={form}
-          initialValues={{ popupTrigger, autoFitBounds, baseMap }}
+          initialValues={{
+            popupTrigger,
+            autoFitBounds,
+            baseMap,
+            convertData: convert,
+          }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
             setBaseMap(e.baseMap);
+            setConvert(e.convertData);
             window.location.reload();
           }}
         >
@@ -76,6 +89,16 @@ export const SettingBtn = () => {
               <Radio.Button value="Gaode">高德</Radio.Button>
               <Radio.Button value="Mapbox">Mapbox</Radio.Button>
             </Radio.Group>
+          </Form.Item>
+          <Form.Item name="convertData" label="数据转换">
+            <Select
+              style={{ width: 160, textAlign: 'center' }}
+              options={[
+                { value: 'GCJ02', label: 'WGS84 转 GCJ02' },
+                { value: 'WGS84', label: 'GCJ02 转 WGS84' },
+                { value: 'notConvert', label: '不转换' },
+              ]}
+            />
           </Form.Item>
         </Form>
       </Modal>
