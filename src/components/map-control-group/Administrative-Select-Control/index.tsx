@@ -55,8 +55,10 @@ export const AdministrativeSelect = () => {
   }, []);
 
   const onChange = (value: string[], option: any) => {
-    console.log(option);
     setChangeData(option);
+    if (!option) {
+      setDistrictFeature(null);
+    }
   };
 
   const onDropdownVisibleChange = (open: boolean) => {
@@ -72,7 +74,7 @@ export const AdministrativeSelect = () => {
             const [lng, lat] = (res.districts[0].center as string)
               .split(',')
               .map((item) => +item);
-            scene.setZoomAndCenter(11, [lng, lat]);
+            scene.setZoomAndCenter(9, [lng, lat]);
             const positions: number[][][] = [];
 
             res.districts.forEach((district: any) => {
@@ -90,9 +92,6 @@ export const AdministrativeSelect = () => {
         .catch(() => {
           message.error('围栏数据请求失败');
         });
-    }
-    if (!open && !changeData) {
-      setDistrictFeature(null);
     }
   };
 
