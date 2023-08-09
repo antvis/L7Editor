@@ -6,12 +6,12 @@ import { IFeature, LngLatImportType } from '.';
 export type EditorConfigProps = {
   /**
    * 图层颜色
-   * @default #1677ff
+   * @default '#1677ff'
    */
   primaryColor?: string;
   /**
    * 地图
-   * @default Gaode
+   * @default 'Gaode'
    */
   baseMap: 'Gaode' | 'Mapbox';
   /**
@@ -31,17 +31,17 @@ export type EditorConfigProps = {
   autoFitBounds?: boolean;
   /**
    * 图层popup触发方式
-   * @default click
+   * @default 'click'
    */
   popupTrigger?: 'click' | 'hover';
   /**
    * panel 展示tab
-   * @default code
+   * @default 'code'
    */
   activeTab?: 'code' | 'table';
   /**
    * lnglatType
-   * @default Point
+   * @default 'Point'
    */
   lnglatType?: LngLatImportType;
   /**

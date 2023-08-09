@@ -1,14 +1,8 @@
-import {
-  AimOutlined,
-  ClearOutlined,
-  FlagOutlined,
-  SaveOutlined,
-} from '@ant-design/icons';
+import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, Popconfirm, Tour, TourProps } from 'antd';
-import React, { useMemo, useState } from 'react';
+import { Button, Dropdown, Tour, TourProps } from 'antd';
+import React, { useState } from 'react';
 import { useFeature, useGlobal } from '../../recoil';
-import { prettierText } from '../../utils/prettier-text';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import { ImportBtn } from './btn/import-btn';
@@ -24,7 +18,7 @@ type openType = {
 export const AppHeader: React.FC = () => {
   const [open, setOpen] = useState<openType>({ key: '', open: false });
   const { autoFitBounds } = useGlobal();
-  const { saveEditorText, savable, bboxAutoFit, features } = useFeature();
+  const { saveEditorText, savable, bboxAutoFit } = useFeature();
   const styles = useStyle();
 
   const onSave = () => {
@@ -41,10 +35,6 @@ export const AppHeader: React.FC = () => {
     e.preventDefault();
     onSave();
   });
-
-  const featureDisabled = useMemo(() => {
-    return !features.length && !savable;
-  }, [features, savable]);
 
   const steps: TourProps['steps'] = [
     {
@@ -194,8 +184,7 @@ export const AppHeader: React.FC = () => {
           className={styles.mapHeaderLogo}
           src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original"
         />
-        <span 
-          className={styles.mapHeaderTitle}>L7Editor</span>
+        <span className={styles.mapHeaderTitle}>L7Editor</span>
         <ImportBtn />
         <Button
           id="l7-editor-driver-save"
@@ -204,34 +193,6 @@ export const AppHeader: React.FC = () => {
           onClick={onSave}
         >
           保存
-        </Button>
-        <Popconfirm
-          title="确认清空所有数据？"
-          onConfirm={() => {
-            saveEditorText(
-              prettierText({
-                content: { type: 'FeatureCollection', features: [] },
-              }),
-            );
-          }}
-        >
-          <Button
-            id="l7-editor-driver-clear"
-            icon={<ClearOutlined />}
-            disabled={featureDisabled}
-          >
-            清除
-          </Button>
-        </Popconfirm>
-        <Button
-          id="l7-editor-driver-auto"
-          disabled={featureDisabled}
-          icon={<AimOutlined />}
-          onClick={() => {
-            bboxAutoFit();
-          }}
-        >
-          自动缩放
         </Button>
       </div>
       <div className={styles.mapHeaderRight}>

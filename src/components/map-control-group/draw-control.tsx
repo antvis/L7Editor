@@ -1,4 +1,3 @@
-import { EditOutlined } from '@ant-design/icons';
 import {
   ControlEvent,
   DrawControl as L7DrawControl,
@@ -19,7 +18,6 @@ const DrawControl = () => {
   const scene = useScene();
   const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
   const { setIsDraw, resetFeatures, features } = useFeature();
   const { layerColor } = useGlobal();
   const editFeature = useMemo(
@@ -39,11 +37,11 @@ const DrawControl = () => {
       newDrawControl = new L7DrawControl(scene, {
         position: 'topleft',
         drawConfig: {
-          point: isVisible,
-          line: isVisible,
-          polygon: isVisible,
-          rect: isVisible,
-          circle: isVisible,
+          point: true,
+          line: true,
+          polygon: true,
+          rect: true,
+          circle: true,
         },
         commonDrawOptions: {
           maxCount: 1,
@@ -65,7 +63,7 @@ const DrawControl = () => {
         scene.removeControl(newDrawControl);
       }
     };
-  }, [scene, layerColor, isVisible]);
+  }, [scene, layerColor]);
 
   const onDrawAdd = useCallback(
     (drawType: DrawType, newFeature: Feature) => {
@@ -141,23 +139,8 @@ const DrawControl = () => {
   }, [editFeature, drawControl]);
 
   return (
-    <CustomControl position="topleft">
+    <CustomControl position="topright">
       <div style={{ display: 'flex' }} id="l7-editor-driver-draw">
-        <div className={styles.l7DrawSwitch}>
-          <button
-            type="button"
-            className="l7-draw-control__btn"
-            style={{ borderRight: 'none' }}
-          >
-            <EditOutlined
-              // className="l7-draw-icon"
-              style={{ fontSize: 16, lineHeight: '30px' }}
-              onClick={() => {
-                setIsVisible(!isVisible);
-              }}
-            />
-          </button>
-        </div>
         <div className={styles.l7DrawControl}>
           <div id="l7-draw-content" />
         </div>

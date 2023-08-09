@@ -46,13 +46,17 @@ const useStyle = () => {
       margin-bottom: 10px;
     `,
     l7FilterSwitch: css`
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       text-align: center;
       background: ${colorBgContainer};
       box-shadow: ${boxShadow} !important;
       font-size: 16px;
       cursor: pointer;
+      .l7-draw-control__btn {
+        width: 28px !important;
+        height: 28px !important;
+      }
     `,
     l7FilterPanel: css`
       position: relative;
@@ -102,7 +106,38 @@ const useStyle = () => {
     l7DrawControl: css`
       .l7-draw-control {
         box-shadow: ${boxShadow} !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 0 !important;
+        .l7-draw-control__btn {
+          border-bottom: 1px solid #e0e0e0;
+        }
       }
+    `,
+    clear: css`
+      width: 30px;
+      height: 30px;
+      line-height: 34px;
+      text-align: center;
+      border-radius: 2px;
+      background-color: ${colorBgContainer};
+      box-shadow: ${boxShadow} !important;
+      cursor: pointer;
+      &:hover {
+        background-color: #dddfe0;
+      }
+    `,
+    clearSvg: css`
+      font-size: 16px;
+    `,
+    auto: css`
+    .ant-btn{
+      border-radius: 4px;
+    }
+    .ant-btn-default:disabled {
+      background-color: #c2c2c2; !important;
+    }
     `,
     l7ButtonControl: css`
       min-width: auto;

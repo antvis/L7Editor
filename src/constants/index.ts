@@ -14,6 +14,8 @@ export enum LocalStorageKey {
   AutoFitBounds = 'AutoFitBounds',
   BaseMap = 'BaseMap',
   LayerTypes = 'LayerTypes',
+  WktText = 'WktText',
+  Convert = 'Convert',
 }
 
 export enum LayerId {
