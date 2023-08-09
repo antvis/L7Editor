@@ -10,6 +10,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import React, { useEffect, useState } from 'react';
 import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';
+import './style.less';
 
 const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
   shape: 'line',
@@ -113,6 +114,7 @@ export const AdministrativeSelect = () => {
         placeholder="请选择市、县"
         onDropdownVisibleChange={onDropdownVisibleChange}
         changeOnSelect
+        style={{ width: 250 }}
       />
 
       <LineLayer
