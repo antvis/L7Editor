@@ -1,6 +1,11 @@
 import { CaretDownOutlined, CloseOutlined } from '@ant-design/icons';
-import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
-import { Feature, featureCollection, LineString, lineString } from '@turf/turf';
+import { LineLayer, LineLayerProps } from '@antv/larkmap';
+import {
+  Feature,
+  featureCollection,
+  MultiLineString,
+  multiLineString,
+} from '@turf/turf';
 import { Button, message, Popover, Select, Spin, Tabs } from 'antd';
 import cls from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -23,7 +28,7 @@ const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
   },
 };
 
-export const AdministrativeSelectControl = () => {
+export const AdministrativeSelect = () => {
   const { scene } = useFeature();
   const style = useStyle();
   const [cityName, setCityName] = useState('全国');
@@ -32,7 +37,7 @@ export const AdministrativeSelectControl = () => {
   const [cityData, setCityData] = useState<IData>();
   const [selectCity, setSelectCity] = useState<ICity | null>(null);
   const [districtFeature, setDistrictFeature] =
-    useState<Feature<LineString> | null>(null);
+    useState<Feature<MultiLineString> | null>(null);
 
   useEffect(() => {
     fetch(CityUrl)
@@ -61,8 +66,9 @@ export const AdministrativeSelectControl = () => {
         return;
       }
       setLoading(true);
+      const name = selectCity.name.replace(/[省市]$/, '');
       fetch(
-        `https://restapi.amap.com/v3/config/district?keywords=${selectCity.name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
+        `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
       )
         .then((res) => res.json())
         .then((res) => {
@@ -71,10 +77,19 @@ export const AdministrativeSelectControl = () => {
               .split(',')
               .map((item) => +item);
             scene.setZoomAndCenter(11, [lng, lat]);
-            const positions = (res.districts[0].polyline as string)
-              .split(';')
-              .map((item) => item.split(',').map((num) => +num));
-            setDistrictFeature(lineString(positions));
+            const positions: number[][][] = [];
+
+            res.districts.forEach((district: any) => {
+              (district.polyline as string).split('|').forEach((chunk) => {
+                positions.push(
+                  chunk
+                    .split(';')
+                    .map((item) => item.split(',').map((num) => +num)),
+                );
+              });
+            });
+
+            setDistrictFeature(multiLineString(positions));
           }
         })
         .catch(() => {
@@ -191,34 +206,32 @@ export const AdministrativeSelectControl = () => {
 
   return (
     <>
-      <CustomControl position={'topleft'} className={CLS_PREFIX}>
-        <Popover
-          overlayClassName={cls(`${CLS_PREFIX}__popover`, style.popover)}
-          placement={'right'}
-          title={getTitle()}
-          content={content}
-          open={open}
-          onOpenChange={setOpen}
-          trigger="click"
-          destroyTooltipOnHide
-        >
-          <Spin spinning={loading}>
-            <div className={cls(`${CLS_PREFIX}`, style.popoverContent)}>
-              <div className={cls(`${CLS_PREFIX}__title`, style.popoverTitle)}>
-                <div
-                  className={cls(
-                    `${CLS_PREFIX}__title-name`,
-                    style.popoverTitleName,
-                  )}
-                >
-                  {cityName.replace('市', '').replace('省', '')}
-                </div>
-                <CaretDownOutlined rotate={open ? 180 : 0} />
+      <Popover
+        overlayClassName={cls(`${CLS_PREFIX}__popover`, style.popover)}
+        placement={'bottom'}
+        title={getTitle()}
+        content={content}
+        open={open}
+        onOpenChange={setOpen}
+        trigger="click"
+        destroyTooltipOnHide
+      >
+        <Spin spinning={loading}>
+          <div className={cls(`${CLS_PREFIX}`, style.popoverContent)}>
+            <div className={cls(`${CLS_PREFIX}__title`, style.popoverTitle)}>
+              <div
+                className={cls(
+                  `${CLS_PREFIX}__title-name`,
+                  style.popoverTitleName,
+                )}
+              >
+                {cityName.replace('市', '').replace('省', '')}
               </div>
+              <CaretDownOutlined rotate={open ? 180 : 0} />
             </div>
-          </Spin>
-        </Popover>
-      </CustomControl>
+          </div>
+        </Spin>
+      </Popover>
 
       <LineLayer
         source={{

@@ -115,8 +115,8 @@ export const AppHeader: React.FC = () => {
       target: () => document.getElementById('l7-editor-driver-clear')!,
     },
     {
-      title: '智能缩放',
-      description: '点击智能缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
+      title: '自动缩放',
+      description: '点击自动缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
       target: () => document.getElementById('l7-editor-driver-auto')!,
     },
     {
@@ -192,8 +192,10 @@ export const AppHeader: React.FC = () => {
       <div className={styles.mapHeaderLeft}>
         <img
           className={styles.mapHeaderLogo}
-          src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*baTHQ5Z-p_gAAAAAAAAAAAAADmJ7AQ/original"
+          src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original"
         />
+        <span 
+          className={styles.mapHeaderTitle}>L7Editor</span>
         <ImportBtn />
         <Button
           id="l7-editor-driver-save"
@@ -229,7 +231,7 @@ export const AppHeader: React.FC = () => {
             bboxAutoFit();
           }}
         >
-          智能缩放
+          自动缩放
         </Button>
       </div>
       <div className={styles.mapHeaderRight}>
