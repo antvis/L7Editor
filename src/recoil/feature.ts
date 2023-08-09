@@ -49,15 +49,16 @@ export default function useFeature() {
 
   const setFeatures = (f: Feature[]) => {
     let newFeatures: Feature[] = [];
+    const geoJson = {
+      type: 'FeatureCollection',
+      features: f,
+    };
     if (convert === 'notConvert') {
       newFeatures = f;
     } else if (convert === 'GCJ02') {
       const feature = gcoord.transform(
         //@ts-ignore
-        {
-          type: 'FeatureCollection',
-          features: f,
-        },
+        geoJson,
         gcoord.WGS84,
         gcoord.GCJ02,
       );
@@ -66,10 +67,7 @@ export default function useFeature() {
     } else {
       const feature = gcoord.transform(
         //@ts-ignore
-        {
-          type: 'FeatureCollection',
-          features: f,
-        },
+        geoJson,
         gcoord.GCJ02,
         gcoord.WGS84,
       );
