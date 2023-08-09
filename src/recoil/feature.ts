@@ -111,7 +111,6 @@ export default function useFeature() {
     if (editorText || value) {
       try {
         newFeatures = transformFeatures(value ?? editorText);
-        console.log(newFeatures, 'sadasad');
         if (value) {
           setEditorText(value);
         }
@@ -129,7 +128,6 @@ export default function useFeature() {
 
   const resetFeatures = (newFeatures: IFeature) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
-    console.log(newFeatures, 'xzcxzcxz');
     setEditorText(newText);
     setSavedText(newText);
     setFeatures(newFeatures);
