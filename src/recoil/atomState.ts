@@ -55,6 +55,12 @@ const editorTextState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.EditorText)],
 });
 
+const wktTextState = atom<string>({
+  key: 'wktText',
+  default: '',
+  effects: [localStorageEffect(LocalStorageKey.WktText)],
+});
+
 const lnglatTypeState = atom<LngLatImportType>({
   key: 'lnglatType',
 });
@@ -129,4 +135,5 @@ export {
   baseMapState,
   isDrawState,
   layerTypeState,
+  wktTextState,
 };

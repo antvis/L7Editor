@@ -14,6 +14,7 @@ import {
 } from './components';
 import { AppEditor } from './components/app-editor';
 import { AppTable } from './components/app-table';
+import { WktEditor } from './components/wkt-editor';
 import { PrimaryColor } from './constants';
 import {
   activeTabState,
@@ -70,12 +71,17 @@ const L7Editor = (props: L7EditorProps) => {
     {
       key: 'table',
       label: (
-        <div id='l7-editor-driver-table'>
+        <div id="l7-editor-driver-table">
           <TableOutlined style={{ marginLeft: 5 }} />
           表格
         </div>
       ),
       children: <AppTable />,
+    },
+    {
+      key: 'wkt',
+      label: <div>wkt编辑器</div>,
+      children: <WktEditor />,
     },
   ];
 
