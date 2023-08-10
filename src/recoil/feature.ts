@@ -7,7 +7,6 @@ import {
   getType,
 } from '@turf/turf';
 import { message } from 'antd';
-import gcoord from 'gcoord';
 import { cloneDeep, flatMap, max, min } from 'lodash';
 import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
@@ -48,35 +47,9 @@ export default function useFeature() {
   }, [editorText, savedText]);
 
   const setFeatures = (f: Feature[]) => {
-    let newFeatures: Feature[] = [];
-    const geoJson = {
-      type: 'FeatureCollection',
-      features: f,
-    };
-    if (convert === 'notConvert') {
-      newFeatures = f;
-    } else if (convert === 'GCJ02') {
-      const feature = gcoord.transform(
-        //@ts-ignore
-        geoJson,
-        gcoord.WGS84,
-        gcoord.GCJ02,
-      );
-      //@ts-ignore
-      newFeatures = feature.features;
-    } else {
-      const feature = gcoord.transform(
-        //@ts-ignore
-        geoJson,
-        gcoord.GCJ02,
-        gcoord.WGS84,
-      );
-      //@ts-ignore
-      newFeatures = feature.features;
-    }
     _setFeatures(
       // @ts-ignore
-      cloneDeep(newFeatures).map((feature, featureIndex) => {
+      cloneDeep(f).map((feature, featureIndex) => {
         feature.properties = {
           ...feature.properties,
           [FeatureKey.Index]: featureIndex,
