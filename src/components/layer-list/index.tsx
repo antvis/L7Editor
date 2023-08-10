@@ -12,7 +12,7 @@ import gcoord from 'gcoord';
 import { cloneDeep, groupBy } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
-import { useFilterFeature } from '../../hooks/useFilterFeature';
+import { Features, useFilterFeature } from '../../hooks/useFilterFeature';
 import { useGlobal } from '../../recoil';
 import { getPointImage } from '../../utils/change-image-color';
 
@@ -21,56 +21,26 @@ export const LayerList: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
   const { layerColor, convert } = useGlobal();
   const { newFeatures } = useFilterFeature();
+  const [features, setFeatures] = useState<Features[]>([]);
 
   useEffect(() => {
     if (newFeatures.length) {
-      debugger;
-      const data = newFeatures.map((item) => {
-        const { geometry } = item;
-        console.log(item.geometry);
-        const geometrys = gcoord.transform(
-          //@ts-ignore
-          geometry,
-          gcoord.WGS84,
-          gcoord.GCJ02,
-        );
-        return { geometrys };
-      });
-      console.log(data);
+      if (convert !== 'notConvert') {
+        const data = newFeatures.map((item) => {
+          const newItem = gcoord.transform(
+            //@ts-ignore
+            cloneDeep(item),
+            convert === 'GCJ02' ? gcoord.WGS84 : gcoord.GCJ02,
+            convert === 'GCJ02' ? gcoord.GCJ02 : gcoord.WGS84,
+          );
+          return newItem;
+        });
+        //@ts-ignore
+        setFeatures(data);
+      } else {
+        setFeatures(newFeatures);
+      }
     }
-
-    // if (newFeatures.length) {
-    //   let Features = [];
-    //   console.log(newFeatures);
-    //   // const geoJson = { type: 'FeatureCollection', features: newFeatures };
-    //   let geoJson = {
-    //     type: 'Point',
-    //     coordinates: [116.266764, 42.110788],
-    //   };
-    //   console.log(geoJson, 121312);
-    //   if (convert === 'notConvert') {
-    //     Features = newFeatures;
-    //   } else if (convert === 'GCJ02') {
-    //     gcoord.transform(
-    //       //@ts-ignore
-    //       geoJson,
-    //       gcoord.WGS84,
-    //       gcoord.GCJ02,
-    //     );
-    //     //@ts-ignore
-    //     Features = geoJson;
-    //   } else {
-    //     gcoord.transform(
-    //       //@ts-ignore
-    //       geoJson,
-    //       gcoord.GCJ02,
-    //       gcoord.WGS84,
-    //     );
-    //     //@ts-ignore
-    //     Features = geoJson;
-    //   }
-    //   console.log(Features, 'sadsadas');
-    // }
   }, [newFeatures]);
 
   const [
@@ -83,7 +53,7 @@ export const LayerList: React.FC = () => {
       LineString: lineStringList = [],
       Point: pointList = [],
     }: Record<string, Feature[]> = groupBy(
-      cloneDeep(newFeatures).filter((feature) => {
+      cloneDeep(features).filter((feature) => {
         // @ts-ignore
         return !feature.properties?.[FeatureKey.IsEdit];
       }),
@@ -95,7 +65,7 @@ export const LayerList: React.FC = () => {
         data: { type: 'FeatureCollection', features },
       };
     });
-  }, [newFeatures]);
+  }, [features]);
 
   useAsyncEffect(async () => {
     const newLayerColor = Color(layerColor).rgb().object();
