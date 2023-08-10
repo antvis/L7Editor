@@ -111,7 +111,7 @@ export const AdministrativeSelect = () => {
         onChange={onChange}
         allowClear
         showSearch={{ filter }}
-        placeholder="请选择市、县"
+        placeholder="可选择省/市/县"
         onDropdownVisibleChange={onDropdownVisibleChange}
         changeOnSelect
         style={{ width: 250 }}
