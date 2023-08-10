@@ -40,6 +40,8 @@ export const LayerList: React.FC = () => {
       } else {
         setFeatures(newFeatures);
       }
+    } else {
+      setFeatures([]);
     }
   }, [newFeatures]);
 
