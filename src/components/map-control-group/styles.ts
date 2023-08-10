@@ -118,7 +118,7 @@ const useStyle = () => {
     clear: css`
       width: 30px;
       height: 30px;
-      line-height: 34px;
+      line-height: 41px;
       text-align: center;
       border-radius: 2px;
       background-color: ${colorBgContainer};
@@ -129,7 +129,7 @@ const useStyle = () => {
       }
     `,
     clearSvg: css`
-      font-size: 16px;
+      font-size: 24px;
     `,
     auto: css`
     .ant-btn{

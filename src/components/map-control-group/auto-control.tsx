@@ -1,6 +1,6 @@
-import { AimOutlined } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import React from 'react';
+import { IconFont } from '../../constants';
 import { useFeature } from '../../recoil';
 import useStyle from './styles';
 
@@ -18,7 +18,7 @@ export const AutoControl = () => {
             bboxAutoFit();
           }}
         >
-          <AimOutlined />
+          <IconFont type="icon-suofang" className={styles.l7AmapControl} />
         </button>
       </div>
     </CustomControl>
