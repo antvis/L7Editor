@@ -11,6 +11,7 @@ const useStyle = () => {
     colorBorderSecondary,
     colorFillContentHover,
     colorInfoHover,
+    colorIcon,
   } = token;
   return {
     resizePanel: css`
@@ -57,6 +58,7 @@ const useStyle = () => {
       .anticon {
         transition: all 0.2s;
       }
+      color: ${colorIcon};
     `,
   };
 };

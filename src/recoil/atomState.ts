@@ -123,6 +123,12 @@ const convertState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.Convert)],
 });
 
+const themeState = atom<string>({
+  key: 'theme',
+  default: 'norm',
+  effects: [localStorageEffect(LocalStorageKey.theme)],
+});
+
 export {
   featureState,
   filterState,
@@ -143,4 +149,5 @@ export {
   layerTypeState,
   wktTextState,
   convertState,
+  themeState,
 };

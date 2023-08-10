@@ -115,6 +115,7 @@ export const AdministrativeSelect = () => {
         placeholder="可选择省/市/县"
         changeOnSelect
         style={{ width: 250 }}
+        open
       />
 
       <LineLayer

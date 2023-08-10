@@ -10,6 +10,7 @@ import {
   mapOptionState,
   popupTriggerState,
   rightWidthState,
+  themeState,
 } from './atomState';
 
 export default function useGlobal() {
@@ -33,6 +34,8 @@ export default function useGlobal() {
 
   const [convert, setConvert] = useRecoilState(convertState);
 
+  const [theme, setTheme] = useRecoilState(themeState);
+
   return {
     rightWidth,
     setRightWidth,
@@ -54,5 +57,7 @@ export default function useGlobal() {
     setLayerType,
     convert,
     setConvert,
+    theme,
+    setTheme,
   };
 }

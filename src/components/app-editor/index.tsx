@@ -1,4 +1,3 @@
-import { useFeature } from '../../recoil';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
@@ -9,6 +8,7 @@ import React, {
   useState,
 } from 'react';
 import MonacoEditor from 'react-monaco-editor';
+import { useFeature, useGlobal } from '../../recoil';
 import { isPromise } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
 import { provideCompletionItems } from './editortool';
@@ -23,6 +23,7 @@ type EditorProps = {
 
 export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const { language = 'json' } = props;
+  const { theme } = useGlobal();
   const { editorText, setEditorText } = useFeature();
   const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
@@ -122,7 +123,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
         language={language}
         {...value}
         onChange={monacoChange}
-        theme="custome-theme"
+        theme={theme === 'norm' ? 'custome-theme' : 'vs-dark'}
         options={{
           selectOnLineNumbers: true,
           tabIndex: 2,

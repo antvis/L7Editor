@@ -1,6 +1,6 @@
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, Tour, TourProps } from 'antd';
+import { Button, Dropdown, Switch, Tour, TourProps } from 'antd';
 import React, { useState } from 'react';
 import { useFeature, useGlobal } from '../../recoil';
 import DownloadBtn from './btn/download-btn';
@@ -17,7 +17,7 @@ type openType = {
 
 export const AppHeader: React.FC = () => {
   const [open, setOpen] = useState<openType>({ key: '', open: false });
-  const { autoFitBounds } = useGlobal();
+  const { autoFitBounds, theme, setTheme } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
   const styles = useStyle();
 
@@ -209,6 +209,14 @@ export const AppHeader: React.FC = () => {
         </Dropdown>
         <HandBackBtn />
         <SettingBtn />
+        <Switch
+          checkedChildren="光"
+          unCheckedChildren="暗"
+          defaultChecked={theme === 'norm' ? true : false}
+          onChange={(checked: boolean) => {
+            setTheme(checked ? 'norm' : 'dark');
+          }}
+        />
       </div>
       <Tour
         open={open.open}
