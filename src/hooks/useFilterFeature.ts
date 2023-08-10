@@ -1,8 +1,8 @@
-import { useFeature, useFilter } from '../recoil';
 import { Feature, Geometry, GeometryCollection } from '@turf/turf';
 import { isEmpty, isUndefined } from 'lodash';
 import { useEffect } from 'react';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useFeature, useFilter } from '../recoil';
 import { FilterNode } from './../types/filter';
 
 export function isEmptyFilter(filter: FilterNode) {
@@ -54,7 +54,10 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
   }
 }
 
-type Features = Feature<Geometry | GeometryCollection, Record<string, any>>;
+export type Features = Feature<
+  Geometry | GeometryCollection,
+  Record<string, any>
+>;
 
 export const filterFeatures = atom<Features[]>({
   key: 'filterFeature',
