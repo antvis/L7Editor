@@ -115,7 +115,6 @@ export const AdministrativeSelect = () => {
         changeOnSelect
         style={{ width: 250 }}
         popupClassName={styles.cascaderPopup}
-        open
       />
 
       <LineLayer
