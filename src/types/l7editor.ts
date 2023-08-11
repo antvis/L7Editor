@@ -47,7 +47,7 @@ export type EditorConfigProps = {
    * 底图选择
    * @default []
    */
-  LayerTypes?: string[];
+  officialLayers?: string[];
   /**
    * 右侧面板是否隐藏
    * @default false
@@ -60,9 +60,9 @@ export type EditorConfigProps = {
   tabs?: TabsProps['items'];
   /**
    * 主题配色
-   * @default 'officialLayers'
+   * @default 'normal'
    */
-  theme?: 'officialLayers' | 'dark';
+  theme?: 'normal' | 'dark';
   /**
    * 数据转换
    * @default 'undefined'

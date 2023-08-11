@@ -115,18 +115,18 @@ const activeTabState = atom<'geojson' | 'table' | 'wkt'>({
 const layerTypeState = atom<string[]>({
   key: 'layerType',
   default: [],
-  effects: [localStorageEffect(LocalStorageKey.LayerTypes)],
+  effects: [localStorageEffect(LocalStorageKey.officialLayers)],
 });
 
 const convertState = atom<string>({
   key: 'coordConvert',
-  default: 'undefined',
+  default: 'GCJ02',
   effects: [localStorageEffect(LocalStorageKey.Convert)],
 });
 
 const themeState = atom<string>({
   key: 'theme',
-  default: 'officialLayers',
+  default: 'normal',
   effects: [localStorageEffect(LocalStorageKey.theme)],
 });
 

@@ -14,7 +14,7 @@ export enum LocalStorageKey {
   ActiveRightTabKey = 'ActiveRightTabKey',
   AutoFitBounds = 'AutoFitBounds',
   BaseMap = 'BaseMap',
-  LayerTypes = 'LayerTypes',
+  officialLayers = 'officialLayers',
   WktText = 'WktText',
   Convert = 'Convert',
   theme = "theme"

@@ -57,7 +57,7 @@ export const Editor: React.FC<L7EditorProps> = ({
   }, [editorConfig?.tabs]);
 
   useEffect(() => {
-    if (antdTheme === 'officialLayers') {
+    if (antdTheme === 'normal') {
       setMapOptions({ ...mapOptions, style: 'normal' });
     } else {
       setMapOptions({ ...mapOptions, style: 'dark' });
@@ -69,7 +69,7 @@ export const Editor: React.FC<L7EditorProps> = ({
       locale={zhCN}
       theme={{
         algorithm:
-          antdTheme === 'officialLayers'
+          antdTheme === 'normal'
             ? theme.defaultAlgorithm
             : theme.darkAlgorithm,
       }}

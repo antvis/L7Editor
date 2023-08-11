@@ -19,27 +19,38 @@ import { getPointImage } from '../../utils/change-image-color';
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
-  const { layerColor, coordConvert } = useGlobal();
+  const { layerColor, coordConvert, baseMap } = useGlobal();
   const { newFeatures } = useFilterFeature();
   const [features, setFeatures] = useState<Features[]>([]);
 
   useEffect(() => {
     if (newFeatures.length) {
-      if (coordConvert !== 'undefined') {
-        const data = newFeatures.map((item) => {
+      let data = newFeatures;
+      if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
+        //@ts-ignore
+        data = newFeatures.map((item) => {
           const newItem = gcoord.transform(
             //@ts-ignore
             cloneDeep(item),
-            coordConvert === 'GCJ02' ? gcoord.WGS84 : gcoord.GCJ02,
-            coordConvert === 'GCJ02' ? gcoord.GCJ02 : gcoord.WGS84,
+            gcoord.WGS84,
+            gcoord.GCJ02,
           );
           return newItem;
         });
         //@ts-ignore
-        setFeatures(data);
-      } else {
-        setFeatures(newFeatures);
+      } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
+        //@ts-ignore
+        data = newFeatures.map((item) => {
+          const newItem = gcoord.transform(
+            //@ts-ignore
+            cloneDeep(item),
+            gcoord.GCJ02,
+            gcoord.WGS84,
+          );
+          return newItem;
+        });
       }
+      setFeatures(data);
     } else {
       setFeatures([]);
     }

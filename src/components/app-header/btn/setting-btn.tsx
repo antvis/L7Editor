@@ -1,5 +1,5 @@
 import { SettingOutlined } from '@ant-design/icons';
-import { Button, Form, Modal, Radio, Select, Switch, Tooltip } from 'antd';
+import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { useGlobal } from '../../../recoil';
 
@@ -64,9 +64,19 @@ export const SettingBtn = () => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
-            setBaseMap(e.baseMap);
             setConvert(e.convertData);
+            setBaseMap(e.baseMap);
             window.location.reload();
+          }}
+          onValuesChange={(e) => {
+            if (e?.baseMap === 'Gaode') {
+              form.setFieldValue('convertData', 'GCJ02');
+            } else {
+              form.setFieldValue('convertData', 'WGS84');
+            }
+            if (e.convertData) {
+              form.setFieldValue('convertData', e.convertData);
+            }
           }}
         >
           <Form.Item name="popupTrigger" label="图层气泡展示方式">
@@ -90,15 +100,11 @@ export const SettingBtn = () => {
               <Radio.Button value="Mapbox">Mapbox</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="convertData" label="地理坐标系转换">
-            <Select
-              style={{ width: 160, textAlign: 'center' }}
-              options={[
-                { value: 'undefined', label: '无' },
-                { value: 'GCJ02', label: 'WGS84 转 GCJ02' },
-                { value: 'WGS84', label: 'GCJ02 转 WGS84' },
-              ]}
-            />
+          <Form.Item name="convertData" label="经纬度坐标系">
+            <Radio.Group>
+              <Radio.Button value="GCJ02">GCJ02</Radio.Button>
+              <Radio.Button value="WGS84">WGS84</Radio.Button>
+            </Radio.Group>
           </Form.Item>
         </Form>
       </Modal>

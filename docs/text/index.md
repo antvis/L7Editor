@@ -22,9 +22,9 @@ title: L7Editor文档
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
 | activeTab | 侧面板展示 | `'geojson'｜'table'` | `wkt` |
 | features | 初始化数据 | `FeatureCollection` | `-` |
-| layerTypes | 底图选择 | `string[]` | `[]` |
+| officialLayers | 底图选择 | `string[]` | `[]` |
 | tabs | 右侧标签页 | `absProps['items']` 详见[antd](https://ant.design/components/tabs-cn/#tabs) | `[]` |
-| theme | 主题配置 | `'officialLayers' ｜ 'dark'` | `'officialLayers'` |
+| theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'undefined'｜'GCJ02'｜'WGS84'` | `undefined` |
 
 #### `layerType`

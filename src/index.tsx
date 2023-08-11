@@ -39,10 +39,10 @@ const L7Editor = (props: L7EditorProps) => {
       set(autoFitBoundsState, !editorConfig?.autoFitBounds);
       set(popupTriggerState, editorConfig?.popupTrigger ?? 'click');
       set(activeTabState, editorConfig?.activeTab ?? 'geojson');
-      set(layerTypeState, editorConfig?.LayerTypes ?? []);
+      set(layerTypeState, editorConfig?.officialLayers ?? []);
       set(hideEditorState, editorConfig?.hidePanel ?? false);
-      set(themeState, editorConfig?.theme ?? 'officialLayers');
-      set(convertState, editorConfig?.coordConvert ?? 'undefined');
+      set(themeState, editorConfig?.theme ?? 'normal');
+      set(convertState, editorConfig?.coordConvert ?? 'GCJ02');
     };
   }, [editorConfig]);
 
