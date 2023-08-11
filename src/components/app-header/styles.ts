@@ -19,7 +19,7 @@ const useStyle = () => {
       z-index: 1;
       .ant-btn {
         border: 0;
-        margin-left: 8px;
+        margin-right: 8px;
       }
     `,
     mapHeaderLogo: css`

@@ -60,47 +60,41 @@ export const AdministrativeSelect = () => {
       });
   }, []);
 
-  const onChange = debounce(
-    (value: string[], option: any) => {
-      if (option) {
-        const data = option[option.length - 1];
-        const name = data.adcode;
-        fetch(
-          `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
-        )
-          .then((res) => res.json())
-          .then((res) => {
-            if (res.status === '1' && res.districts?.length && scene) {
-              const [lng, lat] = (res.districts[0].center as string)
-                .split(',')
-                .map((item) => +item);
-              scene.setZoomAndCenter(9, [lng, lat]);
-              const positions: number[][][] = [];
+  const onChange = debounce((value: string[], option: any) => {
+    if (option) {
+      const data = option[option.length - 1];
+      const name = data.adcode;
+      fetch(
+        `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === '1' && res.districts?.length && scene) {
+            const [lng, lat] = (res.districts[0].center as string)
+              .split(',')
+              .map((item) => +item);
+            scene.setZoomAndCenter(9, [lng, lat]);
+            const positions: number[][][] = [];
 
-              res.districts.forEach((district: any) => {
-                (district.polyline as string).split('|').forEach((chunk) => {
-                  positions.push(
-                    chunk
-                      .split(';')
-                      .map((item) => item.split(',').map((num) => +num)),
-                  );
-                });
+            res.districts.forEach((district: any) => {
+              (district.polyline as string).split('|').forEach((chunk) => {
+                positions.push(
+                  chunk
+                    .split(';')
+                    .map((item) => item.split(',').map((num) => +num)),
+                );
               });
-              setDistrictFeature(multiLineString(positions));
-            }
-          })
-          .catch(() => {
-            message.error('围栏数据请求失败');
-          });
-      } else {
-        setDistrictFeature(null);
-      }
-    },
-    200,
-    {
-      maxWait: 500,
-    },
-  );
+            });
+            setDistrictFeature(multiLineString(positions));
+          }
+        })
+        .catch(() => {
+          message.error('围栏数据请求失败');
+        });
+    } else {
+      setDistrictFeature(null);
+    }
+  }, 1500);
 
   const filter = (inputValue: string, path: DefaultOptionType[]) =>
     path.some(
