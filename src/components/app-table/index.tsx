@@ -182,6 +182,7 @@ const components = {
 
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
+  const styles = useStyle();
   const { height = 0 } = useSize(container) ?? {};
   const { setEditorText, isDraw, scene, features, resetFeatures } =
     useFeature();
@@ -337,6 +338,7 @@ export const AppTable = () => {
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newDataSource?.length ? (
         <Table
+          className={styles.tableContent}
           components={components}
           columns={newColumns}
           rowClassName={() => 'editable-row'}

@@ -21,7 +21,7 @@ export const Editor: React.FC<L7EditorProps> = ({
   onFeatureChange,
   editorConfig,
 }) => {
-  const { theme: antdTheme, setMapOptions } = useGlobal();
+  const { theme: antdTheme, mapOptions, setMapOptions } = useGlobal();
   const items: TabsProps['items'] = [
     {
       key: 'code',
@@ -58,9 +58,9 @@ export const Editor: React.FC<L7EditorProps> = ({
 
   useEffect(() => {
     if (antdTheme === 'norm') {
-      setMapOptions({ style: 'normal', maxZoom: 24 });
+      setMapOptions({ ...mapOptions, style: 'normal' });
     } else {
-      setMapOptions({ style: 'dark', maxZoom: 24 });
+      setMapOptions({ ...mapOptions, style: 'dark' });
     }
   }, [antdTheme]);
 

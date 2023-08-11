@@ -64,6 +64,11 @@ export type EditorConfigProps = {
    * @default []
    */
   tabs?: TabsProps['items'];
+  /**
+   * 主题配色
+   * @default 'norm'
+   */
+  theme?: 'norm' | 'dark';
 };
 
 export type L7EditorProps = {

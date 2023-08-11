@@ -14,6 +14,7 @@ const useStyle = () => {
     colorText,
     colorPrimary,
     colorBgElevated,
+    colorFillSecondary,
   } = token;
   return {
     control: css`
@@ -249,6 +250,14 @@ const useStyle = () => {
       }
     `,
     mapThemePopper: css`
+      *::-webkit-scrollbar {
+        width: 8px;
+        background-color: ${colorBgElevated};
+      }
+      *::-webkit-scrollbar-thumb {
+        background-color: ${colorFillSecondary};
+        border-radius: 10px;
+      }
       .l7-popper-content {
         color: ${colorText};
         background: ${colorBgContainer};

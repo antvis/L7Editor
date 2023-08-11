@@ -5,8 +5,19 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
   const { colorBorder } = token;
+  const { colorBgElevated, colorFillSecondary } = token;
 
   return {
+    tableContent: css`
+      *::-webkit-scrollbar {
+        width: 5px;
+        background-color: ${colorBgElevated};
+      }
+      *::-webkit-scrollbar-thumb {
+        background-color: ${colorFillSecondary};
+        border-radius: 6px;
+      }
+    `,
     editableCell: css`
       position: relative;
     `,

@@ -14,6 +14,7 @@ import {
   mapOptionState,
   popupTriggerState,
   rightWidthState,
+  themeState,
 } from './recoil/atomState';
 import { L7EditorProps } from './types';
 
@@ -41,6 +42,7 @@ const L7Editor = (props: L7EditorProps) => {
       set(lnglatTypeState, editorConfig?.lnglatType ?? 'Point');
       set(layerTypeState, editorConfig?.layerType ?? []);
       set(hideEditorState, editorConfig?.hidePanel ?? false);
+      set(themeState, editorConfig?.theme ?? 'norm');
     };
   }, [editorConfig]);
 

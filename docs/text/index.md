@@ -24,6 +24,7 @@ title: L7Editor文档
 | feature | 初始化数据 | `feature[]` | `-` |
 | layerType | 底图选择 | `string[]` | `[]` |
 | tabs | 右侧标签页 | `absProps['items']` 详见[antd](https://ant.design/components/tabs-cn/#tabs) | `[]` |
+| theme | 主题配置 | `'norm' ｜ 'dark'` | `'norm'` |
 
 #### `layerType`
 

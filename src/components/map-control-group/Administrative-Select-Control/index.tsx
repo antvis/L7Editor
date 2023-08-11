@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import './style.less';
+import { useStyle } from './styles';
 
 const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
   shape: 'line',
@@ -24,6 +25,7 @@ const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
 };
 
 export const AdministrativeSelect = () => {
+  const styles = useStyle();
   const { scene } = useFeature();
   const [districtFeature, setDistrictFeature] =
     useState<Feature<MultiLineString> | null>(null);
@@ -115,7 +117,7 @@ export const AdministrativeSelect = () => {
         placeholder="可选择省/市/县"
         changeOnSelect
         style={{ width: 250 }}
-        open
+        popupClassName={styles.cascaderPopup}
       />
 
       <LineLayer
