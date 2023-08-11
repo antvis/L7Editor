@@ -19,19 +19,19 @@ import { getPointImage } from '../../utils/change-image-color';
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
-  const { layerColor, convert } = useGlobal();
+  const { layerColor, coordConvert } = useGlobal();
   const { newFeatures } = useFilterFeature();
   const [features, setFeatures] = useState<Features[]>([]);
 
   useEffect(() => {
     if (newFeatures.length) {
-      if (convert !== 'notConvert') {
+      if (coordConvert !== 'undefined') {
         const data = newFeatures.map((item) => {
           const newItem = gcoord.transform(
             //@ts-ignore
             cloneDeep(item),
-            convert === 'GCJ02' ? gcoord.WGS84 : gcoord.GCJ02,
-            convert === 'GCJ02' ? gcoord.GCJ02 : gcoord.WGS84,
+            coordConvert === 'GCJ02' ? gcoord.WGS84 : gcoord.GCJ02,
+            coordConvert === 'GCJ02' ? gcoord.GCJ02 : gcoord.WGS84,
           );
           return newItem;
         });

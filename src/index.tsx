@@ -11,7 +11,6 @@ import {
   hideEditorState,
   layerColorState,
   layerTypeState,
-  lnglatTypeState,
   mapOptionState,
   popupTriggerState,
   rightWidthState,
@@ -32,19 +31,18 @@ const L7Editor = (props: L7EditorProps) => {
     return ({ set }: MutableSnapshot) => {
       set(baseMapState, editorConfig?.baseMap ?? 'Gaode');
       set(layerColorState, editorConfig?.primaryColor ?? PrimaryColor);
-      set(rightWidthState, editorConfig?.rightWidth ?? 40);
+      set(rightWidthState, editorConfig?.rightPanelWidth ?? 40);
       set(
         mapOptionState,
         editorConfig?.mapOption ?? { style: 'normal', maxZoom: 24 },
       );
       set(autoFitBoundsState, !editorConfig?.autoFitBounds);
       set(popupTriggerState, editorConfig?.popupTrigger ?? 'click');
-      set(activeTabState, editorConfig?.activeTab ?? 'code');
-      set(lnglatTypeState, editorConfig?.lnglatType ?? 'Point');
-      set(layerTypeState, editorConfig?.layerType ?? []);
+      set(activeTabState, editorConfig?.activeTab ?? 'geojson');
+      set(layerTypeState, editorConfig?.LayerTypes ?? []);
       set(hideEditorState, editorConfig?.hidePanel ?? false);
-      set(themeState, editorConfig?.theme ?? 'norm');
-      set(convertState, editorConfig?.convert ?? 'notConvert');
+      set(themeState, editorConfig?.theme ?? 'officialLayers');
+      set(convertState, editorConfig?.coordConvert ?? 'undefined');
     };
   }, [editorConfig]);
 

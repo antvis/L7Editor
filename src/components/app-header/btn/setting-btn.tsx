@@ -12,7 +12,7 @@ export const SettingBtn = () => {
     setPopupTrigger,
     autoFitBounds,
     setAutoFitBounds,
-    convert,
+    coordConvert,
     setConvert,
   } = useGlobal();
 
@@ -57,7 +57,7 @@ export const SettingBtn = () => {
             popupTrigger,
             autoFitBounds,
             baseMap,
-            convertData: convert,
+            convertData: coordConvert,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
@@ -94,7 +94,7 @@ export const SettingBtn = () => {
             <Select
               style={{ width: 160, textAlign: 'center' }}
               options={[
-                { value: 'notConvert', label: '无' },
+                { value: 'undefined', label: '无' },
                 { value: 'GCJ02', label: 'WGS84 转 GCJ02' },
                 { value: 'WGS84', label: 'GCJ02 转 WGS84' },
               ]}

@@ -24,7 +24,7 @@ export const Editor: React.FC<L7EditorProps> = ({
   const { theme: antdTheme, mapOptions, setMapOptions } = useGlobal();
   const items: TabsProps['items'] = [
     {
-      key: 'code',
+      key: 'geojson',
       label: (
         <div>
           <CodeOutlined style={{ marginLeft: 5 }} />
@@ -57,7 +57,7 @@ export const Editor: React.FC<L7EditorProps> = ({
   }, [editorConfig?.tabs]);
 
   useEffect(() => {
-    if (antdTheme === 'norm') {
+    if (antdTheme === 'officialLayers') {
       setMapOptions({ ...mapOptions, style: 'normal' });
     } else {
       setMapOptions({ ...mapOptions, style: 'dark' });
@@ -69,7 +69,9 @@ export const Editor: React.FC<L7EditorProps> = ({
       locale={zhCN}
       theme={{
         algorithm:
-          antdTheme === 'norm' ? theme.defaultAlgorithm : theme.darkAlgorithm,
+          antdTheme === 'officialLayers'
+            ? theme.defaultAlgorithm
+            : theme.darkAlgorithm,
       }}
     >
       <div id="l7-editor-driver">
@@ -88,7 +90,7 @@ export const Editor: React.FC<L7EditorProps> = ({
             </AppMap>
           }
           right={
-            <MapContent tabItem={newTabItem} feature={editorConfig?.feature} />
+            <MapContent tabItem={newTabItem} feature={editorConfig?.features} />
           }
         />
       </div>

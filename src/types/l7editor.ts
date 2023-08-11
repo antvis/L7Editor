@@ -1,7 +1,6 @@
 import { LarkMapProps } from '@antv/larkmap';
-import { Feature } from '@turf/turf';
+import { Feature, FeatureCollection } from '@turf/turf';
 import { TabsProps } from 'antd';
-import { IFeature, LngLatImportType } from '.';
 
 export type EditorConfigProps = {
   /**
@@ -18,7 +17,7 @@ export type EditorConfigProps = {
    * 侧边栏宽度 (40%)
    * @default 40
    */
-  rightWidth?: number;
+  rightPanelWidth?: number;
   /**
    * 地图配置
    * @default  {}
@@ -36,24 +35,19 @@ export type EditorConfigProps = {
   popupTrigger?: 'click' | 'hover';
   /**
    * panel 展示tab
-   * @default 'code'
+   * @default 'geojson'
    */
-  activeTab?: 'code' | 'table';
-  /**
-   * lnglatType
-   * @default 'Point'
-   */
-  lnglatType?: LngLatImportType;
+  activeTab?: 'geojson' | 'table' | 'wkt';
   /**
    * 初始化数据
    * @default {type:'FeatureCollection',features:[]}
    */
-  feature?: IFeature;
+  features?: FeatureCollection;
   /**
    * 底图选择
    * @default []
    */
-  layerType?: string[];
+  LayerTypes?: string[];
   /**
    * 右侧面板是否隐藏
    * @default false
@@ -66,14 +60,14 @@ export type EditorConfigProps = {
   tabs?: TabsProps['items'];
   /**
    * 主题配色
-   * @default 'norm'
+   * @default 'officialLayers'
    */
-  theme?: 'norm' | 'dark';
+  theme?: 'officialLayers' | 'dark';
   /**
    * 数据转换
-   * @default 'notConvert'
+   * @default 'undefined'
    */
-  convert?: 'notConvert' | 'GCJ02' | 'WGS84';
+  coordConvert?: 'undefined' | 'GCJ02' | 'WGS84';
 };
 
 export type L7EditorProps = {

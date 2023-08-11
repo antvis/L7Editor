@@ -37,7 +37,7 @@ export default function useFeature() {
   const [savedText, setSavedText] = useRecoilState(savedTextState);
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
-  const { convert } = useGlobal();
+  const { coordConvert } = useGlobal();
   const [wktText, setWktText] = useRecoilState(wktTextState);
 
   const [scene, setScene] = useRecoilState(sceneState);

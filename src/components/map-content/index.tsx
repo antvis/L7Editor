@@ -1,13 +1,13 @@
-import { useFeature, useGlobal } from '../../recoil';
+import { FeatureCollection } from '@turf/turf';
 import { Tabs, TabsProps } from 'antd';
 import React, { useEffect } from 'react';
-import { IFeature } from '../../types';
+import { useFeature, useGlobal } from '../../recoil';
 import './index.less';
 import useStyle from './styles';
 
 export interface MapContentProps {
   tabItem: TabsProps['items'];
-  feature?: IFeature;
+  feature?: FeatureCollection;
 }
 
 export const MapContent: React.FC<MapContentProps> = ({ tabItem, feature }) => {
@@ -26,10 +26,10 @@ export const MapContent: React.FC<MapContentProps> = ({ tabItem, feature }) => {
       <Tabs
         activeKey={activeTab}
         className={styles.mapContentRight}
-        defaultActiveKey="code"
+        defaultActiveKey="geojson"
         items={tabItem}
         onChange={(e) => {
-          setActiveTab(e as 'code' | 'table');
+          setActiveTab(e as 'geojson' | 'table');
         }}
       />
     </div>

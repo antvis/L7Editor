@@ -123,7 +123,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
         language={language}
         {...value}
         onChange={monacoChange}
-        theme={theme === 'norm' ? 'custome-theme' : 'vs-dark'}
+        theme={theme === 'officialLayers' ? 'custome-theme' : 'vs-dark'}
         options={{
           selectOnLineNumbers: true,
           tabIndex: 2,
