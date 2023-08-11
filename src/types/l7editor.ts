@@ -69,6 +69,11 @@ export type EditorConfigProps = {
    * @default 'norm'
    */
   theme?: 'norm' | 'dark';
+  /**
+   * 数据转换
+   * @default 'notConvert'
+   */
+  convert?: 'notConvert' | 'GCJ02' | 'WGS84';
 };
 
 export type L7EditorProps = {

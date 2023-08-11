@@ -7,6 +7,7 @@ import {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
+  convertState,
   hideEditorState,
   layerColorState,
   layerTypeState,
@@ -43,6 +44,7 @@ const L7Editor = (props: L7EditorProps) => {
       set(layerTypeState, editorConfig?.layerType ?? []);
       set(hideEditorState, editorConfig?.hidePanel ?? false);
       set(themeState, editorConfig?.theme ?? 'norm');
+      set(convertState, editorConfig?.convert ?? 'notConvert');
     };
   }, [editorConfig]);
 
