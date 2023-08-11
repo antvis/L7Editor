@@ -32,6 +32,9 @@ export const AdministrativeSelect = () => {
   const [data, setData] = useState();
 
   const getCascadeData = (list: any) => {
+    list.sort((a: { adcode: number }, b: { adcode: number }) => {
+      return +a.adcode - +b.adcode;
+    });
     if (list.length) {
       return list.map((item: any) => {
         const { center, name, districts, adcode } = item;
@@ -112,6 +115,7 @@ export const AdministrativeSelect = () => {
         changeOnSelect
         style={{ width: 250 }}
         popupClassName={styles.cascaderPopup}
+        open
       />
 
       <LineLayer
