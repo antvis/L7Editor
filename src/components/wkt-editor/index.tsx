@@ -3,7 +3,7 @@ import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import { useFeature } from '../../recoil';
+import { useFeature, useGlobal } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
 import useStyle from './styles';
 // @ts-ignore
@@ -17,7 +17,8 @@ type EditorProps = {
 
 export const WktEditor: React.FC<EditorProps> = forwardRef((props) => {
   const { language = 'html' } = props;
-  const { features ,wktText, setWktText} = useFeature();
+  const { theme } = useGlobal();
+  const { features, wktText, setWktText } = useFeature();
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const styles = useStyle();
@@ -113,7 +114,7 @@ export const WktEditor: React.FC<EditorProps> = forwardRef((props) => {
         language={language}
         {...value}
         onChange={monacoChange}
-        theme="custome-theme"
+        theme={theme === 'norm' ? 'custome-theme' : 'vs-dark'}
         options={{
           selectOnLineNumbers: true,
           tabIndex: 2,

@@ -24,6 +24,8 @@ title: L7Editor文档
 | feature | 初始化数据 | `feature[]` | `-` |
 | layerType | 底图选择 | `string[]` | `[]` |
 | tabs | 右侧标签页 | `absProps['items']` 详见[antd](https://ant.design/components/tabs-cn/#tabs) | `[]` |
+| theme | 主题配置 | `'norm' ｜ 'dark'` | `'norm'` |
+| convert | 数据转换 | `'notConvert'｜'GCJ02'｜'WGS84'` | `notConvert` |
 
 #### `layerType`
 
@@ -59,6 +61,14 @@ editConfig={{ layerType: ['Satellite','RoadNet'] }}
             },
         ]}}
 ```
+
+#### convert
+
+| 属性       | 描述          |
+| ---------- | ------------- |
+| notConvert | 不转换        |
+| GCJ02      | WGS84==>GCJ02 |
+| WGS84      | GCJ02==>WGS84 |
 
 #### `onFeatureChange`
 

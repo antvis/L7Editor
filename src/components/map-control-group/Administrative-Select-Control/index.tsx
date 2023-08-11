@@ -7,10 +7,12 @@ import {
 } from '@turf/turf';
 import { Cascader, message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
+import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import './style.less';
+import { useStyle } from './styles';
 
 const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
   shape: 'line',
@@ -23,11 +25,11 @@ const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
 };
 
 export const AdministrativeSelect = () => {
+  const styles = useStyle();
   const { scene } = useFeature();
   const [districtFeature, setDistrictFeature] =
     useState<Feature<MultiLineString> | null>(null);
   const [data, setData] = useState();
-  const [changeData, setChangeData] = useState<any>(undefined);
 
   const getCascadeData = (list: any) => {
     if (list.length) {
@@ -55,46 +57,47 @@ export const AdministrativeSelect = () => {
       });
   }, []);
 
-  const onChange = (value: string[], option: any) => {
-    setChangeData(option);
-    if (!option) {
-      setDistrictFeature(null);
-    }
-  };
+  const onChange = debounce(
+    (value: string[], option: any) => {
+      if (option) {
+        const data = option[option.length - 1];
+        const name = data.adcode;
+        fetch(
+          `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.status === '1' && res.districts?.length && scene) {
+              const [lng, lat] = (res.districts[0].center as string)
+                .split(',')
+                .map((item) => +item);
+              scene.setZoomAndCenter(9, [lng, lat]);
+              const positions: number[][][] = [];
 
-  const onDropdownVisibleChange = (open: boolean) => {
-    if (!open && changeData) {
-      const data = changeData[changeData.length - 1];
-      const name = data.adcode;
-      fetch(
-        `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.status === '1' && res.districts?.length && scene) {
-            const [lng, lat] = (res.districts[0].center as string)
-              .split(',')
-              .map((item) => +item);
-            scene.setZoomAndCenter(9, [lng, lat]);
-            const positions: number[][][] = [];
-
-            res.districts.forEach((district: any) => {
-              (district.polyline as string).split('|').forEach((chunk) => {
-                positions.push(
-                  chunk
-                    .split(';')
-                    .map((item) => item.split(',').map((num) => +num)),
-                );
+              res.districts.forEach((district: any) => {
+                (district.polyline as string).split('|').forEach((chunk) => {
+                  positions.push(
+                    chunk
+                      .split(';')
+                      .map((item) => item.split(',').map((num) => +num)),
+                  );
+                });
               });
-            });
-            setDistrictFeature(multiLineString(positions));
-          }
-        })
-        .catch(() => {
-          message.error('围栏数据请求失败');
-        });
-    }
-  };
+              setDistrictFeature(multiLineString(positions));
+            }
+          })
+          .catch(() => {
+            message.error('围栏数据请求失败');
+          });
+      } else {
+        setDistrictFeature(null);
+      }
+    },
+    200,
+    {
+      maxWait: 500,
+    },
+  );
 
   const filter = (inputValue: string, path: DefaultOptionType[]) =>
     path.some(
@@ -111,10 +114,10 @@ export const AdministrativeSelect = () => {
         onChange={onChange}
         allowClear
         showSearch={{ filter }}
-        placeholder="请选择市、县"
-        onDropdownVisibleChange={onDropdownVisibleChange}
+        placeholder="可选择省/市/县"
         changeOnSelect
         style={{ width: 250 }}
+        popupClassName={styles.cascaderPopup}
       />
 
       <LineLayer

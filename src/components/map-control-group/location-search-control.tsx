@@ -54,26 +54,29 @@ const LocationSearchControl: React.FC = React.memo(() => {
           <div className={styles.l7LocationSearch}>
             <div className={styles.l7LocationSearchPanel}>
               <AdministrativeSelect />
-              <LocationSearch
-                getPopupContainer={() =>
-                  document.querySelector('.larkmap') as HTMLElement
-                }
-                value={selectLocation?.name}
-                searchParams={{
-                  key: '98d10f05a2da96697313a2ce35ebf1a2',
-                  location: locationText,
-                }}
-                onChange={(_, item) => {
-                  if (item) {
-                    const currentZoom = scene.getZoom();
-                    scene.setZoomAndCenter(
-                      currentZoom > 16 ? currentZoom : 16,
-                      [item.longitude, item.latitude],
-                    );
+              <div className={styles.locationSearcheContainer}>
+                <LocationSearch
+                  popupClassName={styles.locationSearche}
+                  getPopupContainer={() =>
+                    document.querySelector('.larkmap') as HTMLElement
                   }
-                  setSelectLocation(item);
-                }}
-              />
+                  value={selectLocation?.name}
+                  searchParams={{
+                    key: '98d10f05a2da96697313a2ce35ebf1a2',
+                    location: locationText,
+                  }}
+                  onChange={(_, item) => {
+                    if (item) {
+                      const currentZoom = scene.getZoom();
+                      scene.setZoomAndCenter(
+                        currentZoom > 16 ? currentZoom : 16,
+                        [item.longitude, item.latitude],
+                      );
+                    }
+                    setSelectLocation(item);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBorder, colorBgContainer } = token;
+  const { colorBorder, colorBgContainer, colorText } = token;
 
   return {
     mapHeader: css`
@@ -32,6 +32,7 @@ const useStyle = () => {
       font-weight: bold;
       margin-left: 4px;
       margin-right: 16px;
+      color: ${colorText};
     `,
     mapHeaderLeft: css`
       display: flex;

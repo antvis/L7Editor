@@ -353,6 +353,7 @@ export const LayerPopup: React.FC = () => {
         typeof popupProps.featureIndex === 'number' &&
         targetFeature && (
           <Popup
+          className={styles.layerPopupContent}
             lngLat={popupProps.lngLat}
             closeButton={false}
             offsets={[0, 10]}

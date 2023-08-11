@@ -1,25 +1,13 @@
-import { CodeOutlined, TableOutlined } from '@ant-design/icons';
-import { ConfigProvider, Result, TabsProps } from 'antd';
-import zhCN from 'antd/es/locale/zh_CN';
+import { Result } from 'antd';
 import React, { useMemo } from 'react';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
-import {
-  AppHeader,
-  AppMap,
-  LayerList,
-  LayerPopup,
-  MapContent,
-  MapControlGroup,
-  ResizePanel,
-} from './components';
-import { AppEditor } from './components/app-editor';
-import { AppTable } from './components/app-table';
-import { WktEditor } from './components/wkt-editor';
 import { PrimaryColor } from './constants';
+import { Editor } from './pages';
 import {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
+  convertState,
   hideEditorState,
   layerColorState,
   layerTypeState,
@@ -27,6 +15,7 @@ import {
   mapOptionState,
   popupTriggerState,
   rightWidthState,
+  themeState,
 } from './recoil/atomState';
 import { L7EditorProps } from './types';
 
@@ -54,71 +43,14 @@ const L7Editor = (props: L7EditorProps) => {
       set(lnglatTypeState, editorConfig?.lnglatType ?? 'Point');
       set(layerTypeState, editorConfig?.layerType ?? []);
       set(hideEditorState, editorConfig?.hidePanel ?? false);
+      set(themeState, editorConfig?.theme ?? 'norm');
+      set(convertState, editorConfig?.convert ?? 'notConvert');
     };
   }, [editorConfig]);
 
-  const items: TabsProps['items'] = [
-    {
-      key: 'code',
-      label: (
-        <div>
-          <CodeOutlined style={{ marginLeft: 5 }} />
-          编辑器
-        </div>
-      ),
-      children: <AppEditor />,
-    },
-    {
-      key: 'table',
-      label: (
-        <div id="l7-editor-driver-table">
-          <TableOutlined style={{ marginLeft: 5 }} />
-          表格
-        </div>
-      ),
-      children: <AppTable />,
-    },
-    {
-      key: 'wkt',
-      label: <div>wkt编辑器</div>,
-      children: <WktEditor />,
-    },
-  ];
-
-  const newTabItem: TabsProps['items'] = useMemo(() => {
-    if (editorConfig?.tabs?.length) {
-      return [...items, ...editorConfig.tabs];
-    }
-    return items;
-  }, [editorConfig?.tabs]);
-
   return isPc ? (
     <RecoilRoot initializeState={initializeState}>
-      <ConfigProvider locale={zhCN}>
-        <div id="l7-editor-driver">
-          <AppHeader />
-          <ResizePanel
-            onFeatureChange={(e) => {
-              if (onFeatureChange) {
-                onFeatureChange(e);
-              }
-            }}
-            left={
-              <AppMap>
-                <MapControlGroup />
-                <LayerList />
-                <LayerPopup />
-              </AppMap>
-            }
-            right={
-              <MapContent
-                tabItem={newTabItem}
-                feature={editorConfig?.feature}
-              />
-            }
-          />
-        </div>
-      </ConfigProvider>
+      <Editor editorConfig={editorConfig} onFeatureChange={onFeatureChange} />
     </RecoilRoot>
   ) : (
     <Result status="404" title="请用PC端打开" />

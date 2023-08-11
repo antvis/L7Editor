@@ -3,6 +3,7 @@ import { LngLatImportType } from '../types';
 
 export const RightPanelWidthRange = [20, 80];
 
+
 export enum LocalStorageKey {
   RightPanelWidth = 'RightPanelWidth',
   MapOptions = 'MapOptions',
@@ -16,6 +17,7 @@ export enum LocalStorageKey {
   LayerTypes = 'LayerTypes',
   WktText = 'WktText',
   Convert = 'Convert',
+  theme = "theme"
 }
 
 export enum LayerId {
@@ -62,7 +64,7 @@ export const LngLatImportTypeOptions: Array<{
 ];
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_cxg3z3f6vte.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_sdhxi7d5249.js',
 });
 
 export const MapBoxConfig = {

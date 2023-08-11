@@ -90,13 +90,13 @@ export const SettingBtn = () => {
               <Radio.Button value="Mapbox">Mapbox</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="convertData" label="数据转换">
+          <Form.Item name="convertData" label="地理坐标系转换">
             <Select
               style={{ width: 160, textAlign: 'center' }}
               options={[
+                { value: 'notConvert', label: '无' },
                 { value: 'GCJ02', label: 'WGS84 转 GCJ02' },
                 { value: 'WGS84', label: 'GCJ02 转 WGS84' },
-                { value: 'notConvert', label: '不转换' },
               ]}
             />
           </Form.Item>
