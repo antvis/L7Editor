@@ -2,13 +2,13 @@ import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
 import { Tabs, TabsProps } from 'antd';
 import React, { useEffect } from 'react';
+import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
 import { WktEditor } from '../wkt-editor';
 import './index.less';
 import useStyle from './styles';
-import { IconFont } from '../../constants';
 
 export interface MapContentProps {
   feature?: FeatureCollection;
