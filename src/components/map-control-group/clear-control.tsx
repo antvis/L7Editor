@@ -22,7 +22,7 @@ export const ClearControl = () => {
             );
           }}
         >
-          <div className={styles.clear} id="l7-editor-driver-clear">
+          <div className={styles.clear} id="l7-editor-clear">
             <IconFont type="icon-qingkong" className={styles.clearSvg} />
           </div>
         </Popconfirm>

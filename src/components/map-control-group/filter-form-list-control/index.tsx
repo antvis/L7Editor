@@ -216,7 +216,7 @@ const FilterControl: React.FC = () => {
       <div className={styles.l7FilterSwitch}>
         <button
           type="button"
-          id="l7-editor-driver-filter"
+          id="l7-editor-filter"
           className="l7-draw-control__btn"
           onClick={() => {
             setIsVisible(!isVisible);

@@ -50,7 +50,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
   return (
     <>
       <CustomControl position="topleft">
-        <div id="l7-editor-driver-citySelect" style={{ display: 'flex' }}>
+        <div id="l7-editor-citySelect" style={{ display: 'flex' }}>
           <div className={styles.l7LocationSearch}>
             <div className={styles.l7LocationSearchPanel}>
               <AdministrativeSelect />

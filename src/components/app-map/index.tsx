@@ -65,7 +65,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
       mapOptions={mapOptions}
       mapType={baseMap}
       onSceneLoaded={setScene}
-      id="l7-editor-driver-map"
+      id="l7-editor-map"
     >
       {children}
     </LarkMap>

@@ -11,7 +11,7 @@ const LayerColorControl: React.FC = () => {
 
   return (
     <CustomControl position="bottomright">
-      <div id="l7-editor-driver-color">
+      <div id="l7-editor-color">
         <ColorPicker
           value={layerColor}
           className={classNames([styles.l7ButtonControl])}

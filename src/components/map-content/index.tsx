@@ -6,7 +6,6 @@ import { useFeature, useGlobal } from '../../recoil';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
 import { WktEditor } from '../wkt-editor';
-import './index.less';
 import useStyle from './styles';
 import { IconFont } from '../../constants';
 
@@ -49,7 +48,7 @@ export const MapContent: React.FC<MapContentProps> = ({ feature }) => {
     {
       key: 'table',
       label: (
-        <div id="l7-editor-driver-table">
+        <div id="l7-editor-table">
           <TableOutlined />
           表格
         </div>
@@ -59,7 +58,7 @@ export const MapContent: React.FC<MapContentProps> = ({ feature }) => {
   ];
 
   return (
-    <div className={styles.mapContent} id="l7-editor-driver-panel">
+    <div className={styles.mapContent} id="l7-editor-panel">
       <Tabs
         activeKey={activeTab}
         className={styles.mapContentRight}

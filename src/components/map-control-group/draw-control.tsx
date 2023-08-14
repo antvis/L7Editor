@@ -140,7 +140,7 @@ const DrawControl = () => {
 
   return (
     <CustomControl position="topright">
-      <div style={{ display: 'flex' }} id="l7-editor-driver-draw">
+      <div style={{ display: 'flex' }} id="l7-editor-draw">
         <div className={styles.l7DrawControl}>
           <div id="l7-draw-content" />
         </div>

@@ -35,7 +35,7 @@ export const SettingBtn = () => {
     <>
       <Tooltip title="地图设置">
         <Button
-          id="l7-editor-driver-set"
+          id="l7-editor-set"
           icon={<SettingOutlined />}
           onClick={showModal}
         >
