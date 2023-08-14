@@ -14,7 +14,7 @@ export interface L7EditorProps {
    * 地图
    * @default 'Gaode'
    */
-  baseMap: 'Gaode' | 'Mapbox';
+  baseMap?: 'Gaode' | 'Mapbox';
   /**
    * 侧边栏宽度 (40%)
    * @default 40
@@ -24,7 +24,7 @@ export interface L7EditorProps {
    * 地图配置
    * @default  {}
    */
-  mapOption: LarkMapProps['mapOptions'];
+  mapOption?: LarkMapProps['mapOptions'];
   /**
    * autoFitBounds
    * @default true
