@@ -32,7 +32,7 @@ export default function useGlobal() {
 
   const [layerType, setLayerType] = useRecoilState(officialLayersState);
 
-  const [coordConvert, setConvert] = useRecoilState(convertState);
+  const [coordConvert, setCoordConvert] = useRecoilState(convertState);
 
   const [theme, setTheme] = useRecoilState(themeState);
 
@@ -56,7 +56,7 @@ export default function useGlobal() {
     layerType,
     setLayerType,
     coordConvert,
-    setConvert,
+    setCoordConvert,
     theme,
     setTheme,
   };

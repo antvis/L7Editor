@@ -18,14 +18,20 @@ const useStyle = () => {
       background: ${colorBgContainer};
       z-index: 1;
       .ant-btn {
-        border: 0;
         margin-right: 8px;
+        border: 0;
       }
     `,
     mapHeaderLogo: css`
       width: auto;
       height: 24px;
       margin-right: 4px;
+    `,
+    mapHeaderSelect: css`
+      margin: 0 12px;
+      .ant-select-selector {
+        border-width: 0px !important;
+      }
     `,
     mapHeaderTitle: css`
       font-size: 16px;

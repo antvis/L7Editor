@@ -13,7 +13,7 @@ export const SettingBtn = () => {
     autoFitBounds,
     setAutoFitBounds,
     coordConvert,
-    setConvert,
+    setCoordConvert,
   } = useGlobal();
 
   const [form] = Form.useForm();
@@ -57,25 +57,25 @@ export const SettingBtn = () => {
             popupTrigger,
             autoFitBounds,
             baseMap,
-            convertData: coordConvert,
+            coordConvert: coordConvert,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
-            setConvert(e.convertData);
+            setCoordConvert(e.coordConvert);
             setBaseMap(e.baseMap);
             window.location.reload();
           }}
           onValuesChange={(e) => {
             if (e?.baseMap === 'Gaode') {
-              form.setFieldValue('convertData', 'GCJ02');
+              form.setFieldValue('coordConvert', 'GCJ02');
             } else {
-              form.setFieldValue('convertData', 'WGS84');
+              form.setFieldValue('coordConvert', 'WGS84');
             }
-            if (e.convertData) {
-              form.setFieldValue('convertData', e.convertData);
+            if (e.coordConvert) {
+              form.setFieldValue('coordConvert', e.coordConvert);
             }
           }}
         >
@@ -100,7 +100,7 @@ export const SettingBtn = () => {
               <Radio.Button value="Mapbox">Mapbox</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="convertData" label="经纬度坐标系">
+          <Form.Item name="coordConvert" label="经纬度坐标系">
             <Radio.Group>
               <Radio.Button value="GCJ02">GCJ02</Radio.Button>
               <Radio.Button value="WGS84">WGS84</Radio.Button>

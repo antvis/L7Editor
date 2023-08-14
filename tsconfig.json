@@ -10,5 +10,5 @@
       "@antv/l7-editor": ["./src/index.ts"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
+  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "docs/**/*"]
 }

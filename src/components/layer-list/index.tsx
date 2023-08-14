@@ -54,7 +54,7 @@ export const LayerList: React.FC = () => {
     } else {
       setFeatures([]);
     }
-  }, [newFeatures]);
+  }, [newFeatures, coordConvert]);
 
   const [
     pointSource,

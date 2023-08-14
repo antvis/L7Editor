@@ -1,5 +1,6 @@
 import { ConfigProvider, theme } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
+import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import {
   AppHeader,
@@ -12,12 +13,14 @@ import {
 } from '../../components';
 import { useGlobal } from '../../recoil';
 import { L7EditorProps } from '../../types';
+import useStyle from './styles';
 
 type EditorProps = L7EditorProps;
 
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
   const { theme: antdTheme, mapOptions, setMapOptions } = useGlobal();
+  const styles = useStyle();
 
   useEffect(() => {
     if (antdTheme === 'normal') {
@@ -35,7 +38,10 @@ export const Editor: React.FC<EditorProps> = (props) => {
           antdTheme === 'normal' ? theme.defaultAlgorithm : theme.darkAlgorithm,
       }}
     >
-      <div id="l7-editor-driver">
+      <div
+        className={classNames([styles.l7Editor, 'l7-editor'])}
+        id="l7-editor"
+      >
         <AppHeader />
         <ResizePanel
           onFeatureChange={(e) => {

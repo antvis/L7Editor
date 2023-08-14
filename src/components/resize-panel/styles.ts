@@ -18,7 +18,7 @@ const useStyle = () => {
       width: 100%;
       height: calc(100% - 50px);
       display: flex;
-      position: absolute;
+      position: relative;
     `,
     resizePanelLeft: css`
       position: absolute;
