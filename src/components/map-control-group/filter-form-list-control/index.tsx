@@ -74,7 +74,11 @@ const FilterControl: React.FC = () => {
   }, [filters]);
 
   return (
-    <CustomControl position="bottomright" className={styles.l7FilterPanel} style={{ display: 'flex' }}>
+    <CustomControl
+      position="bottomright"
+      className={styles.l7FilterPanel}
+      style={{ display: 'flex' }}
+    >
       <div
         className={styles.l7Filter}
         style={{ display: isVisible ? 'block' : 'none' }}

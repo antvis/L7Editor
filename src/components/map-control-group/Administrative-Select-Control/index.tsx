@@ -108,6 +108,7 @@ export const AdministrativeSelect = () => {
     <>
       <Cascader
         options={data}
+        //@ts-ignore
         onChange={onChange}
         allowClear
         showSearch={{ filter }}
