@@ -1,135 +1,47 @@
-import { useMount, useSize } from 'ahooks';
-import { editor } from 'monaco-editor';
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
-import React, { forwardRef, useEffect, useMemo, useState } from 'react';
-import MonacoEditor from 'react-monaco-editor';
-import { useFeature, useGlobal } from '../../recoil';
-import { prettierText } from '../../utils/prettier-text';
-import useStyle from './styles';
-// @ts-ignore
-import wkt from 'wkt';
+import { Input } from 'antd';
+import { debounce } from 'lodash';
+import React, { forwardRef, useEffect, useState } from 'react';
+import { useFeature } from '../../recoil';
+import { IFeature } from '../../types';
+import { GeoJSON2Wkt, Wkt2GeoJSON } from '../../utils/wkt';
 
-type Language = 'html';
+const { TextArea } = Input;
 
-type EditorProps = {
-  language?: Language;
-};
-
-export const WktEditor: React.FC<EditorProps> = forwardRef((props) => {
-  const { language = 'html' } = props;
-  const { theme } = useGlobal();
-  const { features, wktText, setWktText } = useFeature();
-  const [container, setContainer] = useState<HTMLDivElement | null>(null);
-  const { width = 0, height = 0 } = useSize(container) ?? {};
-  const styles = useStyle();
-
-  // document format
-  monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
-    provideDocumentFormattingEdits: (model: editor.ITextModel) => {
-      return [
-        {
-          range: model.getFullModelRange(),
-          text: prettierText({ content: model.getValue(), parser: language }),
-        },
-      ];
-    },
-  });
-
-  useMount(() => {
-    // 自定义主题(例子,可删除,没关系)
-    monacoEditor.editor.defineTheme('custome-theme', {
-      base: 'vs',
-      inherit: true,
-      rules: [
-        { token: '调试', foreground: '959595' },
-        { token: '通知', foreground: '00b4ff' },
-        { token: '警告', foreground: 'fff000' },
-        { token: '错误', foreground: 'ff0000' },
-        { token: '崩溃', foreground: 'c30209' },
-        { token: '信息', foreground: 'ffffff' },
-      ],
-      colors: {
-        'editor.background': '#fafafa',
-        'editorLineNumber.foreground': '#222222',
-        'editor.lineHighlightBackground': '#f4f4f4',
-      },
-    });
-  });
-
-  // useEffect(() => {
-  //   const wktArr = wktText.split('\n');
-  //   console.log(wktArr, 1111);
-  //   const geojson: Feature<any, any>[] = wktArr.map((item: string) => {
-  //     const data: Feature<any, any> = {
-  //       type: 'Feature',
-  //       geometry: {},
-  //       properties: {},
-  //     };
-  //     return { ...data, geometry: wkt.parse(item) };
-  //   });
-  //   const newGeojson = geojson.filter((item) => {
-  //     return item.geometry;
-  //   });
-  //   console.log(prettierText({ content: newGeojson }));
-  //   setEditorText(prettierText({ content: newGeojson }));
-  // }, [wktText]);
-
-  const monacoChange = (event: string) => {
-    console.log(event);
-    setWktText(event);
-    // const wktArr = event.split('\n');
-    // const geojson: Feature<any, any>[] = wktArr.map((item: string) => {
-    //   const data: Feature<any, any> = {
-    //     type: 'Feature',
-    //     geometry: {},
-    //     properties: {},
-    //   };
-    //   return { ...data, geometry: wkt.parse(item) };
-    // });
-    // const newGeojson = geojson.filter((item) => {
-    //   return item.geometry;
-    // });
-    // console.log(prettierText({ content: newGeojson }));
-    // setEditorText(prettierText({ content: newGeojson }));
-    // setScriptContent?.(event);
-  };
+export const WktEditor: React.FC = forwardRef(() => {
+  const [input, setInput] = useState('');
+  const { fc, resetFeatures } = useFeature();
 
   useEffect(() => {
-    const wktArr = features?.map((item: { geometry: any }) => {
-      const geometry = item.geometry;
-      const WKT = wkt.stringify(geometry);
-      return WKT;
-    });
-    setWktText(wktArr?.join('\n'));
-  }, [features]);
+    const result = GeoJSON2Wkt(fc);
+    if (result !== input) {
+      setInput(result);
+    }
+  }, [fc]);
 
-  const value = useMemo(() => {
-    return { value: wktText };
-  }, [language, wktText]);
+  const onInputChange = debounce(
+    (wkt: string) => {
+      const { features } = Wkt2GeoJSON(wkt);
+      resetFeatures(features as IFeature);
+    },
+    1000,
+    {
+      maxWait: 1000,
+    },
+  );
+
   return (
-    <div ref={setContainer} className={styles.appEditor}>
-      <MonacoEditor
-        width={width}
-        height={height}
-        language={language}
-        {...value}
-        onChange={monacoChange}
-        theme={theme === 'norm' ? 'custome-theme' : 'vs-dark'}
-        options={{
-          selectOnLineNumbers: true,
-          tabIndex: 2,
-          tabSize: 2,
-          folding: true,
-          fontSize: 13,
-          mouseStyle: 'text',
-          foldingStrategy: 'indentation',
-          scrollBeyondLastLine: false,
-          foldingMaximumRegions: Number.MAX_SAFE_INTEGER,
-          suggest: {
-            showKeywords: true,
-          },
-        }}
-      />
-    </div>
+    <TextArea
+      value={input}
+      style={{
+        margin: 8,
+        height: 'calc(100% - 16px)',
+        width: 'calc(100% - 16px)',
+      }}
+      placeholder="输入WKT格式的点、线、面都可识别，多个数据请使;分隔，如：POINT(120.104013 30.262134);POINT(120.104033 30.262164)"
+      onChange={(e) => {
+        setInput(e.target.value);
+        onInputChange(e.target.value);
+      }}
+    />
   );
 });

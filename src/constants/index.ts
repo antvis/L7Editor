@@ -64,7 +64,7 @@ export const LngLatImportTypeOptions: Array<{
 ];
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_sdhxi7d5249.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_fgo74m49ta.js',
 });
 
 export const MapBoxConfig = {

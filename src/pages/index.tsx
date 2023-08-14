@@ -1,4 +1,4 @@
-import { CodeOutlined, TableOutlined } from '@ant-design/icons';
+import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
 import { ConfigProvider, TabsProps, theme } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import React, { useEffect, useMemo } from 'react';
@@ -14,6 +14,7 @@ import {
 import { AppEditor } from '../components/app-editor';
 import { AppTable } from '../components/app-table';
 import { WktEditor } from '../components/wkt-editor';
+import { IconFont } from '../constants';
 import { useGlobal } from '../recoil';
 import { L7EditorProps } from '../types';
 
@@ -27,26 +28,31 @@ export const Editor: React.FC<L7EditorProps> = ({
       key: 'code',
       label: (
         <div>
-          <CodeOutlined style={{ marginLeft: 5 }} />
-          编辑器
+          <IconFont type="icon-json" />
+          GeoJSON
         </div>
       ),
       children: <AppEditor />,
     },
     {
+      key: 'wkt',
+      label: (
+        <div>
+          <GlobalOutlined />
+          WKT
+        </div>
+      ),
+      children: <WktEditor />,
+    },
+    {
       key: 'table',
       label: (
         <div id="l7-editor-driver-table">
-          <TableOutlined style={{ marginLeft: 5 }} />
+          <TableOutlined />
           表格
         </div>
       ),
       children: <AppTable />,
-    },
-    {
-      key: 'wkt',
-      label: <div>wkt编辑器</div>,
-      children: <WktEditor />,
     },
   ];
   const newTabItem: TabsProps['items'] = useMemo(() => {

@@ -22,7 +22,6 @@ import {
   sceneState,
   wktTextState,
 } from './atomState';
-import useGlobal from './global';
 
 type IFeature = Feature<
   Geometry | GeometryCollection,
@@ -37,7 +36,6 @@ export default function useFeature() {
   const [savedText, setSavedText] = useRecoilState(savedTextState);
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
-  const { convert } = useGlobal();
   const [wktText, setWktText] = useRecoilState(wktTextState);
 
   const [scene, setScene] = useRecoilState(sceneState);
@@ -45,6 +43,10 @@ export default function useFeature() {
   const savable = useMemo(() => {
     return editorText !== savedText;
   }, [editorText, savedText]);
+
+  const fc = useMemo(() => {
+    return featureCollection(features);
+  }, [features]);
 
   const setFeatures = (f: Feature[]) => {
     _setFeatures(
@@ -165,5 +167,6 @@ export default function useFeature() {
     setScene,
     wktText,
     setWktText,
+    fc,
   };
 }

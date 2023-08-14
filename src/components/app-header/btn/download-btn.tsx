@@ -1,21 +1,19 @@
 import { CloudDownloadOutlined } from '@ant-design/icons';
-import { coordAll, featureCollection } from '@turf/turf';
+import { coordAll } from '@turf/turf';
 import { Button, Dropdown } from 'antd';
 import React from 'react';
 import { downloadText } from '../../../utils';
 import { prettierText } from '../../../utils/prettier-text';
-import { useFeature } from './../../../recoil';
 import { DownloadMenuItems } from '../constants';
+import { useFeature } from './../../../recoil';
 // @ts-ignore
 import tokml from 'tokml';
-// @ts-ignore
-import wkt from 'wkt';
+import { GeoJSON2Wkt } from '../../../utils/wkt';
 
 const DownloadBtn: React.FC = () => {
-  const { editorText, features } = useFeature();
+  const { editorText, fc } = useFeature();
 
   const onDownload = (key: string) => {
-    const fc = featureCollection(features);
     if (key === 'GeoJson') {
       downloadText(JSON.stringify(fc), 'json');
     } else if (key === 'FormatGeoJson') {
@@ -32,12 +30,7 @@ const DownloadBtn: React.FC = () => {
       const kml = tokml(fc);
       downloadText(kml, 'kml');
     } else if (key === 'WKT') {
-      const wktArr = features.map((item: { geometry: any }) => {
-        const geometry = item.geometry;
-        const WKT = wkt.stringify(geometry);
-        return WKT;
-      });
-      downloadText(wktArr.join('\n'), 'wkt');
+      downloadText(GeoJSON2Wkt(fc), 'wkt');
     } else {
       downloadText(editorText as string, 'json');
     }
