@@ -15,7 +15,7 @@ export default () => {
         '_blank',
       );
     } else if (key === 'api') {
-      window.open('/text');
+      window.open('/docs');
     } else if (key === 'changeLog') {
       setShowModal(true);
     } else if (key === 'ding') {
