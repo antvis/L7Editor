@@ -10,19 +10,19 @@ import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
 export interface MapContentProps {
-  feature?: FeatureCollection;
+  features?: FeatureCollection;
 }
 
-export const MapContent: React.FC<MapContentProps> = ({ feature }) => {
+export const MapContent: React.FC<MapContentProps> = ({ features }) => {
   const { activeTab, setActiveTab } = useGlobal();
   const { saveEditorText } = useFeature();
   const styles = useStyle();
 
   useEffect(() => {
-    if (feature) {
-      saveEditorText(JSON.stringify(feature, null, 2));
+    if (features) {
+      saveEditorText(JSON.stringify(features, null, 2));
     }
-  }, [feature]);
+  }, [features]);
 
   const items: TabsProps['items'] = [
     {

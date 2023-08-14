@@ -50,7 +50,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
               <LayerPopup />
             </AppMap>
           }
-          right={<MapContent feature={props?.features} />}
+          right={<MapContent features={props?.features} />}
         />
       </div>
     </ConfigProvider>
