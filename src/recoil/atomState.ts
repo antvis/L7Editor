@@ -142,7 +142,6 @@ export {
   baseMapState,
   isDrawState,
   layerTypeState,
-  wktTextState,
   convertState,
   themeState,
 };
