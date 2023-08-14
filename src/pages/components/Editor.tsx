@@ -13,11 +13,9 @@ import {
 import { useGlobal } from '../../recoil';
 import { L7EditorProps } from '../../types';
 
-type EditorProps = {
-  props: L7EditorProps;
-};
+type EditorProps = L7EditorProps;
 
-export const Editor: React.FC<EditorProps> = ({ props }) => {
+export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
   const { theme: antdTheme, mapOptions, setMapOptions } = useGlobal();
 
