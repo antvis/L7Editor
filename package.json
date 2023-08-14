@@ -1,6 +1,6 @@
 {
   "name": "@antv/l7-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A React tool for editing GIS data based on L7",
   "files": [
     "lib",
@@ -17,7 +17,6 @@
     "package:build": "father build",
     "clean": "rimraf es lib dist",
     "format": "prettier --cache --write .",
-    "postinstall": "max setup",
     "prepare": "dumi setup",
     "setup": "dumi setup",
     "prettier": "prettier --write 'src/*.{tsx,ts,md,json}'",
@@ -50,7 +49,8 @@
   },
   "yuyanId": "180020010001251474",
   "devDependencies": {
-    "@types/wellknown": "^0.5.5",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
     "@types/classnames": "^2.3.1",
     "@types/color": "^3.0.3",
     "@types/lodash": "^4.14.182",
@@ -58,14 +58,14 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/type-check": "^0.3.27",
-    "typescript": "^4.1.2",
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
+    "@types/wellknown": "^0.5.5",
+    "@umijs/fabric": "^4.0.1",
     "dumi": "^2.2.1",
     "father": "^4.2.3",
     "gh-pages": "^4.0.0",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.3"
+    "lint-staged": "^13.0.3",
+    "typescript": "^4.1.2"
   },
   "peerDependencies": {
     "react": ">=16.9.0",

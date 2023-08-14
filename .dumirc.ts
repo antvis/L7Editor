@@ -1,4 +1,4 @@
-import { defineConfig } from '@umijs/max';
+import { defineConfig } from 'dumi';
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV === 'production';
