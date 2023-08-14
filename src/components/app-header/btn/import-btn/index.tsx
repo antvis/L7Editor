@@ -7,7 +7,6 @@ import { useFeature } from '../../../../recoil';
 import { IFeature } from '../../../../types';
 import { AppEditor } from '../../../app-editor';
 import FileUpload from './file-upload';
-import LngLatImportBtn from './lnglat-import-btn';
 import UrlUpload from './url-upload';
 
 /**
@@ -39,11 +38,11 @@ export const ImportBtn = () => {
       label: <div>文件上传</div>,
       children: <FileUpload ref={formRef} />,
     },
-    {
-      key: 'lnglat',
-      label: <div>经纬度上传</div>,
-      children: <LngLatImportBtn ref={formRef} />,
-    },
+    // {
+    //   key: 'lngLatUpload',
+    //   label: <div>经纬度上传</div>,
+    //   children: <LngLatImportBtn ref={formRef} />,
+    // },
     {
       key: 'script',
       label: <div>JavaScript脚本</div>,
