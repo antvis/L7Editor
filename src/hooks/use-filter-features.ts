@@ -1,4 +1,4 @@
-import { Feature, Geometry, GeometryCollection } from '@turf/turf';
+import { Feature } from '@turf/turf';
 import { isEmpty, isUndefined } from 'lodash';
 import { useEffect } from 'react';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -54,31 +54,26 @@ function stringFilter(filter: FilterNode, properties: Record<string, any>) {
   }
 }
 
-export type Features = Feature<
-  Geometry | GeometryCollection,
-  Record<string, any>
->;
-
-export const filterFeatures = atom<Features[]>({
+export const filterFeatureAtom = atom<Feature[]>({
   key: 'filterFeature',
   default: [],
 });
 
-export function useFilterFeature() {
+export function useFilterFeatures() {
   const { features } = useFeature();
-  const { filters: newFilters } = useFilter();
+  const { filters } = useFilter();
 
-  const setFilterFeature = useSetRecoilState(filterFeatures);
-  const filterFeature = useRecoilValue(filterFeatures);
+  const setFilterFeature = useSetRecoilState(filterFeatureAtom);
+  const filterFeatures = useRecoilValue(filterFeatureAtom);
 
   useEffect(() => {
-    if (isEmpty(newFilters)) {
+    if (isEmpty(filters)) {
       setFilterFeature([...features]);
       return;
     }
     let newFeature = [...features];
     // 过滤空值
-    const setNotEmptyFilter = newFilters.filter((a) => !isEmptyFilter(a));
+    const setNotEmptyFilter = filters.filter((a) => !isEmptyFilter(a));
     // 查找 and 条件 且
     const andFilters = setNotEmptyFilter.filter((item) => item.logic === 'and');
     // 查找 or 条件 或
@@ -101,9 +96,9 @@ export function useFilterFeature() {
       });
     }
     setFilterFeature(newFeature);
-  }, [features, newFilters, setFilterFeature]);
+  }, [features, filters, setFilterFeature]);
 
   return {
-    newFeatures: filterFeature,
+    features: filterFeatures,
   };
 }

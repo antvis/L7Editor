@@ -1,5 +1,4 @@
 import { defineConfig } from 'dumi';
-import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -50,11 +49,4 @@ export default defineConfig({
         s.parentNode.insertBefore(hm, s);
       })();`,
   ],
-  chainWebpack: (config) => {
-    config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
-      {
-        languages: ['json', 'javascript'],
-      },
-    ]);
-  },
 });

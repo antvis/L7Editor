@@ -57,7 +57,7 @@ export const SettingBtn = () => {
             popupTrigger,
             autoFitBounds,
             baseMap,
-            coordConvert: coordConvert,
+            coordConvert,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {

@@ -10,7 +10,7 @@ import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select, Tooltip } from 'antd';
 import { cloneDeep, debounce, isEmpty } from 'lodash';
 import React, { useMemo, useState } from 'react';
-import { isEmptyFilter } from '../../../hooks/useFilterFeature';
+import { isEmptyFilter } from '../../../hooks/use-filter-features';
 import { useFeature, useFilter } from '../../../recoil';
 import useStyle from '../styles';
 import NumberFilter from './numberFilter';

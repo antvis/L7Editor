@@ -8,53 +8,28 @@ import {
 import { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
-import gcoord from 'gcoord';
 import { cloneDeep, groupBy } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
-import { Features, useFilterFeature } from '../../hooks/useFilterFeature';
-import { useGlobal } from '../../recoil';
+import { useFilterFeatures } from '../../hooks';
+import { useFeature, useGlobal } from '../../recoil';
 import { getPointImage } from '../../utils/change-image-color';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
   const { layerColor, coordConvert, baseMap } = useGlobal();
-  const { newFeatures } = useFilterFeature();
-  const [features, setFeatures] = useState<Features[]>([]);
+  const { transformCoord } = useFeature();
+  const { features: newFeatures } = useFilterFeatures();
+  const [features, setFeatures] = useState<Feature[]>([]);
 
   useEffect(() => {
     if (newFeatures.length) {
-      let data = newFeatures;
-      if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
-        //@ts-ignore
-        data = newFeatures.map((item) => {
-          const newItem = gcoord.transform(
-            //@ts-ignore
-            cloneDeep(item),
-            gcoord.WGS84,
-            gcoord.GCJ02,
-          );
-          return newItem;
-        });
-        //@ts-ignore
-      } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
-        //@ts-ignore
-        data = newFeatures.map((item) => {
-          const newItem = gcoord.transform(
-            //@ts-ignore
-            cloneDeep(item),
-            gcoord.GCJ02,
-            gcoord.WGS84,
-          );
-          return newItem;
-        });
-      }
-      setFeatures(data);
+      setFeatures(transformCoord(newFeatures));
     } else {
       setFeatures([]);
     }
-  }, [newFeatures, coordConvert]);
+  }, [newFeatures, coordConvert, baseMap]);
 
   const [
     pointSource,
