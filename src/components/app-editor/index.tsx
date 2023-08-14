@@ -1,6 +1,8 @@
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import 'monaco-editor/esm/vs/language/json/monaco.contribution';
+import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
 import React, {
   forwardRef,
   useImperativeHandle,
