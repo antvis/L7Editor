@@ -30,6 +30,7 @@
     "@mapbox/togeojson": "^0.16.0",
     "@turf/turf": "^6.5.0",
     "ahooks": "^3.7.0",
+    "antd": "^5.8.3",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
     "gcoord": "^1.0.5",
@@ -49,6 +50,8 @@
   },
   "yuyanId": "180020010001251474",
   "devDependencies": {
+    "@antv/l7": "^2.11.0",
+    "antd": "^5.7.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/classnames": "^2.3.1",
@@ -68,10 +71,10 @@
     "typescript": "^4.1.2"
   },
   "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0",
     "@antv/l7": "^2.11.0",
-    "antd": "^5.7.0"
+    "antd": "^5.7.0",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
   },
   "lint-staged": {
     "*.less": "stylelint --fix",

@@ -106,7 +106,7 @@ const activeTabState = atom<'geojson' | 'table' | 'wkt'>({
   effects: [localStorageEffect(LocalStorageKey.ActiveRightTabKey)],
 });
 
-const layerTypeState = atom<string[]>({
+const officialLayersState = atom<string[]>({
   key: 'layerType',
   default: [],
   effects: [localStorageEffect(LocalStorageKey.officialLayers)],
@@ -141,7 +141,7 @@ export {
   popupTriggerState,
   baseMapState,
   isDrawState,
-  layerTypeState,
+  officialLayersState,
   convertState,
   themeState,
 };

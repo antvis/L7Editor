@@ -1,59 +1,51 @@
-import { ConfigProvider, theme } from 'antd';
-import zhCN from 'antd/es/locale/zh_CN';
-import React, { useEffect } from 'react';
+import { Result } from 'antd';
+import React, { useMemo } from 'react';
+import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
+import { PrimaryColor } from '../constants';
 import {
-  AppHeader,
-  AppMap,
-  LayerList,
-  LayerPopup,
-  MapContent,
-  MapControlGroup,
-  ResizePanel,
-} from '../components';
-import { useGlobal } from '../recoil';
-import { L7EditorProps } from '../types';
-import useStyle from './styles'
-import classNames from 'classnames';
+  activeTabState,
+  autoFitBoundsState,
+  baseMapState,
+  convertState,
+  hideEditorState,
+  layerColorState,
+  mapOptionState,
+  officialLayersState,
+  popupTriggerState,
+  rightWidthState,
+  themeState,
+} from '../recoil/atomState';
+import type { L7EditorProps } from '../types';
+import { Editor } from './components/Editor';
 
-export const Editor = (props: L7EditorProps) => {
-  const styles = useStyle();
-  const { onFeatureChange } = props;
-  const { theme: antdTheme, mapOptions, setMapOptions } = useGlobal();
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
-  useEffect(() => {
-    if (antdTheme === 'normal') {
-      setMapOptions({ ...mapOptions, style: 'normal' });
-    } else {
-      setMapOptions({ ...mapOptions, style: 'dark' });
-    }
-  }, [antdTheme]);
+export const L7Editor = (props: L7EditorProps) => {
+  const isPc = useMemo(() => {
+    return !/Mobi|Android|iPhone/i.test(navigator.userAgent);
+  }, []);
 
-  return (
-    <ConfigProvider
-      locale={zhCN}
-      theme={{
-        algorithm:
-          antdTheme === 'normal' ? theme.defaultAlgorithm : theme.darkAlgorithm,
-      }}
-    >
-      <div className={classNames([styles.l7Editor, 'l7-editor'])} id="l7-editor">
-        <AppHeader />
-        <ResizePanel
-          onFeatureChange={(e) => {
-            if (onFeatureChange) {
-              onFeatureChange(e);
-            }
-          }}
-          left={
-            <AppMap>
-              <MapControlGroup />
-              <LayerList />
-              <LayerPopup />
-            </AppMap>
-          }
-          right={<MapContent feature={props?.features} />}
-        />
-      </div>
-    </ConfigProvider>
+  const initializeState = useMemo(() => {
+    return ({ set }: MutableSnapshot) => {
+      set(baseMapState, props?.baseMap ?? 'Gaode');
+      set(layerColorState, props?.primaryColor ?? PrimaryColor);
+      set(rightWidthState, props?.rightPanelWidth ?? 40);
+      set(mapOptionState, props?.mapOption ?? { style: 'normal', maxZoom: 24 });
+      set(autoFitBoundsState, !props?.autoFitBounds);
+      set(popupTriggerState, props?.popupTrigger ?? 'click');
+      set(activeTabState, props?.activeTab ?? 'geojson');
+      set(officialLayersState, props?.officialLayers ?? []);
+      set(hideEditorState, props?.hidePanel ?? false);
+      set(themeState, props?.theme ?? 'normal');
+      set(convertState, props?.coordConvert ?? 'GCJ02');
+    };
+  }, [props]);
+
+  return isPc ? (
+    <RecoilRoot initializeState={initializeState}>
+      <Editor {...props} />
+    </RecoilRoot>
+  ) : (
+    <Result status="404" title="请用PC端打开" />
   );
 };

@@ -35,7 +35,6 @@ export default function useFeature() {
   const [savedText, setSavedText] = useRecoilState(savedTextState);
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
-
   const [scene, setScene] = useRecoilState(sceneState);
 
   const savable = useMemo(() => {
