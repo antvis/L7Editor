@@ -16,7 +16,7 @@ import {
   themeState,
 } from '../recoil/atomState';
 import type { L7EditorProps } from '../types';
-import { Editor } from './components';
+import { Editor } from './components/Editor';
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
