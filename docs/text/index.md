@@ -23,7 +23,6 @@ title: L7Editor文档
 | activeTab | 侧面板展示 | `'geojson'｜'table'` | `wkt` |
 | features | 初始化数据 | `FeatureCollection` | `-` |
 | officialLayers | 底图选择 | `string[]` | `[]` |
-| tabs | 右侧标签页 | `absProps['items']` 详见[antd](https://ant.design/components/tabs-cn/#tabs) | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'undefined'｜'GCJ02'｜'WGS84'` | `undefined` |
 
@@ -47,28 +46,12 @@ editConfig={{ layerType: ['Satellite','RoadNet'] }}
 | Buildings       | 高德楼块图 |
 | Traffic         | 高德路况图 |
 
-#### tabs
-
-标签页
-
-```js
-    editorConfig={{
-        tabs: [
-            {
-              key: '1',
-              label: <div>自定义</div>,
-              children: <></>,
-            },
-        ]}}
-```
-
 #### coordConvert
 
-| 属性      | 描述          |
-| --------- | ------------- |
-| undefined | 不转换        |
-| GCJ02     | WGS84==>GCJ02 |
-| WGS84     | GCJ02==>WGS84 |
+| 属性  | 描述          |
+| ----- | ------------- |
+| GCJ02 | WGS84==>GCJ02 |
+| WGS84 | GCJ02==>WGS84 |
 
 #### `onFeatureChange`
 

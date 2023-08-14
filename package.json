@@ -21,8 +21,6 @@
   },
   "dependencies": {
     "@ahooksjs/use-url-state": "^3.5.1",
-    "@alipay/difi-weave": "^1.2.8",
-    "@alipay/difi-weave-editable": "^1.2.8",
     "@ant-design/icons": "^4.8.0",
     "@antv/g2plot": "^2.4.31",
     "@antv/l7": "^2.15.2",

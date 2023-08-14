@@ -2,7 +2,9 @@ import { LarkMapProps } from '@antv/larkmap';
 import { Feature, FeatureCollection } from '@turf/turf';
 import { TabsProps } from 'antd';
 
-export type EditorConfigProps = {
+export interface L7EditorProps {
+  onFeatureChange?: (feature: Feature[]) => void;
+
   /**
    * 图层颜色
    * @default '#1677ff'
@@ -68,10 +70,4 @@ export type EditorConfigProps = {
    * @default 'undefined'
    */
   coordConvert?: 'undefined' | 'GCJ02' | 'WGS84';
-};
-
-export type L7EditorProps = {
-  onFeatureChange?: (feature: Feature[]) => void;
-
-  editorConfig: EditorConfigProps;
-};
+}
