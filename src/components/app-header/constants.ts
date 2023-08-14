@@ -14,7 +14,7 @@ export const logs = [
 export const HandBackMenuItems: MenuProps['items'] = [
   {
     key: 'text',
-    label: '平台文档',
+    label: '平台使用文档',
   },
   {
     key: 'api',

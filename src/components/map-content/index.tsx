@@ -1,16 +1,20 @@
-import { useFeature, useGlobal } from '../../recoil';
+import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
+import { FeatureCollection } from '@turf/turf';
 import { Tabs, TabsProps } from 'antd';
 import React, { useEffect } from 'react';
-import { IFeature } from '../../types';
+import { useFeature, useGlobal } from '../../recoil';
+import { AppEditor } from '../app-editor';
+import { AppTable } from '../app-table';
+import { WktEditor } from '../wkt-editor';
 import './index.less';
 import useStyle from './styles';
+import { IconFont } from '../../constants';
 
 export interface MapContentProps {
-  tabItem: TabsProps['items'];
-  feature?: IFeature;
+  feature?: FeatureCollection;
 }
 
-export const MapContent: React.FC<MapContentProps> = ({ tabItem, feature }) => {
+export const MapContent: React.FC<MapContentProps> = ({ feature }) => {
   const { activeTab, setActiveTab } = useGlobal();
   const { saveEditorText } = useFeature();
   const styles = useStyle();
@@ -21,15 +25,48 @@ export const MapContent: React.FC<MapContentProps> = ({ tabItem, feature }) => {
     }
   }, [feature]);
 
+  const items: TabsProps['items'] = [
+    {
+      key: 'code',
+      label: (
+        <div>
+          <IconFont type="icon-json" />
+          GeoJSON
+        </div>
+      ),
+      children: <AppEditor />,
+    },
+    {
+      key: 'wkt',
+      label: (
+        <div>
+          <GlobalOutlined />
+          WKT
+        </div>
+      ),
+      children: <WktEditor />,
+    },
+    {
+      key: 'table',
+      label: (
+        <div id="l7-editor-driver-table">
+          <TableOutlined />
+          表格
+        </div>
+      ),
+      children: <AppTable />,
+    },
+  ];
+
   return (
     <div className={styles.mapContent} id="l7-editor-driver-panel">
       <Tabs
         activeKey={activeTab}
         className={styles.mapContentRight}
-        defaultActiveKey="code"
-        items={tabItem}
+        defaultActiveKey="geojson"
+        items={items}
         onChange={(e) => {
-          setActiveTab(e as 'code' | 'table');
+          setActiveTab(e as 'geojson' | 'table' | 'wkt');
         }}
       />
     </div>

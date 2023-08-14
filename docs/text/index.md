@@ -17,15 +17,14 @@ title: L7Editor文档
 | baseMap | 地图选项 | `‘Gaode’｜'Mapbox'` | `Gaode` |
 | mapOption | 地图配置 详见 [LarkMap](https://larkmap.antv.antgroup.com/components/lark-map#mapoptions) | `LarkMapProps` | `-` |
 | primaryColor | 图层颜色 | `string` | `#1677ff` |
-| rightWidth | 右侧边栏宽度 | `number` | `40` |
+| rightPanelWidth | 右侧边栏宽度 | `number` | `40` |
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
-| activeTab | 侧面板展示 | `'code'｜'table'` | `code` |
-| feature | 初始化数据 | `feature[]` | `-` |
-| layerType | 底图选择 | `string[]` | `[]` |
-| tabs | 右侧标签页 | `absProps['items']` 详见[antd](https://ant.design/components/tabs-cn/#tabs) | `[]` |
-| theme | 主题配置 | `'norm' ｜ 'dark'` | `'norm'` |
-| convert | 数据转换 | `'notConvert'｜'GCJ02'｜'WGS84'` | `notConvert` |
+| activeTab | 侧面板展示 | `'geojson'｜'table'` | `wkt` |
+| features | 初始化数据 | `FeatureCollection` | `-` |
+| officialLayers | 底图选择 | `string[]` | `[]` |
+| theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
+| coordConvert | 数据转换 | `'undefined'｜'GCJ02'｜'WGS84'` | `undefined` |
 
 #### `layerType`
 
@@ -47,28 +46,12 @@ editConfig={{ layerType: ['Satellite','RoadNet'] }}
 | Buildings       | 高德楼块图 |
 | Traffic         | 高德路况图 |
 
-#### tabs
+#### coordConvert
 
-标签页
-
-```js
-    editorConfig={{
-        tabs: [
-            {
-              key: '1',
-              label: <div>自定义</div>,
-              children: <></>,
-            },
-        ]}}
-```
-
-#### convert
-
-| 属性       | 描述          |
-| ---------- | ------------- |
-| notConvert | 不转换        |
-| GCJ02      | WGS84==>GCJ02 |
-| WGS84      | GCJ02==>WGS84 |
+| 属性  | 描述          |
+| ----- | ------------- |
+| GCJ02 | WGS84==>GCJ02 |
+| WGS84 | GCJ02==>WGS84 |
 
 #### `onFeatureChange`
 

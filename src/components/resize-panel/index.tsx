@@ -18,7 +18,7 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({
   right,
   onFeatureChange,
 }) => {
-  const { hideEditor, setHideEditor, rightWidth, setRightWidth } = useGlobal();
+  const { hideEditor, setHideEditor, rightPanelWidth, setRightWidth } = useGlobal();
   const [resizePanel, setResizePanel] = useState<HTMLDivElement | null>(null);
   const [minRightWidth, maxRightWidth] = RightPanelWidthRange;
   const { width: containerWidth = 0 } = useSize(resizePanel) ?? {};
@@ -28,20 +28,20 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({
   const onResize = (event: Event) => {
     const { left = 0 } = resizePanel?.getBoundingClientRect() ?? {};
 
-    let rightWidth =
+    let rightPanelWidth =
       100 * (1 - ((event as MouseEvent).clientX - left) / containerWidth);
-    if (rightWidth < minRightWidth) {
-      rightWidth = minRightWidth;
+    if (rightPanelWidth < minRightWidth) {
+      rightPanelWidth = minRightWidth;
     }
-    if (rightWidth > maxRightWidth) {
-      rightWidth = maxRightWidth;
+    if (rightPanelWidth > maxRightWidth) {
+      rightPanelWidth = maxRightWidth;
     }
-    setRightWidth(rightWidth);
+    setRightWidth(rightPanelWidth);
   };
 
   const calcRightWidth = useMemo(() => {
-    return hideEditor ? 0 : rightWidth;
-  }, [hideEditor, rightWidth]);
+    return hideEditor ? 0 : rightPanelWidth;
+  }, [hideEditor, rightPanelWidth]);
 
   useEffect(() => {
     onFeatureChange(features);

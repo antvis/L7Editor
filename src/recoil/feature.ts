@@ -20,7 +20,6 @@ import {
   isDrawState,
   savedTextState,
   sceneState,
-  wktTextState,
 } from './atomState';
 
 type IFeature = Feature<
@@ -36,7 +35,6 @@ export default function useFeature() {
   const [savedText, setSavedText] = useRecoilState(savedTextState);
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
-  const [wktText, setWktText] = useRecoilState(wktTextState);
 
   const [scene, setScene] = useRecoilState(sceneState);
 
@@ -165,8 +163,6 @@ export default function useFeature() {
     isDraw,
     scene,
     setScene,
-    wktText,
-    setWktText,
     fc,
   };
 }

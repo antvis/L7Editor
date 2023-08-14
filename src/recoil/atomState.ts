@@ -55,12 +55,6 @@ const editorTextState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.EditorText)],
 });
 
-const wktTextState = atom<string>({
-  key: 'wktText',
-  default: '',
-  effects: [localStorageEffect(LocalStorageKey.WktText)],
-});
-
 const lnglatTypeState = atom<LngLatImportType>({
   key: 'lnglatType',
 });
@@ -71,7 +65,7 @@ const lnglatTextState = atom({
 });
 
 const rightWidthState = atom<number>({
-  key: 'rightWidth',
+  key: 'rightPanelWidth',
   effects: [localStorageEffect(LocalStorageKey.RightPanelWidth)],
 });
 
@@ -106,26 +100,27 @@ const baseMapState = atom<'Gaode' | 'Mapbox'>({
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
 
-const activeTabState = atom<'code' | 'table'>({
+const activeTabState = atom<'geojson' | 'table' | 'wkt'>({
   key: 'activeTab',
+  default: 'geojson',
   effects: [localStorageEffect(LocalStorageKey.ActiveRightTabKey)],
 });
 
 const layerTypeState = atom<string[]>({
   key: 'layerType',
   default: [],
-  effects: [localStorageEffect(LocalStorageKey.LayerTypes)],
+  effects: [localStorageEffect(LocalStorageKey.officialLayers)],
 });
 
 const convertState = atom<string>({
-  key: 'convert',
-  default: 'notConvert',
+  key: 'coordConvert',
+  default: 'GCJ02',
   effects: [localStorageEffect(LocalStorageKey.Convert)],
 });
 
 const themeState = atom<string>({
   key: 'theme',
-  default: 'norm',
+  default: 'normal',
   effects: [localStorageEffect(LocalStorageKey.theme)],
 });
 

@@ -212,9 +212,9 @@ export const AppHeader: React.FC = () => {
         <Switch
           checkedChildren="光"
           unCheckedChildren="暗"
-          defaultChecked={theme === 'norm' ? true : false}
+          defaultChecked={theme === 'normal' ? true : false}
           onChange={(checked: boolean) => {
-            setTheme(checked ? 'norm' : 'dark');
+            setTheme(checked ? 'normal' : 'dark');
           }}
         />
       </div>
