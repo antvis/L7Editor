@@ -1,5 +1,6 @@
 import { defineConfig } from '@umijs/max';
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
@@ -19,6 +20,16 @@ export default defineConfig({
     },
     footer: false,
   },
+  metas: [
+    {
+      name: 'keywords',
+      content: 'L7, Map,GIS Data, GeoJSON, GIS, Editor, AntV, L7Editor',
+    },
+    {
+      name: 'description',
+      content: 'A React tool for editing GIS data based on L7',
+    },
+  ],
   alias: {
     '@': require('path').resolve(__dirname, 'src'),
   },
