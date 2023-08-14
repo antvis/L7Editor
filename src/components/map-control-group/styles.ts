@@ -116,7 +116,6 @@ const useStyle = () => {
       color: ${colorIcon};
     `,
     l7LocationSearch: css`
-      box-shadow: ${boxShadow} !important;
       .larkmap-select-selector {
         height: 30px !important;
         width: 200px;
