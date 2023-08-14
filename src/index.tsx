@@ -10,13 +10,13 @@ import {
   convertState,
   hideEditorState,
   layerColorState,
-  layerTypeState,
   mapOptionState,
+  officialLayersState,
   popupTriggerState,
   rightWidthState,
   themeState,
 } from './recoil/atomState';
-import { L7EditorProps } from './types';
+import type { L7EditorProps } from './types';
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
@@ -34,7 +34,7 @@ const L7Editor = (props: L7EditorProps) => {
       set(autoFitBoundsState, !props?.autoFitBounds);
       set(popupTriggerState, props?.popupTrigger ?? 'click');
       set(activeTabState, props?.activeTab ?? 'geojson');
-      set(layerTypeState, props?.officialLayers ?? []);
+      set(officialLayersState, props?.officialLayers ?? []);
       set(hideEditorState, props?.hidePanel ?? false);
       set(themeState, props?.theme ?? 'normal');
       set(convertState, props?.coordConvert ?? 'GCJ02');

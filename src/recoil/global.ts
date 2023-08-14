@@ -6,7 +6,7 @@ import {
   convertState,
   hideEditorState,
   layerColorState,
-  layerTypeState,
+  officialLayersState,
   mapOptionState,
   popupTriggerState,
   rightWidthState,
@@ -30,7 +30,7 @@ export default function useGlobal() {
 
   const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
-  const [layerType, setLayerType] = useRecoilState(layerTypeState);
+  const [layerType, setLayerType] = useRecoilState(officialLayersState);
 
   const [coordConvert, setConvert] = useRecoilState(convertState);
 
