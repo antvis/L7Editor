@@ -7,7 +7,7 @@ import {
 } from '@antv/larkmap';
 import React, { useEffect, useState } from 'react';
 import { useGlobal } from '../../recoil';
-import { mapControlProps } from '../../types/l7editor';
+import { MapControlProps } from '../../types/l7editor';
 import { AdministrativeSelect } from './administrative-select-control';
 import { AutoControl } from './auto-control';
 import { ClearControl } from './clear-control';
@@ -20,7 +20,7 @@ import { OfficialLayerControl } from './official-layer-control';
 import useStyle from './styles';
 
 type MapControlGroupProps = {
-  mapControl?: mapControlProps;
+  mapControl?: MapControlProps;
 };
 const isControlGroup = {
   drawControl: true,

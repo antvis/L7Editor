@@ -2,7 +2,7 @@ import { LarkMapProps } from '@antv/larkmap';
 import { Feature } from '@turf/turf';
 import { TabsProps } from 'antd';
 
-export interface mapControlProps {
+export interface MapControlProps {
   drawControl?: boolean;
   clearControl?: boolean;
   zoomControl?: boolean;
@@ -19,7 +19,7 @@ export interface mapControlProps {
   administrativeSelectControl?: boolean;
 }
 
-export interface toolBarProps {
+export interface ToolbarProps {
   logo?: boolean;
   import?: boolean;
   download?: boolean;
@@ -100,9 +100,9 @@ export interface L7EditorProps {
   /**
    * 是否显示控件
    */
-  mapControl?: mapControlProps;
+  mapControl?: MapControlProps;
   /**
    * 是否显示头部组件
    */
-  toolBar?: toolBarProps;
+  toolbar?: ToolbarProps;
 }

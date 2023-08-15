@@ -3,8 +3,8 @@ import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, Switch, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { toolbarProps } from '../../types/l7editor';
 import { useFeature, useGlobal } from '../../recoil';
+import { ToolbarProps } from '../../types/l7editor';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import { ImportBtn } from './btn/import-btn';
@@ -18,7 +18,7 @@ type openType = {
 };
 
 type AppHeaderProps = {
-  toolBar?: toolbarProps;
+  toolbar?: ToolbarProps;
 };
 
 const isTooBar = {
@@ -31,7 +31,7 @@ const isTooBar = {
   theme: true,
 };
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ toolBar }) => {
+export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
   const [open, setOpen] = useState<openType>({ key: '', open: false });
   const { autoFitBounds, theme, setTheme } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
@@ -58,8 +58,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolBar }) => {
   };
 
   useEffect(() => {
-    setIsTooBar({ ...isTooBar, ...toolBar });
-  }, [toolBar]);
+    setIsTooBar({ ...isTooBar, ...toolbar });
+  }, [toolbar]);
 
   return (
     <div className={classNames([styles.mapHeader, 'l7-editor-header'])}>
