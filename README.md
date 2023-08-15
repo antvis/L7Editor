@@ -21,11 +21,7 @@ npm install @antv/l7-editor
 import { L7Editor } from '@antv/l7-editor';
 
 export default () => {
-  return (
-    <div>
-      <L7Editor />
-    </div>
-  );
+  return <L7Editor autoFitBounds activeTab="geojson" theme="dark" />;
 };
 ```
 

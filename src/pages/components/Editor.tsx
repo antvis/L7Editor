@@ -42,7 +42,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
         className={classNames([styles.l7Editor, 'l7-editor'])}
         id="l7-editor"
       >
-        <AppHeader toolbar={props.toolbar} />
+        <AppHeader toolBar={props.toolBar} />
         <ResizePanel
           onFeatureChange={(e) => {
             if (onFeatureChange) {

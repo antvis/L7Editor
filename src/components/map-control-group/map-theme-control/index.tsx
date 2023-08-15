@@ -1,6 +1,6 @@
 import { MapThemeControl as LarkMapMapThemeControl } from '@antv/larkmap';
 import React from 'react';
-import { useGlobal } from '../../recoil';
+import { useGlobal } from '../../../recoil';
 import useStyle from './styles';
 
 const MapThemeControl: React.FC = () => {

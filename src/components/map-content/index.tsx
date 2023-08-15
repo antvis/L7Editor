@@ -21,7 +21,9 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
 
   useEffect(() => {
     if (features) {
-      saveEditorText(JSON.stringify(features, null, 2));
+      saveEditorText(
+        JSON.stringify({ type: 'FeatureCollection', features }, null, 2),
+      );
     }
   }, [features]);
 

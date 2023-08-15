@@ -15,18 +15,18 @@ title: L7Editor文档
 | 属性 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | baseMap | 地图选项 | `‘Gaode’｜'Mapbox'` | `Gaode` |
-| mapOption | 地图配置 详见 [LarkMap](https://larkmap.antv.antgroup.com/components/lark-map#mapoptions) | `LarkMapProps` | `-` |
+| mapOption | 地图配置 详见 [mapOption](https://larkmap.antv.antgroup.com/components/lark-map#mapoptions) | `LarkMapProps` | `-` |
 | primaryColor | 图层颜色 | `string` | `#1677ff` |
 | rightPanelWidth | 右侧边栏宽度 | `number` | `40` |
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
 | activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt'` | `geojson` |
-| features | 初始化数据 | `FeatureCollection` | `-` |
+| features | 初始化数据 | ` Features[]` | `-` |
 | officialLayers | 底图选择 | `string[]` | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
 | mapControl | 控件显隐 | [mapControlProps](#mapcontrolprops) | `-` |
-| toobar | 头部组件显隐 | [toolbarProps](#toolbarProps) | `-` |
+| toolBar | 头部组件显隐 | [toolBarProps](#toolBarProps) | `-` |
 
 #### `layerType`
 
@@ -67,33 +67,34 @@ title: L7Editor文档
 
 #### mapControlProps
 
-| 属性                  | 描述             |
-| --------------------- | ---------------- |
-| drawControl           | 绘制工具         |
-| clearControl          | 清除工具         |
-| zoomControl           | 缩放器工具       |
-| scaleControl          | 比例尺工具       |
-| locationSearchControl | 地点搜索工具     |
-| mouseLocationControl  | 光标经纬度工具   |
-| filterControl         | 数据过滤工具     |
-| officialLayerControl  | 官方图层控制工具 |
-| mapThemeControl       | 图层主题工具     |
-| geoLocateControl      | 定位工具         |
-| layerColorControl     | 图层颜色控制工具 |
-| autoControl           | 自适应工具       |
-| fullscreenControl     | 全屏工具         |
+| 属性                        | 描述             |
+| --------------------------- | ---------------- |
+| drawControl                 | 绘制工具         |
+| clearControl                | 清除工具         |
+| zoomControl                 | 缩放器工具       |
+| scaleControl                | 比例尺工具       |
+| locationSearchControl       | 地点搜索工具     |
+| mouseLocationControl        | 光标经纬度工具   |
+| filterControl               | 数据过滤工具     |
+| officialLayerControl        | 官方图层控制工具 |
+| mapThemeControl             | 图层主题工具     |
+| geoLocateControl            | 定位工具         |
+| layerColorControl           | 图层颜色控制工具 |
+| autoControl                 | 自适应工具       |
+| fullScreenControl           | 全屏工具         |
+| administrativeSelectControl | 行政区域选择工具 |
 
-#### toobar
+#### toolBar
 
 控制显示隐藏头部组件
 
 ```js
 {
-  toobar = {{logo: false}}
+  toolBar = {{logo: false}}
 }
 ```
 
-#### toolbarProps
+#### toolBarProps
 
 | 属性     | 描述 |
 | -------- | ---- |
@@ -110,5 +111,5 @@ title: L7Editor文档
 数据变化时的监听方法
 
 ```js
-    onFeatureChange={(feature: Feature[]) => {}}
+    onFeatureChange={(features: Features[]) => {}}
 ```

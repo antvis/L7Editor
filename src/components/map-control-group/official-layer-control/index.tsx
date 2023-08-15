@@ -2,8 +2,8 @@ import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover, Tabs, TabsProps } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import React, { useEffect, useRef } from 'react';
-import { IconFont } from '../../constants';
-import { useGlobal } from '../../recoil';
+import { IconFont } from '../../../constants';
+import { useGlobal } from '../../../recoil';
 import useStyle from './styles';
 
 /**
