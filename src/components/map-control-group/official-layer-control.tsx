@@ -172,7 +172,7 @@ export function OfficialLayerControl() {
         }}
       >
         <IconFont
-          id="l7-editor-aMap"
+          id="l7-editor-driver-aMap"
           type="icon-ditu"
           className={styles.l7AmapControl}
         />

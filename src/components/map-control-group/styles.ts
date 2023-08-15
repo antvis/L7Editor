@@ -15,6 +15,7 @@ const useStyle = () => {
     colorPrimary,
     colorBgElevated,
     colorFillSecondary,
+    colorTextPlaceholder,
   } = token;
   return {
     control: css`
@@ -121,11 +122,21 @@ const useStyle = () => {
       color: ${colorIcon};
     `,
     l7LocationSearch: css`
+      .larkmap-location-search {
+        border-radius: 2px;
+        overflow: hidden;
+      }
       .larkmap-select-selector {
         width: 200px;
         height: 30px !important;
         background: ${colorBgContainer} !important;
         border: 0px !important;
+        .larkmap-select-selection-placeholder {
+          color: ${colorTextPlaceholder} !important;
+        }
+        .larkmap-location-search__option-name {
+          color: ${colorText};
+        }
       }
     `,
     filterBetween: css`

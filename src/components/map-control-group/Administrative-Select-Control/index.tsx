@@ -1,4 +1,4 @@
-import { LineLayer, LineLayerProps } from '@antv/larkmap';
+import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
 import {
   Feature,
   featureCollection,
@@ -105,17 +105,19 @@ export const AdministrativeSelect = () => {
 
   return (
     <>
-      <Cascader
-        options={data}
-        //@ts-ignore
-        onChange={onChange}
-        allowClear
-        showSearch={{ filter }}
-        placeholder="可选择省/市/县"
-        changeOnSelect
-        style={{ width: 250 }}
-        popupClassName={styles.cascaderPopup}
-      />
+      <CustomControl position="lefttop">
+        <Cascader
+          options={data}
+          //@ts-ignore
+          onChange={onChange}
+          allowClear
+          showSearch={{ filter }}
+          placeholder="可选择省/市/县"
+          changeOnSelect
+          style={{ width: 250 }}
+          popupClassName={styles.cascaderPopup}
+        />
+      </CustomControl>
 
       <LineLayer
         source={{
