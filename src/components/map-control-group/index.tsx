@@ -33,7 +33,7 @@ export const MapControlGroup: React.FC = ({}) => {
       <FilterControl />
       {baseMap === 'Gaode' && <OfficialLayerControl />}
       <MapThemeControl />
-      <GeoLocateControl position="bottomright" className={styles.fullScreen} />
+      <GeoLocateControl position="topleft" className={styles.fullScreen} />
       <LayerColorControl />
       <AutoControl />
       <FullscreenControl position="bottomright" className={styles.fullScreen} />
