@@ -11,7 +11,6 @@ import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';
-import './style.less';
 import { useStyle } from './styles';
 
 const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {

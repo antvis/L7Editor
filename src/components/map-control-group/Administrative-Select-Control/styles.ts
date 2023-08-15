@@ -7,6 +7,9 @@ export const useStyle = () => {
   const { colorBgElevated, colorFillSecondary } = token;
   return {
     cascaderPopup: css`
+      .ant-cascader-dropdown .ant-cascader-menu {
+        height: 260px !important;
+      }
       *::-webkit-scrollbar {
         width: 8px;
         background-color: ${colorBgElevated};
