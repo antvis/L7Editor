@@ -31,12 +31,6 @@ const useStyle = () => {
         margin-right: 4px;
       }
     `,
-    mapHeaderSelect: css`
-      margin: 0 12px;
-      .ant-select-selector {
-        border-width: 0px !important;
-      }
-    `,
     mapHeaderTitle: css`
       font-size: 16px;
       font-weight: bold;

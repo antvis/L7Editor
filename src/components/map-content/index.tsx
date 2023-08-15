@@ -1,6 +1,6 @@
 import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
-import { Tabs, TabsProps } from 'antd';
+import { Select, Tabs, TabsProps } from 'antd';
 import React, { useEffect } from 'react';
 import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
@@ -14,7 +14,8 @@ export interface MapContentProps {
 }
 
 export const MapContent: React.FC<MapContentProps> = ({ features }) => {
-  const { activeTab, setActiveTab } = useGlobal();
+  const { activeTab, setActiveTab, coordConvert, setCoordConvert } =
+    useGlobal();
   const { saveEditorText } = useFeature();
   const styles = useStyle();
 
@@ -59,6 +60,17 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
 
   return (
     <div className={styles.mapContent} id="l7-editor-panel">
+      <div className={styles.mapContentSelect}>
+        <span className={styles.mapContentSelectLabel}>坐标系：</span>
+        <Select
+          value={coordConvert}
+          options={[
+            { label: 'GCJ02', value: 'GCJ02' },
+            { label: 'WGS84', value: 'WGS84' },
+          ]}
+          onChange={setCoordConvert}
+        />
+      </div>
       <Tabs
         activeKey={activeTab}
         className={styles.mapContentRight}

@@ -75,7 +75,7 @@ const FilterControl: React.FC = () => {
 
   return (
     <CustomControl
-      position="bottomright"
+      position="bottomleft"
       className={styles.l7FilterPanel}
       style={{ display: 'flex' }}
     >

@@ -4,7 +4,7 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBgContainer, colorPrimary } = token;
+  const { colorBgContainer, colorPrimary, colorTextTertiary } = token;
   return {
     mapContent: css`
       display: flex;
@@ -32,6 +32,18 @@ const useStyle = () => {
           margin-left: 12px;
         }
       }
+    `,
+    mapContentSelect: css`
+      position: absolute;
+      right: 0;
+      z-index: 1;
+      margin: 7px 12px;
+      .ant-select-selector {
+        border-width: 0px !important;
+      }
+    `,
+    mapContentSelectLabel: css`
+      color: ${colorTextTertiary};
     `,
     mapContentRight: css`
       height: 100%;

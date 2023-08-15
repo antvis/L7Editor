@@ -1,6 +1,6 @@
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, Select, Switch, Tour, TourProps } from 'antd';
+import { Button, Dropdown, Switch, Tour, TourProps } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { toolbarProps } from 'src/types/l7editor';
@@ -33,8 +33,7 @@ const isTooBar = {
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
   const [open, setOpen] = useState<openType>({ key: '', open: false });
-  const { autoFitBounds, theme, setTheme, coordConvert, setCoordConvert } =
-    useGlobal();
+  const { autoFitBounds, theme, setTheme } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
   const [isTooBarState, setIsTooBar] = useState(isTooBar);
   const styles = useStyle();
@@ -223,15 +222,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         </Button>
       </div>
       <div className={styles.mapHeaderRight}>
-        <Select
-          className={styles.mapHeaderSelect}
-          value={coordConvert}
-          options={[
-            { label: 'GCJ02', value: 'GCJ02' },
-            { label: 'WGS84', value: 'WGS84' },
-          ]}
-          onChange={setCoordConvert}
-        />
         {isTooBarState.download && <DownloadBtn />}
         {isTooBarState.guide && (
           <Dropdown
