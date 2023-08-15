@@ -21,7 +21,7 @@ title: L7Editor文档
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
 | activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt'` | `geojson` |
-| features | 初始化数据 | ` Feature[]` | `-` |
+| features | 初始化数据 | ` Feature[]` | `[]` |
 | officialLayers | 底图选择 | `string[]` | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
