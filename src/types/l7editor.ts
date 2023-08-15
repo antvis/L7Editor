@@ -1,5 +1,5 @@
 import { LarkMapProps } from '@antv/larkmap';
-import { Feature, FeatureCollection } from '@turf/turf';
+import { Feature } from '@turf/turf';
 import { TabsProps } from 'antd';
 
 export interface mapControlProps {
@@ -19,7 +19,7 @@ export interface mapControlProps {
   administrativeSelectControl?: boolean;
 }
 
-export interface toolbarProps {
+export interface toolBarProps {
   logo?: boolean;
   import?: boolean;
   download?: boolean;
@@ -69,9 +69,9 @@ export interface L7EditorProps {
   activeTab?: 'geojson' | 'table' | 'wkt';
   /**
    * 初始化数据
-   * @default {type:'FeatureCollection',features:[]}
+   * @default []
    */
-  features?: FeatureCollection;
+  features?: Feature[];
   /**
    * 底图选择
    * @default []
@@ -94,7 +94,7 @@ export interface L7EditorProps {
   theme?: 'normal' | 'dark';
   /**
    * 数据转换
-   * @default 'undefined'
+   * @default 'GCJ02'
    */
   coordConvert?: 'GCJ02' | 'WGS84';
   /**
@@ -104,5 +104,5 @@ export interface L7EditorProps {
   /**
    * 是否显示头部组件
    */
-  toolBar?: toolbarProps;
+  toolBar?: toolBarProps;
 }
