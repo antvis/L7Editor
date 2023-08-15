@@ -6,7 +6,7 @@
 
 ## 📚 文档
 
-[文档](https://l7editor.antv.antgroup.com/text)
+[文档](https://l7editor.antv.antgroup.com/docs)
 
 [示例](https://l7editor.antv.antgroup.com)
 

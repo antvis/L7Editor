@@ -1,6 +1,7 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Feature } from '@turf/turf';
 import { useSize } from 'ahooks';
+import classNames from 'classnames';
 import { Resizable } from 're-resizable';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { RightPanelWidthRange } from '../../constants';
@@ -18,7 +19,8 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({
   right,
   onFeatureChange,
 }) => {
-  const { hideEditor, setHideEditor, rightPanelWidth, setRightWidth } = useGlobal();
+  const { hideEditor, setHideEditor, rightPanelWidth, setRightWidth } =
+    useGlobal();
   const [resizePanel, setResizePanel] = useState<HTMLDivElement | null>(null);
   const [minRightWidth, maxRightWidth] = RightPanelWidthRange;
   const { width: containerWidth = 0 } = useSize(resizePanel) ?? {};
@@ -49,13 +51,16 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({
 
   return (
     <div
-      className={styles.resizePanel}
+      className={classNames([styles.resizePanel, 'l7-editor-content'])}
       ref={(ref: HTMLDivElement) => {
         setResizePanel(ref);
       }}
     >
       <div
-        className={styles.resizePanelLeft}
+        className={classNames([
+          styles.resizePanelLeft,
+          'l7-editor-content__left',
+        ])}
         style={{ width: `${100 - calcRightWidth}%` }}
       >
         {left}
@@ -73,7 +78,10 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({
         }}
         minWidth={`${(minRightWidth / 100) * containerWidth}px`}
         maxWidth={`${(maxRightWidth / 100) * containerWidth}px`}
-        className={styles.resizePanelRight}
+        className={classNames([
+          styles.resizePanelRight,
+          'l7-editor-content__right',
+        ])}
         handleClasses={{
           left: styles.resizePanelDragLine,
         }}
