@@ -15,6 +15,7 @@ const useStyle = () => {
     colorPrimary,
     colorBgElevated,
     colorFillSecondary,
+    colorTextPlaceholder,
   } = token;
   return {
     control: css`
@@ -37,9 +38,9 @@ const useStyle = () => {
     amapInfo: css`
       margin-top: 10px;
       .ant-checkbox-group {
-        width: 370px;
         display: flex;
         flex-wrap: wrap;
+        width: 370px;
 
         .ant-checkbox-wrapper {
           position: relative;
@@ -47,8 +48,8 @@ const useStyle = () => {
 
           .ant-checkbox {
             position: absolute;
-            left: 10px;
             top: 4px;
+            left: 10px;
           }
         }
       }
@@ -74,11 +75,11 @@ const useStyle = () => {
       .l7-draw-control__btn {
         width: 28px !important;
         height: 28px !important;
-        border-right: none !important;
         color: ${colorIcon};
+        border-right: none !important;
         &:hover {
-          background: ${colorBgContainer};
           color: ${colorText};
+          background: ${colorBgContainer};
         }
       }
     `,
@@ -117,11 +118,21 @@ const useStyle = () => {
       color: ${colorIcon};
     `,
     l7LocationSearch: css`
+      .larkmap-location-search {
+        border-radius: 2px;
+        overflow: hidden;
+      }
       .larkmap-select-selector {
-        height: 30px !important;
         width: 200px;
-        border: 0px !important;
+        height: 30px !important;
         background: ${colorBgContainer} !important;
+        border: 0px !important;
+        .larkmap-select-selection-placeholder {
+          color: ${colorTextPlaceholder} !important;
+        }
+        .larkmap-location-search__option-name {
+          color: ${colorText};
+        }
       }
     `,
     filterBetween: css`
@@ -157,8 +168,8 @@ const useStyle = () => {
       cursor: pointer;
       color: ${colorIcon};
       &:hover {
-        background: ${colorBgContainer};
         color: ${colorText};
+        background: ${colorBgContainer};
       }
     `,
     clearSvg: css`
@@ -181,9 +192,9 @@ const useStyle = () => {
       cursor: pointer;
       border-radius: 2px;
       .ant-color-picker-color-block {
-        border-radius: 2px;
         width: 22px;
         height: 22px;
+        border-radius: 2px;
       }
     `,
     l7LocationSearchPanel: css`

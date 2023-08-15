@@ -17,6 +17,7 @@ import LocationSearchControl from './location-search-control';
 import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
 import useStyle from './styles';
+import { AdministrativeSelect } from './Administrative-Select-Control';
 
 type MapControlGroupProps = {
   mapControl?: mapControlProps;
@@ -57,6 +58,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.scaleControl && (
         <ScaleControl className={styles.scalesControl} />
       )}
+      <AdministrativeSelect />
       {isControlGroupState.locationSearchControl && <LocationSearchControl />}
       {isControlGroupState.mouseLocationControl && (
         <MouseLocationControl className={styles.fullScreen} />
@@ -68,7 +70,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.mapThemeControl && <MapThemeControl />}
       {isControlGroupState.geoLocateControl && (
         <GeoLocateControl
-          position="bottomright"
+          position="topleft"
           className={styles.fullScreen}
         />
       )}

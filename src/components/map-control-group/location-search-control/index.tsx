@@ -1,7 +1,5 @@
 import {
   CustomControl,
-  LocationSearch,
-  LocationSearchOption,
   Marker,
   useScene,
 } from '@antv/larkmap';
@@ -10,10 +8,11 @@ import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useFeature, useGlobal } from '../../recoil';
-import { getPointImage } from '../../utils/change-image-color';
-import { AdministrativeSelect } from './Administrative-Select-Control';
-import useStyle from './styles';
+import { useFeature, useGlobal } from '../../../recoil';
+import { getPointImage } from '../../../utils/change-image-color';
+import useStyle from '../styles';
+import { LocationSearchOption } from './types';
+import { LocationSearch } from './location-search';
 
 const LocationSearchControl: React.FC = React.memo(() => {
   const scene = useScene();
@@ -49,17 +48,17 @@ const LocationSearchControl: React.FC = React.memo(() => {
 
   return (
     <>
-      <CustomControl position="topleft">
+      <CustomControl position="lefttop">
         <div id="l7-editor-citySelect" style={{ display: 'flex' }}>
           <div className={styles.l7LocationSearch}>
             <div className={styles.l7LocationSearchPanel}>
-              <AdministrativeSelect />
               <div className={styles.locationSearcheContainer}>
                 <LocationSearch
                   popupClassName={styles.locationSearche}
                   getPopupContainer={() =>
                     document.querySelector('.larkmap') as HTMLElement
                   }
+                  allowClear
                   value={selectLocation?.name}
                   searchParams={{
                     key: '98d10f05a2da96697313a2ce35ebf1a2',
