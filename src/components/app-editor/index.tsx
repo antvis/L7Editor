@@ -1,11 +1,8 @@
-/* eslint-disable no-eval */
-/* eslint-disable no-async-promise-executor */
-import { useFeature } from '@/recoil';
-import { isPromise } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import 'monaco-editor/esm/vs/language/json/monaco.contribution';
+import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -13,6 +10,9 @@ import React, {
   useState,
 } from 'react';
 import MonacoEditor from 'react-monaco-editor';
+import { useFeature, useGlobal } from '../../recoil';
+import { isPromise } from '../../utils';
+import { prettierText } from '../../utils/prettier-text';
 import { provideCompletionItems } from './editortool';
 import useStyle from './styles';
 
@@ -25,6 +25,7 @@ type EditorProps = {
 
 export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const { language = 'json' } = props;
+  const { theme } = useGlobal();
   const { editorText, setEditorText } = useFeature();
   const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
@@ -124,7 +125,7 @@ export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
         language={language}
         {...value}
         onChange={monacoChange}
-        theme="custome-theme"
+        theme={theme === 'normal' ? 'custome-theme' : 'vs-dark'}
         options={{
           selectOnLineNumbers: true,
           tabIndex: 2,

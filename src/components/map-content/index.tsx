@@ -1,62 +1,58 @@
-import DingImgBtn from '@/components/map-content/btn/ding-img-btn';
-import HandBackBtn from '@/components/map-content/btn/handback-btn';
-import { IconFont } from '@/constants';
-import { useFeature, useGlobal } from '@/recoil';
-import { prettierText } from '@/utils/prettier-text';
-import {
-  ClearOutlined,
-  CodeOutlined,
-  SaveOutlined,
-  TableOutlined,
-} from '@ant-design/icons';
-import { useKeyPress } from 'ahooks';
-import { Button, Popconfirm, Tabs, TabsProps, Tooltip } from 'antd';
-import React, { useMemo } from 'react';
+import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
+import { Feature } from '@turf/turf';
+import { Select, Tabs, TabsProps } from 'antd';
+import React, { useEffect } from 'react';
+import { IconFont } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
 import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
-import ChangeLog from './btn/changelog-btn';
-import DownloadBtn from './btn/download-btn';
-import { ImportBtn } from './btn/import-btn';
-import { SettingBtn } from './btn/setting-btn';
-import './index.less';
+import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
-export const MapContent: React.FC = () => {
-  const { autoFitBounds, activeTab, setActiveTab } = useGlobal();
-  const { saveEditorText, savable, bboxAutoFit, features } = useFeature();
-  const styles = useStyle()
+export interface MapContentProps {
+  features?: Feature[];
+}
 
-  const onSave = () => {
-    if (!savable) {
-      return;
-    }
-    const features = saveEditorText();
-    if (autoFitBounds) {
-      bboxAutoFit(features);
-    }
-  };
+export const MapContent: React.FC<MapContentProps> = ({ features }) => {
+  const { activeTab, setActiveTab, coordConvert, setCoordConvert } =
+    useGlobal();
+  const { saveEditorText } = useFeature();
+  const styles = useStyle();
 
-  useKeyPress(['ctrl.s', 'meta.s'], (e) => {
-    e.preventDefault();
-    onSave();
-  });
+  useEffect(() => {
+    if (features) {
+      saveEditorText(
+        JSON.stringify({ type: 'FeatureCollection', features }, null, 2),
+      );
+    }
+  }, [features]);
 
   const items: TabsProps['items'] = [
     {
-      key: 'code',
+      key: 'geojson',
       label: (
         <div>
-          <CodeOutlined style={{ marginLeft: 5 }} />
-          编辑器
+          <IconFont type="icon-json" />
+          GeoJSON
         </div>
       ),
       children: <AppEditor />,
     },
     {
-      key: 'table',
+      key: 'wkt',
       label: (
         <div>
-          <TableOutlined style={{ marginLeft: 5 }} />
+          <GlobalOutlined />
+          WKT
+        </div>
+      ),
+      children: <WktEditor />,
+    },
+    {
+      key: 'table',
+      label: (
+        <div id="l7-editor-table">
+          <TableOutlined />
           表格
         </div>
       ),
@@ -64,71 +60,26 @@ export const MapContent: React.FC = () => {
     },
   ];
 
-  const featureDisabled = useMemo(() => {
-    return !features.length && !savable;
-  }, [features, savable]);
-
   return (
-    <div className={styles.mapContent}>
-      <div className={styles.mapContentLeft}>
-        <div>
-          <ImportBtn />
-          <Tooltip
-            trigger="hover"
-            placement="left"
-            overlay="保存（Ctrl/Command + S）"
-          >
-            <Button
-              icon={<SaveOutlined />}
-              disabled={!savable}
-              onClick={onSave}
-            ></Button>
-          </Tooltip>
-          <Popconfirm
-            title="确认清空所有数据？"
-            onConfirm={() => {
-              saveEditorText(
-                prettierText({
-                  content: { type: 'FeatureCollection', features: [] },
-                }),
-              );
-            }}
-          >
-            <Tooltip trigger="hover" placement="left" overlay="清空数据">
-              <Button icon={<ClearOutlined />} disabled={featureDisabled} />
-            </Tooltip>
-          </Popconfirm>
-
-          <Tooltip
-            trigger="hover"
-            placement="left"
-            overlay="缩放至所有元素可见"
-          >
-            <Button
-              disabled={featureDisabled}
-              icon={<IconFont type="icon-zishiying" />}
-              onClick={() => {
-                bboxAutoFit();
-              }}
-            />
-          </Tooltip>
-        </div>
-
-        <div>
-          <SettingBtn />
-          <DownloadBtn />
-          <ChangeLog />
-          <HandBackBtn />
-          <DingImgBtn />
-        </div>
+    <div className={styles.mapContent} id="l7-editor-panel">
+      <div className={styles.mapContentSelect}>
+        <span className={styles.mapContentSelectLabel}>坐标系：</span>
+        <Select
+          value={coordConvert}
+          options={[
+            { label: 'GCJ02', value: 'GCJ02' },
+            { label: 'WGS84', value: 'WGS84' },
+          ]}
+          onChange={setCoordConvert}
+        />
       </div>
       <Tabs
         activeKey={activeTab}
         className={styles.mapContentRight}
-        defaultActiveKey="code"
+        defaultActiveKey="geojson"
         items={items}
         onChange={(e) => {
-          setActiveTab(e as 'code' | 'table');
+          setActiveTab(e as 'geojson' | 'table' | 'wkt');
         }}
       />
     </div>

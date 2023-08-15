@@ -1,10 +1,9 @@
-/* eslint-disable no-useless-catch */
 import { FeatureCollectionVT } from '../constants';
 // @ts-ignore
 import togeojson from '@mapbox/togeojson';
 // @ts-ignore
-import wkt from 'wkt';
-import { uniqueId } from 'lodash'
+import { uniqueId } from 'lodash-es';
+import { Wkt2GeoJSON } from './wkt';
 
 export const readFileAsText = (file: File) => {
   return new Promise<string>((resolve, reject) => {
@@ -61,7 +60,6 @@ export const parserJsonToGeoJson = (
   };
 };
 
-
 /* 解析文本文件至数据集格式
  * 文本文件有： json geojson csv
  */
@@ -93,22 +91,11 @@ export const parserTextFileToSource = async (
       type: 'local',
     };
   } else if (fileExtension === 'wkt') {
-    const wktArr = content.split('\n');
-    const geojson = wktArr.map((item: string) => {
-      const data = {
-        type: 'Feature',
-        geometry: {},
-        properties: {},
-      };
-      return { ...data, geometry: wkt.parse(item) };
-    });
+    const geojson = Wkt2GeoJSON(content);
     return {
       id: id || uniqueId(id),
       metadata: { name },
-      data: {
-        type: 'FeatureCollection',
-        features: geojson,
-      },
+      data: geojson,
       type: 'local',
     };
   }

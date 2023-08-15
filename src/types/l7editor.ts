@@ -1,28 +1,57 @@
 import { LarkMapProps } from '@antv/larkmap';
 import { Feature } from '@turf/turf';
-import { IFeature, LngLatImportType } from '.';
+import { TabsProps } from 'antd';
 
-export type EditorConfigProps = {
+export interface MapControlProps {
+  drawControl?: boolean;
+  clearControl?: boolean;
+  zoomControl?: boolean;
+  scaleControl?: boolean;
+  locationSearchControl?: boolean;
+  mouseLocationControl?: boolean;
+  filterControl?: boolean;
+  officialLayerControl?: boolean;
+  mapThemeControl?: boolean;
+  geoLocateControl?: boolean;
+  layerColorControl?: boolean;
+  autoControl?: boolean;
+  fullScreenControl?: boolean;
+  administrativeSelectControl?: boolean;
+}
+
+export interface ToolbarProps {
+  logo?: boolean;
+  import?: boolean;
+  download?: boolean;
+  guide?: boolean;
+  help?: boolean;
+  setting?: boolean;
+  theme?: boolean;
+}
+
+export interface L7EditorProps {
+  onFeatureChange?: (feature: Feature[]) => void;
+
   /**
    * 图层颜色
-   * @default #1677ff
+   * @default '#1677ff'
    */
   primaryColor?: string;
   /**
    * 地图
-   * @default Gaode
+   * @default 'Gaode'
    */
-  baseMap: 'Gaode' | 'Mapbox';
+  baseMap?: 'Gaode' | 'Mapbox';
   /**
    * 侧边栏宽度 (40%)
    * @default 40
    */
-  rightWidth?: number;
+  rightPanelWidth?: number;
   /**
    * 地图配置
    * @default  {}
    */
-  mapOption: LarkMapProps['mapOptions'];
+  mapOption?: LarkMapProps['mapOptions'];
   /**
    * autoFitBounds
    * @default true
@@ -30,38 +59,50 @@ export type EditorConfigProps = {
   autoFitBounds?: boolean;
   /**
    * 图层popup触发方式
-   * @default click
+   * @default 'click'
    */
   popupTrigger?: 'click' | 'hover';
   /**
    * panel 展示tab
-   * @default code
+   * @default 'geojson'
    */
-  activeTab?: 'code' | 'table';
-  /**
-   * lnglatType
-   * @default Point
-   */
-  lnglatType?: LngLatImportType;
+  activeTab?: 'geojson' | 'table' | 'wkt';
   /**
    * 初始化数据
-   * @default {type:'FeatureCollection',features:[]}
+   * @default []
    */
-  feature?: IFeature;
+  features?: Feature[];
   /**
    * 底图选择
    * @default []
    */
-  layerType?: string[];
+  officialLayers?: string[];
   /**
    * 右侧面板是否隐藏
    * @default false
    */
   hidePanel?: boolean;
-};
-
-export type L7EditorProps = {
-  onFeatureChange?: (feature: Feature[]) => void;
-
-  editorConfig: EditorConfigProps;
-};
+  /**
+   * 标签页item项
+   * @default []
+   */
+  tabs?: TabsProps['items'];
+  /**
+   * 主题配色
+   * @default 'normal'
+   */
+  theme?: 'normal' | 'dark';
+  /**
+   * 数据转换
+   * @default 'GCJ02'
+   */
+  coordConvert?: 'GCJ02' | 'WGS84';
+  /**
+   * 是否显示控件
+   */
+  mapControl?: MapControlProps;
+  /**
+   * 是否显示头部组件
+   */
+  toolbar?: ToolbarProps;
+}

@@ -1,25 +1,25 @@
-import { LocalStorageKey } from '@/constants';
-import { IFeature, LngLatImportType } from '@/types';
-import { FilterNode } from '@/types/filter';
 import { Scene } from '@antv/l7';
 import { LarkMapProps } from '@antv/larkmap';
 import { atom, DefaultValue } from 'recoil';
+import { IFeatures, LngLatImportType } from '../types';
+import { FilterNode } from '../types/filter';
+import { LocalStorageKey } from '../constants';
 
 const localStorageEffect =
   (key: string) =>
-    ({ setSelf, onSet }: any) => {
-      const getValue = localStorage.getItem(key);
-      if (getValue) {
-        setSelf(JSON.parse(getValue));
+  ({ setSelf, onSet }: any) => {
+    const getValue = localStorage.getItem(key);
+    if (getValue) {
+      setSelf(JSON.parse(getValue));
+    }
+    onSet((newValue: Record<string, any>) => {
+      if (newValue instanceof DefaultValue) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, JSON.stringify(newValue));
       }
-      onSet((newValue: Record<string, any>) => {
-        if (newValue instanceof DefaultValue) {
-          localStorage.removeItem(key);
-        } else {
-          localStorage.setItem(key, JSON.stringify(newValue));
-        }
-      });
-    };
+    });
+  };
 
 const filterState = atom<FilterNode[]>({
   key: 'filter',
@@ -37,7 +37,7 @@ const savedTextState = atom<string>({
   default: '',
 });
 
-const featureState = atom<IFeature>({
+const featureState = atom<IFeatures>({
   key: 'features',
   default: [],
   dangerouslyAllowMutability: true,
@@ -65,7 +65,7 @@ const lnglatTextState = atom({
 });
 
 const rightWidthState = atom<number>({
-  key: 'rightWidth',
+  key: 'rightPanelWidth',
   effects: [localStorageEffect(LocalStorageKey.RightPanelWidth)],
 });
 
@@ -100,15 +100,28 @@ const baseMapState = atom<'Gaode' | 'Mapbox'>({
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
 
-const activeTabState = atom<'code' | 'table'>({
+const activeTabState = atom<'geojson' | 'table' | 'wkt'>({
   key: 'activeTab',
+  default: 'geojson',
   effects: [localStorageEffect(LocalStorageKey.ActiveRightTabKey)],
 });
 
-const layerTypeState = atom<string[]>({
+const officialLayersState = atom<string[]>({
   key: 'layerType',
   default: [],
-  effects: [localStorageEffect(LocalStorageKey.LayerTypes)],
+  effects: [localStorageEffect(LocalStorageKey.officialLayers)],
+});
+
+const convertState = atom<string>({
+  key: 'coordConvert',
+  default: 'GCJ02',
+  effects: [localStorageEffect(LocalStorageKey.Convert)],
+});
+
+const themeState = atom<string>({
+  key: 'theme',
+  default: 'normal',
+  effects: [localStorageEffect(LocalStorageKey.theme)],
 });
 
 export {
@@ -128,5 +141,7 @@ export {
   popupTriggerState,
   baseMapState,
   isDrawState,
-  layerTypeState,
+  officialLayersState,
+  convertState,
+  themeState,
 };

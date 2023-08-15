@@ -1,3 +1,4 @@
+export * from './app-header';
 export * from './app-map';
 export * from './layer-list';
 export * from './layer-popup';

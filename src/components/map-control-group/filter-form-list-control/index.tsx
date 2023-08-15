@@ -1,5 +1,3 @@
-import { isEmptyFilter } from '@/hooks/useFilterFeature';
-import { useFeature, useFilter } from '@/recoil';
 import {
   DeleteOutlined,
   FieldBinaryOutlined,
@@ -10,14 +8,17 @@ import {
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select, Tooltip } from 'antd';
-import { cloneDeep, debounce, isEmpty } from 'lodash';
+import { cloneDeep, debounce, isEmpty } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
+import { isEmptyFilter } from '../../../hooks/use-filter-features';
+import { useFeature, useFilter } from '../../../recoil';
+import useStyle from './styles';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
-import useStyle from '../styles';
 
 const { Option } = Select;
-const FilterFormListControl: React.FC = () => {
+
+const FilterControl: React.FC = () => {
   const { dataSource } = useFeature();
   const { setFilters, filters } = useFilter();
   const [isVisible, setIsVisible] = useState(false);
@@ -73,7 +74,11 @@ const FilterFormListControl: React.FC = () => {
   }, [filters]);
 
   return (
-    <CustomControl position="topright" style={{ display: 'flex', }}>
+    <CustomControl
+      position="bottomleft"
+      className={styles.l7FilterPanel}
+      style={{ display: 'flex' }}
+    >
       <div
         className={styles.l7Filter}
         style={{ display: isVisible ? 'block' : 'none' }}
@@ -215,6 +220,7 @@ const FilterFormListControl: React.FC = () => {
       <div className={styles.l7FilterSwitch}>
         <button
           type="button"
+          id="l7-editor-filter"
           className="l7-draw-control__btn"
           onClick={() => {
             setIsVisible(!isVisible);
@@ -240,4 +246,4 @@ const FilterFormListControl: React.FC = () => {
   );
 };
 
-export default FilterFormListControl;
+export default FilterControl;

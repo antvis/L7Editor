@@ -1,13 +1,12 @@
-import { FeatureCollectionVT, MapBoxConfig } from '@/constants';
-import { useFeature, useGlobal } from '@/recoil';
-import { getParamsNew, getUrlFeatureCollection } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';
-import { omit } from 'lodash';
 import React, { ReactNode, useEffect, useMemo } from 'react';
-
+import { FeatureCollectionVT, MapBoxConfig } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
+import { getParamsNew, getUrlFeatureCollection } from '../../utils';
+import { prettierText } from '../../utils/prettier-text';
+import useStyle from './styles';
 export interface AppMapProps {
   children?: ReactNode;
 }
@@ -16,6 +15,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions: baseMapOptions, baseMap } = useGlobal();
   const { saveEditorText, editorText, scene, setScene, bboxAutoFit } =
     useFeature();
+  const styles = useStyle();
 
   useMount(async () => {
     const url = getParamsNew('url');
@@ -53,19 +53,19 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const mapOptions = useMemo(() => {
     if (baseMap === 'Mapbox') {
       return {
-        ...baseMapOptions,
         ...MapBoxConfig,
       };
     }
-    return omit(baseMapOptions, ['token']);
+    return baseMapOptions;
   }, [baseMap, baseMapOptions]);
 
   return (
     <LarkMap
-      style={{ height: '100%' }}
+      className={styles.l7EditorMap}
       mapOptions={mapOptions}
       mapType={baseMap}
       onSceneLoaded={setScene}
+      id="l7-editor-map"
     >
       {children}
     </LarkMap>

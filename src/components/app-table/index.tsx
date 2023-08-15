@@ -1,6 +1,3 @@
-import { FeatureKey } from '@/constants';
-import { useFeature } from '@/recoil';
-import { prettierText } from '@/utils/prettier-text';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
@@ -16,8 +13,11 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { isNull, isUndefined, uniqBy } from 'lodash';
+import { isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { FeatureKey } from '../../constants';
+import { useFeature } from '../../recoil';
+import { prettierText } from '../../utils/prettier-text';
 import useStyle from './styles';
 
 const { Text } = Typography;
@@ -107,8 +107,8 @@ const EditableCell = ({
       form?.setFieldsValue(
         inputType !== 'object'
           ? {
-            [dataIndex]: record[dataIndex],
-          }
+              [dataIndex]: record[dataIndex],
+            }
           : { [dataIndex]: JSON.stringify(record[dataIndex]) },
       );
     }
@@ -119,8 +119,8 @@ const EditableCell = ({
       const fieldValue =
         inputType !== 'object'
           ? {
-            [dataIndex]: record[dataIndex],
-          }
+              [dataIndex]: record[dataIndex],
+            }
           : { [dataIndex]: JSON.stringify(record[dataIndex]) };
       const values = await form?.validateFields();
       if (JSON.stringify(values) !== JSON.stringify(fieldValue)) {
@@ -182,6 +182,7 @@ const components = {
 
 export const AppTable = () => {
   const container = useRef<HTMLDivElement | null>(null);
+  const styles = useStyle();
   const { height = 0 } = useSize(container) ?? {};
   const { setEditorText, isDraw, scene, features, resetFeatures } =
     useFeature();
@@ -259,11 +260,11 @@ export const AppTable = () => {
         filterSearch: true,
         sorter: !options.length
           ? (a: any, b: any) => {
-            return (
-              (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
-              (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
-            );
-          }
+              return (
+                (typeof a[key] === 'string' || !a[key] ? 0 : a[key]) -
+                (typeof b[key] === 'string' || !b[key] ? 0 : b[key])
+              );
+            }
           : undefined,
       });
     });
@@ -337,6 +338,7 @@ export const AppTable = () => {
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newDataSource?.length ? (
         <Table
+          className={styles.tableContent}
           components={components}
           columns={newColumns}
           rowClassName={() => 'editable-row'}

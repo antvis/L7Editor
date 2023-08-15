@@ -3,16 +3,18 @@ import {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
+  convertState,
   hideEditorState,
   layerColorState,
-  layerTypeState,
+  officialLayersState,
   mapOptionState,
   popupTriggerState,
   rightWidthState,
+  themeState,
 } from './atomState';
 
 export default function useGlobal() {
-  const [rightWidth, setRightWidth] = useRecoilState(rightWidthState);
+  const [rightPanelWidth, setRightWidth] = useRecoilState(rightWidthState);
 
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
 
@@ -28,10 +30,14 @@ export default function useGlobal() {
 
   const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
-  const [layerType, setLayerType] = useRecoilState(layerTypeState);
+  const [layerType, setLayerType] = useRecoilState(officialLayersState);
+
+  const [coordConvert, setCoordConvert] = useRecoilState(convertState);
+
+  const [theme, setTheme] = useRecoilState(themeState);
 
   return {
-    rightWidth,
+    rightPanelWidth,
     setRightWidth,
     mapOptions,
     setMapOptions,
@@ -49,5 +55,9 @@ export default function useGlobal() {
     setActiveTab,
     layerType,
     setLayerType,
+    coordConvert,
+    setCoordConvert,
+    theme,
+    setTheme,
   };
 }

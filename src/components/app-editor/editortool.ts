@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import * as turf from '@turf/turf';
 // @ts-ignore
-import _ from 'lodash';
+import _ from 'lodash-es';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 
 export function provideCompletionItems(

@@ -4,7 +4,7 @@ import {
   FeatureVT,
   GeometryListVT,
   GeometryVT,
-} from '@/constants';
+} from '../constants';
 import { Feature, feature } from '@turf/turf';
 
 export const transformFeatures: (input: string) => Feature[] = (input) => {

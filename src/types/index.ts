@@ -1,2 +1,2 @@
 export * from './filter';
-export * from './l7editor'
+export type { L7EditorProps } from './l7editor';

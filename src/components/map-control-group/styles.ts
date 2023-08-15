@@ -5,99 +5,51 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorBgContainer, boxShadow } = token;
+  const { colorBgContainer, colorBorder, colorTextDescription, colorText } =
+    token;
   return {
-    l7amap: css`
-      width: 28px;
-      height: 28px;
-      line-height: 28px;
-      text-align: center;
-      border-radius: 2px;
-      background-color: #fff;
-      box-shadow: 0 0 6px #9a9a9a !important;
-    `,
-    amapInfo: css`
-      margin-top: 10px;
-      .ant-checkbox-group {
-        width: 370px;
-        display: flex;
-        flex-wrap: wrap;
+    zoom: css`
+      .l7-button-control {
+        color: ${colorTextDescription};
+        background: ${colorBgContainer} !important;
+        border-color: ${colorBorder};
 
-        .ant-checkbox-wrapper {
-          position: relative;
-          margin-left: 8px;
+        svg {
+          fill: ${colorTextDescription} !important;
+        }
 
-          .ant-checkbox {
-            position: absolute;
-            left: 10px;
-            top: 4px;
+        &:hover {
+          svg {
+            fill: ${colorText} !important;
           }
         }
       }
-    `,
-    amapInfoItemImage: css`
-      width: 142px;
-      height: 80px;
-      margin-bottom: 8px;
-      object-fit: cover;
-    `,
-    amapInfoItem: css`
-      text-align: center;
-      margin-bottom: 10px;
-    `,
-    l7FilterSwitch: css`
-      width: 30px;
-      height: 30px;
-      text-align: center;
-      background: ${colorBgContainer};
-      box-shadow: ${boxShadow} !important;
-      font-size: 16px;
-      cursor: pointer;
-    `,
-    l7Filter: css`
-      display: flex;
-      background: ${colorBgContainer};
-      padding: 16px;
-      margin-right: 8px;
-      box-shadow: ${boxShadow} !important;
-    `,
-    l7DrawSwitch: css`
-      height: 30px;
-      width: 30px;
-      display: flex;
-      overflow: hidden;
-      background: ${colorBgContainer};
-      border-radius: 2px;
-      box-shadow: ${boxShadow} !important;
-    `,
-    l7AmapControl: css`
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    `,
-    l7LocationSearch: css`
-      box-shadow: ${boxShadow} !important;
-    `,
-    filterBetween: css`
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    `,
-    l7DrawControl: css`
-      .l7-draw-control {
-        box-shadow: ${boxShadow} !important;
+      .l7-button-control:first-child {
+        border-bottom: 1px solid ${colorBorder};
       }
     `,
-    l7ButtonControl: css`
-      min-width: 28px;
-      height: 28px;
-      border: none;
-      border-radius: 2px;
-      box-shadow: 0 0 6px #9a9a9a;
-      padding: 0;
-      cursor: pointer;
+    scalesControl: css`
+      .l7-control-scale-line {
+        color: ${colorTextDescription};
+        background: ${colorBgContainer} !important;
+        border-color: ${colorBorder};
+      }
     `,
+    fullScreen: css`
+      color: ${colorTextDescription};
+      background: ${colorBgContainer} !important;
+      border-color: ${colorBorder};
 
+      svg {
+        fill: ${colorTextDescription} !important;
+      }
+
+      &:hover {
+        svg {
+          fill: ${colorText} !important;
+        }
+      }
+    `,
   };
 };
 export default useStyle;

@@ -1,19 +1,18 @@
-import { FeatureKey } from '@/constants';
-import { FilterField } from '@/types/filter';
-import { transformFeatures } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import {
   bbox,
   Feature,
   featureCollection,
-  Geometry,
-  GeometryCollection,
   getType,
 } from '@turf/turf';
 import { message } from 'antd';
-import { cloneDeep, flatMap, max, min } from 'lodash';
+import gcoord from 'gcoord';
+import { cloneDeep, flatMap, max, min } from 'lodash-es';
 import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
+import { FeatureKey } from '../constants';
+import { FilterField, IFeatures } from '../types';
+import { transformFeatures } from '../utils';
+import { prettierText } from '../utils/prettier-text';
 import {
   editorTextState,
   featureState,
@@ -21,26 +20,23 @@ import {
   savedTextState,
   sceneState,
 } from './atomState';
-
-type IFeature = Feature<
-  Geometry | GeometryCollection,
-  {
-    // @ts-ignore
-    [FeatureKey.Index]: number;
-  }
->[];
+import useGlobal from './global';
 
 export default function useFeature() {
+  const { baseMap, coordConvert } = useGlobal();
   const [editorText, setEditorText] = useRecoilState(editorTextState);
   const [savedText, setSavedText] = useRecoilState(savedTextState);
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
-
   const [scene, setScene] = useRecoilState(sceneState);
 
   const savable = useMemo(() => {
     return editorText !== savedText;
   }, [editorText, savedText]);
+
+  const fc = useMemo(() => {
+    return featureCollection(features);
+  }, [features]);
 
   const setFeatures = (f: Feature[]) => {
     _setFeatures(
@@ -82,7 +78,7 @@ export default function useFeature() {
           setEditorText(value);
         }
         setSavedText(value ?? editorText);
-        setFeatures(newFeatures as IFeature);
+        setFeatures(newFeatures as IFeatures);
       } catch (e) {
         message.warning('数据加载有误');
       }
@@ -93,7 +89,7 @@ export default function useFeature() {
     return newFeatures;
   };
 
-  const resetFeatures = (newFeatures: IFeature) => {
+  const resetFeatures = (newFeatures: IFeatures) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
     setEditorText(newText);
     setSavedText(newText);
@@ -131,8 +127,32 @@ export default function useFeature() {
     return featureKeyList;
   }, [features]);
 
+  const transformCoord = (features: Feature[]) => {
+    let data = features;
+    if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
+      data = features.map((item) => {
+        const newItem = gcoord.transform(
+          cloneDeep(item as any),
+          gcoord.WGS84,
+          gcoord.GCJ02,
+        );
+        return newItem;
+      });
+    } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
+      data = features.map((item) => {
+        const newItem = gcoord.transform(
+          cloneDeep(item as any),
+          gcoord.GCJ02,
+          gcoord.WGS84,
+        );
+        return newItem;
+      });
+    }
+    return data;
+  };
+
   const bboxAutoFit = (currentFeatures?: Feature[]) => {
-    const realFeatures = currentFeatures ?? features;
+    const realFeatures = transformCoord(currentFeatures ?? features);
 
     if (scene && realFeatures.length) {
       const [lng1, lat1, lng2, lat2] = bbox(featureCollection(realFeatures));
@@ -159,5 +179,7 @@ export default function useFeature() {
     isDraw,
     scene,
     setScene,
+    fc,
+    transformCoord,
   };
 }

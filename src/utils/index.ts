@@ -1,20 +1,14 @@
-import { FeatureCollectionVT, LayerZIndex } from '@/constants';
-// @ts-ignore
+import { getSingleColorStyle } from '@antv/l7-draw';
+import { FeatureCollectionVT, LayerZIndex } from '../constants';
+//@ts-ignore
 import togeojson from '@mapbox/togeojson';
-import {
-  center,
-  coordAll,
-  distance,
-  Feature,
-  featureCollection,
-} from '@turf/turf';
+import { center, coordAll, distance, Feature } from '@turf/turf';
 import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
-import { isUndefined } from 'lodash';
-import { getSingleColorStyle } from '@antv/l7-draw';
+import { isUndefined } from 'lodash-es';
 // @ts-ignore
-import wkt from 'wkt';
+import { Wkt2GeoJSON } from './wkt';
 
 export const getOpacityColor = (color: string, alpha: number) => {
   const colorInstance = Color(color).fade(alpha);
@@ -45,10 +39,7 @@ export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
     'href',
     'data:text/plain;charset=utf-8,' + encodeURIComponent(text),
   );
-  aTag.setAttribute(
-    'download',
-    `${dayjs().format('YYYY-HH-MM HH:mm:ss')}.${ext}`,
-  );
+  aTag.setAttribute('download', `${dayjs().format('YYYY-MM-DD')}.${ext}`);
   aTag.style.display = 'none';
   document.body.appendChild(aTag);
   aTag.click();
@@ -72,18 +63,10 @@ export const getUrlFeatureCollection = async (
       throw new Error('请检查url是否与数据格式匹配');
     }
   } else if (urlType === 'WKT') {
-    const WKT = await json.text();
-    const wktArr = WKT.split('\n');
-    const geojson: Feature<any, any>[] = wktArr.map((item: string) => {
-      const data: Feature<any, any> = {
-        type: 'Feature',
-        geometry: {},
-        properties: {},
-      };
-      return { ...data, geometry: wkt.parse(item) };
-    });
-    if (FeatureCollectionVT.check(featureCollection(geojson))) {
-      return featureCollection(geojson);
+    const wktStr = await json.text();
+    const geojson = Wkt2GeoJSON(wktStr);
+    if (FeatureCollectionVT.check(geojson)) {
+      return geojson;
     } else {
       message.error('请检查url是否与数据格式匹配');
     }
