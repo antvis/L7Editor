@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useGlobal } from '../../recoil';
 import { mapControlProps } from '../../types/l7editor';
-import { AdministrativeSelect } from './Administrative-Select-Control';
+import { AdministrativeSelect } from './administrative-select-control';
 import { AutoControl } from './auto-control';
 import { ClearControl } from './clear-control';
 import DrawControl from './draw-control';
