@@ -25,6 +25,8 @@ title: L7Editor文档
 | officialLayers | 底图选择 | `string[]` | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
+| mapControl | 控件显隐 | [mapControlProps](#mapcontrolprops) | `-` |
+| toobar | 头部组件显隐 | [toolbarProps](#toolbarProps) | `-` |
 
 #### `layerType`
 
@@ -33,9 +35,9 @@ title: L7Editor文档
 `['googleSatellite'] | ['Satellite','RoadNet','Buildings','Traffic']`
 
 ```js
-
-editConfig={{ layerType: ['Satellite','RoadNet'] }}
-
+{
+  layerType: ['Satellite', 'RoadNet'];
+}
 ```
 
 | 属性            | 描述       |
@@ -52,6 +54,56 @@ editConfig={{ layerType: ['Satellite','RoadNet'] }}
 | ----- | ------------- |
 | GCJ02 | WGS84==>GCJ02 |
 | WGS84 | GCJ02==>WGS84 |
+
+#### mapControl
+
+控制显示隐藏地图控件
+
+```js
+{
+  mapControl = {{drawControl: false}}
+}
+```
+
+#### mapControlProps
+
+| 属性                  | 描述             |
+| --------------------- | ---------------- |
+| drawControl           | 绘制工具         |
+| clearControl          | 清除工具         |
+| zoomControl           | 缩放器工具       |
+| scaleControl          | 比例尺工具       |
+| locationSearchControl | 地点搜索工具     |
+| mouseLocationControl  | 光标经纬度工具   |
+| filterControl         | 数据过滤工具     |
+| officialLayerControl  | 官方图层控制工具 |
+| mapThemeControl       | 图层主题工具     |
+| geoLocateControl      | 定位工具         |
+| layerColorControl     | 图层颜色控制工具 |
+| autoControl           | 自适应工具       |
+| fullscreenControl     | 全屏工具         |
+
+#### toobar
+
+控制显示隐藏头部组件
+
+```js
+{
+  toobar = {{logo: false}}
+}
+```
+
+#### toolbarProps
+
+| 属性     | 描述 |
+| -------- | ---- |
+| logo     | logo |
+| import   | 上传 |
+| download | 下载 |
+| guide    | 引导 |
+| help     | 帮助 |
+| setting  | 设置 |
+| theme    | 主题 |
 
 #### `onFeatureChange`
 
