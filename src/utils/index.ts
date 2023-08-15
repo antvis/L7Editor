@@ -6,7 +6,7 @@ import { center, coordAll, distance, Feature } from '@turf/turf';
 import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
-import { isUndefined } from 'lodash';
+import { isUndefined } from 'lodash-es';
 // @ts-ignore
 import { Wkt2GeoJSON } from './wkt';
 

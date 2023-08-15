@@ -6,7 +6,7 @@ import {
 } from '@turf/turf';
 import { message } from 'antd';
 import gcoord from 'gcoord';
-import { cloneDeep, flatMap, max, min } from 'lodash';
+import { cloneDeep, flatMap, max, min } from 'lodash-es';
 import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import { FeatureKey } from '../constants';

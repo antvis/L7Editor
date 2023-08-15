@@ -7,7 +7,7 @@ import {
 } from '@turf/turf';
 import { Cascader, message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';

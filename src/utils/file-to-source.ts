@@ -2,7 +2,7 @@ import { FeatureCollectionVT } from '../constants';
 // @ts-ignore
 import togeojson from '@mapbox/togeojson';
 // @ts-ignore
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import { Wkt2GeoJSON } from './wkt';
 
 export const readFileAsText = (file: File) => {

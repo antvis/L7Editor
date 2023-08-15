@@ -1,6 +1,6 @@
 import { LngLatVT } from '../constants';
 import { Feature, lineString, point, polygon, Position } from '@turf/turf';
-import { first, isEqual, last } from 'lodash';
+import { first, isEqual, last } from 'lodash-es';
 import { useRecoilState } from 'recoil';
 import { lnglatTextState, lnglatTypeState } from './atomState';
 

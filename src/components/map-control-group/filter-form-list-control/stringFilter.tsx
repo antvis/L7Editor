@@ -1,5 +1,5 @@
 import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
-import { cloneDeep, uniq } from 'lodash';
+import { cloneDeep, uniq } from 'lodash-es';
 import React from 'react';
 import useFeature from '../../../recoil/feature';
 import useFilter from '../../../recoil/filter';

@@ -8,7 +8,7 @@ import {
 import { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
-import { cloneDeep, groupBy } from 'lodash';
+import { cloneDeep, groupBy } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
 import { useFilterFeatures } from '../../hooks';

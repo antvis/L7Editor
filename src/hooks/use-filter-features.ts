@@ -1,5 +1,5 @@
 import { Feature } from '@turf/turf';
-import { isEmpty, isUndefined } from 'lodash';
+import { isEmpty, isUndefined } from 'lodash-es';
 import { useEffect } from 'react';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useFeature, useFilter } from '../recoil';

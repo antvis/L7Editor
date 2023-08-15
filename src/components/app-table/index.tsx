@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { isNull, isUndefined, uniqBy } from 'lodash';
+import { isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { FeatureKey } from '../../constants';
 import { useFeature } from '../../recoil';
