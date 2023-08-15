@@ -15,7 +15,10 @@ const useStyle = () => {
       }
       *::-webkit-scrollbar-thumb {
         background-color: ${colorFillSecondary};
-        border-radius: 6px;
+        border-radius: 4px;
+      }
+      *::-webkit-scrollbar-corner {
+        background-color: ${colorBgElevated};
       }
     `,
     editableCell: css`
@@ -25,9 +28,9 @@ const useStyle = () => {
       padding: 3px 12px;
       cursor: pointer;
       &:hover {
+        padding: 2px 11px;
         border: 1px solid ${colorBorder};
         border-radius: 2px;
-        padding: 2px 11px;
         cursor: pointer;
       }
     `,
