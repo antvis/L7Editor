@@ -17,12 +17,11 @@ import LocationSearchControl from './location-search-control';
 import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
 import useStyle from './styles';
-// import SaveMapOptionsControl from './save-map-options-control';
 
 type MapControlGroupProps = {
   mapControl?: mapControlProps;
 };
-const isControGroup = {
+const isControlGroup = {
   drawControl: true,
   clearControl: true,
   zoomControl: true,
@@ -42,38 +41,40 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
 }) => {
   const { baseMap } = useGlobal();
   const styles = useStyle();
-  const [isControGroupState, setIsControGroup] = useState(isControGroup);
+  const [isControlGroupState, setIsControlGroup] = useState(isControlGroup);
 
   useEffect(() => {
-    setIsControGroup({ ...isControGroup, ...mapControl });
+    setIsControlGroup({ ...isControlGroup, ...mapControl });
   }, [mapControl]);
 
   return (
     <>
-      {isControGroupState.drawControl && <DrawControl />}
-      {isControGroupState.clearControl && <ClearControl />}
-      {isControGroupState.zoomControl && (
+      {isControlGroupState.drawControl && <DrawControl />}
+      {isControlGroupState.clearControl && <ClearControl />}
+      {isControlGroupState.zoomControl && (
         <ZoomControl className={styles.zoom} />
       )}
-      {isControGroupState.scaleControl && (
+      {isControlGroupState.scaleControl && (
         <ScaleControl className={styles.scalesControl} />
       )}
-      {isControGroupState.locationSearchControl && <LocationSearchControl />}
-      <MouseLocationControl className={styles.fullScreen} />
-      <FilterControl />
-      {baseMap === 'Gaode' && isControGroupState.officialLayerControl && (
+      {isControlGroupState.locationSearchControl && <LocationSearchControl />}
+      {isControlGroupState.mouseLocationControl && (
+        <MouseLocationControl className={styles.fullScreen} />
+      )}
+      {isControlGroupState.filterControl && <FilterControl />}
+      {baseMap === 'Gaode' && isControlGroupState.officialLayerControl && (
         <OfficialLayerControl />
       )}
-      {isControGroupState.mapThemeControl && <MapThemeControl />}
-      {isControGroupState.geoLocateControl && (
+      {isControlGroupState.mapThemeControl && <MapThemeControl />}
+      {isControlGroupState.geoLocateControl && (
         <GeoLocateControl
           position="bottomright"
           className={styles.fullScreen}
         />
       )}
-      {isControGroupState.layerColorControl && <LayerColorControl />}
-      {isControGroupState.autoControl && <AutoControl />}
-      {isControGroupState.fullscreenControl && (
+      {isControlGroupState.layerColorControl && <LayerColorControl />}
+      {isControlGroupState.autoControl && <AutoControl />}
+      {isControlGroupState.fullscreenControl && (
         <FullscreenControl
           position="bottomright"
           className={styles.fullScreen}

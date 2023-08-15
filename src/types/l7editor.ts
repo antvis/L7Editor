@@ -95,7 +95,7 @@ export interface L7EditorProps {
    * 数据转换
    * @default 'undefined'
    */
-  coordConvert?: 'undefined' | 'GCJ02' | 'WGS84';
+  coordConvert?: 'GCJ02' | 'WGS84';
   /**
    * 是否显示控件
    */

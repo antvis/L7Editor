@@ -27,7 +27,7 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
 
   const items: TabsProps['items'] = [
     {
-      key: 'code',
+      key: 'geojson',
       label: (
         <div>
           <IconFont type="icon-json" />
