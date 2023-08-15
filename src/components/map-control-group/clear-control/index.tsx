@@ -1,9 +1,9 @@
 import { CustomControl } from '@antv/larkmap';
 import { Popconfirm } from 'antd';
 import React from 'react';
-import { IconFont } from '../../constants';
-import { useFeature } from '../../recoil';
-import { prettierText } from '../../utils/prettier-text';
+import { IconFont } from '../../../constants';
+import { useFeature } from '../../../recoil';
+import { prettierText } from '../../../utils/prettier-text';
 import useStyle from './styles';
 
 export const ClearControl = () => {

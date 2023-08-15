@@ -26,7 +26,7 @@ title: L7Editor文档
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
 | mapControl | 控件显隐 | [mapControlProps](#mapcontrolprops) | `-` |
-| toobar | 头部组件显隐 | [toolbarProps](#toolbarProps) | `-` |
+| toolBar | 头部组件显隐 | [toolbarProps](#toolbarProps) | `-` |
 
 #### `layerType`
 
@@ -83,13 +83,13 @@ title: L7Editor文档
 | autoControl           | 自适应工具       |
 | fullscreenControl     | 全屏工具         |
 
-#### toobar
+#### toolBar
 
 控制显示隐藏头部组件
 
 ```js
 {
-  toobar = {{logo: false}}
+  toolBar = {{logo: false}}
 }
 ```
 

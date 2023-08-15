@@ -18,7 +18,7 @@ type openType = {
 };
 
 type AppHeaderProps = {
-  toolbar?: toolbarProps;
+  toolBar?: toolbarProps;
 };
 
 const isTooBar = {
@@ -31,7 +31,7 @@ const isTooBar = {
   theme: true,
 };
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
+export const AppHeader: React.FC<AppHeaderProps> = ({ toolBar }) => {
   const [open, setOpen] = useState<openType>({ key: '', open: false });
   const { autoFitBounds, theme, setTheme } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
@@ -58,8 +58,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
   };
 
   useEffect(() => {
-    setIsTooBar({ ...isTooBar, ...toolbar });
-  }, [toolbar]);
+    setIsTooBar({ ...isTooBar, ...toolBar });
+  }, [toolBar]);
 
   return (
     <div className={classNames([styles.mapHeader, 'l7-editor-header'])}>

@@ -100,5 +100,8 @@ export interface L7EditorProps {
    * 是否显示控件
    */
   mapControl?: mapControlProps;
-  toolbar?: toolbarProps;
+  /**
+   * 是否显示头部组件
+   */
+  toolBar?: toolbarProps;
 }

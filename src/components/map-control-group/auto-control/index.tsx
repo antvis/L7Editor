@@ -1,7 +1,7 @@
 import { CustomControl } from '@antv/larkmap';
 import React from 'react';
-import { IconFont } from '../../constants';
-import { useFeature } from '../../recoil';
+import { IconFont } from '../../../constants';
+import { useFeature } from '../../../recoil';
 import useStyle from './styles';
 
 export const AutoControl = () => {
