@@ -44,6 +44,7 @@ const useStyle = () => {
     `,
     mapContentSelectLabel: css`
       color: ${colorTextTertiary};
+      font-size: 13px;
     `,
     mapContentRight: css`
       height: 100%;
