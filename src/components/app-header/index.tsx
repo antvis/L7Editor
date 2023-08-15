@@ -1,6 +1,6 @@
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, Switch, Tour, TourProps } from 'antd';
+import { Button, Dropdown, Switch, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { toolbarProps } from 'src/types/l7editor';
@@ -9,7 +9,7 @@ import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
-import { DropdownMenuItems } from './constants';
+import { DropdownMenuItems, functionSteps, steps } from './constants';
 import useStyle from './styles';
 
 type openType = {
@@ -52,142 +52,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
     e.preventDefault();
     onSave();
   });
-
-  const steps: TourProps['steps'] = [
-    {
-      title: '上传',
-      description: '上传 GeoJSON 数据',
-      cover: (
-        <img
-          alt="上传.png"
-          src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*RJfORKi3ntsAAAAAAAAAAAAADjWqAQ/original"
-        />
-      ),
-      target: () => document.getElementById('l7-editor-upload')!,
-    },
-    {
-      title: '编辑器',
-      description: '可以通过编辑器修改 GeoJSON 数据',
-      target: () => document.getElementById('l7-editor-panel')!,
-      placement: 'left',
-    },
-    {
-      title: '绘制',
-      cover: (
-        <img
-          alt="绘制.png"
-          src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*NNcDQrzkdt8AAAAAAAAAAAAADjWqAQ/original"
-        />
-      ),
-      description: '可以激活地图绘制新增 GeoJSON 元素',
-      target: () => document.getElementById('l7-editor-draw')!,
-      placement: 'right',
-    },
-    {
-      title: '保存',
-      description:
-        '使用 Ctrl/Command + S 快捷键，或点击保存按钮渲染数据（已保存状态下保存按钮置灰）',
-      target: () => document.getElementById('l7-editor-save')!,
-    },
-    {
-      title: '渲染',
-      description: '地图上查看渲染效果',
-      target: () => document.getElementById('l7-editor-map')!,
-      placement: 'right',
-    },
-  ];
-
-  const functionSteps: TourProps['steps'] = [
-    {
-      title: '上传',
-      description: '上传 GeoJSON 数据',
-      cover: (
-        <img
-          alt="上传.png"
-          src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*RJfORKi3ntsAAAAAAAAAAAAADjWqAQ/original"
-        />
-      ),
-      target: () => document.getElementById('l7-editor-upload')!,
-    },
-    {
-      title: '保存',
-      description:
-        '使用 Ctrl/Command + S 快捷键，或点击保存按钮渲染数据（已保存状态下保存按钮置灰）',
-      target: () => document.getElementById('l7-editor-save')!,
-    },
-    {
-      title: '清除',
-      description:
-        '点击清除按钮 GeoJSON 数据将被请空 （已清空状态下清空按钮置灰）',
-      target: () => document.getElementById('l7-editor-clear')!,
-    },
-    {
-      title: '自动缩放',
-      description: '点击自动缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
-      target: () => document.getElementById('l7-editor-auto')!,
-    },
-    {
-      title: '下载',
-      description: '点击下载可将 GeoJSON 数据下载为指定数据格式',
-      target: () => document.getElementById('l7-editor-download')!,
-    },
-    {
-      title: '设置',
-      description: '用户可设置一些初始化配置',
-      target: () => document.getElementById('l7-editor-set')!,
-    },
-    {
-      title: '绘制',
-      cover: (
-        <img
-          alt="绘制.png"
-          src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*NNcDQrzkdt8AAAAAAAAAAAAADjWqAQ/original"
-        />
-      ),
-      description: '可以激活地图绘制新增 GeoJSON 元素',
-      target: () => document.getElementById('l7-editor-draw')!,
-      placement: 'right',
-    },
-    {
-      title: '城市查询',
-      description: '搜索城市后可快速定位并移动至对应城市中心点',
-      target: () => document.getElementById('l7-editor-citySelect')!,
-    },
-    {
-      title: '筛选',
-      description: '可根据数据中的properties来筛选需要数据',
-      target: () => document.getElementById('l7-editor-filter')!,
-    },
-    {
-      title: '底图',
-      description: '可选择不同的地图底图配置',
-      target: () => document.getElementById('l7-editor-aMap')!,
-    },
-    {
-      title: '主题色',
-      description: '选择不同主题色来修改地图渲染主题颜色',
-      //@ts-ignore
-      target: () => document.getElementsByClassName('l7-editor-theme')[0]!,
-    },
-    {
-      title: '颜色选择器',
-      description: '选择颜色来修改地图渲染颜色',
-      target: () => document.getElementById('l7-editor-color')!,
-    },
-    {
-      title: '编辑器',
-      description: '可以通过编辑器修改 GeoJSON 数据',
-      target: () => document.getElementById('l7-editor-panel')!,
-      placement: 'left',
-    },
-    {
-      title: '表格',
-      description:
-        '可以通过表格来展示修改删除GeoJSON 数据中的properties对象中的字段',
-      target: () => document.getElementById('l7-editor-table')!,
-      placement: 'left',
-    },
-  ];
 
   const onDownload = (key: string) => {
     setOpen({ key, open: true });
