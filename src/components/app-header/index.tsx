@@ -1,7 +1,9 @@
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, Select, Switch, Tour, TourProps } from 'antd';
-import React, { useState } from 'react';
+import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { toolbarProps } from 'src/types/l7editor';
 import { useFeature, useGlobal } from '../../recoil';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
@@ -15,11 +17,26 @@ type openType = {
   open: boolean;
 };
 
-export const AppHeader: React.FC = () => {
+type AppHeaderProps = {
+  toolbar?: toolbarProps;
+};
+
+const isTooBar = {
+  logo: true,
+  import: true,
+  download: true,
+  guide: true,
+  help: true,
+  setting: true,
+  theme: true,
+};
+
+export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
   const [open, setOpen] = useState<openType>({ key: '', open: false });
   const { autoFitBounds, theme, setTheme, coordConvert, setCoordConvert } =
     useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
+  const [isTooBarState, setIsTooBar] = useState(isTooBar);
   const styles = useStyle();
 
   const onSave = () => {
@@ -177,14 +194,25 @@ export const AppHeader: React.FC = () => {
     setOpen({ key, open: true });
   };
 
+  useEffect(() => {
+    setIsTooBar({ ...isTooBar, ...toolbar });
+  }, [toolbar]);
+
   return (
-    <div className={styles.mapHeader}>
+    <div className={classNames([styles.mapHeader, 'l7-editor-header'])}>
       <div className={styles.mapHeaderLeft}>
-        <div className={styles.mapHeaderLogo}>
-          <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original" />
-          <span className={styles.mapHeaderTitle}>L7Editor</span>
-        </div>
-        <ImportBtn />
+        {isTooBarState.logo && (
+          <div
+            className={classNames([
+              styles.mapHeaderLogo,
+              'l7-editor-header__logo',
+            ])}
+          >
+            <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original" />
+            <span className={styles.mapHeaderTitle}>L7Editor</span>
+          </div>
+        )}
+        {isTooBarState.import && <ImportBtn />}
         <Button
           id="l7-editor-save"
           icon={<SaveOutlined />}
@@ -204,27 +232,31 @@ export const AppHeader: React.FC = () => {
           ]}
           onChange={setCoordConvert}
         />
-        <DownloadBtn />
-        <Dropdown
-          menu={{
-            items: DropdownMenuItems,
-            onClick: ({ key }) => {
-              onDownload(key);
-            },
-          }}
-        >
-          <Button icon={<FlagOutlined />}>引导</Button>
-        </Dropdown>
-        <HandBackBtn />
-        <SettingBtn />
-        <Switch
-          checkedChildren="亮"
-          unCheckedChildren="暗"
-          defaultChecked={theme === 'normal' ? true : false}
-          onChange={(checked: boolean) => {
-            setTheme(checked ? 'normal' : 'dark');
-          }}
-        />
+        {isTooBarState.download && <DownloadBtn />}
+        {isTooBarState.guide && (
+          <Dropdown
+            menu={{
+              items: DropdownMenuItems,
+              onClick: ({ key }) => {
+                onDownload(key);
+              },
+            }}
+          >
+            <Button icon={<FlagOutlined />}>引导</Button>
+          </Dropdown>
+        )}
+        {isTooBarState.help && <HandBackBtn />}
+        {isTooBarState.setting && <SettingBtn />}
+        {isTooBarState.theme && (
+          <Switch
+            checkedChildren="亮"
+            unCheckedChildren="暗"
+            defaultChecked={theme === 'normal' ? true : false}
+            onChange={(checked: boolean) => {
+              setTheme(checked ? 'normal' : 'dark');
+            }}
+          />
+        )}
       </div>
       <Tour
         open={open.open}

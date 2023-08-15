@@ -5,7 +5,8 @@ import {
   ScaleControl,
   ZoomControl,
 } from '@antv/larkmap';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { mapControlProps } from 'src/types/l7editor';
 import { useGlobal } from '../../recoil';
 import { AutoControl } from './auto-control';
 import { ClearControl } from './clear-control';
@@ -18,25 +19,66 @@ import { OfficialLayerControl } from './official-layer-control';
 import useStyle from './styles';
 // import SaveMapOptionsControl from './save-map-options-control';
 
-export const MapControlGroup: React.FC = ({}) => {
+type MapControlGroupProps = {
+  mapControl?: mapControlProps;
+};
+const isControGroup = {
+  drawControl: true,
+  clearControl: true,
+  zoomControl: true,
+  scaleControl: true,
+  locationSearchControl: true,
+  mouseLocationControl: true,
+  filterControl: true,
+  officialLayerControl: true,
+  mapThemeControl: true,
+  geoLocateControl: true,
+  layerColorControl: true,
+  autoControl: true,
+  fullscreenControl: true,
+};
+export const MapControlGroup: React.FC<MapControlGroupProps> = ({
+  mapControl,
+}) => {
   const { baseMap } = useGlobal();
   const styles = useStyle();
+  const [isControGroupState, setIsControGroup] = useState(isControGroup);
+
+  useEffect(() => {
+    setIsControGroup({ ...isControGroup, ...mapControl });
+  }, [mapControl]);
 
   return (
     <>
-      <DrawControl />
-      <ClearControl />
-      <ZoomControl className={styles.zoom} />
-      <ScaleControl className={styles.scalesControl} />
-      <LocationSearchControl />
+      {isControGroupState.drawControl && <DrawControl />}
+      {isControGroupState.clearControl && <ClearControl />}
+      {isControGroupState.zoomControl && (
+        <ZoomControl className={styles.zoom} />
+      )}
+      {isControGroupState.scaleControl && (
+        <ScaleControl className={styles.scalesControl} />
+      )}
+      {isControGroupState.locationSearchControl && <LocationSearchControl />}
       <MouseLocationControl className={styles.fullScreen} />
       <FilterControl />
-      {baseMap === 'Gaode' && <OfficialLayerControl />}
-      <MapThemeControl />
-      <GeoLocateControl position="bottomright" className={styles.fullScreen} />
-      <LayerColorControl />
-      <AutoControl />
-      <FullscreenControl position="bottomright" className={styles.fullScreen} />
+      {baseMap === 'Gaode' && isControGroupState.officialLayerControl && (
+        <OfficialLayerControl />
+      )}
+      {isControGroupState.mapThemeControl && <MapThemeControl />}
+      {isControGroupState.geoLocateControl && (
+        <GeoLocateControl
+          position="bottomright"
+          className={styles.fullScreen}
+        />
+      )}
+      {isControGroupState.layerColorControl && <LayerColorControl />}
+      {isControGroupState.autoControl && <AutoControl />}
+      {isControGroupState.fullscreenControl && (
+        <FullscreenControl
+          position="bottomright"
+          className={styles.fullScreen}
+        />
+      )}
     </>
   );
 };

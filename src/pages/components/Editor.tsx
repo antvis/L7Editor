@@ -42,7 +42,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
         className={classNames([styles.l7Editor, 'l7-editor'])}
         id="l7-editor"
       >
-        <AppHeader />
+        <AppHeader toolbar={props.toolbar} />
         <ResizePanel
           onFeatureChange={(e) => {
             if (onFeatureChange) {
@@ -51,7 +51,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
           }}
           left={
             <AppMap>
-              <MapControlGroup />
+              <MapControlGroup mapControl={props.mapControl} />
               <LayerList />
               <LayerPopup />
             </AppMap>

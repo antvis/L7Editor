@@ -2,6 +2,32 @@ import { LarkMapProps } from '@antv/larkmap';
 import { Feature, FeatureCollection } from '@turf/turf';
 import { TabsProps } from 'antd';
 
+export interface mapControlProps {
+  drawControl?: boolean;
+  clearControl?: boolean;
+  zoomControl?: boolean;
+  scaleControl?: boolean;
+  locationSearchControl?: boolean;
+  mouseLocationControl?: boolean;
+  filterControl?: boolean;
+  officialLayerControl?: boolean;
+  mapThemeControl?: boolean;
+  geoLocateControl?: boolean;
+  layerColorControl?: boolean;
+  autoControl?: boolean;
+  fullscreenControl?: boolean;
+}
+
+export interface toolbarProps {
+  logo?: boolean;
+  import?: boolean;
+  download?: boolean;
+  guide?: boolean;
+  help?: boolean;
+  setting?: boolean;
+  theme?: boolean;
+}
+
 export interface L7EditorProps {
   onFeatureChange?: (feature: Feature[]) => void;
 
@@ -70,4 +96,9 @@ export interface L7EditorProps {
    * @default 'undefined'
    */
   coordConvert?: 'undefined' | 'GCJ02' | 'WGS84';
+  /**
+   * 是否显示控件
+   */
+  mapControl?: mapControlProps;
+  toolbar?: toolbarProps;
 }
