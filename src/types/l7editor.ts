@@ -15,7 +15,8 @@ export interface mapControlProps {
   geoLocateControl?: boolean;
   layerColorControl?: boolean;
   autoControl?: boolean;
-  fullscreenControl?: boolean;
+  fullScreenControl?: boolean;
+  administrativeSelectControl?: boolean;
 }
 
 export interface toolbarProps {

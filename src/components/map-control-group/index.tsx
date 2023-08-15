@@ -6,8 +6,8 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React, { useEffect, useState } from 'react';
-import { mapControlProps } from 'src/types/l7editor';
 import { useGlobal } from '../../recoil';
+import { mapControlProps } from '../../types/l7editor';
 import { AdministrativeSelect } from './Administrative-Select-Control';
 import { AutoControl } from './auto-control';
 import { ClearControl } from './clear-control';
@@ -35,7 +35,8 @@ const isControlGroup = {
   geoLocateControl: true,
   layerColorControl: true,
   autoControl: true,
-  fullscreenControl: true,
+  fullScreenControl: true,
+  administrativeSelectControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -58,7 +59,9 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.scaleControl && (
         <ScaleControl className={styles.scalesControl} />
       )}
-      <AdministrativeSelect />
+      {isControlGroupState.administrativeSelectControl && (
+        <AdministrativeSelect />
+      )}
       {isControlGroupState.locationSearchControl && <LocationSearchControl />}
       {isControlGroupState.mouseLocationControl && (
         <MouseLocationControl className={styles.fullScreen} />
@@ -73,7 +76,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       )}
       {isControlGroupState.layerColorControl && <LayerColorControl />}
       {isControlGroupState.autoControl && <AutoControl />}
-      {isControlGroupState.fullscreenControl && (
+      {isControlGroupState.fullScreenControl && (
         <FullscreenControl
           position="bottomright"
           className={styles.fullScreen}

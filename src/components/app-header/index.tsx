@@ -3,7 +3,7 @@ import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, Switch, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { toolbarProps } from 'src/types/l7editor';
+import { toolbarProps } from '../../types/l7editor';
 import { useFeature, useGlobal } from '../../recoil';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
