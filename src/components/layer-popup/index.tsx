@@ -9,12 +9,13 @@ import {
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
   Feature,
-  featureCollection,
   Geometry,
   GeometryCollection,
+  featureCollection,
 } from '@turf/turf';
 import {
   Button,
+  ConfigProvider,
   Descriptions,
   Empty,
   Form,
@@ -22,7 +23,9 @@ import {
   InputNumber,
   Tooltip,
   Typography,
+  theme,
 } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
@@ -289,58 +292,65 @@ export const LayerPopup: React.FC = () => {
           e.stopPropagation();
         }}
       >
-        <Descriptions size="small" bordered column={1}>
-          {featureFields.map(([key, value], index) => {
-            if (!(value instanceof Object)) {
-              return (
-                <Descriptions.Item label={key} key={key}>
-                  <Paragraph
-                    copyable
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    {tableClick.isInput && tableClick.index === index ? (
-                      <Form form={form}>
-                        <Form.Item name="input">
-                          {typeof value === 'number' ? (
-                            <InputNumber
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          ) : (
-                            <Input
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          )}
-                        </Form.Item>
-                      </Form>
-                    ) : (
-                      <div
-                        style={{ width: '100%' }}
-                        onClick={() => {
-                          setTableClick({
-                            isInput: !tableClick.isInput,
-                            index: index,
-                          });
-                          form.setFieldsValue({ input: value });
-                        }}
-                      >
-                        {String(value)}
-                      </div>
-                    )}
-                  </Paragraph>
-                </Descriptions.Item>
-              );
-            }
-            return null;
-          })}
-        </Descriptions>
+        <ConfigProvider
+          locale={zhCN}
+          theme={{
+            algorithm: theme.defaultAlgorithm,
+          }}
+        >
+          <Descriptions size="small" bordered column={1}>
+            {featureFields.map(([key, value], index) => {
+              if (!(value instanceof Object)) {
+                return (
+                  <Descriptions.Item label={key} key={key}>
+                    <Paragraph
+                      copyable
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      {tableClick.isInput && tableClick.index === index ? (
+                        <Form form={form}>
+                          <Form.Item name="input">
+                            {typeof value === 'number' ? (
+                              <InputNumber
+                                autoFocus
+                                onPressEnter={() => save(key, value)}
+                                onBlur={() => save(key, value)}
+                              />
+                            ) : (
+                              <Input
+                                autoFocus
+                                onPressEnter={() => save(key, value)}
+                                onBlur={() => save(key, value)}
+                              />
+                            )}
+                          </Form.Item>
+                        </Form>
+                      ) : (
+                        <div
+                          style={{ width: '100%' }}
+                          onClick={() => {
+                            setTableClick({
+                              isInput: !tableClick.isInput,
+                              index: index,
+                            });
+                            form.setFieldsValue({ input: value });
+                          }}
+                        >
+                          {String(value)}
+                        </div>
+                      )}
+                    </Paragraph>
+                  </Descriptions.Item>
+                );
+              }
+              return null;
+            })}
+          </Descriptions>
+        </ConfigProvider>
       </div>
     ) : (
       <Empty description="当前元素无字段" style={{ margin: '12px 0' }} />

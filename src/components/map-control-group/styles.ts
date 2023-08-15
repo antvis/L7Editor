@@ -32,7 +32,9 @@ const useStyle = () => {
       background-color: ${colorBgContainer};
       box-shadow: ${boxShadow} !important;
       &:hover {
-        color: ${colorText};
+        svg {
+          color: ${colorText};
+        }
       }
     `,
     amapInfo: css`
@@ -78,8 +80,10 @@ const useStyle = () => {
         color: ${colorIcon};
         border-right: none !important;
         &:hover {
-          color: ${colorText};
           background: ${colorBgContainer};
+          svg {
+            color: ${colorText};
+          }
         }
       }
     `,
@@ -142,18 +146,19 @@ const useStyle = () => {
     `,
     l7DrawControl: css`
       .l7-draw-control {
-        box-shadow: ${boxShadow} !important;
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-right: 0 !important;
+        box-shadow: ${boxShadow} !important;
         .l7-draw-control__btn {
-          border-bottom: 1px solid ${colorBorder};
+          color: ${colorIcon};
           background-color: ${colorBgContainer};
           border-right: none;
-          color: ${colorIcon};
-
-          &
+          border-bottom: 1px solid ${colorBorder};
+          &:hover {
+            color: ${colorText};
+          }
         }
       }
     `,
