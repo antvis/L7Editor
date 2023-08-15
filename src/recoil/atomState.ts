@@ -1,8 +1,8 @@
 import { Scene } from '@antv/l7';
 import { LarkMapProps } from '@antv/larkmap';
 import { atom, DefaultValue } from 'recoil';
-import { IFeature, LngLatImportType } from '..//types';
-import { FilterNode } from '..//types/filter';
+import { IFeatures, LngLatImportType } from '../types';
+import { FilterNode } from '../types/filter';
 import { LocalStorageKey } from '../constants';
 
 const localStorageEffect =
@@ -37,7 +37,7 @@ const savedTextState = atom<string>({
   default: '',
 });
 
-const featureState = atom<IFeature>({
+const featureState = atom<IFeatures>({
   key: 'features',
   default: [],
   dangerouslyAllowMutability: true,

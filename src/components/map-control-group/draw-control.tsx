@@ -10,7 +10,7 @@ import { cloneDeep, fromPairs } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
-import { IFeature } from '../../types';
+import { IFeatures } from '../../types';
 import { getDrawStyle } from '../../utils';
 import useStyle from './styles';
 
@@ -72,7 +72,7 @@ const DrawControl = () => {
       };
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-      resetFeatures([...features, newFeature] as IFeature);
+      resetFeatures([...features, newFeature] as IFeatures);
     },
     [resetFeatures, features, drawControl],
   );

@@ -1,6 +1,6 @@
 # L7Editor
 
-> 基于 [L7Draw](https://l7draw.antv.vision/) 的面向 GeoJSON 的编辑工具
+> A React tool for editing GIS data based on L7
 
 ## 📚 文档
 
@@ -38,7 +38,7 @@ npm install
 # 运行页面
 npm run start
 
-# 打包
+# 页面打包
 npm run build
 ```
 

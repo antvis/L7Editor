@@ -64,7 +64,7 @@ type FilterNode = FilterString | FilterNumber;
 
 type LngLatImportType = 'Point' | 'LingString' | 'Polygon';
 
-type IFeature = Feature<
+type IFeatures = Feature<
   Geometry | GeometryCollection,
   {
     // @ts-ignore
@@ -72,4 +72,4 @@ type IFeature = Feature<
   }
 >[];
 
-export { FilterNumberData, FilterField, FilterNode, LngLatImportType, IFeature, FilterStringData }
+export { FilterNumberData, FilterField, FilterNode, LngLatImportType, IFeatures, FilterStringData }
