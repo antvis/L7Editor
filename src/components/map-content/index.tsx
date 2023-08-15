@@ -1,5 +1,5 @@
 import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
-import { FeatureCollection } from '@turf/turf';
+import { Feature } from '@turf/turf';
 import { Select, Tabs, TabsProps } from 'antd';
 import React, { useEffect } from 'react';
 import { IconFont } from '../../constants';
@@ -10,7 +10,7 @@ import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
 export interface MapContentProps {
-  features?: FeatureCollection;
+  features?: Feature[];
 }
 
 export const MapContent: React.FC<MapContentProps> = ({ features }) => {

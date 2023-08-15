@@ -21,12 +21,12 @@ title: L7Editor文档
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
 | activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt'` | `geojson` |
-| features | 初始化数据 | ` Features[]` | `-` |
+| features | 初始化数据 | ` Feature[]` | `[]` |
 | officialLayers | 底图选择 | `string[]` | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
-| mapControl | 控件显隐 | [mapControlProps](#mapcontrolprops) | `-` |
-| toolBar | 头部组件显隐 | [toolBarProps](#toolBarProps) | `-` |
+| mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
+| toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
 
 #### `layerType`
 
@@ -65,7 +65,7 @@ title: L7Editor文档
 }
 ```
 
-#### mapControlProps
+#### MapControlProps
 
 | 属性                        | 描述             |
 | --------------------------- | ---------------- |
@@ -84,17 +84,17 @@ title: L7Editor文档
 | fullScreenControl           | 全屏工具         |
 | administrativeSelectControl | 行政区域选择工具 |
 
-#### toolBar
+#### toolbar
 
 控制显示隐藏头部组件
 
 ```js
 {
-  toolBar = {{logo: false}}
+  toolbar = {{logo: false}}
 }
 ```
 
-#### toolBarProps
+#### ToolbarProps
 
 | 属性     | 描述 |
 | -------- | ---- |
@@ -111,5 +111,5 @@ title: L7Editor文档
 数据变化时的监听方法
 
 ```js
-    onFeatureChange={(features: Features[]) => {}}
+    onFeatureChange={(features: Feature[]) => {}}
 ```
