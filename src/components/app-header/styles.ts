@@ -23,9 +23,13 @@ const useStyle = () => {
       }
     `,
     mapHeaderLogo: css`
-      width: auto;
-      height: 24px;
-      margin-right: 4px;
+      display: flex;
+      align-items: center;
+      img {
+        width: auto;
+        height: 24px;
+        margin-right: 4px;
+      }
     `,
     mapHeaderSelect: css`
       margin: 0 12px;

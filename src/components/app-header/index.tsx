@@ -180,11 +180,10 @@ export const AppHeader: React.FC = () => {
   return (
     <div className={styles.mapHeader}>
       <div className={styles.mapHeaderLeft}>
-        <img
-          className={styles.mapHeaderLogo}
-          src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original"
-        />
-        <span className={styles.mapHeaderTitle}>L7Editor</span>
+        <div className={styles.mapHeaderLogo}>
+          <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original" />
+          <span className={styles.mapHeaderTitle}>L7Editor</span>
+        </div>
         <ImportBtn />
         <Button
           id="l7-editor-save"
@@ -219,7 +218,7 @@ export const AppHeader: React.FC = () => {
         <HandBackBtn />
         <SettingBtn />
         <Switch
-          checkedChildren="光"
+          checkedChildren="亮"
           unCheckedChildren="暗"
           defaultChecked={theme === 'normal' ? true : false}
           onChange={(checked: boolean) => {
