@@ -31,15 +31,17 @@ const useStyle = () => {
       background-color: ${colorBgContainer};
       box-shadow: ${boxShadow} !important;
       &:hover {
-        color: ${colorText};
+        svg {
+          color: ${colorText};
+        }
       }
     `,
     amapInfo: css`
       margin-top: 10px;
       .ant-checkbox-group {
-        width: 370px;
         display: flex;
         flex-wrap: wrap;
+        width: 370px;
 
         .ant-checkbox-wrapper {
           position: relative;
@@ -47,8 +49,8 @@ const useStyle = () => {
 
           .ant-checkbox {
             position: absolute;
-            left: 10px;
             top: 4px;
+            left: 10px;
           }
         }
       }
@@ -74,11 +76,13 @@ const useStyle = () => {
       .l7-draw-control__btn {
         width: 28px !important;
         height: 28px !important;
-        border-right: none !important;
         color: ${colorIcon};
+        border-right: none !important;
         &:hover {
           background: ${colorBgContainer};
-          color: ${colorText};
+          svg {
+            color: ${colorText};
+          }
         }
       }
     `,
@@ -118,10 +122,10 @@ const useStyle = () => {
     `,
     l7LocationSearch: css`
       .larkmap-select-selector {
-        height: 30px !important;
         width: 200px;
-        border: 0px !important;
+        height: 30px !important;
         background: ${colorBgContainer} !important;
+        border: 0px !important;
       }
     `,
     filterBetween: css`
@@ -131,18 +135,19 @@ const useStyle = () => {
     `,
     l7DrawControl: css`
       .l7-draw-control {
-        box-shadow: ${boxShadow} !important;
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-right: 0 !important;
+        box-shadow: ${boxShadow} !important;
         .l7-draw-control__btn {
-          border-bottom: 1px solid ${colorBorder};
+          color: ${colorIcon};
           background-color: ${colorBgContainer};
           border-right: none;
-          color: ${colorIcon};
-
-          &
+          border-bottom: 1px solid ${colorBorder};
+          &:hover {
+            color: ${colorText};
+          }
         }
       }
     `,
@@ -157,8 +162,8 @@ const useStyle = () => {
       cursor: pointer;
       color: ${colorIcon};
       &:hover {
-        background: ${colorBgContainer};
         color: ${colorText};
+        background: ${colorBgContainer};
       }
     `,
     clearSvg: css`
@@ -181,9 +186,9 @@ const useStyle = () => {
       cursor: pointer;
       border-radius: 2px;
       .ant-color-picker-color-block {
-        border-radius: 2px;
         width: 22px;
         height: 22px;
+        border-radius: 2px;
       }
     `,
     l7LocationSearchPanel: css`
