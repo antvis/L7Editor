@@ -2,8 +2,6 @@ import {
   bbox,
   Feature,
   featureCollection,
-  Geometry,
-  GeometryCollection,
   getType,
 } from '@turf/turf';
 import { message } from 'antd';
@@ -12,7 +10,7 @@ import { cloneDeep, flatMap, max, min } from 'lodash';
 import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import { FeatureKey } from '../constants';
-import { FilterField } from '../types/filter';
+import { FilterField, IFeatures } from '../types';
 import { transformFeatures } from '../utils';
 import { prettierText } from '../utils/prettier-text';
 import {
@@ -23,14 +21,6 @@ import {
   sceneState,
 } from './atomState';
 import useGlobal from './global';
-
-type IFeature = Feature<
-  Geometry | GeometryCollection,
-  {
-    // @ts-ignore
-    [FeatureKey.Index]: number;
-  }
->[];
 
 export default function useFeature() {
   const { baseMap, coordConvert } = useGlobal();
@@ -88,7 +78,7 @@ export default function useFeature() {
           setEditorText(value);
         }
         setSavedText(value ?? editorText);
-        setFeatures(newFeatures as IFeature);
+        setFeatures(newFeatures as IFeatures);
       } catch (e) {
         message.warning('数据加载有误');
       }
@@ -99,7 +89,7 @@ export default function useFeature() {
     return newFeatures;
   };
 
-  const resetFeatures = (newFeatures: IFeature) => {
+  const resetFeatures = (newFeatures: IFeatures) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
     setEditorText(newText);
     setSavedText(newText);

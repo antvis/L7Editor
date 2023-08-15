@@ -4,7 +4,7 @@ import { Button, Form, message, Modal, Radio, Tabs, TabsProps } from 'antd';
 import React, { useRef, useState } from 'react';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
 import { useFeature } from '../../../../recoil';
-import { IFeature } from '../../../../types';
+import { IFeatures } from '../../../../types';
 import { AppEditor } from '../../../app-editor';
 import FileUpload from './file-upload';
 import UrlUpload from './url-upload';
@@ -65,7 +65,7 @@ export const ImportBtn = () => {
       if (FeatureCollectionVT.check(fc)) {
         const newFeatures =
           selectRadio === 'cover' ? fc.features : [...features, ...fc.features];
-        resetFeatures(newFeatures as IFeature);
+        resetFeatures(newFeatures as IFeatures);
         bboxAutoFit(newFeatures);
         handleCancel();
       }
