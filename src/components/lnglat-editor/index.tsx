@@ -30,7 +30,7 @@ export const LngLatEditor = () => {
         value={input}
         style={{
           margin: 8,
-          height: 'calc(100% - 45px)',
+          height: 'calc(100% - 16px)',
           width: 'calc(100% - 16px)',
         }}
         placeholder="请输入连续的经纬度并用符号隔开，例如：120.85,30.26;130.85,31.21"

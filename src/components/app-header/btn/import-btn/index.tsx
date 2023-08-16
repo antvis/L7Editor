@@ -2,10 +2,10 @@ import { CloudUploadOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
 import { Button, Form, message, Modal, Radio, Tabs, TabsProps } from 'antd';
 import React, { useRef, useState } from 'react';
+import { GeoJsonEditor } from '../../../../components/geojson-editor';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
 import { useFeature } from '../../../../recoil';
 import { IFeatures } from '../../../../types';
-import { AppEditor } from '../../../app-editor';
 import FileUpload from './file-upload';
 import UrlUpload from './url-upload';
 
@@ -48,7 +48,7 @@ export const ImportBtn = () => {
       label: <div>JavaScript脚本</div>,
       children: (
         <div style={{ width: '100%', height: 300 }}>
-          <AppEditor language="javascript" ref={formRef} />
+          <GeoJsonEditor language="javascript" ref={formRef} />
         </div>
       ),
     },

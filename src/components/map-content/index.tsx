@@ -4,11 +4,11 @@ import { Select, Tabs, TabsProps } from 'antd';
 import React, { useEffect } from 'react';
 import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
-import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
+import { GeoJsonEditor } from '../geojson-editor';
+import { LngLatEditor } from '../lnglat-editor';
 import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
-import { LngLatEditor } from '../lnglat-editor';
 
 export interface MapContentProps {
   features?: Feature[];
@@ -37,7 +37,7 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
           GeoJSON
         </div>
       ),
-      children: <AppEditor />,
+      children: <GeoJsonEditor />,
     },
     {
       key: 'wkt',
