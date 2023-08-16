@@ -1,5 +1,5 @@
 import {
-  fullscreenControl,
+  FullscreenControl,
   GeoLocateControl,
   MouseLocationControl,
   ScaleControl,
@@ -77,7 +77,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.layerColorControl && <LayerColorControl />}
       {isControlGroupState.autoControl && <AutoControl />}
       {isControlGroupState.fullscreenControl && (
-        <fullscreenControl
+        <FullscreenControl
           position="bottomright"
           className={styles.fullScreen}
         />

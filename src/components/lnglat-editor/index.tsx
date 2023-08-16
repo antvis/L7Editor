@@ -1,30 +1,36 @@
+import { useDebounce } from 'ahooks';
 import { Input } from 'antd';
-import { throttle } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useFeature } from '../../recoil';
 import { IFeatures } from '../../types';
-import { GeoJSONtoLngLat, LngLattoGeoJson } from '../../utils/lnglat';
+import { GeoJSON2LngLat, LngLat2GeoJson } from '../../utils';
 
 const { TextArea } = Input;
 
 export const LinLatEditor = () => {
   const [input, setInput] = useState('');
+
+  const [change, setChange] = useState('');
+  const debouncedValue = useDebounce(change, { wait: 1000 });
   const { fc, resetFeatures } = useFeature();
 
   useEffect(() => {
-    const result = GeoJSONtoLngLat(fc);
+    const result = GeoJSON2LngLat(fc);
     if (result !== input) {
       setInput(result);
     }
   }, [fc]);
 
-  const onInputChange = throttle((lngLat: string) => {
-    const features = LngLattoGeoJson(lngLat);
-    console.log(features);
+  const onInputChange = (lngLat: string) => {
+    setChange(lngLat);
+  };
+
+  useEffect(() => {
+    const features = LngLat2GeoJson(debouncedValue);
     if (features) {
       resetFeatures(features as IFeatures);
     }
-  }, 1000);
+  }, [debouncedValue]);
   return (
     <>
       <TextArea
