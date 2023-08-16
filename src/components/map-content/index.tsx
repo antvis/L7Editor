@@ -31,7 +31,34 @@ export const MapContent: React.FC<MapContentProps> = ({
     }
   }, [features]);
 
-  const items: TabsProps['items'] = [
+  return (
+    <div className={styles.mapContent} id="l7-editor-panel">
+      <div className={styles.mapContentSelect}>
+        <span className={styles.mapContentSelectLabel}>坐标系：</span>
+        <Select
+          value={coordConvert}
+          options={[
+            { label: 'GCJ02', value: 'GCJ02' },
+            { label: 'WGS84', value: 'WGS84' },
+          ]}
+          onChange={setCoordConvert}
+        />
+      </div>
+      <Tabs
+        activeKey={activeTab}
+        className={styles.mapContentRight}
+        defaultActiveKey="geojson"
+        items={tabItems}
+        onChange={(e) => {
+          setActiveTab(e as 'geojson' | 'table' | 'wkt');
+        }}
+      />
+    </div>
+  );
+};
+
+MapContent.defaultProps = {
+  tabItems: [
     {
       key: 'geojson',
       label: (
@@ -62,30 +89,5 @@ export const MapContent: React.FC<MapContentProps> = ({
       ),
       children: <AppTable />,
     },
-  ];
-
-  return (
-    <div className={styles.mapContent} id="l7-editor-panel">
-      <div className={styles.mapContentSelect}>
-        <span className={styles.mapContentSelectLabel}>坐标系：</span>
-        <Select
-          value={coordConvert}
-          options={[
-            { label: 'GCJ02', value: 'GCJ02' },
-            { label: 'WGS84', value: 'WGS84' },
-          ]}
-          onChange={setCoordConvert}
-        />
-      </div>
-      <Tabs
-        activeKey={activeTab}
-        className={styles.mapContentRight}
-        defaultActiveKey="geojson"
-        items={tabItems ? tabItems : items}
-        onChange={(e) => {
-          setActiveTab(e as 'geojson' | 'table' | 'wkt');
-        }}
-      />
-    </div>
-  );
+  ],
 };
