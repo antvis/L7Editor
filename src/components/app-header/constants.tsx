@@ -132,17 +132,6 @@ export const functionSteps: TourProps['steps'] = [
     target: () => document.getElementById('l7-editor-save')!,
   },
   {
-    title: '清除',
-    description:
-      '点击清除按钮 GeoJSON 数据将被请空 （已清空状态下清空按钮置灰）',
-    target: () => document.getElementById('l7-editor-clear')!,
-  },
-  {
-    title: '自动缩放',
-    description: '点击自动缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
-    target: () => document.getElementById('l7-editor-auto')!,
-  },
-  {
     title: '下载',
     description: '点击下载可将 GeoJSON 数据下载为指定数据格式',
     target: () => document.getElementById('l7-editor-download')!,
@@ -165,6 +154,17 @@ export const functionSteps: TourProps['steps'] = [
     placement: 'right',
   },
   {
+    title: '清除',
+    description:
+      '点击清除按钮 GeoJSON 数据将被请空 （已清空状态下清空按钮置灰）',
+    target: () => document.getElementById('l7-editor-clear')!,
+  },
+  {
+    title: '行政区选择器',
+    description: '可以快速选择行政区的省市县区',
+    target: () => document.getElementById('l7-editor-administrativeSelect')!,
+  },
+  {
     title: '城市查询',
     description: '搜索城市后可快速定位并移动至对应城市中心点',
     target: () => document.getElementById('l7-editor-citySelect')!,
@@ -175,15 +175,9 @@ export const functionSteps: TourProps['steps'] = [
     target: () => document.getElementById('l7-editor-filter')!,
   },
   {
-    title: '底图',
-    description: '可选择不同的地图底图配置',
-    target: () => document.getElementById('l7-editor-aMap')!,
-  },
-  {
-    title: '主题色',
-    description: '选择不同主题色来修改地图渲染主题颜色',
-    //@ts-ignore
-    target: () => document.getElementsByClassName('l7-editor-theme')[0]!,
+    title: '自动缩放',
+    description: '点击自动缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
+    target: () => document.getElementById('l7-editor-auto')!,
   },
   {
     title: '颜色选择器',
@@ -195,6 +189,17 @@ export const functionSteps: TourProps['steps'] = [
     description: '可以通过编辑器修改 GeoJSON 数据',
     target: () => document.getElementById('l7-editor-panel')!,
     placement: 'left',
+  },
+  {
+    title: '底图',
+    description: '可选择不同的地图底图配置',
+    target: () => document.getElementById('l7-editor-aMap')!,
+  },
+  {
+    title: '主题色',
+    description: '选择不同主题色来修改地图渲染主题颜色',
+    //@ts-ignore
+    target: () => document.getElementsByClassName('l7-editor-mapTheme')[0]!,
   },
   {
     title: '表格',
