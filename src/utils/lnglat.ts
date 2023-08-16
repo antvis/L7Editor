@@ -5,7 +5,6 @@ import {
   coordAll,
   point,
 } from '@turf/turf';
-import { message } from 'antd';
 import { LngLatVT } from '../constants';
 
 export function GeoJSONtoLngLat(fc: FeatureCollection) {
@@ -16,8 +15,8 @@ export function GeoJSONtoLngLat(fc: FeatureCollection) {
   return feature;
 }
 
-export function LngLattoGeoJson(text: string) {
-  const featurePositionList: Position[][] = text
+export function LngLattoGeoJson(lngLat: string) {
+  const featurePositionList: Position[][] = lngLat
     .split('\n')
     .filter((item) => item)
     .map((item) =>
