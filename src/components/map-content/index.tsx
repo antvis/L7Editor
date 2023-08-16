@@ -72,7 +72,7 @@ MapContent.defaultProps = {
     {
       key: 'wkt',
       label: (
-        <div>
+        <div id="l7-editor-wkt">
           <GlobalOutlined />
           WKT
         </div>
