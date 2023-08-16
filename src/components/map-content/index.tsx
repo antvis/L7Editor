@@ -6,7 +6,6 @@ import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { AppTable } from '../app-table';
 import { GeoJsonEditor } from '../geojson-editor';
-import { LngLatEditor } from '../lnglat-editor';
 import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
@@ -52,11 +51,6 @@ export const MapContent: React.FC<MapContentProps> = ({
         </div>
       ),
       children: <WktEditor />,
-    },
-    {
-      key: 'lngLat',
-      label: 'LngLat',
-      children: <LngLatEditor />,
     },
     {
       key: 'table',
