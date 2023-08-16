@@ -1,4 +1,4 @@
-import { useDebounce } from 'ahooks';
+import { useDebounceEffect } from 'ahooks';
 import { Input } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useFeature } from '../../recoil';
@@ -9,9 +9,6 @@ const { TextArea } = Input;
 
 export const LinLatEditor = () => {
   const [input, setInput] = useState('');
-
-  const [change, setChange] = useState('');
-  const debouncedValue = useDebounce(change, { wait: 1000 });
   const { fc, resetFeatures } = useFeature();
 
   useEffect(() => {
@@ -21,16 +18,12 @@ export const LinLatEditor = () => {
     }
   }, [fc]);
 
-  const onInputChange = (lngLat: string) => {
-    setChange(lngLat);
-  };
-
-  useEffect(() => {
-    const features = LngLat2GeoJson(debouncedValue);
+  useDebounceEffect(() => {
+    const features = LngLat2GeoJson(input);
     if (features) {
       resetFeatures(features as IFeatures);
     }
-  }, [debouncedValue]);
+  }, [input]);
   return (
     <>
       <TextArea
@@ -43,7 +36,6 @@ export const LinLatEditor = () => {
         placeholder="请输入连续的经纬度并用符号隔开，例如：120.85,30.26;130.85,31.21"
         onChange={(e) => {
           setInput(e.target.value);
-          onInputChange(e.target.value);
         }}
       />
     </>
