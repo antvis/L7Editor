@@ -7,7 +7,7 @@ import { GeoJSON2LngLat, LngLat2GeoJson } from '../../utils';
 
 const { TextArea } = Input;
 
-export const LinLatEditor = () => {
+export const LngLatEditor = () => {
   const [input, setInput] = useState('');
   const { fc, resetFeatures } = useFeature();
 
