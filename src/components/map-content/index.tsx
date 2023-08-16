@@ -12,9 +12,13 @@ import useStyle from './styles';
 
 export interface MapContentProps {
   features?: Feature[];
+  tabItems?: TabsProps['items'];
 }
 
-export const MapContent: React.FC<MapContentProps> = ({ features }) => {
+export const MapContent: React.FC<MapContentProps> = ({
+  features,
+  tabItems,
+}) => {
   const { activeTab, setActiveTab, coordConvert, setCoordConvert } =
     useGlobal();
   const { saveEditorText } = useFeature();
@@ -83,7 +87,7 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
         activeKey={activeTab}
         className={styles.mapContentRight}
         defaultActiveKey="geojson"
-        items={items}
+        items={tabItems ? tabItems : items}
         onChange={(e) => {
           setActiveTab(e as 'geojson' | 'table' | 'wkt');
         }}

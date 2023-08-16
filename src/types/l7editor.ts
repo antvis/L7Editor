@@ -105,4 +105,8 @@ export interface L7EditorProps {
    * 是否显示头部组件
    */
   toolbar?: ToolbarProps;
+  /**
+   * 侧面版TabItems
+   */
+  tabItems?: TabsProps['items'];
 }
