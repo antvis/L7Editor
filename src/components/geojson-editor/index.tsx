@@ -23,7 +23,7 @@ type EditorProps = {
   ref?: any;
 };
 
-export const AppEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
+export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const { language = 'json' } = props;
   const { theme } = useGlobal();
   const { editorText, setEditorText } = useFeature();

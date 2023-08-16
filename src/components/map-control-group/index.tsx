@@ -35,7 +35,7 @@ const isControlGroup = {
   geoLocateControl: true,
   layerColorControl: true,
   autoControl: true,
-  fullScreenControl: true,
+  fullscreenControl: true,
   administrativeSelectControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
@@ -76,7 +76,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       )}
       {isControlGroupState.layerColorControl && <LayerColorControl />}
       {isControlGroupState.autoControl && <AutoControl />}
-      {isControlGroupState.fullScreenControl && (
+      {isControlGroupState.fullscreenControl && (
         <FullscreenControl
           position="bottomright"
           className={styles.fullScreen}

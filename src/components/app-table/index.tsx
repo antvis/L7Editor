@@ -180,7 +180,7 @@ const components = {
   },
 };
 
-export const AppTable = () => {
+export const AppTable: React.FC = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const styles = useStyle();
   const { height = 0 } = useSize(container) ?? {};

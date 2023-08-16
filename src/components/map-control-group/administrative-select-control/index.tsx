@@ -1,8 +1,8 @@
 import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
 import {
   Feature,
-  featureCollection,
   MultiLineString,
+  featureCollection,
   multiLineString,
 } from '@turf/turf';
 import { Cascader, message } from 'antd';
@@ -106,17 +106,19 @@ export const AdministrativeSelect = () => {
   return (
     <>
       <CustomControl position="lefttop">
-        <Cascader
-          options={data}
-          //@ts-ignore
-          onChange={onChange}
-          allowClear
-          showSearch={{ filter }}
-          placeholder="可选择省/市/县"
-          changeOnSelect
-          style={{ width: 250 }}
-          popupClassName={styles.cascaderPopup}
-        />
+        <div id="l7-editor-administrativeSelect">
+          <Cascader
+            options={data}
+            //@ts-ignore
+            onChange={onChange}
+            allowClear
+            showSearch={{ filter }}
+            placeholder="可选择省/市/县"
+            changeOnSelect
+            style={{ width: 250 }}
+            popupClassName={styles.cascaderPopup}
+          />
+        </div>
       </CustomControl>
 
       <LineLayer

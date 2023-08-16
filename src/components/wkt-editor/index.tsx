@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { useFeature } from '../../recoil';
 import { IFeatures } from '../../types';
-import { GeoJSON2Wkt, Wkt2GeoJSON } from '../../utils/wkt';
+import { GeoJSON2Wkt, Wkt2GeoJSON } from '../../utils';
 
 const { TextArea } = Input;
 

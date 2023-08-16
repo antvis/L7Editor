@@ -81,7 +81,7 @@ title: L7Editor文档
 | geoLocateControl            | 定位工具         |
 | layerColorControl           | 图层颜色控制工具 |
 | autoControl                 | 自适应工具       |
-| fullScreenControl           | 全屏工具         |
+| fullscreenControl           | 全屏工具         |
 | administrativeSelectControl | 行政区域选择工具 |
 
 #### toolbar
