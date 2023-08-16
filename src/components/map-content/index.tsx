@@ -8,6 +8,7 @@ import { AppEditor } from '../app-editor';
 import { AppTable } from '../app-table';
 import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
+import { LinLatEditor } from '../lnglat-editor';
 
 export interface MapContentProps {
   features?: Feature[];
@@ -47,6 +48,11 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
         </div>
       ),
       children: <WktEditor />,
+    },
+    {
+      key: 'lngLat',
+      label: 'LngLat',
+      children: <LinLatEditor />,
     },
     {
       key: 'table',

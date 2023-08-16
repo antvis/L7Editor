@@ -15,7 +15,7 @@ export interface MapControlProps {
   geoLocateControl?: boolean;
   layerColorControl?: boolean;
   autoControl?: boolean;
-  fullScreenControl?: boolean;
+  fullscreenControl?: boolean;
   administrativeSelectControl?: boolean;
 }
 
