@@ -185,12 +185,6 @@ export const functionSteps: TourProps['steps'] = [
     target: () => document.getElementById('l7-editor-color')!,
   },
   {
-    title: '编辑器',
-    description: '可以通过编辑器修改 GeoJSON 数据',
-    target: () => document.getElementById('l7-editor-panel')!,
-    placement: 'left',
-  },
-  {
     title: '底图',
     description: '可选择不同的地图底图配置',
     target: () => document.getElementById('l7-editor-aMap')!,
@@ -200,6 +194,18 @@ export const functionSteps: TourProps['steps'] = [
     description: '选择不同主题色来修改地图渲染主题颜色',
     //@ts-ignore
     target: () => document.getElementsByClassName('l7-editor-mapTheme')[0]!,
+  },
+  {
+    title: 'GeoJSON编辑器',
+    description: '可以通过编辑器修改 GeoJSON 数据',
+    target: () => document.getElementById('l7-editor-panel')!,
+    placement: 'left',
+  },
+  {
+    title: 'WKT编辑器',
+    description: '可以通过WKT编辑器修改 WKT 数据',
+    target: () => document.getElementById('l7-editor-wkt')!,
+    placement: 'left',
   },
   {
     title: '表格',

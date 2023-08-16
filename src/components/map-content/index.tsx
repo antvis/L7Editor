@@ -6,15 +6,18 @@ import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { AppTable } from '../app-table';
 import { GeoJsonEditor } from '../geojson-editor';
-import { LngLatEditor } from '../lnglat-editor';
 import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
 export interface MapContentProps {
   features?: Feature[];
+  tabItems?: TabsProps['items'];
 }
 
-export const MapContent: React.FC<MapContentProps> = ({ features }) => {
+export const MapContent: React.FC<MapContentProps> = ({
+  features,
+  tabItems,
+}) => {
   const { activeTab, setActiveTab, coordConvert, setCoordConvert } =
     useGlobal();
   const { saveEditorText } = useFeature();
@@ -27,44 +30,6 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
       );
     }
   }, [features]);
-
-  const items: TabsProps['items'] = [
-    {
-      key: 'geojson',
-      label: (
-        <div>
-          <IconFont type="icon-json" />
-          GeoJSON
-        </div>
-      ),
-      children: <GeoJsonEditor />,
-    },
-    {
-      key: 'wkt',
-      label: (
-        <div>
-          <GlobalOutlined />
-          WKT
-        </div>
-      ),
-      children: <WktEditor />,
-    },
-    {
-      key: 'lngLat',
-      label: 'LngLat',
-      children: <LngLatEditor />,
-    },
-    {
-      key: 'table',
-      label: (
-        <div id="l7-editor-table">
-          <TableOutlined />
-          表格
-        </div>
-      ),
-      children: <AppTable />,
-    },
-  ];
 
   return (
     <div className={styles.mapContent} id="l7-editor-panel">
@@ -83,11 +48,46 @@ export const MapContent: React.FC<MapContentProps> = ({ features }) => {
         activeKey={activeTab}
         className={styles.mapContentRight}
         defaultActiveKey="geojson"
-        items={items}
+        items={tabItems}
         onChange={(e) => {
           setActiveTab(e as 'geojson' | 'table' | 'wkt');
         }}
       />
     </div>
   );
+};
+
+MapContent.defaultProps = {
+  tabItems: [
+    {
+      key: 'geojson',
+      label: (
+        <div>
+          <IconFont type="icon-json" />
+          GeoJSON
+        </div>
+      ),
+      children: <GeoJsonEditor />,
+    },
+    {
+      key: 'wkt',
+      label: (
+        <div id="l7-editor-wkt">
+          <GlobalOutlined />
+          WKT
+        </div>
+      ),
+      children: <WktEditor />,
+    },
+    {
+      key: 'table',
+      label: (
+        <div id="l7-editor-table">
+          <TableOutlined />
+          表格
+        </div>
+      ),
+      children: <AppTable />,
+    },
+  ],
 };

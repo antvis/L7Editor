@@ -27,6 +27,7 @@ title: L7Editor文档
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
 | toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
+| tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
 
 #### `layerType`
 
