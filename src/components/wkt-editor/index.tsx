@@ -1,5 +1,5 @@
 import { Input } from 'antd';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { useFeature } from '../../recoil';
 import { IFeatures } from '../../types';

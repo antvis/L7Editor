@@ -15,7 +15,7 @@ title: L7Editor文档
 | 属性 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | baseMap | 地图选项 | `‘Gaode’｜'Mapbox'` | `Gaode` |
-| mapOption | 地图配置 详见 [mapOption](https://larkmap.antv.antgroup.com/components/lark-map#mapoptions) | `LarkMapProps` | `-` |
+| mapOption | 地图配置 详见 [MapOptions](https://larkmap.antv.antgroup.com/components/lark-map#mapoptions) | `MapOptions` | `-` |
 | primaryColor | 图层颜色 | `string` | `#1677ff` |
 | rightPanelWidth | 右侧边栏宽度 | `number` | `40` |
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
