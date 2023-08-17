@@ -82,16 +82,6 @@ MapContent.defaultProps = {
       children: <WktEditor />,
     },
     {
-      key: 'lngLat',
-      label: (
-        <div id="l7-editor-wkt">
-          <GlobalOutlined />
-          lngLat
-        </div>
-      ),
-      children: <LngLatEditor />,
-    },
-    {
       key: 'table',
       label: (
         <div id="l7-editor-table">
