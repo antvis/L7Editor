@@ -75,6 +75,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             <span className={styles.mapHeaderTitle}>L7Editor</span>
           </div>
         )}
+      </div>
+      <div className={styles.mapHeaderRight}>
         {isTooBarState.import && <ImportBtn />}
         <Button
           id="l7-editor-save"
@@ -84,8 +86,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         >
           保存
         </Button>
-      </div>
-      <div className={styles.mapHeaderRight}>
         {isTooBarState.download && <DownloadBtn />}
         {isTooBarState.guide && (
           <Dropdown
