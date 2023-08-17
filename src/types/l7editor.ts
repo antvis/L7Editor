@@ -73,7 +73,7 @@ export interface L7EditorProps {
    */
   features?: Feature[];
   /**
-   * 底图选择
+   * 官方图层选择
    * @default []
    */
   officialLayers?: string[];

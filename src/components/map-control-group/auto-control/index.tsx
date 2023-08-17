@@ -11,7 +11,7 @@ export const AutoControl = () => {
   return (
     <CustomControl position="bottomright">
       <div className={styles.l7FilterSwitch}>
-        <Tooltip title="自动缩放" placement="left">
+        <Tooltip title="自动缩放至当前元素" placement="left">
           <button
             type="button"
             id="l7-editor-auto"
