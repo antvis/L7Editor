@@ -6,6 +6,7 @@ import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { AppTable } from '../app-table';
 import { GeoJsonEditor } from '../geojson-editor';
+import { LngLatEditor } from '../lnglat-editor';
 import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
@@ -79,6 +80,16 @@ MapContent.defaultProps = {
         </div>
       ),
       children: <WktEditor />,
+    },
+    {
+      key: 'lngLat',
+      label: (
+        <div id="l7-editor-wkt">
+          <GlobalOutlined />
+          lngLat
+        </div>
+      ),
+      children: <LngLatEditor />,
     },
     {
       key: 'table',
