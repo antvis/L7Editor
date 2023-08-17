@@ -66,7 +66,7 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 }
 ```
 
-#### `layerType`¸
+#### `officialLayers`¸
 
 底图数据选择
 
@@ -74,7 +74,7 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 
 ```js
 {
-  layerType: ['Satellite', 'RoadNet'];
+  officialLayers: ['Satellite', 'RoadNet'];
 }
 ```
 
