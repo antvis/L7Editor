@@ -1,6 +1,6 @@
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, Switch, Tour } from 'antd';
+import { Button, Dropdown, Switch, Tooltip, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useFeature, useGlobal } from '../../recoil';
@@ -78,14 +78,16 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
       </div>
       <div className={styles.mapHeaderRight}>
         {isTooBarState.import && <ImportBtn />}
-        <Button
-          id="l7-editor-save"
-          icon={<SaveOutlined />}
-          disabled={!savable}
-          onClick={onSave}
-        >
-          保存
-        </Button>
+        <Tooltip title="保存数据">
+          <Button
+            id="l7-editor-save"
+            icon={<SaveOutlined />}
+            disabled={!savable}
+            onClick={onSave}
+          >
+            保存
+          </Button>
+        </Tooltip>
         {isTooBarState.download && <DownloadBtn />}
         {isTooBarState.guide && (
           <Dropdown

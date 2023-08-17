@@ -1,6 +1,15 @@
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
-import { Button, Form, message, Modal, Radio, Tabs, TabsProps } from 'antd';
+import {
+  Button,
+  Form,
+  message,
+  Modal,
+  Radio,
+  Tabs,
+  TabsProps,
+  Tooltip,
+} from 'antd';
 import React, { useRef, useState } from 'react';
 import { GeoJsonEditor } from '../../../../components/geojson-editor';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
@@ -76,13 +85,16 @@ export const ImportBtn = () => {
   };
   return (
     <>
-      <Button
-        icon={<CloudUploadOutlined />}
-        onClick={() => setIsModalOpen(true)}
-        id="l7-editor-upload"
-      >
-        上传
-      </Button>
+      <Tooltip title="上传数据">
+        <Button
+          icon={<CloudUploadOutlined />}
+          onClick={() => setIsModalOpen(true)}
+          id="l7-editor-upload"
+        >
+          上传
+        </Button>
+      </Tooltip>
+
       {isModalOpen && (
         <Modal
           title="上传"
