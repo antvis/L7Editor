@@ -171,7 +171,7 @@ export function OfficialLayerControl() {
           height: scene.getType() !== 'mapbox' ? 330 : 190,
         }}
       >
-        <Tooltip title="底图配置" placement="left">
+        <Tooltip title="官方图层" placement="left">
           <IconFont
             id="l7-editor-aMap"
             type="icon-ditu"

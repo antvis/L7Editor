@@ -196,8 +196,8 @@ export const functionSteps: TourProps['steps'] = [
     target: () => document.getElementsByClassName('l7-editor-mapTheme')[0]!,
   },
   {
-    title: '底图',
-    description: '可选择不同的地图底图配置',
+    title: '官方图层',
+    description: '可选择不同的地图的官方图层配置',
     target: () => document.getElementById('l7-editor-aMap')!,
   },
   {
