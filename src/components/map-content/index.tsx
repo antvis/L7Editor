@@ -45,7 +45,8 @@ export const MapContent: React.FC<MapContentProps> = ({
         />
       </div>
       <Tabs
-        activeKey={activeTab}
+        //@ts-ignore
+        activeKey={activeTab === 'code' ? 'geojson' : activeTab}
         className={styles.mapContentRight}
         defaultActiveKey="geojson"
         items={tabItems}
