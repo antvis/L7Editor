@@ -377,44 +377,53 @@ export const LayerPopup: React.FC = () => {
             >
               {popupTable}
               <div className={styles.layerPopupBtnGroup}>
-                {popupTrigger === 'click' && (
-                  <Tooltip
-                    title={
-                      disabledEdit(popupProps.feature)
-                        ? 'Multi 类型的 GeoJSON 不支持编辑'
-                        : ''
-                    }
-                  >
+                <div style={{ display: 'flex' }}>
+                  <img
+                    style={{ width: 20, marginRight: 5, height: 20 }}
+                    src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original"
+                  />
+                  <span>L7Editor</span>
+                </div>
+                <div>
+                  {popupTrigger === 'click' && (
+                    <Tooltip
+                      title={
+                        disabledEdit(popupProps.feature)
+                          ? 'Multi 类型的 GeoJSON 不支持编辑'
+                          : ''
+                      }
+                    >
+                      <Button
+                        size="small"
+                        type="link"
+                        onClick={() => onEdit(popupProps.feature)}
+                        disabled={disabledEdit(popupProps.feature)}
+                      >
+                        更改绘制
+                      </Button>
+                    </Tooltip>
+                  )}
+                  {popupTrigger === 'click' && (
                     <Button
                       size="small"
                       type="link"
-                      onClick={() => onEdit(popupProps.feature)}
-                      disabled={disabledEdit(popupProps.feature)}
+                      danger
+                      onClick={() => {
+                        resetFeatures(
+                          features.filter((_: any, index: number) => {
+                            return index !== popupProps.featureIndex;
+                          }),
+                        );
+                        setPopupProps({
+                          visible: false,
+                          featureIndex: undefined,
+                        });
+                      }}
                     >
-                      编辑
+                      删除
                     </Button>
-                  </Tooltip>
-                )}
-                {popupTrigger === 'click' && (
-                  <Button
-                    size="small"
-                    type="link"
-                    danger
-                    onClick={() => {
-                      resetFeatures(
-                        features.filter((_: any, index: number) => {
-                          return index !== popupProps.featureIndex;
-                        }),
-                      );
-                      setPopupProps({
-                        visible: false,
-                        featureIndex: undefined,
-                      });
-                    }}
-                  >
-                    删除
-                  </Button>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </Popup>
