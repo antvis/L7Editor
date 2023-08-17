@@ -7,7 +7,6 @@ import {
 } from '@turf/turf';
 import { Cascader, message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { debounce } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { LayerZIndex } from '../../../constants';
 import { useFeature } from '../../../recoil';
@@ -59,7 +58,7 @@ export const AdministrativeSelect = () => {
       });
   }, []);
 
-  const onChange = debounce((value: string[], option: any) => {
+  const onChange = (value: string[], option: any) => {
     if (option) {
       const data = option[option.length - 1];
       const name = data.adcode;
@@ -93,7 +92,7 @@ export const AdministrativeSelect = () => {
     } else {
       setDistrictFeature(null);
     }
-  }, 1500);
+  };
 
   const filter = (inputValue: string, path: DefaultOptionType[]) =>
     path.some(
@@ -117,6 +116,7 @@ export const AdministrativeSelect = () => {
             changeOnSelect
             style={{ width: 250 }}
             popupClassName={styles.cascaderPopup}
+            expandTrigger="hover"
           />
         </div>
       </CustomControl>

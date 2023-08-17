@@ -1,5 +1,5 @@
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
-import { Checkbox, Popover, Tabs, TabsProps } from 'antd';
+import { Checkbox, Popover, Tabs, TabsProps, Tooltip } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import React, { useEffect, useRef } from 'react';
 import { IconFont } from '../../../constants';
@@ -171,11 +171,13 @@ export function OfficialLayerControl() {
           height: scene.getType() !== 'mapbox' ? 330 : 190,
         }}
       >
-        <IconFont
-          id="l7-editor-aMap"
-          type="icon-ditu"
-          className={styles.l7AmapControl}
-        />
+        <Tooltip title="官方图层" placement="left">
+          <IconFont
+            id="l7-editor-aMap"
+            type="icon-ditu"
+            className={styles.l7AmapControl}
+          />
+        </Tooltip>
       </Popover>
       {isIncludes(GOOGLE_SATELLITE.type) && (
         <>

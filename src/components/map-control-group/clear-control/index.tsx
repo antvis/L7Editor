@@ -1,5 +1,5 @@
 import { CustomControl } from '@antv/larkmap';
-import { Popconfirm } from 'antd';
+import { Popconfirm, Tooltip } from 'antd';
 import React from 'react';
 import { IconFont } from '../../../constants';
 import { useFeature } from '../../../recoil';
@@ -22,9 +22,11 @@ export const ClearControl = () => {
             );
           }}
         >
-          <div className={styles.clear} id="l7-editor-clear">
-            <IconFont type="icon-qingkong" className={styles.clearSvg} />
-          </div>
+          <Tooltip title="清除" placement="bottom">
+            <div className={styles.clear} id="l7-editor-clear">
+              <IconFont type="icon-qingkong" className={styles.clearSvg} />
+            </div>
+          </Tooltip>
         </Popconfirm>
       </CustomControl>
     </>

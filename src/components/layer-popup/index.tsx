@@ -391,7 +391,7 @@ export const LayerPopup: React.FC = () => {
                       onClick={() => onEdit(popupProps.feature)}
                       disabled={disabledEdit(popupProps.feature)}
                     >
-                      编辑
+                      更改绘制
                     </Button>
                   </Tooltip>
                 )}
