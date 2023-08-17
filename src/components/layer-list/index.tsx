@@ -1,6 +1,3 @@
-import { FeatureKey, LayerId, LayerZIndex } from '@/constants';
-import { useFilterFeature } from '@/hooks/useFilterFeature';
-import { getPointImage } from '@/utils/change-image-color';
 import {
   LineLayer,
   PointLayer,
@@ -8,18 +5,32 @@ import {
   PolygonLayerProps,
   useScene,
 } from '@antv/larkmap';
-import { Feature, featureCollection } from '@turf/turf';
+import { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
-import { groupBy } from 'lodash';
-import React, { useMemo, useState } from 'react';
-import { useModel } from 'umi';
+import { cloneDeep, groupBy } from 'lodash-es';
+import React, { useEffect, useMemo, useState } from 'react';
+import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
+import { useFilterFeatures } from '../../hooks';
+import { useFeature, useGlobal } from '../../recoil';
+import { getPointImage } from '../../utils/change-image-color';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
-  const { layerColor } = useModel('global');
-  const { newFeatures } = useFilterFeature();
+  const { layerColor, coordConvert, baseMap } = useGlobal();
+  const { transformCoord } = useFeature();
+  const { features: newFeatures } = useFilterFeatures();
+  const [features, setFeatures] = useState<Feature[]>([]);
+
+  useEffect(() => {
+    if (newFeatures.length) {
+      setFeatures(transformCoord(newFeatures));
+    } else {
+      setFeatures([]);
+    }
+  }, [newFeatures, coordConvert, baseMap]);
+
   const [
     pointSource,
     lineSource,
@@ -30,7 +41,7 @@ export const LayerList: React.FC = () => {
       LineString: lineStringList = [],
       Point: pointList = [],
     }: Record<string, Feature[]> = groupBy(
-      newFeatures.filter((feature) => {
+      cloneDeep(features).filter((feature) => {
         // @ts-ignore
         return !feature.properties?.[FeatureKey.IsEdit];
       }),
@@ -39,10 +50,10 @@ export const LayerList: React.FC = () => {
 
     return [pointList, lineStringList, polygonList].map((features) => {
       return {
-        data: featureCollection(features),
+        data: { type: 'FeatureCollection', features },
       };
     });
-  }, [newFeatures]);
+  }, [features]);
 
   useAsyncEffect(async () => {
     const newLayerColor = Color(layerColor).rgb().object();
@@ -54,7 +65,7 @@ export const LayerList: React.FC = () => {
   }, [layerColor]);
 
   const activeColor = useMemo(() => {
-    const newLayerColor = Color(layerColor).darken(0.8).hex();
+    const newLayerColor = Color(layerColor).darken(0.3).hex();
     return newLayerColor;
   }, [layerColor]);
 

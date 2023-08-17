@@ -1,3 +1,4 @@
 module.exports = {
-  extends: require.resolve('@umijs/max/stylelint'),
+  extends: [require.resolve('@umijs/fabric/dist/stylelint')],
+  rules: {},
 };

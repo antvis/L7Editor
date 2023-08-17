@@ -1,8 +1,9 @@
-import { FilterStringData } from '@/types/filter';
 import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
-import { cloneDeep, uniq } from 'lodash';
+import { cloneDeep, uniq } from 'lodash-es';
 import React from 'react';
-import { useModel } from 'umi';
+import useFeature from '../../../recoil/feature';
+import useFilter from '../../../recoil/filter';
+import { FilterStringData } from '../../../types/filter';
 
 const select = [
   { label: '包含', value: 'IN' },
@@ -16,9 +17,8 @@ interface Props {
   form: FormInstance;
 }
 const StringFilter: React.FC<Props> = ({ name, index, form }) => {
-  const { dataSource } = useModel('feature');
-  const { setFilters } = useModel('filter');
-
+  const { setFilters } = useFilter();
+  const { dataSource } = useFeature();
   return (
     <div style={{ display: 'flex' }}>
       <Form.Item
@@ -28,7 +28,7 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
         <Select
           placeholder="请选择过滤逻辑"
           options={select}
-          onChange={(value) => {
+          onChange={() => {
             const newFilterFromList = cloneDeep(
               form.getFieldValue('filterFromList'),
             );
@@ -83,7 +83,7 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
                 {(uniq(DataList?.value) ?? [])
                   .filter((item) => item !== 'undefined')
                   .map((item) => (
-                    <Select.Option value={item}>
+                    <Select.Option value={item} key={item}>
                       <Tooltip title={item}>{item}</Tooltip>
                     </Select.Option>
                   ))}

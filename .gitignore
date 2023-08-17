@@ -12,3 +12,9 @@
 /.mfsu
 /.idea
 yarn.lock
+/.dumi
+/package-lock.json
+/.DS_Stroe
+/es
+/lib
+/umd

@@ -1,3 +1,14 @@
 {
-  "extends": "./src/.umi/tsconfig.json"
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@antv/l7-editor": ["./src/index.ts"]
+    }
+  },
+  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "docs/**/*"]
 }

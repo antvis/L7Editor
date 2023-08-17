@@ -1,51 +1,66 @@
-// @ts-ignore
-import { RightPanelWidthRange } from '@/constants';
 import { CaretRightOutlined } from '@ant-design/icons';
+import { Feature } from '@turf/turf';
 import { useSize } from 'ahooks';
+import classNames from 'classnames';
 import { Resizable } from 're-resizable';
-import React, { ReactNode, useMemo, useState } from 'react';
-import { useModel } from 'umi';
-import './index.less';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { RightPanelWidthRange } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
+import useStyle from './styles';
 
 export interface ResizePanelProps {
   left: ReactNode;
   right: ReactNode;
+  onFeatureChange: (features: Feature[]) => void;
 }
 
-export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
-  const { rightWidth, setRightWidth, hideEditor, setHideEditor } =
-    useModel('global');
+export const ResizePanel: React.FC<ResizePanelProps> = ({
+  left,
+  right,
+  onFeatureChange,
+}) => {
+  const { hideEditor, setHideEditor, rightPanelWidth, setRightWidth } =
+    useGlobal();
   const [resizePanel, setResizePanel] = useState<HTMLDivElement | null>(null);
   const [minRightWidth, maxRightWidth] = RightPanelWidthRange;
   const { width: containerWidth = 0 } = useSize(resizePanel) ?? {};
+  const { features } = useFeature();
+  const styles = useStyle();
 
   const onResize = (event: Event) => {
     const { left = 0 } = resizePanel?.getBoundingClientRect() ?? {};
 
-    let rightWidth =
+    let rightPanelWidth =
       100 * (1 - ((event as MouseEvent).clientX - left) / containerWidth);
-    if (rightWidth < minRightWidth) {
-      rightWidth = minRightWidth;
+    if (rightPanelWidth < minRightWidth) {
+      rightPanelWidth = minRightWidth;
     }
-    if (rightWidth > maxRightWidth) {
-      rightWidth = maxRightWidth;
+    if (rightPanelWidth > maxRightWidth) {
+      rightPanelWidth = maxRightWidth;
     }
-    setRightWidth(rightWidth);
+    setRightWidth(rightPanelWidth);
   };
 
   const calcRightWidth = useMemo(() => {
-    return hideEditor ? 0 : rightWidth;
-  }, [hideEditor, rightWidth]);
+    return hideEditor ? 0 : rightPanelWidth;
+  }, [hideEditor, rightPanelWidth]);
+
+  useEffect(() => {
+    onFeatureChange(features);
+  }, [features]);
 
   return (
     <div
-      className="resize-panel"
+      className={classNames([styles.resizePanel, 'l7-editor-content'])}
       ref={(ref: HTMLDivElement) => {
         setResizePanel(ref);
       }}
     >
       <div
-        className="resize-panel__left"
+        className={classNames([
+          styles.resizePanelLeft,
+          'l7-editor-content__left',
+        ])}
         style={{ width: `${100 - calcRightWidth}%` }}
       >
         {left}
@@ -63,9 +78,12 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
         }}
         minWidth={`${(minRightWidth / 100) * containerWidth}px`}
         maxWidth={`${(maxRightWidth / 100) * containerWidth}px`}
-        className="resize-panel__right"
+        className={classNames([
+          styles.resizePanelRight,
+          'l7-editor-content__right',
+        ])}
         handleClasses={{
-          left: 'resize-panel__drag-line',
+          left: styles.resizePanelDragLine,
         }}
         handleStyles={{
           left: { width: 6, left: -3 },
@@ -78,7 +96,7 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
       >
         {right}
         <div
-          className="resize-panel__toggle-btn"
+          className={styles.resizePanelToggleBtn}
           onClick={() => {
             setHideEditor(!hideEditor);
           }}

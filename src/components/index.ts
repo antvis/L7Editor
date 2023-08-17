@@ -1,6 +1,11 @@
-export * from './app-map';
-export * from './layer-list';
-export * from './layer-popup';
-export * from './map-content';
-export * from './map-control-group';
-export * from './resize-panel';
+export { AppHeader } from './app-header';
+export { AppMap } from './app-map';
+export { AppTable } from './app-table';
+export { GeoJsonEditor } from './geojson-editor';
+export { LayerList } from './layer-list';
+export { LayerPopup } from './layer-popup';
+export { LngLatEditor } from './lnglat-editor';
+export { MapContent } from './map-content';
+export { MapControlGroup } from './map-control-group';
+export { ResizePanel } from './resize-panel';
+export { WktEditor } from './wkt-editor';

@@ -1,9 +1,10 @@
-import { LngLatImportType } from '@/types';
 import { createFromIconfontCN } from '@ant-design/icons';
+import { LngLatImportType } from '../types';
 
 export const RightPanelWidthRange = [20, 80];
 
-export enum LocalstorageKey {
+
+export enum LocalStorageKey {
   RightPanelWidth = 'RightPanelWidth',
   MapOptions = 'MapOptions',
   LayerColor = 'LayerColor',
@@ -13,7 +14,10 @@ export enum LocalstorageKey {
   ActiveRightTabKey = 'ActiveRightTabKey',
   AutoFitBounds = 'AutoFitBounds',
   BaseMap = 'BaseMap',
-  LayerTypes = 'LayerTypes',
+  officialLayers = 'officialLayers',
+  WktText = 'WktText',
+  Convert = 'Convert',
+  theme = "theme"
 }
 
 export enum LayerId {
@@ -60,7 +64,7 @@ export const LngLatImportTypeOptions: Array<{
 ];
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_cxg3z3f6vte.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_fgo74m49ta.js',
 });
 
 export const MapBoxConfig = {

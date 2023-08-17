@@ -1,6 +1,3 @@
-import { FeatureKey, LayerId } from '@/constants';
-import { getDrawStyle, isCircle, isRect } from '@/utils';
-import { prettierText } from '@/utils/prettier-text';
 import {
   DrawCircle,
   DrawEvent,
@@ -12,12 +9,13 @@ import {
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
   Feature,
-  featureCollection,
   Geometry,
   GeometryCollection,
+  featureCollection,
 } from '@turf/turf';
 import {
   Button,
+  ConfigProvider,
   Descriptions,
   Empty,
   Form,
@@ -25,10 +23,16 @@ import {
   InputNumber,
   Tooltip,
   Typography,
+  theme,
 } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useModel } from 'umi';
-import './index.less';
+import { FeatureKey, LayerId } from '../../constants';
+import { useFeature, useGlobal } from '../../recoil';
+import { getDrawStyle, isCircle, isRect } from '../../utils';
+import { prettierText } from '../../utils/prettier-text';
+
+import useStyle from './styles';
 const { Paragraph } = Typography;
 
 type DrawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
@@ -37,15 +41,16 @@ export const LayerPopup: React.FC = () => {
   const [form] = Form.useForm();
   const scene = useScene();
   const {
+    saveEditorText,
+    isDraw,
+    setIsDraw,
     resetFeatures,
     features,
     setFeatures,
-    isDraw,
-    setIsDraw,
-    saveEditorText,
-  } = useModel('feature');
-  const { layerColor } = useModel('global');
-  const { popupTrigger } = useModel('global');
+  } = useFeature();
+  const { layerColor, popupTrigger } = useGlobal();
+
+  const styles = useStyle();
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
@@ -66,7 +71,7 @@ export const LayerPopup: React.FC = () => {
 
   const targetFeature = useMemo(() => {
     return features.find(
-      (feature) =>
+      (feature: { properties: { [x: string]: number | undefined } }) =>
         // @ts-ignore
         feature.properties?.[FeatureKey.Index] === popupProps.featureIndex,
     );
@@ -97,10 +102,9 @@ export const LayerPopup: React.FC = () => {
       if (!isDraw) {
         const { lngLat, feature } = e;
         const featureIndex = feature.properties[FeatureKey.Index];
-        if (
-          popupProps.visible &&
-          popupProps.featureIndex === feature.properties[FeatureKey.Index]
-        ) {
+        const isIndex =
+          popupProps.featureIndex === feature.properties[FeatureKey.Index];
+        if (popupProps.visible && isIndex) {
           setPopupProps((oldPopupProps) => {
             return {
               ...oldPopupProps,
@@ -109,14 +113,14 @@ export const LayerPopup: React.FC = () => {
               feature: null,
             };
           });
-        } else {
-          setPopupProps({
-            lngLat,
-            visible: true,
-            featureIndex,
-            feature: e.feature,
-          });
+          return;
         }
+        setPopupProps({
+          lngLat,
+          visible: true,
+          featureIndex,
+          feature: e.feature,
+        });
       }
     },
     [setPopupProps, popupProps, isDraw],
@@ -175,9 +179,10 @@ export const LayerPopup: React.FC = () => {
             ...getData[0],
             properties: feature?.properties,
           };
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           (features[index] = newData as Feature<
             Geometry | GeometryCollection,
-            {}
+            Record<string, any>
           >),
             saveEditorText(
               prettierText({ content: featureCollection(features) }),
@@ -200,31 +205,7 @@ export const LayerPopup: React.FC = () => {
     const type = feature?.geometry.type;
     let drawLayer: DrawType;
     if (type === 'Point') {
-      drawLayer = new DrawPoint(scene, {
-        ...options,
-        style: {
-          point: {
-            normal: {
-              shape: 'drawImg',
-              size: 20,
-              color: layerColor,
-            },
-            hover: {
-              shape: 'drawImg',
-              size: 20,
-              color: layerColor,
-            },
-            active: {
-              shape: 'drawImg',
-              size: 20,
-              color: layerColor,
-            },
-            style: {
-              offsets: [0, 25],
-            },
-          },
-        },
-      });
+      drawLayer = new DrawPoint(scene, options);
     } else if (type === 'LineString') {
       drawLayer = new DrawLine(scene, options);
     } else if (type === 'Polygon' && isRect(feature)) {
@@ -261,24 +242,24 @@ export const LayerPopup: React.FC = () => {
   }, [onLayerDblClick, layerList, popupTrigger, scene]);
 
   useEffect(() => {
-    if (!isDraw) {
-      if (popupTrigger === 'click') {
-        layerList.forEach((layer) => layer.on('click', onLayerClick));
-        return () => {
-          layerList.forEach((layer) => layer.off('click', onLayerClick));
-        };
-      } else if (popupTrigger === 'hover') {
-        layerList.forEach((layer) => layer.on('mouseenter', onLayerMouseenter));
-        layerList.forEach((layer) => layer.on('mouseout', onLayerMouseout));
-        return () => {
-          layerList.forEach((layer) =>
-            layer.off('mouseenter', onLayerMouseenter),
-          );
-          layerList.forEach((layer) => layer.off('mouseout', onLayerMouseout));
-        };
-      }
-    }
-  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene, isDraw]);
+    const layerEvent = {
+      click: [{ event: 'click', click: onLayerClick }],
+      hover: [
+        { event: 'mouseenter', click: onLayerMouseenter },
+        { event: 'mouseout', click: onLayerMouseout },
+      ],
+    };
+    //@ts-ignore
+    layerEvent[popupTrigger].forEach((e) => {
+      layerList.forEach((layer) => layer.on(e.event, e.click));
+    });
+    return () => {
+      //@ts-ignore
+      layerEvent[popupTrigger].forEach((e) => {
+        layerList.forEach((layer) => layer.off(e.event, e.click));
+      });
+    };
+  }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene]);
 
   const save = (key: string, value: any) => {
     const formValue = form.getFieldValue('input');
@@ -306,62 +287,70 @@ export const LayerPopup: React.FC = () => {
   const popupTable = useMemo(() => {
     return featureFields.length ? (
       <div
-        className="layer-popup__info"
+        className={styles.layerPopupInfo}
         onWheel={(e) => {
           e.stopPropagation();
         }}
       >
-        <Descriptions size="small" bordered column={1}>
-          {featureFields.map(([key, value], index) => {
-            if (!(value instanceof Object)) {
-              return (
-                <Descriptions.Item label={key} key={key}>
-                  <Paragraph
-                    copyable
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    {tableClick.isInput && tableClick.index === index ? (
-                      <Form form={form}>
-                        <Form.Item name="input">
-                          {typeof value === 'number' ? (
-                            <InputNumber
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          ) : (
-                            <Input
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          )}
-                        </Form.Item>
-                      </Form>
-                    ) : (
-                      <div
-                        style={{ width: '100%' }}
-                        onClick={() => {
-                          setTableClick({
-                            isInput: !tableClick.isInput,
-                            index: index,
-                          });
-                          form.setFieldsValue({ input: value });
-                        }}
-                      >
-                        {String(value)}
-                      </div>
-                    )}
-                  </Paragraph>
-                </Descriptions.Item>
-              );
-            }
-          })}
-        </Descriptions>
+        <ConfigProvider
+          locale={zhCN}
+          theme={{
+            algorithm: theme.defaultAlgorithm,
+          }}
+        >
+          <Descriptions size="small" bordered column={1}>
+            {featureFields.map(([key, value], index) => {
+              if (!(value instanceof Object)) {
+                return (
+                  <Descriptions.Item label={key} key={key}>
+                    <Paragraph
+                      copyable
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      {tableClick.isInput && tableClick.index === index ? (
+                        <Form form={form}>
+                          <Form.Item name="input">
+                            {typeof value === 'number' ? (
+                              <InputNumber
+                                autoFocus
+                                onPressEnter={() => save(key, value)}
+                                onBlur={() => save(key, value)}
+                              />
+                            ) : (
+                              <Input
+                                autoFocus
+                                onPressEnter={() => save(key, value)}
+                                onBlur={() => save(key, value)}
+                              />
+                            )}
+                          </Form.Item>
+                        </Form>
+                      ) : (
+                        <div
+                          style={{ width: '100%' }}
+                          onClick={() => {
+                            setTableClick({
+                              isInput: !tableClick.isInput,
+                              index: index,
+                            });
+                            form.setFieldsValue({ input: value });
+                          }}
+                        >
+                          {String(value)}
+                        </div>
+                      )}
+                    </Paragraph>
+                  </Descriptions.Item>
+                );
+              }
+              return null;
+            })}
+          </Descriptions>
+        </ConfigProvider>
       </div>
     ) : (
       <Empty description="当前元素无字段" style={{ margin: '12px 0' }} />
@@ -374,19 +363,20 @@ export const LayerPopup: React.FC = () => {
         typeof popupProps.featureIndex === 'number' &&
         targetFeature && (
           <Popup
+            className={styles.layerPopupContent}
             lngLat={popupProps.lngLat}
             closeButton={false}
             offsets={[0, 10]}
             followCursor={popupTrigger === 'hover'}
           >
             <div
-              className="layer-popup"
+              className={styles.layerPopup}
               onClick={(e) => {
                 e.stopPropagation();
               }}
             >
               {popupTable}
-              <div className="layer-popup__btn-group">
+              <div className={styles.layerPopupBtnGroup}>
                 {popupTrigger === 'click' && (
                   <Tooltip
                     title={
@@ -401,7 +391,7 @@ export const LayerPopup: React.FC = () => {
                       onClick={() => onEdit(popupProps.feature)}
                       disabled={disabledEdit(popupProps.feature)}
                     >
-                      编辑
+                      更改绘制
                     </Button>
                   </Tooltip>
                 )}
@@ -412,7 +402,7 @@ export const LayerPopup: React.FC = () => {
                     danger
                     onClick={() => {
                       resetFeatures(
-                        features.filter((_, index) => {
+                        features.filter((_: any, index: number) => {
                           return index !== popupProps.featureIndex;
                         }),
                       );

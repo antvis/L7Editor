@@ -1,4 +1,3 @@
-import { isEmptyFilter } from '@/hooks/useFilterFeature';
 import {
   DeleteOutlined,
   FieldBinaryOutlined,
@@ -9,17 +8,22 @@ import {
 } from '@ant-design/icons';
 import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select, Tooltip } from 'antd';
-import { cloneDeep, debounce, isEmpty } from 'lodash';
+import { cloneDeep, debounce, isEmpty } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
-import { useModel } from 'umi';
+import { isEmptyFilter } from '../../../hooks/use-filter-features';
+import { useFeature, useFilter } from '../../../recoil';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
+import useStyle from './styles';
+
 const { Option } = Select;
-const FilterFormListControl: React.FC = () => {
-  const { dataSource } = useModel('feature');
-  const { setFilters, filters } = useModel('filter');
+
+const FilterControl: React.FC = () => {
+  const { dataSource } = useFeature();
+  const { setFilters, filters } = useFilter();
   const [isVisible, setIsVisible] = useState(false);
   const [form] = Form.useForm();
+  const styles = useStyle();
 
   const addVisible = useMemo(() => {
     return !dataSource.length;
@@ -70,9 +74,13 @@ const FilterFormListControl: React.FC = () => {
   }, [filters]);
 
   return (
-    <CustomControl position="topright" style={{ display: 'flex' }}>
+    <CustomControl
+      position="bottomleft"
+      className={styles.l7FilterPanel}
+      style={{ display: 'flex' }}
+    >
       <div
-        className="l7-filter"
+        className={styles.l7Filter}
         style={{ display: isVisible ? 'block' : 'none' }}
       >
         <Form
@@ -84,7 +92,10 @@ const FilterFormListControl: React.FC = () => {
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ name }, index) => (
-                  <div key={index.toString()} style={{ display: 'flex', marginBottom: 8 }}>
+                  <div
+                    key={index.toString()}
+                    style={{ display: 'flex', marginBottom: 8 }}
+                  >
                     <Form.Item name={[name, 'logic']} initialValue="and">
                       <Select style={{ width: 70, marginRight: '8px' }}>
                         <Option value="and">并且</Option>
@@ -125,7 +136,10 @@ const FilterFormListControl: React.FC = () => {
                       >
                         {dataSource.map(({ field, type }) => {
                           return (
-                            <Option key={field} value={JSON.stringify({ field, type })}>
+                            <Option
+                              key={field}
+                              value={JSON.stringify({ field, type })}
+                            >
                               <i
                                 style={{
                                   fontSize: 20,
@@ -203,32 +217,35 @@ const FilterFormListControl: React.FC = () => {
           </Form.List>
         </Form>
       </div>
-      <div className="l7-filter-switch">
-        <button
-          type="button"
-          className="l7-draw-control__btn"
-          onClick={() => {
-            setIsVisible(!isVisible);
-          }}
-        >
-          {!isFilterActive ? (
-            <FilterOutlined
-              className="l7-draw-icon"
-              style={{
-                lineHeight: '30px',
-              }}
-            />
-          ) : (
-            <FilterFilled
-              style={{
-                color: '#597ef7',
-              }}
-            />
-          )}
-        </button>
+      <div className={styles.l7FilterSwitch}>
+        <Tooltip title="数据过滤" placement="right">
+          <button
+            type="button"
+            id="l7-editor-filter"
+            className="l7-draw-control__btn"
+            onClick={() => {
+              setIsVisible(!isVisible);
+            }}
+          >
+            {!isFilterActive ? (
+              <FilterOutlined
+                // className="l7-draw-icon"
+                style={{
+                  lineHeight: '30px',
+                }}
+              />
+            ) : (
+              <FilterFilled
+                style={{
+                  color: '#597ef7',
+                }}
+              />
+            )}
+          </button>
+        </Tooltip>
       </div>
     </CustomControl>
   );
 };
 
-export default FilterFormListControl;
+export default FilterControl;

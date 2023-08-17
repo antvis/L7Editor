@@ -1,5 +1,3 @@
-import { FeatureKey } from '@/constants';
-import { prettierText } from '@/utils/prettier-text';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
@@ -15,10 +13,12 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { isNull, isUndefined, uniqBy } from 'lodash';
+import { isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useModel } from 'umi';
-import './index.less';
+import { FeatureKey } from '../../constants';
+import { useFeature } from '../../recoil';
+import { prettierText } from '../../utils/prettier-text';
+import useStyle from './styles';
 
 const { Text } = Typography;
 
@@ -76,6 +76,7 @@ const EditableCell = ({
 }: EditableCellType) => {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<any>(null);
+  const styles = useStyle();
   const form = useContext(FormContext);
   useEffect(() => {
     if (editing) {
@@ -159,7 +160,7 @@ const EditableCell = ({
       </Form.Item>
     ) : (
       <div
-        className={!isDraw ? 'editable-cell-value-wrap' : ''}
+        className={!isDraw ? styles.editableCellValueWrap : ''}
         style={{
           paddingRight: 24,
         }}
@@ -179,11 +180,12 @@ const components = {
   },
 };
 
-export const AppTable = () => {
+export const AppTable: React.FC = () => {
   const container = useRef<HTMLDivElement | null>(null);
+  const styles = useStyle();
   const { height = 0 } = useSize(container) ?? {};
-  const { features, setFeatures, setEditorText, resetFeatures, scene, isDraw } =
-    useModel('feature');
+  const { setEditorText, isDraw, scene, features, resetFeatures } =
+    useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
 
   useEffect(() => {
@@ -336,6 +338,7 @@ export const AppTable = () => {
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newDataSource?.length ? (
         <Table
+          className={styles.tableContent}
           components={components}
           columns={newColumns}
           rowClassName={() => 'editable-row'}
@@ -344,6 +347,7 @@ export const AppTable = () => {
           scroll={{ y: height - 54, x: 'max-content' }}
           size="small"
           pagination={false}
+          rowKey={'__index'}
         />
       ) : (
         <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
