@@ -18,7 +18,7 @@ title: L7Editor文档
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
 | activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt'` | `geojson` |
 | features | 初始化数据 | ` Feature[]` | `[]` |
-| officialLayers | 底图选择 | `string[]` | `[]` |
+| officialLayers | 官方选择 | `string[]` | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
