@@ -103,6 +103,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         {isTooBarState.setting && <SettingBtn />}
         {isTooBarState.theme && (
           <Switch
+            id="l7-editor-theme"
             checkedChildren="亮"
             unCheckedChildren="暗"
             defaultChecked={theme === 'normal' ? true : false}

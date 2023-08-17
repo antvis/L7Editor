@@ -142,6 +142,21 @@ export const functionSteps: TourProps['steps'] = [
     target: () => document.getElementById('l7-editor-set')!,
   },
   {
+    title: '主题',
+    description: '点击可切换不同的主题配色',
+    target: () => document.getElementById('l7-editor-theme')!,
+  },
+  {
+    title: '行政区选择器',
+    description: '可以快速选择行政区的省市县区',
+    target: () => document.getElementById('l7-editor-administrativeSelect')!,
+  },
+  {
+    title: '城市查询',
+    description: '搜索城市后可快速定位并移动至对应城市中心点',
+    target: () => document.getElementById('l7-editor-citySelect')!,
+  },
+  {
     title: '绘制',
     cover: (
       <img
@@ -160,16 +175,6 @@ export const functionSteps: TourProps['steps'] = [
     target: () => document.getElementById('l7-editor-clear')!,
   },
   {
-    title: '行政区选择器',
-    description: '可以快速选择行政区的省市县区',
-    target: () => document.getElementById('l7-editor-administrativeSelect')!,
-  },
-  {
-    title: '城市查询',
-    description: '搜索城市后可快速定位并移动至对应城市中心点',
-    target: () => document.getElementById('l7-editor-citySelect')!,
-  },
-  {
     title: '筛选',
     description: '可根据数据中的properties来筛选需要数据',
     target: () => document.getElementById('l7-editor-filter')!,
@@ -185,15 +190,15 @@ export const functionSteps: TourProps['steps'] = [
     target: () => document.getElementById('l7-editor-color')!,
   },
   {
-    title: '底图',
-    description: '可选择不同的地图底图配置',
-    target: () => document.getElementById('l7-editor-aMap')!,
-  },
-  {
     title: '主题色',
     description: '选择不同主题色来修改地图渲染主题颜色',
     //@ts-ignore
     target: () => document.getElementsByClassName('l7-editor-mapTheme')[0]!,
+  },
+  {
+    title: '底图',
+    description: '可选择不同的地图底图配置',
+    target: () => document.getElementById('l7-editor-aMap')!,
   },
   {
     title: 'GeoJSON编辑器',

@@ -1,7 +1,7 @@
 import { useDebounceEffect } from 'ahooks';
 import { Input } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useFeature } from '../../recoil';
+import { useFeature, useGlobal } from '../../recoil';
 import { IFeatures } from '../../types';
 import { GeoJSON2LngLat, LngLat2GeoJson } from '../../utils';
 
@@ -9,7 +9,8 @@ const { TextArea } = Input;
 
 export const LngLatEditor: React.FC = () => {
   const [input, setInput] = useState('');
-  const { fc, resetFeatures } = useFeature();
+  const { fc, resetFeatures, bboxAutoFit } = useFeature();
+  const { autoFitBounds } = useGlobal();
 
   useEffect(() => {
     const result = GeoJSON2LngLat(fc);
@@ -22,8 +23,11 @@ export const LngLatEditor: React.FC = () => {
     const features = LngLat2GeoJson(input);
     if (features) {
       resetFeatures(features as IFeatures);
+      if (autoFitBounds) {
+        bboxAutoFit(features);
+      }
     }
-  }, [input]);
+  }, [input, autoFitBounds]);
   return (
     <>
       <TextArea

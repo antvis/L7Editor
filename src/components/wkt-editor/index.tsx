@@ -1,7 +1,7 @@
 import { Input } from 'antd';
 import { debounce } from 'lodash';
 import React, { forwardRef, useEffect, useState } from 'react';
-import { useFeature } from '../../recoil';
+import { useFeature, useGlobal } from '../../recoil';
 import { IFeatures } from '../../types';
 import { GeoJSON2Wkt, Wkt2GeoJSON } from '../../utils';
 
@@ -9,7 +9,8 @@ const { TextArea } = Input;
 
 export const WktEditor: React.FC = forwardRef(() => {
   const [input, setInput] = useState('');
-  const { fc, resetFeatures } = useFeature();
+  const { fc, resetFeatures, bboxAutoFit } = useFeature();
+  const { autoFitBounds } = useGlobal();
 
   useEffect(() => {
     const result = GeoJSON2Wkt(fc);
@@ -22,6 +23,9 @@ export const WktEditor: React.FC = forwardRef(() => {
     (wkt: string) => {
       const { features } = Wkt2GeoJSON(wkt);
       resetFeatures(features as IFeatures);
+      if (autoFitBounds) {
+        bboxAutoFit(features);
+      }
     },
     1000,
     {
