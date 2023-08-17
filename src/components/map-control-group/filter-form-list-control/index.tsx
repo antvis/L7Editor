@@ -12,9 +12,9 @@ import { cloneDeep, debounce, isEmpty } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
 import { isEmptyFilter } from '../../../hooks/use-filter-features';
 import { useFeature, useFilter } from '../../../recoil';
-import useStyle from './styles';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
+import useStyle from './styles';
 
 const { Option } = Select;
 
@@ -218,29 +218,31 @@ const FilterControl: React.FC = () => {
         </Form>
       </div>
       <div className={styles.l7FilterSwitch}>
-        <button
-          type="button"
-          id="l7-editor-filter"
-          className="l7-draw-control__btn"
-          onClick={() => {
-            setIsVisible(!isVisible);
-          }}
-        >
-          {!isFilterActive ? (
-            <FilterOutlined
-              // className="l7-draw-icon"
-              style={{
-                lineHeight: '30px',
-              }}
-            />
-          ) : (
-            <FilterFilled
-              style={{
-                color: '#597ef7',
-              }}
-            />
-          )}
-        </button>
+        <Tooltip title="数据过滤" placement="right">
+          <button
+            type="button"
+            id="l7-editor-filter"
+            className="l7-draw-control__btn"
+            onClick={() => {
+              setIsVisible(!isVisible);
+            }}
+          >
+            {!isFilterActive ? (
+              <FilterOutlined
+                // className="l7-draw-icon"
+                style={{
+                  lineHeight: '30px',
+                }}
+              />
+            ) : (
+              <FilterFilled
+                style={{
+                  color: '#597ef7',
+                }}
+              />
+            )}
+          </button>
+        </Tooltip>
       </div>
     </CustomControl>
   );
