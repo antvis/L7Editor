@@ -4,13 +4,9 @@ title: L7Editor文档
 
 ### API
 
-#### `editConfig` 配置项
+### `配置项`
 
 配置 L7Editor 初始化默认配置
-
-```js
- editConfig={{ primaryColor: 'red' }}
-```
 
 | 属性 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -29,7 +25,48 @@ title: L7Editor文档
 | toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
 
-#### `layerType`
+#### `tabItems`
+
+侧面版标签页选项卡内容，可以自定义拓展组件
+
+#### 组件
+
+搭配`tabItems`一起使用，用来展示右侧面板功能
+
+#### GeoJsonEditor
+
+GeoJSON 文本编辑器，可以通过输入 GeoJSON 数据来实现数据展示
+
+#### WktEditor
+
+WKT 文本编辑器，可以通过输入 WKT 数据来实现数据展示
+
+#### LngLatEditor
+
+LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目前只支持点数据展示)
+
+#### AppTable
+
+快速展示 GeoJSON 数据中的 properties 数据 ，同时也可以通过表格来展示修改删除 GeoJSON 数据中的 properties 对象中的字段
+
+```js
+{
+  tabItems: [
+    {
+      key: 'geojson',
+      label: 'GeoJSON',
+      children: <GeoJsonEditor />,
+    },
+    {
+      key: 'table',
+      label: '表格',
+      children: <AppTable />,
+    },
+  ];
+}
+```
+
+#### `officialLayers`¸
 
 底图数据选择
 
@@ -37,7 +74,7 @@ title: L7Editor文档
 
 ```js
 {
-  layerType: ['Satellite', 'RoadNet'];
+  officialLayers: ['Satellite', 'RoadNet'];
 }
 ```
 
