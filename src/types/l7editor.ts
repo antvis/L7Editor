@@ -17,6 +17,7 @@ export interface MapControlProps {
   autoControl?: boolean;
   fullscreenControl?: boolean;
   administrativeSelectControl?: boolean;
+  mapAdministrativeControl?: boolean;
 }
 
 export interface ToolbarProps {
