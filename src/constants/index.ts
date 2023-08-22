@@ -17,7 +17,9 @@ export enum LocalStorageKey {
   officialLayers = 'officialLayers',
   WktText = 'WktText',
   Convert = 'Convert',
-  theme = "theme"
+  theme = "theme",
+  cityHistory = "cityHistory",
+  dataIndex = "dataIndex"
 }
 
 export enum LayerId {
@@ -64,7 +66,7 @@ export const LngLatImportTypeOptions: Array<{
 ];
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_fgo74m49ta.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_mvhxfocu6yb.js',
 });
 
 export const MapBoxConfig = {

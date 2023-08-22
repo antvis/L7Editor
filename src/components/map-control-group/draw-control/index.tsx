@@ -9,6 +9,7 @@ import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey } from '../../../constants';
+import { useTransformFeatures } from '../../../hooks';
 import { useFeature, useGlobal } from '../../../recoil';
 import { IFeatures } from '../../../types';
 import { getDrawStyle } from '../../../utils';
@@ -17,6 +18,7 @@ import useStyle from './styles';
 const DrawControl = () => {
   const scene = useScene();
   const styles = useStyle();
+  const { transformFeatures } = useTransformFeatures();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const { setIsDraw, resetFeatures, features } = useFeature();
   const { layerColor } = useGlobal();
@@ -72,7 +74,8 @@ const DrawControl = () => {
       };
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-      resetFeatures([...features, newFeature] as IFeatures);
+      const newFeatures = transformFeatures([newFeature]);
+      resetFeatures([...features, ...newFeatures] as IFeatures);
     },
     [resetFeatures, features, drawControl],
   );

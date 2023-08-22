@@ -17,15 +17,21 @@ export const WktEditor: React.FC = forwardRef(() => {
     if (isFocus) {
       return;
     }
-    const result = GeoJSON2Wkt(fc);
+    //@ts-ignore
+    const result = GeoJSON2Wkt(fc).replaceAll(' (', '(');
     if (result !== input) {
+      console.log(result)
       setInput(result);
     }
   }, [fc, isFocus]);
 
   const { run: onInputChange } = useDebounceFn(
     (wkt: string) => {
-      const { features } = Wkt2GeoJSON(wkt);
+      //@ts-ignore
+      const newWkt = wkt.replaceAll('(', ' (')
+      console.log(newWkt, 'new')
+      const { features } = Wkt2GeoJSON(newWkt);
+      console.log(features)
       resetFeatures(features as IFeatures);
       if (autoFitBounds) {
         bboxAutoFit(features);

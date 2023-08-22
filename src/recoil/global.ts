@@ -3,11 +3,13 @@ import {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
+  cityHistoryState,
   convertState,
+  dataIndexState,
   hideEditorState,
   layerColorState,
-  officialLayersState,
   mapOptionState,
+  officialLayersState,
   popupTriggerState,
   rightWidthState,
   themeState,
@@ -36,6 +38,10 @@ export default function useGlobal() {
 
   const [theme, setTheme] = useRecoilState(themeState);
 
+  const [cityHistory, setCityHistory] = useRecoilState(cityHistoryState);
+
+  const [dataIndex, setDataIndex] = useRecoilState(dataIndexState);
+
   return {
     rightPanelWidth,
     setRightWidth,
@@ -59,5 +65,9 @@ export default function useGlobal() {
     setCoordConvert,
     theme,
     setTheme,
+    cityHistory,
+    setCityHistory,
+    dataIndex,
+    setDataIndex,
   };
 }

@@ -32,6 +32,7 @@ import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
 
+import { useTransformFeatures } from '../../hooks';
 import useStyle from './styles';
 const { Paragraph } = Typography;
 
@@ -49,6 +50,7 @@ export const LayerPopup: React.FC = () => {
     setFeatures,
   } = useFeature();
   const { layerColor, popupTrigger } = useGlobal();
+  const { transformFeatures } = useTransformFeatures();
 
   const styles = useStyle();
   const [popupProps, setPopupProps] = useState<
@@ -179,8 +181,9 @@ export const LayerPopup: React.FC = () => {
             ...getData[0],
             properties: feature?.properties,
           };
+          const newFeatures = transformFeatures([newData]);
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          (features[index] = newData as Feature<
+          (features[index] = newFeatures[0] as Feature<
             Geometry | GeometryCollection,
             Record<string, any>
           >),
