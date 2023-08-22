@@ -11,21 +11,21 @@ import Color from 'color';
 import { cloneDeep, groupBy } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
-import { useFilterFeatures, useTransformFeatures } from '../../hooks';
-import { useGlobal } from '../../recoil';
+import { useFilterFeatures } from '../../hooks';
+import { useFeature, useGlobal } from '../../recoil';
 import { getPointImage } from '../../utils/change-image-color';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
   const { layerColor, coordConvert, baseMap } = useGlobal();
-  const { revertFeatures } = useTransformFeatures();
+  const { transformCoord } = useFeature();
   const { features: newFeatures } = useFilterFeatures();
   const [features, setFeatures] = useState<Feature[]>([]);
 
   useEffect(() => {
     if (newFeatures.length) {
-      setFeatures(revertFeatures(newFeatures));
+      setFeatures(transformCoord(newFeatures));
     } else {
       setFeatures([]);
     }

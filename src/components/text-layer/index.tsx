@@ -1,13 +1,11 @@
 import { TextLayer, TextLayerProps } from '@antv/larkmap';
 import { center } from '@turf/turf';
 import React, { useMemo } from 'react';
-import { useTransformFeatures } from '../../hooks/use-transform-features';
 import { useFeature, useGlobal } from '../../recoil';
 
 export const EditorTextLayer = () => {
-  const { features } = useFeature();
+  const { features, transformCoord } = useFeature();
   const { coordConvert, layerColor } = useGlobal();
-  const { revertFeatures } = useTransformFeatures();
   const transformData = useMemo(() => {
     const data = features.map((item) => {
       return center(item);
@@ -33,7 +31,7 @@ export const EditorTextLayer = () => {
   }, [layerColor]);
 
   const sourceData = useMemo(() => {
-    const data = revertFeatures(transformData).map((item, index) => {
+    const data = transformCoord(transformData).map((item, index) => {
       return {
         //@ts-ignore
         x: item.geometry.coordinates[0],
