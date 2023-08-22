@@ -15,6 +15,7 @@ import DrawControl from './draw-control';
 import FilterControl from './filter-form-list-control';
 import LayerColorControl from './layer-color-control';
 import LocationSearchControl from './location-search-control';
+import { MapAdministrativeControl } from './map-administrative-control';
 import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
 import useStyle from './styles';
@@ -22,7 +23,7 @@ import useStyle from './styles';
 type MapControlGroupProps = {
   mapControl?: MapControlProps;
 };
-const isControlGroup = {
+const DefaultMapControl: MapControlProps = {
   drawControl: true,
   clearControl: true,
   zoomControl: true,
@@ -37,16 +38,17 @@ const isControlGroup = {
   autoControl: true,
   fullscreenControl: true,
   administrativeSelectControl: true,
+  mapAdministrativeControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
 }) => {
   const { baseMap } = useGlobal();
   const styles = useStyle();
-  const [isControlGroupState, setIsControlGroup] = useState(isControlGroup);
+  const [isControlGroupState, setIsControlGroup] = useState(DefaultMapControl);
 
   useEffect(() => {
-    setIsControlGroup({ ...isControlGroup, ...mapControl });
+    setIsControlGroup({ ...DefaultMapControl, ...mapControl });
   }, [mapControl]);
 
   return (
@@ -58,6 +60,9 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       )}
       {isControlGroupState.scaleControl && (
         <ScaleControl className={styles.scalesControl} />
+      )}
+      {isControlGroupState.mapAdministrativeControl && (
+        <MapAdministrativeControl />
       )}
       {isControlGroupState.administrativeSelectControl && (
         <AdministrativeSelect />

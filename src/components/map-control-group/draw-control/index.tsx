@@ -6,7 +6,7 @@ import {
 import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
-import { cloneDeep, fromPairs } from 'lodash';
+import { cloneDeep, fromPairs } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey } from '../../../constants';
 import { useTransformFeatures } from '../../../hooks';
