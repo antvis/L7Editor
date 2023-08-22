@@ -122,21 +122,21 @@ export default function useFeature() {
     return featureKeyList;
   }, [features]);
 
-  const transformCoord = (features: Feature[]) => {
-    let data = cloneDeep(features);
+  const transformCoord = (newFeatures: Feature[]) => {
+    let data = cloneDeep(newFeatures);
     if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
-      data = features.map((item) => {
+      data = data.map((item) => {
         const newItem = gcoord.transform(
-          cloneDeep(item as any),
+          item as any,
           gcoord.GCJ02,
           gcoord.WGS84,
         );
         return newItem;
       });
     } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
-      data = features.map((item) => {
+      data = data.map((item) => {
         const newItem = gcoord.transform(
-          cloneDeep(item as any),
+          item as any,
           gcoord.WGS84,
           gcoord.GCJ02,
         );
@@ -146,21 +146,21 @@ export default function useFeature() {
     return data;
   };
 
-  const revertCoord = (features: Feature[]) => {
-    let data = cloneDeep(features);
+  const revertCoord = (newFeatures: Feature[]) => {
+    let data = cloneDeep(newFeatures);
     if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
-      data = features.map((item) => {
+      data = data.map((item) => {
         const newItem = gcoord.transform(
-          cloneDeep(item as any),
+          item as any,
           gcoord.WGS84,
           gcoord.GCJ02,
         );
         return newItem;
       });
     } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
-      data = features.map((item) => {
+      data = data.map((item) => {
         const newItem = gcoord.transform(
-          cloneDeep(item as any),
+          item as any,
           gcoord.GCJ02,
           gcoord.WGS84,
         );

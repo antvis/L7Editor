@@ -26,13 +26,14 @@ import {
   theme,
 } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
+import { cloneDeep } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
-
 import useStyle from './styles';
+
 const { Paragraph } = Typography;
 
 type DrawType = DrawLine | DrawPoint | DrawPolygon | DrawRect | DrawCircle;
@@ -154,11 +155,12 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
+  console.log(features);
+
   const onEdit = (feature: Feature) => {
-    setIsDraw(true);
     console.log(feature);
-    const newFeature = feature;
-    console.log(newFeature);
+    setIsDraw(true);
+    let newFeature = cloneDeep(feature);
     const newFeatures = features.filter((item: Feature) => {
       return (
         //@ts-ignore
@@ -175,31 +177,26 @@ export const LayerPopup: React.FC = () => {
         feature.properties?.[FeatureKey.Index]
       );
     });
-    const onChange = (selectFeature: any, draw: DrawType) => {
+    const onEditFinish = (selectFeature: any, draw: DrawType) => {
       if (!selectFeature) {
-        const getData = draw.getData();
-        if (getData.length) {
-          const newData = {
-            ...getData[0],
+        const data = draw.getData();
+        if (data.length) {
+          newFeature = {
+            ...data[0],
             properties: feature?.properties,
           };
-          const newTransformFeatures = revertCoord([newData])[0];
+          const newTransformFeatures = revertCoord([newFeature])[0];
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           features[index] = newTransformFeatures as Feature<
             Geometry | GeometryCollection,
             Record<string, any>
           >;
-          saveEditorText(
-            prettierText({ content: featureCollection(features) }),
-          );
         } else {
           features.splice(index, 1);
-          saveEditorText(
-            prettierText({ content: featureCollection(features) }),
-          );
         }
         draw.destroy();
         setIsDraw(false);
+        resetFeatures(features);
       }
     };
     const options: any = {
@@ -208,23 +205,23 @@ export const LayerPopup: React.FC = () => {
       style: getDrawStyle(layerColor),
     };
     const type = newFeature?.geometry.type;
-    let drawLayer: DrawType;
+    let draw: DrawType;
     if (type === 'Point') {
-      drawLayer = new DrawPoint(scene, options);
+      draw = new DrawPoint(scene, options);
     } else if (type === 'LineString') {
-      drawLayer = new DrawLine(scene, options);
+      draw = new DrawLine(scene, options);
     } else if (type === 'Polygon' && isRect(newFeature)) {
-      drawLayer = new DrawRect(scene, options);
+      draw = new DrawRect(scene, options);
     } else if (type === 'Polygon' && isCircle(newFeature)) {
-      drawLayer = new DrawCircle(scene, options);
+      draw = new DrawCircle(scene, options);
     } else {
-      drawLayer = new DrawPolygon(scene, options);
+      draw = new DrawPolygon(scene, options);
     }
-    drawLayer.enable();
-    drawLayer.setActiveFeature(drawLayer.getData()[0]);
+    draw.enable();
+    draw.setActiveFeature(draw.getData()[0]);
     setFeatures(newFeatures);
-    drawLayer.on(DrawEvent.Select, (selectFeature: any) =>
-      onChange(selectFeature, drawLayer),
+    draw.on(DrawEvent.Select, (selectFeature: any) =>
+      onEditFinish(selectFeature, draw),
     );
     setPopupProps({
       visible: false,
