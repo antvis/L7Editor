@@ -7,7 +7,7 @@ import { useFeature, useGlobal } from '../../recoil';
 export const EditorTextLayer = () => {
   const { features } = useFeature();
   const { coordConvert, layerColor } = useGlobal();
-  const { transformFeatures } = useTransformFeatures();
+  const { revertFeatures } = useTransformFeatures();
   const transformData = useMemo(() => {
     const data = features.map((item) => {
       return center(item);
@@ -17,7 +17,6 @@ export const EditorTextLayer = () => {
 
   const layerOptions: Omit<TextLayerProps, 'source'> = useMemo(() => {
     return {
-      autoFit: true,
       zIndex: 101,
       field: 'name',
       style: {
@@ -34,7 +33,7 @@ export const EditorTextLayer = () => {
   }, [layerColor]);
 
   const sourceData = useMemo(() => {
-    const data = transformFeatures(transformData).map((item, index) => {
+    const data = revertFeatures(transformData).map((item, index) => {
       return {
         //@ts-ignore
         x: item.geometry.coordinates[0],

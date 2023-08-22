@@ -58,7 +58,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
           left={
             <AppMap>
               <MapControlGroup mapControl={props.mapControl} />
-              {dataIndex === 'open' && <EditorTextLayer />}
+              {dataIndex && <EditorTextLayer />}
               <LayerList />
               <LayerPopup />
             </AppMap>

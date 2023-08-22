@@ -67,7 +67,7 @@ export interface L7EditorProps {
    * panel 展示tab
    * @default 'geojson'
    */
-  activeTab?: 'geojson' | 'table' | 'wkt';
+  activeTab?: 'geojson' | 'table' | 'wkt' | string;
   /**
    * 初始化数据
    * @default []
@@ -110,4 +110,9 @@ export interface L7EditorProps {
    * 侧面版TabItems
    */
   tabItems?: TabsProps['items'];
+  /**
+   * 数据序号dataIndex
+   * @default false
+   */
+  dataIndex?: boolean;
 }

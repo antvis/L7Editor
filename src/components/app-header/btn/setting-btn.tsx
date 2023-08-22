@@ -93,8 +93,8 @@ export const SettingBtn = () => {
           </Form.Item>
           <Form.Item name="dataIndex" label="数据序号">
             <Radio.Group>
-              <Radio.Button value="open">开启</Radio.Button>
-              <Radio.Button value="close">关闭</Radio.Button>
+              <Radio.Button value={true}>开启</Radio.Button>
+              <Radio.Button value={false}>关闭</Radio.Button>
             </Radio.Group>
           </Form.Item>
         </Form>

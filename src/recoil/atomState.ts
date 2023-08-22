@@ -130,9 +130,9 @@ const cityHistoryState = atom<any>({
   effects: [localStorageEffect(LocalStorageKey.cityHistory)],
 });
 
-const dataIndexState = atom<'open' | 'close'>({
+const dataIndexState = atom<boolean>({
   key: 'dataIndex',
-  default: 'close',
+  default: false,
   effects: [localStorageEffect(LocalStorageKey.dataIndex)],
 });
 
