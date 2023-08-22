@@ -50,7 +50,7 @@ export const LayerPopup: React.FC = () => {
     setFeatures,
   } = useFeature();
   const { layerColor, popupTrigger } = useGlobal();
-  const { transformFeatures } = useTransformFeatures();
+  const { transformFeatures, revertFeatures } = useTransformFeatures();
 
   const styles = useStyle();
   const [popupProps, setPopupProps] = useState<
@@ -157,6 +157,9 @@ export const LayerPopup: React.FC = () => {
 
   const onEdit = (feature: Feature) => {
     setIsDraw(true);
+    console.log(feature);
+    const newFeature = feature;
+    console.log(newFeature);
     const newFeatures = features.filter((item: Feature) => {
       return (
         //@ts-ignore
@@ -181,15 +184,15 @@ export const LayerPopup: React.FC = () => {
             ...getData[0],
             properties: feature?.properties,
           };
-          const newFeatures = transformFeatures([newData]);
+          const newTransformFeatures = transformFeatures([newData])[0];
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          (features[index] = newFeatures[0] as Feature<
+          features[index] = newTransformFeatures as Feature<
             Geometry | GeometryCollection,
             Record<string, any>
-          >),
-            saveEditorText(
-              prettierText({ content: featureCollection(features) }),
-            );
+          >;
+          saveEditorText(
+            prettierText({ content: featureCollection(features) }),
+          );
         } else {
           features.splice(index, 1);
           saveEditorText(
@@ -201,19 +204,19 @@ export const LayerPopup: React.FC = () => {
       }
     };
     const options: any = {
-      initialData: [feature],
+      initialData: [newFeature],
       maxCount: 1,
       style: getDrawStyle(layerColor),
     };
-    const type = feature?.geometry.type;
+    const type = newFeature?.geometry.type;
     let drawLayer: DrawType;
     if (type === 'Point') {
       drawLayer = new DrawPoint(scene, options);
     } else if (type === 'LineString') {
       drawLayer = new DrawLine(scene, options);
-    } else if (type === 'Polygon' && isRect(feature)) {
+    } else if (type === 'Polygon' && isRect(newFeature)) {
       drawLayer = new DrawRect(scene, options);
-    } else if (type === 'Polygon' && isCircle(feature)) {
+    } else if (type === 'Polygon' && isCircle(newFeature)) {
       drawLayer = new DrawCircle(scene, options);
     } else {
       drawLayer = new DrawPolygon(scene, options);
