@@ -16,9 +16,7 @@ export function GeoJSON2Wkt(fc: FeatureCollection): string {
 
 export function Wkt2GeoJSON(wkt: string): FeatureCollection {
   const fc = featureCollection([]);
-  console.log(wkt,1);
   wkt.split(/[;\n]/g).forEach((item) => {
-    console.log(item,2);
     if (item) {
       const geometry = parse(item) as Geometry;
       if (geometry) {

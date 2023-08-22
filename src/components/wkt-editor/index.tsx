@@ -20,7 +20,6 @@ export const WktEditor: React.FC = forwardRef(() => {
     //@ts-ignore
     const result = GeoJSON2Wkt(fc).replaceAll(' (', '(');
     if (result !== input) {
-      console.log(result)
       setInput(result);
     }
   }, [fc, isFocus]);
@@ -29,9 +28,7 @@ export const WktEditor: React.FC = forwardRef(() => {
     (wkt: string) => {
       //@ts-ignore
       const newWkt = wkt.replaceAll('(', ' (')
-      console.log(newWkt, 'new')
       const { features } = Wkt2GeoJSON(newWkt);
-      console.log(features)
       resetFeatures(features as IFeatures);
       if (autoFitBounds) {
         bboxAutoFit(features);
