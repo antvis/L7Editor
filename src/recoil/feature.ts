@@ -1,9 +1,4 @@
-import {
-  bbox,
-  Feature,
-  featureCollection,
-  getType,
-} from '@turf/turf';
+import { bbox, Feature, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
 import gcoord from 'gcoord';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
@@ -128,7 +123,31 @@ export default function useFeature() {
   }, [features]);
 
   const transformCoord = (features: Feature[]) => {
-    let data = features;
+    let data = cloneDeep(features);
+    if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
+      data = features.map((item) => {
+        const newItem = gcoord.transform(
+          cloneDeep(item as any),
+          gcoord.GCJ02,
+          gcoord.WGS84,
+        );
+        return newItem;
+      });
+    } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
+      data = features.map((item) => {
+        const newItem = gcoord.transform(
+          cloneDeep(item as any),
+          gcoord.WGS84,
+          gcoord.GCJ02,
+        );
+        return newItem;
+      });
+    }
+    return data;
+  };
+
+  const revertCoord = (features: Feature[]) => {
+    let data = cloneDeep(features);
     if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
       data = features.map((item) => {
         const newItem = gcoord.transform(
@@ -181,5 +200,6 @@ export default function useFeature() {
     setScene,
     fc,
     transformCoord,
+    revertCoord,
   };
 }
