@@ -155,10 +155,8 @@ export const LayerPopup: React.FC = () => {
     }
   }, [setPopupProps, popupProps, isDraw]);
 
-  console.log(features);
 
   const onEdit = (feature: Feature) => {
-    console.log(feature);
     setIsDraw(true);
     let newFeature = cloneDeep(feature);
     const newFeatures = features.filter((item: Feature) => {
