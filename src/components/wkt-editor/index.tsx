@@ -27,7 +27,7 @@ export const WktEditor: React.FC = forwardRef(() => {
   const { run: onInputChange } = useDebounceFn(
     (wkt: string) => {
       //@ts-ignore
-      const newWkt = wkt.replaceAll('(', ' (')
+      const newWkt = wkt.replaceAll('(', ' (');
       const { features } = Wkt2GeoJSON(newWkt);
       resetFeatures(features as IFeatures);
       if (autoFitBounds) {
