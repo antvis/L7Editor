@@ -29,6 +29,7 @@
     "@antv/larkmap": "^1.0.0",
     "@emotion/css": "^11.11.2",
     "@mapbox/togeojson": "^0.16.0",
+    "@monaco-editor/react": "^4.5.2",
     "@turf/turf": "^6.5.0",
     "ahooks": "^3.7.0",
     "classnames": "^2.3.2",

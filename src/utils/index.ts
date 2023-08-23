@@ -137,3 +137,4 @@ export const isRect = (feature: Feature) => {
 export * from './transform';
 export * from './lnglat';
 export * from './wkt';
+export * from './prettier-text';

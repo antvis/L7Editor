@@ -1,20 +1,19 @@
-import { useMount, useSize } from 'ahooks';
-import { editor } from 'monaco-editor';
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
-import 'monaco-editor/esm/vs/language/json/monaco.contribution';
-import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-  useState,
-} from 'react';
-import MonacoEditor from 'react-monaco-editor';
+import { useSize } from 'ahooks';
+// import { editor } from 'monaco-editor';
+// import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+// import 'monaco-editor/esm/vs/language/json/monaco.contribution';
+// import 'monaco-editor/esm/vs/language/typescript/monaco.contribution';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+// import MonacoEditor from 'react-monaco-editor';
+import Editor, { loader, Monaco } from '@monaco-editor/react';
+import * as monacoEditor from 'monaco-editor';
 import { useFeature, useGlobal } from '../../recoil';
-import { isPromise } from '../../utils';
-import { prettierText } from '../../utils/prettier-text';
-import { provideCompletionItems } from './editortool';
+import { isPromise, prettierText } from '../../utils';
 import useStyle from './styles';
+
+loader.config({
+  monaco: monacoEditor,
+});
 
 type Language = 'json' | 'javascript';
 
@@ -32,50 +31,55 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const styles = useStyle();
 
-  // document format
-  monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
-    provideDocumentFormattingEdits: (model: editor.ITextModel) => {
-      return [
-        {
-          range: model.getFullModelRange(),
-          text: prettierText({ content: model.getValue(), parser: language }),
-        },
-      ];
-    },
-  });
-
-  useMount(() => {
-    // 自定义主题(例子,可删除,没关系)
-    monacoEditor.editor.defineTheme('custome-theme', {
-      base: 'vs',
-      inherit: true,
-      rules: [
-        { token: '调试', foreground: '959595' },
-        { token: '通知', foreground: '00b4ff' },
-        { token: '警告', foreground: 'fff000' },
-        { token: '错误', foreground: 'ff0000' },
-        { token: '崩溃', foreground: 'c30209' },
-        { token: '信息', foreground: 'ffffff' },
-      ],
-      colors: {
-        'editor.background': '#fafafa',
-        'editorLineNumber.foreground': '#222222',
-        'editor.lineHighlightBackground': '#f4f4f4',
+  const onBeforeMount = (monaco: Monaco) => {
+    monaco.languages.registerDocumentFormattingEditProvider('json', {
+      provideDocumentFormattingEdits: (
+        model: monacoEditor.editor.ITextModel,
+      ) => {
+        return [
+          {
+            range: model.getFullModelRange(),
+            text: prettierText({ content: model.getValue(), parser: 'json' }),
+          },
+        ];
       },
     });
+  };
 
-    // lodash 代码提示补全
-    monacoEditor.languages.registerCompletionItemProvider(language, {
-      provideCompletionItems: (model, position) =>
-        provideCompletionItems(model, position, 'lodash'),
-    });
+  // document format
 
-    // turf 代码提示补全
-    monacoEditor.languages.registerCompletionItemProvider(language, {
-      provideCompletionItems: (model, position) =>
-        provideCompletionItems(model, position, 'turf'),
-    });
-  });
+  // useMount(() => {
+  //   // 自定义主题(例子,可删除,没关系)
+  //   monacoEditor.editor.defineTheme('custome-theme', {
+  //     base: 'vs',
+  //     inherit: true,
+  //     rules: [
+  //       { token: '调试', foreground: '959595' },
+  //       { token: '通知', foreground: '00b4ff' },
+  //       { token: '警告', foreground: 'fff000' },
+  //       { token: '错误', foreground: 'ff0000' },
+  //       { token: '崩溃', foreground: 'c30209' },
+  //       { token: '信息', foreground: 'ffffff' },
+  //     ],
+  //     colors: {
+  //       'editor.background': '#fafafa',
+  //       'editorLineNumber.foreground': '#222222',
+  //       'editor.lineHighlightBackground': '#f4f4f4',
+  //     },
+  //   });
+
+  //   // lodash 代码提示补全
+  //   monacoEditor.languages.registerCompletionItemProvider(language, {
+  //     provideCompletionItems: (model, position) =>
+  //       provideCompletionItems(model, position, 'lodash'),
+  //   });
+
+  //   // turf 代码提示补全
+  //   monacoEditor.languages.registerCompletionItemProvider(language, {
+  //     provideCompletionItems: (model, position) =>
+  //       provideCompletionItems(model, position, 'turf'),
+  //   });
+  // });
 
   const monacoChange = (event: string) => {
     if (language === 'json') {
@@ -110,20 +114,13 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     [scriptContent],
   );
 
-  const value = useMemo(() => {
-    if (language === 'javascript') {
-      return {};
-    }
-    return { value: editorText };
-  }, [language, editorText]);
-
   return (
     <div ref={setContainer} className={styles.appEditor}>
-      <MonacoEditor
+      {/* <MonacoEditor
         width={width}
         height={height}
         language={language}
-        {...value}
+        value={language === 'javascript' ? undefined : editorText}
         onChange={monacoChange}
         theme={theme === 'normal' ? 'custome-theme' : 'vs-dark'}
         options={{
@@ -140,6 +137,28 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
             showKeywords: true,
           },
         }}
+      /> */}
+      <Editor
+        width={width}
+        height={height}
+        language={language}
+        value={language === 'javascript' ? undefined : editorText}
+        theme={theme === 'normal' ? 'custome-theme' : 'vs-dark'}
+        options={{
+          selectOnLineNumbers: true,
+          tabIndex: 2,
+          tabSize: 2,
+          folding: true,
+          fontSize: 13,
+          mouseStyle: 'text',
+          foldingStrategy: 'indentation',
+          scrollBeyondLastLine: false,
+          foldingMaximumRegions: Number.MAX_SAFE_INTEGER,
+          suggest: {
+            showKeywords: true,
+          },
+        }}
+        beforeMount={onBeforeMount}
       />
     </div>
   );
