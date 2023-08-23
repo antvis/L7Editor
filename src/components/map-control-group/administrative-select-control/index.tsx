@@ -165,6 +165,7 @@ export const AdministrativeSelect = () => {
               value={value}
               //@ts-ignore
               onChange={onChange}
+              className={styles.cascader}
               allowClear
               showSearch={{ filter }}
               placeholder="可选择省/市/县"
@@ -174,7 +175,6 @@ export const AdministrativeSelect = () => {
               expandTrigger="hover"
             />
           </div>
-
           <Dropdown
             menu={{
               items: historyItem,

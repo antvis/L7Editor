@@ -12,6 +12,12 @@ export const useStyle = () => {
     colorText,
   } = token;
   return {
+    cascader: css`
+      .ant-select-selector {
+        border-radius: 0;
+        border-radius: 6px 0 0 6px;
+      }
+    `,
     cascaderPopup: css`
       .ant-cascader-dropdown .ant-cascader-menu {
         height: 260px !important;
@@ -28,7 +34,7 @@ export const useStyle = () => {
     history: css`
       background: ${colorBgContainer};
       border-right: none;
-      border-radius: 6px;
+      border-radius: 0 6px  6px 0;
       border: 1px solid ${colorBorder};
       border-bottom: 1px solid ${colorBorder} !important;
       :hover {
