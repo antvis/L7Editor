@@ -2,6 +2,12 @@
 title: L7Editor文档
 ---
 
+### 代码演示
+
+默认示例
+
+<code src="./index.tsx"></code>
+
 ### API
 
 ### `配置项`
@@ -9,7 +15,7 @@ title: L7Editor文档
 配置 L7Editor 初始化默认配置
 
 | 属性 | 描述 | 类型 | 默认值 |
-| --- | --- | --- | --- | --- |
+| ---- | ---- | ---- | ------ |
 | baseMap | 地图选项 | `‘Gaode’｜'Mapbox'` | `Gaode` |
 | mapOption | 地图配置 详见 [MapOptions](https://larkmap.antv.antgroup.com/components/lark-map#mapoptions) | `MapOptions` | `-` |
 | primaryColor | 图层颜色 | `string` | `#1677ff` |
@@ -24,7 +30,8 @@ title: L7Editor文档
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
 | toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
-| dataIndex | 数据序号 | `boolean` | `false` |
+| dataIndex | 是否展示元素序号 | `boolean` | `false` |
+
 
 #### `tabItems`
 

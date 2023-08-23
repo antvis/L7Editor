@@ -91,7 +91,7 @@ export const SettingBtn = () => {
               <Radio.Button value="Mapbox">Mapbox</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="dataIndex" label="数据序号">
+          <Form.Item name="dataIndex" label="是否展示元素序号">
             <Radio.Group>
               <Radio.Button value={true}>开启</Radio.Button>
               <Radio.Button value={false}>关闭</Radio.Button>

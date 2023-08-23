@@ -23,7 +23,7 @@ export const EditorTextLayer = () => {
         fontSize: 18,
         stroke: '#fff',
         strokeWidth: 2,
-        textAllowOverlap: false,
+        textAllowOverlap: true,
         padding: [10, 10] as [number, number],
         textOffset: [0, -18],
       },

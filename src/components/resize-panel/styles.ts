@@ -10,6 +10,7 @@ const useStyle = () => {
     boxShadow,
     colorBorderSecondary,
     colorFillContentHover,
+    boxShadowSecondary,
     colorInfoHover,
     colorIcon,
   } = token;
@@ -47,7 +48,7 @@ const useStyle = () => {
       align-items: center;
       justify-content: center;
       background: ${colorBgContainer};
-      box-shadow: -2px 0 3px ${colorFillContentHover};
+      box-shadow: ${boxShadow};
       position: absolute;
       top: calc(50% - 30px);
       left: -20px;

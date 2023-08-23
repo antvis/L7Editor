@@ -5,7 +5,7 @@ import {
   featureCollection,
   multiLineString,
 } from '@turf/turf';
-import { Cascader, Dropdown, Empty, message } from 'antd';
+import { Cascader, Dropdown, Empty, Tooltip, message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
@@ -181,14 +181,16 @@ export const AdministrativeSelect = () => {
             menu={{
               items: historyItem,
             }}
-            placement="bottom"
+            placement="bottomRight"
             trigger={['click']}
           >
-            <div
-              className={classNames(['l7-draw-control__btn', styles.history])}
-            >
-              <IconFont type="icon-lishi" className={styles.historyIcon} />
-            </div>
+            <Tooltip title="行政区划历史记录" placement='right'>
+              <div
+                className={classNames(['l7-draw-control__btn', styles.history])}
+              >
+                <IconFont type="icon-lishi" className={styles.historyIcon} />
+              </div>
+            </Tooltip>
           </Dropdown>
         </div>
       </CustomControl>
