@@ -31,21 +31,21 @@ export const ImportBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { resetFeatures, features, bboxAutoFit } = useFeature();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<TabType>('url');
+  const [activeTab, setActiveTab] = useState<TabType>('file');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
 
   const formRef = useRef<Record<string, any>>(null);
 
   const items: TabsProps['items'] = [
     {
-      key: 'url',
-      label: <div>URL上传</div>,
-      children: <UrlUpload ref={formRef} />,
-    },
-    {
       key: 'file',
       label: <div>文件上传</div>,
       children: <FileUpload ref={formRef} />,
+    },
+    {
+      key: 'url',
+      label: <div>URL上传</div>,
+      children: <UrlUpload ref={formRef} />,
     },
     // {
     //   key: 'lngLatUpload',
