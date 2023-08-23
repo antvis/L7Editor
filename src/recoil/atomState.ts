@@ -124,7 +124,7 @@ const themeState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.theme)],
 });
 
-const cityHistoryState = atom<any>({
+const cityHistoryState = atom<{ value: string; label: string }[]>({
   key: 'cityHistory',
   default: [],
   effects: [localStorageEffect(LocalStorageKey.cityHistory)],

@@ -39,7 +39,7 @@ export const AdministrativeSelect = () => {
     });
     if (list.length) {
       return list.map((item: any) => {
-        const { center, name, districts, adcode } = item;
+        const { name, districts, adcode } = item;
         return {
           adcode,
           value: adcode,
@@ -80,6 +80,7 @@ export const AdministrativeSelect = () => {
             map.set(item.value, item);
           }
         }
+        //@ts-ignore
         return [...map.values()];
       };
       setCityHistory(formatArr());
@@ -122,6 +123,7 @@ export const AdministrativeSelect = () => {
       return [{ key: 'undefined', label: <Empty /> }];
     }
   }, [cityHistory]);
+
   useEffect(() => {
     if (value) {
       const data = value[value.length - 1];
@@ -190,7 +192,6 @@ export const AdministrativeSelect = () => {
           </Dropdown>
         </div>
       </CustomControl>
-
       <LineLayer
         source={{
           data: featureCollection(districtFeature ? [districtFeature] : []),
