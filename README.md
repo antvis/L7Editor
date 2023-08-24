@@ -1,4 +1,4 @@
-# L7Editor
+# L7 Editor
 
 > A React tool for editing GIS data based on L7
 
