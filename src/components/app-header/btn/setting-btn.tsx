@@ -13,6 +13,8 @@ export const SettingBtn = () => {
     autoFitBounds,
     setAutoFitBounds,
     setCoordConvert,
+    showIndex,
+    setShowIndex,
   } = useGlobal();
 
   const [form] = Form.useForm();
@@ -56,6 +58,7 @@ export const SettingBtn = () => {
             popupTrigger,
             autoFitBounds,
             baseMap,
+            showIndex,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
@@ -64,6 +67,7 @@ export const SettingBtn = () => {
             setAutoFitBounds(e.autoFitBounds);
             setCoordConvert(e.baseMap ? 'GCJ02' : 'WGS84');
             setBaseMap(e.baseMap);
+            setShowIndex(e.showIndex);
           }}
         >
           <Form.Item name="popupTrigger" label="图层气泡展示方式">
@@ -85,6 +89,12 @@ export const SettingBtn = () => {
             <Radio.Group>
               <Radio.Button value="Gaode">高德</Radio.Button>
               <Radio.Button value="Mapbox">Mapbox</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="showIndex" label="是否展示元素序号">
+            <Radio.Group>
+              <Radio.Button value={true}>开启</Radio.Button>
+              <Radio.Button value={false}>关闭</Radio.Button>
             </Radio.Group>
           </Form.Item>
         </Form>

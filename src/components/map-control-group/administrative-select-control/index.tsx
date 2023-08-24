@@ -5,11 +5,13 @@ import {
   featureCollection,
   multiLineString,
 } from '@turf/turf';
-import { Cascader, message } from 'antd';
+import { Cascader, Dropdown, Empty, Tooltip, message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import React, { useEffect, useState } from 'react';
-import { LayerZIndex } from '../../../constants';
-import { useFeature } from '../../../recoil';
+import classNames from 'classnames';
+import { cloneDeep } from 'lodash-es';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IconFont, LayerZIndex } from '../../../constants';
+import { useFeature, useGlobal } from '../../../recoil';
 import { useStyle } from './styles';
 
 const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
@@ -24,10 +26,12 @@ const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
 
 export const AdministrativeSelect = () => {
   const styles = useStyle();
+  const { cityHistory, setCityHistory } = useGlobal();
   const { scene } = useFeature();
   const [districtFeature, setDistrictFeature] =
     useState<Feature<MultiLineString> | null>(null);
   const [data, setData] = useState();
+  const [value, setValue] = useState<string[]>([]);
 
   const getCascadeData = (list: any) => {
     list.sort((a: { adcode: number }, b: { adcode: number }) => {
@@ -35,10 +39,10 @@ export const AdministrativeSelect = () => {
     });
     if (list.length) {
       return list.map((item: any) => {
-        const { center, name, districts, adcode } = item;
+        const { name, districts, adcode } = item;
         return {
           adcode,
-          value: center,
+          value: adcode,
           label: name,
           children: getCascadeData(districts),
         };
@@ -59,9 +63,71 @@ export const AdministrativeSelect = () => {
   }, []);
 
   const onChange = (value: string[], option: any) => {
+    setValue(value);
     if (option) {
-      const data = option[option.length - 1];
-      const name = data.adcode;
+      const code: string[] = [];
+      const label: string[] = [];
+      option.forEach((item: { adcode: string; label: string }) => {
+        code.push(item.adcode);
+        label.push(item.label);
+      });
+      const item = { value: JSON.stringify(code), label: label.join('/') };
+      const arr = [item, ...cityHistory];
+      const formatArr = () => {
+        let map = new Map();
+        for (let item of arr) {
+          if (!map.has(item.value)) {
+            map.set(item.value, item);
+          }
+        }
+        //@ts-ignore
+        return [...map.values()];
+      };
+      setCityHistory(formatArr());
+      if (cityHistory.length >= 10) {
+        let arrHistory = cloneDeep(cityHistory);
+        arrHistory.pop();
+        setCityHistory(arrHistory);
+      }
+    } else {
+      setDistrictFeature(null);
+    }
+  };
+
+  const filter = (inputValue: string, path: DefaultOptionType[]) =>
+    path.some(
+      (option) =>
+        (option.label as string)
+          .toLowerCase()
+          .indexOf(inputValue.toLowerCase()) > -1,
+    );
+
+  const historyItem = useMemo(() => {
+    if (cityHistory.length) {
+      const data = cityHistory.map((item) => {
+        return {
+          key: item.value,
+          label: (
+            <div
+              onClick={() => {
+                setValue(JSON.parse(item.value));
+              }}
+            >
+              {item.label}
+            </div>
+          ),
+        };
+      });
+      return data;
+    } else {
+      return [{ key: 'undefined', label: <Empty /> }];
+    }
+  }, [cityHistory]);
+
+  useEffect(() => {
+    if (value) {
+      const data = value[value.length - 1];
+      const name = data;
       fetch(
         `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
       )
@@ -89,38 +155,45 @@ export const AdministrativeSelect = () => {
         .catch(() => {
           message.error('围栏数据请求失败');
         });
-    } else {
-      setDistrictFeature(null);
     }
-  };
-
-  const filter = (inputValue: string, path: DefaultOptionType[]) =>
-    path.some(
-      (option) =>
-        (option.label as string)
-          .toLowerCase()
-          .indexOf(inputValue.toLowerCase()) > -1,
-    );
-
+  }, [value]);
   return (
     <>
       <CustomControl position="lefttop">
-        <div id="l7-editor-administrativeSelect">
-          <Cascader
-            options={data}
-            //@ts-ignore
-            onChange={onChange}
-            allowClear
-            showSearch={{ filter }}
-            placeholder="可选择省/市/县"
-            changeOnSelect
-            style={{ width: 250 }}
-            popupClassName={styles.cascaderPopup}
-            expandTrigger="hover"
-          />
+        <div style={{ display: 'flex' }}>
+          <div id="l7-editor-administrativeSelect">
+            <Cascader
+              options={data}
+              value={value}
+              //@ts-ignore
+              onChange={onChange}
+              className={styles.cascader}
+              allowClear
+              showSearch={{ filter }}
+              placeholder="可选择省/市/县"
+              changeOnSelect
+              style={{ width: 250 }}
+              popupClassName={styles.cascaderPopup}
+              expandTrigger="hover"
+            />
+          </div>
+          <Dropdown
+            menu={{
+              items: historyItem,
+            }}
+            placement="bottomRight"
+            trigger={['click']}
+          >
+            <Tooltip title="行政区划历史记录" placement="right">
+              <div
+                className={classNames(['l7-draw-control__btn', styles.history])}
+              >
+                <IconFont type="icon-lishi" className={styles.historyIcon} />
+              </div>
+            </Tooltip>
+          </Dropdown>
         </div>
       </CustomControl>
-
       <LineLayer
         source={{
           data: featureCollection(districtFeature ? [districtFeature] : []),

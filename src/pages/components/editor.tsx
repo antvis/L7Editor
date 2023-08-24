@@ -11,6 +11,7 @@ import {
   MapControlGroup,
   ResizePanel,
 } from '../../components';
+import { EditorTextLayer } from '../../components/text-layer';
 import { useGlobal } from '../../recoil';
 import { L7EditorProps } from '../../types';
 import useStyle from './styles';
@@ -19,7 +20,12 @@ type EditorProps = L7EditorProps;
 
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
-  const { theme: antdTheme, mapOptions, setMapOptions } = useGlobal();
+  const {
+    theme: antdTheme,
+    mapOptions,
+    setMapOptions,
+    showIndex,
+  } = useGlobal();
   const styles = useStyle();
 
   useEffect(() => {
@@ -52,6 +58,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
           left={
             <AppMap>
               <MapControlGroup mapControl={props.mapControl} />
+              {showIndex && <EditorTextLayer />}
               <LayerList />
               <LayerPopup />
             </AppMap>

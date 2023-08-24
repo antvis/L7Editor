@@ -1,9 +1,4 @@
-import {
-  bbox,
-  Feature,
-  featureCollection,
-  getType,
-} from '@turf/turf';
+import { bbox, Feature, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
 import gcoord from 'gcoord';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
@@ -127,21 +122,45 @@ export default function useFeature() {
     return featureKeyList;
   }, [features]);
 
-  const transformCoord = (features: Feature[]) => {
-    let data = features;
+  const transformCoord = (newFeatures: Feature[]) => {
+    let data = cloneDeep(newFeatures);
     if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
-      data = features.map((item) => {
+      data = data.map((item) => {
         const newItem = gcoord.transform(
-          cloneDeep(item as any),
+          item as any,
+          gcoord.GCJ02,
+          gcoord.WGS84,
+        );
+        return newItem;
+      });
+    } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
+      data = data.map((item) => {
+        const newItem = gcoord.transform(
+          item as any,
+          gcoord.WGS84,
+          gcoord.GCJ02,
+        );
+        return newItem;
+      });
+    }
+    return data;
+  };
+
+  const revertCoord = (newFeatures: Feature[]) => {
+    let data = cloneDeep(newFeatures);
+    if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
+      data = data.map((item) => {
+        const newItem = gcoord.transform(
+          item as any,
           gcoord.WGS84,
           gcoord.GCJ02,
         );
         return newItem;
       });
     } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
-      data = features.map((item) => {
+      data = data.map((item) => {
         const newItem = gcoord.transform(
-          cloneDeep(item as any),
+          item as any,
           gcoord.GCJ02,
           gcoord.WGS84,
         );
@@ -181,5 +200,6 @@ export default function useFeature() {
     setScene,
     fc,
     transformCoord,
+    revertCoord,
   };
 }

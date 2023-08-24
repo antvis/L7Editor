@@ -1,5 +1,5 @@
 import { getSingleColorStyle } from '@antv/l7-draw';
-import { FeatureCollectionVT, LayerZIndex } from '../constants';
+import { FeatureCollectionVT, FeatureKey, LayerZIndex } from '../constants';
 //@ts-ignore
 import togeojson from '@mapbox/togeojson';
 import { center, coordAll, distance, Feature } from '@turf/turf';
@@ -97,6 +97,11 @@ export const isPromise = (obj: any) => {
  */
 
 export const isCircle = (feature: Feature) => {
+  // @ts-ignore
+  const drawType = feature.properties?.[FeatureKey.DrawType];
+  if (drawType) {
+    return drawType === 'circle';
+  }
   const centerPosition = center(feature).geometry.coordinates;
   const distanceList = coordAll(feature).map((position) => {
     return Math.round(
@@ -109,6 +114,11 @@ export const isCircle = (feature: Feature) => {
 };
 
 export const isRect = (feature: Feature) => {
+  // @ts-ignore
+  const drawType = feature.properties?.[FeatureKey.DrawType];
+  if (drawType) {
+    return drawType === 'rect';
+  }
   // @ts-ignore
   const arrPoint = feature.geometry.coordinates[0];
   const result = Array.from(new Set(arrPoint.flat(Infinity)));
@@ -125,6 +135,5 @@ export const isRect = (feature: Feature) => {
 };
 
 export * from './transform';
-
 export * from './lnglat';
 export * from './wkt';

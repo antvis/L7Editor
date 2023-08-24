@@ -1,9 +1,9 @@
 import { Scene } from '@antv/l7';
 import { LarkMapProps } from '@antv/larkmap';
 import { atom, DefaultValue } from 'recoil';
+import { LocalStorageKey } from '../constants';
 import { IFeatures, LngLatImportType } from '../types';
 import { FilterNode } from '../types/filter';
-import { LocalStorageKey } from '../constants';
 
 const localStorageEffect =
   (key: string) =>
@@ -124,24 +124,38 @@ const themeState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.theme)],
 });
 
+const cityHistoryState = atom<{ value: string; label: string }[]>({
+  key: 'cityHistory',
+  default: [],
+  effects: [localStorageEffect(LocalStorageKey.cityHistory)],
+});
+
+const showIndexState = atom<boolean>({
+  key: 'showIndex',
+  default: false,
+  effects: [localStorageEffect(LocalStorageKey.showIndex)],
+});
+
 export {
+  activeTabState,
+  autoFitBoundsState,
+  baseMapState,
+  cityHistoryState,
+  convertState,
+  showIndexState,
+  editorTextState,
   featureState,
   filterState,
-  savedTextState,
-  sceneState,
-  editorTextState,
+  hideEditorState,
+  isDrawState,
   layerColorState,
   lnglatTextState,
   lnglatTypeState,
-  rightWidthState,
   mapOptionState,
-  activeTabState,
-  autoFitBoundsState,
-  hideEditorState,
-  popupTriggerState,
-  baseMapState,
-  isDrawState,
   officialLayersState,
-  convertState,
+  popupTriggerState,
+  rightWidthState,
+  savedTextState,
+  sceneState,
   themeState,
 };

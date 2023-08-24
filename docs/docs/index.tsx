@@ -1,11 +1,10 @@
 import { L7Editor } from '@antv/l7-editor';
-import './index.less';
 
 import React from 'react';
 
 export default () => {
   return (
-    <div className="editor">
+    <div style={{ height: 800 }}>
       <L7Editor />
     </div>
   );

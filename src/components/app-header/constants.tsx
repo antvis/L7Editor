@@ -1,17 +1,6 @@
 import { MenuProps, TourProps } from 'antd';
 import React from 'react';
 
-export const logs = [
-  {
-    label: '2023-05-12',
-    children: '设置中增加mapbox底图',
-  },
-  {
-    label: '2023-05-31',
-    children: '添加谷歌卫星遥感图层',
-  },
-];
-
 export const HandBackMenuItems: MenuProps['items'] = [
   {
     key: 'text',
@@ -20,10 +9,6 @@ export const HandBackMenuItems: MenuProps['items'] = [
   {
     key: 'api',
     label: '组件API文档',
-  },
-  {
-    key: 'changeLog',
-    label: '更新日志',
   },
   {
     key: 'ding',

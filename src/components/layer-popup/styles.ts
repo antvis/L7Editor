@@ -5,18 +5,18 @@ const { useToken } = theme;
 
 const useStyle = () => {
   const { token } = useToken();
-  const { colorBgContainer, colorBgElevated, colorFillSecondary } = token;
+  const { colorBgContainer } = token;
   return {
     layerPopupContent: css`
-      // .l7-popup-tip {
-      //   border-top-color: ${colorBgContainer};
-      // }
-      // .l7-popup-content {
-      //   background: ${colorBgContainer};
-      // }
+      .l7-popup-tip {
+        border-top-color: ${colorBgContainer} !important;
+      }
+      .l7-popup-content {
+        background: ${colorBgContainer} !important;
+      }
     `,
     layerPopup: css`
-      // background: ${colorBgContainer};
+      background: ${colorBgContainer} !important;
     `,
     layerPopupInfo: css`
       margin-bottom: 16px;
