@@ -114,5 +114,5 @@ export interface L7EditorProps {
    * 是否展示元素序号
    * @default false
    */
-  dataIndex?: boolean;
+  showIndex?: boolean;
 }

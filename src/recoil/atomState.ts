@@ -130,10 +130,10 @@ const cityHistoryState = atom<{ value: string; label: string }[]>({
   effects: [localStorageEffect(LocalStorageKey.cityHistory)],
 });
 
-const dataIndexState = atom<boolean>({
-  key: 'dataIndex',
+const showIndexState = atom<boolean>({
+  key: 'showIndex',
   default: false,
-  effects: [localStorageEffect(LocalStorageKey.dataIndex)],
+  effects: [localStorageEffect(LocalStorageKey.showIndex)],
 });
 
 export {
@@ -142,7 +142,7 @@ export {
   baseMapState,
   cityHistoryState,
   convertState,
-  dataIndexState,
+  showIndexState,
   editorTextState,
   featureState,
   filterState,

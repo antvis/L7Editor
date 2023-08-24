@@ -30,7 +30,7 @@ title: L7Editor文档
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
 | toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
-| dataIndex | 是否展示元素序号 | `boolean` | `false` |
+| showIndex | 是否展示元素序号 | `boolean` | `false` |
 
 
 #### `tabItems`

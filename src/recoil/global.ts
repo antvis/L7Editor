@@ -5,13 +5,13 @@ import {
   baseMapState,
   cityHistoryState,
   convertState,
-  dataIndexState,
   hideEditorState,
   layerColorState,
   mapOptionState,
   officialLayersState,
   popupTriggerState,
   rightWidthState,
+  showIndexState,
   themeState,
 } from './atomState';
 
@@ -40,7 +40,7 @@ export default function useGlobal() {
 
   const [cityHistory, setCityHistory] = useRecoilState(cityHistoryState);
 
-  const [dataIndex, setDataIndex] = useRecoilState(dataIndexState);
+  const [showIndex, setShowIndex] = useRecoilState(showIndexState);
 
   return {
     rightPanelWidth,
@@ -67,7 +67,7 @@ export default function useGlobal() {
     setTheme,
     cityHistory,
     setCityHistory,
-    dataIndex,
-    setDataIndex,
+    showIndex,
+    setShowIndex,
   };
 }

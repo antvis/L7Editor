@@ -24,7 +24,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
     theme: antdTheme,
     mapOptions,
     setMapOptions,
-    dataIndex,
+    showIndex,
   } = useGlobal();
   const styles = useStyle();
 
@@ -58,7 +58,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
           left={
             <AppMap>
               <MapControlGroup mapControl={props.mapControl} />
-              {dataIndex && <EditorTextLayer />}
+              {showIndex && <EditorTextLayer />}
               <LayerList />
               <LayerPopup />
             </AppMap>
