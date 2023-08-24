@@ -45,6 +45,19 @@ title: L7Editor文档
 
 GeoJSON 文本编辑器，可以通过输入 GeoJSON 数据来实现数据展示
 
+**<font color=red>要使用该组件得在 webpack 里面配置 以下这段代码 否则就会导致代码格式化失效，代码高亮丢失</font>**
+
+```ts
+import MonacoEditorWebpackPlugin from 'monaco-editor-webpack-plugin';
+  chainWebpack: (config: any) => {
+    config.plugin('monaco-editor').use(MonacoEditorWebpackPlugin, [
+      {
+        languages: ['json', 'javascript'],
+      },
+    ]);
+  },
+```
+
 #### WktEditor
 
 WKT 文本编辑器，可以通过输入 WKT 数据来实现数据展示
