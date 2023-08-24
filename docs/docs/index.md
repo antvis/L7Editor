@@ -6,7 +6,7 @@ title: L7Editor文档
 
 默认示例
 
-<code src="./index.tsx"></code>
+<code src="./index.tsx" compact></code>
 
 ### API
 
@@ -15,14 +15,14 @@ title: L7Editor文档
 配置 L7Editor 初始化默认配置
 
 | 属性 | 描述 | 类型 | 默认值 |
-| ---- | ---- | ---- | ------ |
+| --- | --- | --- | --- |
 | baseMap | 地图选项 | `‘Gaode’｜'Mapbox'` | `Gaode` |
 | mapOption | 地图配置 详见 [MapOptions](https://larkmap.antv.antgroup.com/components/lark-map#mapoptions) | `MapOptions` | `-` |
 | primaryColor | 图层颜色 | `string` | `#1677ff` |
 | rightPanelWidth | 右侧边栏宽度 | `number` | `40` |
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
-| activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt' | string` | `geojson` |
+| activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt' ｜ string` | `geojson` |
 | features | 初始化数据 | ` Feature[]` | `[]` |
 | officialLayers | 官方图层选择 | `string[]` | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
@@ -31,7 +31,6 @@ title: L7Editor文档
 | toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
 | showIndex | 是否展示元素序号 | `boolean` | `false` |
-
 
 #### `tabItems`
 
@@ -49,10 +48,11 @@ GeoJSON 文本编辑器，可以通过输入 GeoJSON 数据来实现数据展示
 
 ```ts
 import MonacoEditorWebpackPlugin from 'monaco-editor-webpack-plugin';
+
   chainWebpack: (config: any) => {
     config.plugin('monaco-editor').use(MonacoEditorWebpackPlugin, [
       {
-        languages: ['json', 'javascript'],
+        languages: ['json'],
       },
     ]);
   },

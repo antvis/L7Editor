@@ -18,7 +18,7 @@ const DrawControl = () => {
   const scene = useScene();
   const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
-  const { setIsDraw, resetFeatures, features,revertCoord } = useFeature();
+  const { setIsDraw, resetFeatures, features, revertCoord } = useFeature();
   const { layerColor } = useGlobal();
   const editFeature = useMemo(
     () =>
