@@ -6,7 +6,7 @@ title: L7Editor文档
 
 默认示例
 
-<code src="./index.tsx" compact></code>
+<code src="./index.tsx" compact ></code>
 
 ### API
 
