@@ -128,8 +128,8 @@ export default function useFeature() {
       data = data.map((item) => {
         const newItem = gcoord.transform(
           item as any,
-          gcoord.GCJ02,
           gcoord.WGS84,
+          gcoord.GCJ02,
         );
         return newItem;
       });
@@ -137,8 +137,8 @@ export default function useFeature() {
       data = data.map((item) => {
         const newItem = gcoord.transform(
           item as any,
-          gcoord.WGS84,
           gcoord.GCJ02,
+          gcoord.WGS84,
         );
         return newItem;
       });
@@ -152,8 +152,8 @@ export default function useFeature() {
       data = data.map((item) => {
         const newItem = gcoord.transform(
           item as any,
-          gcoord.WGS84,
           gcoord.GCJ02,
+          gcoord.WGS84,
         );
         return newItem;
       });
@@ -161,8 +161,8 @@ export default function useFeature() {
       data = data.map((item) => {
         const newItem = gcoord.transform(
           item as any,
-          gcoord.GCJ02,
           gcoord.WGS84,
+          gcoord.GCJ02,
         );
         return newItem;
       });
@@ -171,8 +171,7 @@ export default function useFeature() {
   };
 
   const bboxAutoFit = (currentFeatures?: Feature[]) => {
-    const realFeatures = transformCoord(currentFeatures ?? features);
-
+    const realFeatures = currentFeatures ?? features;
     if (scene && realFeatures.length) {
       const [lng1, lat1, lng2, lat2] = bbox(featureCollection(realFeatures));
       scene.fitBounds([

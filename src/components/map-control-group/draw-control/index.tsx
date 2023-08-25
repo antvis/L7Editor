@@ -88,8 +88,8 @@ const DrawControl = () => {
       newFeatures[index].geometry = feature.geometry;
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-
-      resetFeatures([...features]);
+      const revertFeatures = revertCoord(newFeatures);
+      resetFeatures([...(revertFeatures as IFeatures)]);
     },
     [resetFeatures, features, drawControl],
   );

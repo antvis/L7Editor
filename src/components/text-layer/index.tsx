@@ -6,12 +6,6 @@ import { useFeature, useGlobal } from '../../recoil';
 export const EditorTextLayer = () => {
   const { features, transformCoord } = useFeature();
   const { coordConvert, layerColor } = useGlobal();
-  const transformData = useMemo(() => {
-    const data = features.map((item) => {
-      return center(item);
-    });
-    return data;
-  }, [features]);
 
   const layerOptions: Omit<TextLayerProps, 'source'> = useMemo(() => {
     return {
@@ -31,6 +25,9 @@ export const EditorTextLayer = () => {
   }, [layerColor]);
 
   const sourceData = useMemo(() => {
+    const transformData = features.map((item) => {
+      return center(item);
+    });
     const data = transformCoord(transformData).map((item, index) => {
       return {
         //@ts-ignore
@@ -41,7 +38,7 @@ export const EditorTextLayer = () => {
       };
     });
     return data;
-  }, [transformData, coordConvert]);
+  }, [features, coordConvert]);
   return (
     <TextLayer
       {...layerOptions}

@@ -134,6 +134,6 @@ export const isRect = (feature: Feature) => {
   return false;
 };
 
-export * from './transform';
 export * from './lnglat';
+export * from './transform';
 export * from './wkt';
