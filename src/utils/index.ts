@@ -34,7 +34,7 @@ export const getDrawStyle = (color: string) => {
  * @param ext
  */
 export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
-  let aTag = document.createElement('a');
+  const aTag = document.createElement('a');
   aTag.setAttribute(
     'href',
     'data:text/plain;charset=utf-8,' + encodeURIComponent(text),
@@ -99,8 +99,8 @@ export const isPromise = (obj: any) => {
 export const isCircle = (feature: Feature) => {
   // @ts-ignore
   const drawType = feature.properties?.[FeatureKey.DrawType];
-  if (drawType) {
-    return drawType === 'circle';
+  if (drawType === 'circle') {
+    return true;
   }
   const centerPosition = center(feature).geometry.coordinates;
   const distanceList = coordAll(feature).map((position) => {
@@ -116,8 +116,8 @@ export const isCircle = (feature: Feature) => {
 export const isRect = (feature: Feature) => {
   // @ts-ignore
   const drawType = feature.properties?.[FeatureKey.DrawType];
-  if (drawType) {
-    return drawType === 'rect';
+  if (drawType === 'rect') {
+    return true;
   }
   // @ts-ignore
   const arrPoint = feature.geometry.coordinates[0];
