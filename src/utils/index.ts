@@ -2,7 +2,7 @@ import { getSingleColorStyle } from '@antv/l7-draw';
 import { FeatureCollectionVT, FeatureKey, LayerZIndex } from '../constants';
 //@ts-ignore
 import togeojson from '@mapbox/togeojson';
-import { center, coordAll, distance, Feature } from '@turf/turf';
+import { bearing, center, coordAll, distance, Feature } from '@turf/turf';
 import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
@@ -119,21 +119,29 @@ export const isRect = (feature: Feature) => {
   if (drawType === 'rect') {
     return true;
   }
-  // @ts-ignore
-  const arrPoint = feature.geometry.coordinates[0];
-  const result = Array.from(new Set(arrPoint.flat(Infinity)));
-  if (
-    result.length === 4 &&
-    arrPoint[0][0] === arrPoint[1][0] &&
-    arrPoint[1][1] === arrPoint[2][1] &&
-    arrPoint[2][0] === arrPoint[3][0] &&
-    arrPoint[3][1] === arrPoint[4][1]
-  ) {
-    return true;
+  const positions = coordAll(feature);
+  const line1 = distance(positions[0], positions[1], {
+    units: 'meters',
+  }).toFixed(0);
+  const line2 = distance(positions[1], positions[2], {
+    units: 'meters',
+  }).toFixed(0);
+  const line3 = distance(positions[2], positions[3], {
+    units: 'meters',
+  }).toFixed(0);
+  const line4 = distance(positions[3], positions[4], {
+    units: 'meters',
+  }).toFixed(0);
+  if (line1 === line3 && line2 === line4) {
+    const degree = Math.round(
+      bearing(positions[0], positions[3]) - bearing(positions[0], positions[1]),
+    );
+    return degree === 90 || degree === 270;
   }
   return false;
 };
 
+export * from './gcoord';
 export * from './lnglat';
 export * from './transform';
 export * from './wkt';

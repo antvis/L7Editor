@@ -46,6 +46,7 @@ export const LayerPopup: React.FC = () => {
     features,
     setFeatures,
     revertCoord,
+    transformCoord,
   } = useFeature();
   const { layerColor, popupTrigger } = useGlobal();
 
@@ -198,15 +199,16 @@ export const LayerPopup: React.FC = () => {
       maxCount: 1,
       style: getDrawStyle(layerColor),
     };
-    const type = newFeature?.geometry.type;
     let draw: DrawType;
+    const [originFeature] = transformCoord([newFeature]);
+    const type = originFeature?.geometry.type;
     if (type === 'Point') {
       draw = new DrawPoint(scene, options);
     } else if (type === 'LineString') {
       draw = new DrawLine(scene, options);
-    } else if (type === 'Polygon' && isRect(newFeature)) {
+    } else if (type === 'Polygon' && isRect(originFeature)) {
       draw = new DrawRect(scene, options);
-    } else if (type === 'Polygon' && isCircle(newFeature)) {
+    } else if (type === 'Polygon' && isCircle(originFeature)) {
       draw = new DrawCircle(scene, options);
     } else {
       draw = new DrawPolygon(scene, options);

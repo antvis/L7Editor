@@ -75,7 +75,7 @@ const DrawControl = () => {
       const newFeatures = revertCoord([newFeature]);
       resetFeatures([...features, ...newFeatures] as IFeatures);
     },
-    [resetFeatures, features, drawControl],
+    [drawControl, revertCoord, resetFeatures, features],
   );
 
   const onDrawEdit = useCallback(
@@ -91,7 +91,7 @@ const DrawControl = () => {
       const revertFeatures = revertCoord(newFeatures);
       resetFeatures([...(revertFeatures as IFeatures)]);
     },
-    [resetFeatures, features, drawControl],
+    [features, drawControl, revertCoord, resetFeatures],
   );
 
   useEffect(() => {
