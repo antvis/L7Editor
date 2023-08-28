@@ -4,6 +4,8 @@ import { LngLatImportType } from '../types';
 export const RightPanelWidthRange = [20, 80];
 
 
+
+
 export enum LocalStorageKey {
   RightPanelWidth = 'RightPanelWidth',
   MapOptions = 'MapOptions',
@@ -19,7 +21,7 @@ export enum LocalStorageKey {
   Convert = 'Convert',
   theme = "theme",
   cityHistory = "cityHistory",
-  dataIndex = "dataIndex"
+  showIndex = "showIndex"
 }
 
 export enum LayerId {

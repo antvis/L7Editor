@@ -111,8 +111,8 @@ export interface L7EditorProps {
    */
   tabItems?: TabsProps['items'];
   /**
-   * 数据序号dataIndex
+   * 是否展示元素序号
    * @default false
    */
-  dataIndex?: boolean;
+  showIndex?: boolean;
 }

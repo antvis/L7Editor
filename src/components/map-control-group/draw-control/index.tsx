@@ -18,7 +18,7 @@ const DrawControl = () => {
   const scene = useScene();
   const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
-  const { setIsDraw, resetFeatures, features,revertCoord } = useFeature();
+  const { setIsDraw, resetFeatures, features, revertCoord } = useFeature();
   const { layerColor } = useGlobal();
   const editFeature = useMemo(
     () =>
@@ -75,7 +75,7 @@ const DrawControl = () => {
       const newFeatures = revertCoord([newFeature]);
       resetFeatures([...features, ...newFeatures] as IFeatures);
     },
-    [resetFeatures, features, drawControl],
+    [drawControl, revertCoord, resetFeatures, features],
   );
 
   const onDrawEdit = useCallback(
@@ -88,10 +88,10 @@ const DrawControl = () => {
       newFeatures[index].geometry = feature.geometry;
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-
-      resetFeatures([...features]);
+      const revertFeatures = revertCoord(newFeatures);
+      resetFeatures([...(revertFeatures as IFeatures)]);
     },
-    [resetFeatures, features, drawControl],
+    [features, drawControl, revertCoord, resetFeatures],
   );
 
   useEffect(() => {

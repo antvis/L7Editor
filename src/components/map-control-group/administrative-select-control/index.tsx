@@ -5,10 +5,10 @@ import {
   featureCollection,
   multiLineString,
 } from '@turf/turf';
-import { Cascader, Dropdown, Empty, message } from 'antd';
+import { Cascader, Dropdown, Empty, Tooltip, message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import classNames from 'classnames';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import { IconFont, LayerZIndex } from '../../../constants';
 import { useFeature, useGlobal } from '../../../recoil';
@@ -73,7 +73,7 @@ export const AdministrativeSelect = () => {
       });
       const item = { value: JSON.stringify(code), label: label.join('/') };
       const arr = [item, ...cityHistory];
-      let formatArr = () => {
+      const formatArr = () => {
         let map = new Map();
         for (let item of arr) {
           if (!map.has(item.value)) {
@@ -181,14 +181,16 @@ export const AdministrativeSelect = () => {
             menu={{
               items: historyItem,
             }}
-            placement="bottom"
+            placement="bottomRight"
             trigger={['click']}
           >
-            <div
-              className={classNames(['l7-draw-control__btn', styles.history])}
-            >
-              <IconFont type="icon-lishi" className={styles.historyIcon} />
-            </div>
+            <Tooltip title="行政区划历史记录" placement="right">
+              <div
+                className={classNames(['l7-draw-control__btn', styles.history])}
+              >
+                <IconFont type="icon-lishi" className={styles.historyIcon} />
+              </div>
+            </Tooltip>
           </Dropdown>
         </div>
       </CustomControl>

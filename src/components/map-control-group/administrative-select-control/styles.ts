@@ -10,6 +10,7 @@ export const useStyle = () => {
     colorBgContainer,
     colorBorder,
     colorText,
+    colorIcon,
   } = token;
   return {
     cascader: css`
@@ -34,9 +35,10 @@ export const useStyle = () => {
     history: css`
       background: ${colorBgContainer};
       border-right: none;
-      border-radius: 0 6px  6px 0;
+      border-radius: 0 6px 6px 0;
       border: 1px solid ${colorBorder};
       border-bottom: 1px solid ${colorBorder} !important;
+      color: ${colorIcon};
       :hover {
         color: ${colorText};
         background: ${colorBgContainer};

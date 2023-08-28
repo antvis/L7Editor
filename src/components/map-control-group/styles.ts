@@ -13,6 +13,7 @@ const useStyle = () => {
         color: ${colorTextDescription};
         background: ${colorBgContainer} !important;
         border-color: ${colorBorder};
+        font-size: 14px;
 
         svg {
           fill: ${colorTextDescription} !important;
