@@ -56,7 +56,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.drawControl && <DrawControl />}
       {isControlGroupState.clearControl && <ClearControl />}
       {isControlGroupState.zoomControl && (
-        <ZoomControl className={styles.zoom} />
+        <ZoomControl className={styles.zoom} showZoom />
       )}
       {isControlGroupState.scaleControl && (
         <ScaleControl className={styles.scalesControl} />
