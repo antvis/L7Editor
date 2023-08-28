@@ -1,17 +1,11 @@
-import {
-  bbox,
-  Feature,
-  featureCollection,
-  getType,
-} from '@turf/turf';
+import { bbox, Feature, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
-import gcoord from 'gcoord';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import { FeatureKey } from '../constants';
 import { FilterField, IFeatures } from '../types';
-import { transformFeatures } from '../utils';
+import { gcj02towgs84, transformFeatures, wgs84togcj02 } from '../utils';
 import { prettierText } from '../utils/prettier-text';
 import {
   editorTextState,
@@ -127,41 +121,52 @@ export default function useFeature() {
     return featureKeyList;
   }, [features]);
 
-  const transformCoord = (features: Feature[]) => {
-    let data = features;
+  const transformCoord = (newFeatures: Feature[]) => {
+    let data = [...newFeatures];
     if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
-      data = features.map((item) => {
-        const newItem = gcoord.transform(
-          cloneDeep(item as any),
-          gcoord.WGS84,
-          gcoord.GCJ02,
-        );
-        return newItem;
+      data = data.map((item) => {
+        return wgs84togcj02(cloneDeep(item));
       });
     } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
-      data = features.map((item) => {
-        const newItem = gcoord.transform(
-          cloneDeep(item as any),
-          gcoord.GCJ02,
-          gcoord.WGS84,
-        );
-        return newItem;
+      data = data.map((item) => {
+        return gcj02towgs84(cloneDeep(item));
       });
     }
     return data;
   };
 
-  const bboxAutoFit = (currentFeatures?: Feature[]) => {
-    const realFeatures = transformCoord(currentFeatures ?? features);
+  const revertCoord = useCallback(
+    (newFeatures: Feature[]) => {
+      let data = [...newFeatures];
+      if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
+        data = data.map((item) => {
+          return gcj02towgs84(cloneDeep(item));
+        });
+      } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
+        data = data.map((item) => {
+          return wgs84togcj02(cloneDeep(item));
+        });
+      }
+      return data;
+    },
+    [baseMap, coordConvert],
+  );
 
-    if (scene && realFeatures.length) {
-      const [lng1, lat1, lng2, lat2] = bbox(featureCollection(realFeatures));
-      scene.fitBounds([
-        [lng1, lat1],
-        [lng2, lat2],
-      ]);
-    }
-  };
+  const bboxAutoFit = useCallback(
+    (currentFeatures?: Feature[]) => {
+      const realFeatures = currentFeatures ?? features;
+      if (scene && realFeatures.length) {
+        const [lng1, lat1, lng2, lat2] = bbox(
+          featureCollection(transformCoord(realFeatures)),
+        );
+        scene.fitBounds([
+          [lng1, lat1],
+          [lng2, lat2],
+        ]);
+      }
+    },
+    [features, scene, transformCoord],
+  );
 
   return {
     editorText,
@@ -181,5 +186,6 @@ export default function useFeature() {
     setScene,
     fc,
     transformCoord,
+    revertCoord,
   };
 }

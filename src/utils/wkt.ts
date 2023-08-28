@@ -1,10 +1,15 @@
-import { FeatureCollection, Geometry, feature, featureCollection } from '@turf/turf';
+import {
+  FeatureCollection,
+  Geometry,
+  feature,
+  featureCollection,
+} from '@turf/turf';
 import { GeoJSONGeometry, parse, stringify } from 'wellknown';
 
 export function GeoJSON2Wkt(fc: FeatureCollection): string {
   return fc.features
-    .map((feature) => {
-      return stringify(feature.geometry as GeoJSONGeometry);
+    .map((item) => {
+      return stringify(item.geometry as GeoJSONGeometry);
     })
     .join(';');
 }

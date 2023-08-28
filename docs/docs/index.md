@@ -2,6 +2,12 @@
 title: L7Editor文档
 ---
 
+### 代码演示
+
+默认示例
+
+<code src="./index.tsx" compact ></code>
+
 ### API
 
 ### `配置项`
@@ -16,7 +22,7 @@ title: L7Editor文档
 | rightPanelWidth | 右侧边栏宽度 | `number` | `40` |
 | autoFitBounds | 是否自动调整边界 | `boolean` | `true` |
 | popupTrigger | 图层 popup 触发方式 | `'click'｜'hover'` | `click` |
-| activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt'` | `geojson` |
+| activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt' ｜ string` | `geojson` |
 | features | 初始化数据 | ` Feature[]` | `[]` |
 | officialLayers | 官方图层选择 | `string[]` | `[]` |
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
@@ -24,6 +30,7 @@ title: L7Editor文档
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
 | toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
+| showIndex | 是否展示元素序号 | `boolean` | `false` |
 
 #### `tabItems`
 
@@ -36,6 +43,20 @@ title: L7Editor文档
 #### GeoJsonEditor
 
 GeoJSON 文本编辑器，可以通过输入 GeoJSON 数据来实现数据展示
+
+**<font color=red>要使用该组件得在 webpack 里面配置 以下这段代码 否则就会导致代码格式化失效，代码高亮丢失</font>**
+
+```ts
+import MonacoEditorWebpackPlugin from 'monaco-editor-webpack-plugin';
+
+  chainWebpack: (config: any) => {
+    config.plugin('monaco-editor').use(MonacoEditorWebpackPlugin, [
+      {
+        languages: ['json'],
+      },
+    ]);
+  },
+```
 
 #### WktEditor
 
@@ -105,22 +126,23 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 
 #### MapControlProps
 
-| 属性                        | 描述             |
-| --------------------------- | ---------------- |
-| drawControl                 | 绘制工具         |
-| clearControl                | 清除工具         |
-| zoomControl                 | 缩放器工具       |
-| scaleControl                | 比例尺工具       |
-| locationSearchControl       | 地点搜索工具     |
-| mouseLocationControl        | 光标经纬度工具   |
-| filterControl               | 数据过滤工具     |
-| officialLayerControl        | 官方图层控制工具 |
-| mapThemeControl             | 图层主题工具     |
-| geoLocateControl            | 定位工具         |
-| layerColorControl           | 图层颜色控制工具 |
-| autoControl                 | 自适应工具       |
-| fullscreenControl           | 全屏工具         |
-| administrativeSelectControl | 行政区域选择工具 |
+| 属性                        | 描述                 |
+| --------------------------- | -------------------- |
+| drawControl                 | 绘制控件             |
+| clearControl                | 清除控件             |
+| zoomControl                 | 缩放器控件           |
+| scaleControl                | 比例尺控件           |
+| locationSearchControl       | 地点搜索控件         |
+| mouseLocationControl        | 光标经纬度控件       |
+| filterControl               | 数据过滤控件         |
+| officialLayerControl        | 官方图层控制控件     |
+| mapThemeControl             | 图层主题控件         |
+| geoLocateControl            | 定位控件             |
+| layerColorControl           | 图层颜色控制控件     |
+| autoControl                 | 自适应控件           |
+| fullscreenControl           | 全屏控件             |
+| administrativeSelectControl | 行政区域选择控件     |
+| mapAdministrativeControl    | 查看当前行政区域控件 |
 
 #### toolbar
 

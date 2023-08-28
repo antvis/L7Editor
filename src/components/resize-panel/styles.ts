@@ -10,6 +10,7 @@ const useStyle = () => {
     boxShadow,
     colorBorderSecondary,
     colorFillContentHover,
+    boxShadowSecondary,
     colorInfoHover,
     colorIcon,
   } = token;
@@ -34,6 +35,8 @@ const useStyle = () => {
     `,
     resizePanelDragLine: css`
       transition: all 0.5s;
+      cursor: move !important;
+      z-index: 100;
 
       &:hover,
       &:focus {
@@ -47,7 +50,6 @@ const useStyle = () => {
       align-items: center;
       justify-content: center;
       background: ${colorBgContainer};
-      box-shadow: -2px 0 3px ${colorFillContentHover};
       position: absolute;
       top: calc(50% - 30px);
       left: -20px;

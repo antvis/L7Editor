@@ -1,4 +1,5 @@
 import { defineConfig } from 'dumi';
+import MonacoEditorWebpackPlugin from 'monaco-editor-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -8,7 +9,7 @@ export default defineConfig({
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.tsx',
   },
-  title: 'L7Editor',
+  title: 'L7 Editor',
   outputPath: 'dist',
   copy: isProduction ? ['docs/CNAME'] : [],
   themeConfig: {
@@ -22,7 +23,7 @@ export default defineConfig({
   metas: [
     {
       name: 'keywords',
-      content: 'L7, Map,GIS Data, GeoJSON, GIS, Editor, AntV, L7Editor',
+      content: 'L7, Map,GIS Data, GeoJSON, GIS, Editor, AntV, L7Editor, L7 Editor',
     },
     {
       name: 'description',
@@ -49,4 +50,11 @@ export default defineConfig({
         s.parentNode.insertBefore(hm, s);
       })();`,
   ],
+  chainWebpack: (config: any) => {
+    config.plugin('monaco-editor').use(MonacoEditorWebpackPlugin, [
+      {
+        languages: ['json', 'javascript'],
+      },
+    ]);
+  },
 });

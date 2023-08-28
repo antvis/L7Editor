@@ -6,7 +6,7 @@ import {
 import { CustomControl, useScene } from '@antv/larkmap';
 import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
-import { cloneDeep, fromPairs } from 'lodash';
+import { cloneDeep, fromPairs } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey } from '../../../constants';
 import { useFeature, useGlobal } from '../../../recoil';
@@ -18,7 +18,7 @@ const DrawControl = () => {
   const scene = useScene();
   const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
-  const { setIsDraw, resetFeatures, features } = useFeature();
+  const { setIsDraw, resetFeatures, features, revertCoord } = useFeature();
   const { layerColor } = useGlobal();
   const editFeature = useMemo(
     () =>
@@ -72,9 +72,10 @@ const DrawControl = () => {
       };
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-      resetFeatures([...features, newFeature] as IFeatures);
+      const newFeatures = revertCoord([newFeature]);
+      resetFeatures([...features, ...newFeatures] as IFeatures);
     },
-    [resetFeatures, features, drawControl],
+    [drawControl, revertCoord, resetFeatures, features],
   );
 
   const onDrawEdit = useCallback(
@@ -87,10 +88,10 @@ const DrawControl = () => {
       newFeatures[index].geometry = feature.geometry;
       drawControl?.clearDrawData();
       drawControl?.setActiveType(null);
-
-      resetFeatures([...features]);
+      const revertFeatures = revertCoord(newFeatures);
+      resetFeatures([...(revertFeatures as IFeatures)]);
     },
-    [resetFeatures, features, drawControl],
+    [features, drawControl, revertCoord, resetFeatures],
   );
 
   useEffect(() => {

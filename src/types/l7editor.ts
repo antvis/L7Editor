@@ -17,6 +17,7 @@ export interface MapControlProps {
   autoControl?: boolean;
   fullscreenControl?: boolean;
   administrativeSelectControl?: boolean;
+  mapAdministrativeControl?: boolean;
 }
 
 export interface ToolbarProps {
@@ -66,7 +67,7 @@ export interface L7EditorProps {
    * panel 展示tab
    * @default 'geojson'
    */
-  activeTab?: 'geojson' | 'table' | 'wkt';
+  activeTab?: 'geojson' | 'table' | 'wkt' | string;
   /**
    * 初始化数据
    * @default []
@@ -109,4 +110,9 @@ export interface L7EditorProps {
    * 侧面版TabItems
    */
   tabItems?: TabsProps['items'];
+  /**
+   * 是否展示元素序号
+   * @default false
+   */
+  showIndex?: boolean;
 }
