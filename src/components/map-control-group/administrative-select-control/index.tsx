@@ -186,7 +186,7 @@ export const AdministrativeSelect = () => {
           >
             <Tooltip title="行政区划历史记录" placement="right">
               <div
-                className={classNames(['l7-draw-control__btn', styles.history])}
+                className={classNames([styles.history, 'l7-draw-control__btn'])}
               >
                 <IconFont type="icon-lishi" className={styles.historyIcon} />
               </div>
