@@ -7,6 +7,7 @@ import {
   convertState,
   hideEditorState,
   layerColorState,
+  localeState,
   mapOptionState,
   officialLayersState,
   popupTriggerState,
@@ -42,6 +43,8 @@ export default function useGlobal() {
 
   const [showIndex, setShowIndex] = useRecoilState(showIndexState);
 
+  const [locale, setLocale] = useRecoilState(localeState);
+
   return {
     rightPanelWidth,
     setRightWidth,
@@ -69,5 +72,7 @@ export default function useGlobal() {
     setCityHistory,
     showIndex,
     setShowIndex,
+    locale,
+    setLocale,
   };
 }

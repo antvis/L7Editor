@@ -37,10 +37,9 @@ const isTooBar = {
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
   const { i18n } = useTranslation();
   const [open, setOpen] = useState<openType>({ key: '', open: false });
-  const { autoFitBounds, theme, setTheme } = useGlobal();
+  const { autoFitBounds, theme, setTheme, locale, setLocale } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
   const [isTooBarState, setIsTooBar] = useState(isTooBar);
-  const [lng, setLng] = useState('zh');
   const styles = useStyle();
 
   const onSave = () => {
@@ -121,19 +120,19 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         <Button
           className={styles.locale}
           onClick={() => {
-            if (lng === 'zh') {
+            if (locale === 'zh') {
               i18n.changeLanguage('en');
-              setLng('en');
+              setLocale('en');
             } else {
               i18n.changeLanguage('zh');
-              setLng('zh');
+              setLocale('zh');
             }
           }}
         >
           <IconFont
             className={styles.localeIcon}
             type={
-              lng === 'zh'
+              locale === 'zh'
                 ? 'icon-zhongyingwenqiehuan-zhongwen'
                 : 'icon-zhongyingwenqiehuan-yingwen'
             }

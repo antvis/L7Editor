@@ -136,13 +136,25 @@ const showIndexState = atom<boolean>({
   effects: [localStorageEffect(LocalStorageKey.showIndex)],
 });
 
+const localeText = () => {
+  //@ts-ignore
+  let lang = navigator.language || navigator.userLanguage; //常规浏览器语言和IE浏览器
+  lang = lang.substr(0, 2);
+  return lang;
+};
+
+const localeState = atom<string>({
+  key: 'locale',
+  default: localeText(),
+  effects: [localStorageEffect(LocalStorageKey.locale)],
+});
+
 export {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
-  showIndexState,
   editorTextState,
   featureState,
   filterState,
@@ -151,11 +163,13 @@ export {
   layerColorState,
   lnglatTextState,
   lnglatTypeState,
+  localeState,
   mapOptionState,
   officialLayersState,
   popupTriggerState,
   rightWidthState,
   savedTextState,
   sceneState,
+  showIndexState,
   themeState,
 };
