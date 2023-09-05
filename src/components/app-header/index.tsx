@@ -1,4 +1,3 @@
-import I18N from '../../locales';
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, Switch, Tooltip, Tour } from 'antd';
@@ -6,6 +5,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconFont } from '../../constants';
+import I18N from '../../locales';
 import { useFeature, useGlobal } from '../../recoil';
 import { ToolbarProps } from '../../types/l7editor';
 import DownloadBtn from './btn/download-btn';
@@ -89,7 +89,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             disabled={!savable}
             onClick={onSave}
           >
-            {I18N.t('app_header.constants.baoCun')}</Button>
+            {I18N.t('app_header.constants.baoCun')}
+          </Button>
         </Tooltip>
         {isTooBarState.download && <DownloadBtn />}
         {isTooBarState.guide && (
@@ -101,7 +102,9 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               },
             }}
           >
-            <Button icon={<FlagOutlined />}>{I18N.t('app_header.index.yinDao')}</Button>
+            <Button icon={<FlagOutlined />}>
+              {I18N.t('app_header.index.yinDao')}
+            </Button>
           </Dropdown>
         )}
         {isTooBarState.help && <HandBackBtn />}
@@ -127,6 +130,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               i18n.changeLanguage('zh-CN');
               setLocale('zh');
             }
+            location.reload();
           }}
         >
           <IconFont
