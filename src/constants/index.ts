@@ -1,10 +1,6 @@
 import { createFromIconfontCN } from '@ant-design/icons';
-import { LngLatImportType } from '../types';
 
 export const RightPanelWidthRange = [20, 80];
-
-
-
 
 export enum LocalStorageKey {
   RightPanelWidth = 'RightPanelWidth',
@@ -41,31 +37,6 @@ export const FeatureKey = {
   DrawType: Symbol('drawType'),
   IsEdit: Symbol('isEdit'),
 };
-
-export const LngLatImportTypeOptions: Array<{
-  label: string;
-  value: LngLatImportType;
-  placeholder: string;
-}> = [
-  {
-    label: '点',
-    value: 'Point',
-    placeholder:
-      '请输入连续的点经纬度，经度和纬度之间用","隔开，不同经纬度点之间用";"隔开，例如：\n120.85,30.26;130.85,31.21',
-  },
-  {
-    label: '线',
-    value: 'LingString',
-    placeholder:
-      '请输入连续的线经纬度，经度和纬度之间用","隔开，不同经纬度点之间用";"隔开，不同的线之间用"\\n"隔开，例如：\n120.85,30.26;130.85,31.21\n121.31,30.21;126,21',
-  },
-  {
-    label: '面',
-    value: 'Polygon',
-    placeholder:
-      '请输入连续的面经纬度，经度和纬度之间用","隔开，不同经纬度点之间用";"隔开，不同的面之间用"\\n"隔开，例如：\n120.85,30.26;130.85,31.21;121.85,23.85;120.85,30.26\n122.82,10.12;121.23,12.45;100.12,23.12;122.82,10.12',
-  },
-];
 
 export const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/a/font_3567033_xxigekkz5qd.js',
