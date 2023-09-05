@@ -34,7 +34,7 @@ const isTooBar = {
 };
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [open, setOpen] = useState<openType>({ key: '', open: false });
   const { autoFitBounds, theme, setTheme } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
@@ -89,7 +89,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             disabled={!savable}
             onClick={onSave}
           >
-            {t('save')}
+            保存
           </Button>
         </Tooltip>
         {isTooBarState.download && <DownloadBtn />}
@@ -118,8 +118,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             }}
           />
         )}
-        <div
-        style={{marginLeft:10}}
+        <Button
+          className={styles.locale}
           onClick={() => {
             if (lng === 'zh') {
               i18n.changeLanguage('en');
@@ -131,14 +131,14 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
           }}
         >
           <IconFont
-            style={{ fontSize: 34 }}
+            className={styles.localeIcon}
             type={
               lng === 'zh'
                 ? 'icon-zhongyingwenqiehuan-zhongwen'
                 : 'icon-zhongyingwenqiehuan-yingwen'
             }
           />
-        </div>
+        </Button>
       </div>
       <Tour
         open={open.open}

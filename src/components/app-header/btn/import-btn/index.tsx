@@ -34,7 +34,6 @@ export const ImportBtn = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('file');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
-  const { t } = useTranslation();
   const formRef = useRef<Record<string, any>>(null);
 
   const items: TabsProps['items'] = [
@@ -92,7 +91,7 @@ export const ImportBtn = () => {
           onClick={() => setIsModalOpen(true)}
           id="l7-editor-upload"
         >
-          {t('upload')}
+          上传
         </Button>
       </Tooltip>
 

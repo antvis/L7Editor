@@ -4,7 +4,8 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBorder, colorBgContainer, colorText } = token;
+  const { colorBorder, colorBgContainer, colorText, colorIcon, colorFill } =
+    token;
 
   return {
     mapHeader: css`
@@ -45,6 +46,23 @@ const useStyle = () => {
     mapHeaderRight: css`
       display: flex;
       align-items: center;
+    `,
+    locale: css`
+      margin-left: 10px;
+      cursor: pointer;
+      padding: 0 !important;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      :hover {
+        color: ${colorText} !important;
+        background: ${colorFill}!important;
+      }
+    `,
+    localeIcon: css`
+      font-size: 20px;
     `,
   };
 };
