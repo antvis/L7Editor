@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { parserTextFileToSource } from './file-to-source';
 interface newFile extends File {
   uid: string;
@@ -21,7 +22,7 @@ export const parserFileToSource = async (file: newFile) => {
       );
     }
   } catch (e) {
-    return Promise.reject('文件解析失败，请检查文件格式。');
+    return Promise.reject(I18N.t('utils.upload.wenJianJieXiShi'));
   }
 
   return dataSource;

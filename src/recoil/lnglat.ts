@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { LngLatVT } from '../constants';
 import { Feature, lineString, point, polygon, Position } from '@turf/turf';
 import { first, isEqual, last } from 'lodash-es';
@@ -48,7 +49,7 @@ export default function useLnglat() {
       }
       return newFeatures;
     } else {
-      throw new Error('LngLat 导入失败');
+      throw new Error(I18N.t('import_btn.lnglat_import_btn.lNGLA'));
     }
   };
 

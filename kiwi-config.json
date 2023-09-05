@@ -20,7 +20,7 @@
     "requestOptions": {}
   },
   "defaultTranslateKeyApi": "Pinyin",
-  "importI18N": "import I18n from '@/locales';",
+  "importI18N": "import I18N from '@/locales';",
   "ignoreDir": [],
   "ignoreFile": []
 }

@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
 import { Feature } from '@turf/turf';
 import { Select, Tabs, TabsProps } from 'antd';
@@ -35,7 +36,7 @@ export const MapContent: React.FC<MapContentProps> = ({
   return (
     <div className={styles.mapContent} id="l7-editor-panel">
       <div className={styles.mapContentSelect}>
-        <span className={styles.mapContentSelectLabel}>坐标系：</span>
+        <span className={styles.mapContentSelectLabel}>{I18N.t('map_content.index.zuoBiaoXi')}</span>
         <Select
           value={coordConvert}
           options={[
@@ -86,8 +87,7 @@ MapContent.defaultProps = {
       label: (
         <div id="l7-editor-table">
           <TableOutlined />
-          表格
-        </div>
+          {I18N.t('app_header.constants.biaoGe')}</div>
       ),
       children: <AppTable />,
     },

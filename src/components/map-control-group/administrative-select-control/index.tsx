@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
 import {
   Feature,
@@ -54,7 +55,7 @@ export const AdministrativeSelect = () => {
 
   useEffect(() => {
     fetch(
-      'https://restapi.amap.com/v3/config/district?key=98d10f05a2da96697313a2ce35ebf1a2&keywords=中华人民共和国&subdistrict=3&extensions=base',
+      I18N.t('administrative_select_control.index.hTTPS'),
     )
       .then((res) => res.json())
       .then((res) => {
@@ -153,7 +154,7 @@ export const AdministrativeSelect = () => {
           }
         })
         .catch(() => {
-          message.error('围栏数据请求失败');
+          message.error(I18N.t('administrative_select_control.index.weiLanShuJuQing'));
         });
     }
   }, [value]);
@@ -170,7 +171,7 @@ export const AdministrativeSelect = () => {
               className={styles.cascader}
               allowClear
               showSearch={{ filter }}
-              placeholder="可选择省/市/县"
+              placeholder={I18N.t('administrative_select_control.index.keXuanZeShengShi')}
               changeOnSelect
               style={{ width: 250 }}
               popupClassName={styles.cascaderPopup}
@@ -184,7 +185,7 @@ export const AdministrativeSelect = () => {
             placement="bottomRight"
             trigger={['click']}
           >
-            <Tooltip title="行政区划历史记录" placement="right">
+            <Tooltip title={I18N.t('administrative_select_control.index.xingZhengQuHuaLi')} placement="right">
               <div
                 className={classNames([styles.history, 'l7-draw-control__btn'])}
               >

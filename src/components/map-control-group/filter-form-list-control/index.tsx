@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import {
   DeleteOutlined,
   FieldBinaryOutlined,
@@ -98,8 +99,8 @@ const FilterControl: React.FC = () => {
                   >
                     <Form.Item name={[name, 'logic']} initialValue="and">
                       <Select style={{ width: 70, marginRight: '8px' }}>
-                        <Option value="and">并且</Option>
-                        <Option value="or">或者</Option>
+                        <Option value="and">{I18N.t('filter_form_list_control.index.bingQie')}</Option>
+                        <Option value="or">{I18N.t('filter_form_list_control.index.huoZhe')}</Option>
                       </Select>
                     </Form.Item>
                     <Form.Item
@@ -111,7 +112,7 @@ const FilterControl: React.FC = () => {
                     >
                       <Select
                         style={{ width: 130, marginRight: '8px' }}
-                        placeholder="请选择字段"
+                        placeholder={I18N.t('filter_form_list_control.index.qingXuanZeZiDuan')}
                         onChange={() => {
                           const newFilterFromList = cloneDeep(
                             form.getFieldValue('filterFromList'),
@@ -210,15 +211,14 @@ const FilterControl: React.FC = () => {
                   icon={<PlusOutlined />}
                   style={{ width: 500 }}
                 >
-                  添加筛选条件
-                </Button>
+                  {I18N.t('filter_form_list_control.index.tianJiaShaiXuanTiao')}</Button>
               </>
             )}
           </Form.List>
         </Form>
       </div>
       <div className={styles.l7FilterSwitch}>
-        <Tooltip title="数据过滤" placement="right">
+        <Tooltip title={I18N.t('filter_form_list_control.index.shuJuGuoLu')} placement="right">
           <button
             type="button"
             id="l7-editor-filter"

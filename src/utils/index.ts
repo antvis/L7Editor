@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { getSingleColorStyle } from '@antv/l7-draw';
 import { FeatureCollectionVT, FeatureKey, LayerZIndex } from '../constants';
 //@ts-ignore
@@ -60,7 +61,7 @@ export const getUrlFeatureCollection = async (
       const geoData = await json.json();
       return geoData;
     } catch (e) {
-      throw new Error('请检查url是否与数据格式匹配');
+      throw new Error(I18N.t('utils.index.qingJianChaUR'));
     }
   } else if (urlType === 'WKT') {
     const wktStr = await json.text();
@@ -68,13 +69,13 @@ export const getUrlFeatureCollection = async (
     if (FeatureCollectionVT.check(geojson)) {
       return geojson;
     } else {
-      message.error('请检查url是否与数据格式匹配');
+      message.error(I18N.t('utils.index.qingJianChaUR'));
     }
   } else if (urlType === 'KML') {
     const KML = await json.text();
     const xml = new DOMParser().parseFromString(KML, 'text/xml');
     if (xml.getElementsByTagName('parsererror').length > 0) {
-      message.error('请检查url是否与数据格式匹配');
+      message.error(I18N.t('utils.index.qingJianChaUR'));
     } else {
       const geojson = await togeojson.kml(xml, {
         style: true,

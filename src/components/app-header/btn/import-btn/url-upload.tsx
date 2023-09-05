@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { Form, Input, Radio } from 'antd';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { getUrlFeatureCollection } from '../../../../utils';
@@ -14,9 +15,9 @@ const UrlUpload = forwardRef(({}, ref) => {
         new Promise((resolve, reject) => {
           if (inputValue) {
             resolve(getUrlFeatureCollection(inputValue, radioValue));
-            reject('数据格式错误，请选择正确的数据类型');
+            reject(I18N.t('import_btn.url_upload.shuJuGeShiCuo'));
           } else {
-            reject('请输入文本内容');
+            reject(I18N.t('import_btn.url_upload.qingShuRuWenBen'));
           }
         }),
     }),
@@ -28,7 +29,7 @@ const UrlUpload = forwardRef(({}, ref) => {
       <Form layout={'vertical'}>
         <Form.Item
           name="urlType"
-          label="数据类型 :"
+          label={I18N.t('import_btn.url_upload.shuJuLeiXing')}
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >
@@ -45,7 +46,7 @@ const UrlUpload = forwardRef(({}, ref) => {
         </Form.Item>
         <Form.Item
           name="url"
-          label="URL地址 :"
+          label={I18N.t('import_btn.url_upload.uRLDiZhi')}
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >

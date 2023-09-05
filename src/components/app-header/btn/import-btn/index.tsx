@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
 import {
@@ -39,12 +40,12 @@ export const ImportBtn = () => {
   const items: TabsProps['items'] = [
     {
       key: 'file',
-      label: <div>文件上传</div>,
+      label: <div>{I18N.t('import_btn.file_upload.wenJianShangChuan')}</div>,
       children: <FileUpload ref={formRef} />,
     },
     {
       key: 'url',
-      label: <div>URL上传</div>,
+      label: <div>{I18N.t('import_btn.index.uRLShangChuan')}</div>,
       children: <UrlUpload ref={formRef} />,
     },
     // {
@@ -54,7 +55,7 @@ export const ImportBtn = () => {
     // },
     {
       key: 'script',
-      label: <div>JavaScript脚本</div>,
+      label: <div>{I18N.t('import_btn.index.jAVAS')}</div>,
       children: (
         <div style={{ width: '100%', height: 300 }}>
           <GeoJsonEditor language="javascript" ref={formRef} />
@@ -85,19 +86,18 @@ export const ImportBtn = () => {
   };
   return (
     <>
-      <Tooltip title="上传数据">
+      <Tooltip title={I18N.t('import_btn.index.shangChuanShuJu')}>
         <Button
           icon={<CloudUploadOutlined />}
           onClick={() => setIsModalOpen(true)}
           id="l7-editor-upload"
         >
-          上传
-        </Button>
+          {I18N.t('import_btn.index.shangChuan')}</Button>
       </Tooltip>
 
       {isModalOpen && (
         <Modal
-          title="上传"
+          title={I18N.t('import_btn.index.shangChuan')}
           open={isModalOpen}
           onOk={checkWithRestData}
           onCancel={handleCancel}
@@ -115,7 +115,7 @@ export const ImportBtn = () => {
             }}
           />
           <Form.Item
-            label="数据操作"
+            label={I18N.t('import_btn.index.shuJuCaoZuo')}
             rules={[{ required: true }]}
             style={{ marginTop: 8 }}
           >
@@ -125,8 +125,8 @@ export const ImportBtn = () => {
                 setSelectRadio(e.target.value);
               }}
             >
-              <Radio.Button value="cover">覆盖</Radio.Button>
-              <Radio.Button value="merge">追加</Radio.Button>
+              <Radio.Button value="cover">{I18N.t('import_btn.index.fuGai')}</Radio.Button>
+              <Radio.Button value="merge">{I18N.t('import_btn.index.zhuiJia')}</Radio.Button>
             </Radio.Group>
           </Form.Item>
         </Modal>

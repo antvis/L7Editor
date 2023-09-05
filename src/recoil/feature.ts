@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { bbox, Feature, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
@@ -74,7 +75,7 @@ export default function useFeature() {
         setSavedText(value ?? editorText);
         setFeatures(newFeatures as IFeatures);
       } catch (e) {
-        message.warning('数据加载有误');
+        message.warning(I18N.t('recoil.feature.shuJuJiaZaiYou'));
       }
     } else {
       setEditorText(emptyFeatures);

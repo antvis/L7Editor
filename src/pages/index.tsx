@@ -1,8 +1,8 @@
+import I18N from '@/locales';
 import { Result } from 'antd';
 import React, { useMemo } from 'react';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
 import { PrimaryColor } from '../constants';
-import i18n from '../locales';
 import {
   activeTabState,
   autoFitBoundsState,
@@ -47,6 +47,6 @@ export const L7Editor = (props: L7EditorProps) => {
       <Editor {...props} />
     </RecoilRoot>
   ) : (
-    <Result status="404" title="请用PC端打开" />
+    <Result status="404" title={I18N.t('pages.index.qingYongPCDuan')} />
   );
 };

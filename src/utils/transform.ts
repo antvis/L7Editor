@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import {
   FeatureCollectionVT,
   FeatureListVT,
@@ -19,7 +20,7 @@ export const transformFeatures: (input: string) => Feature[] = (input) => {
     if (GeometryListVT.check(json)) {
       return json.map((item) => feature(item));
     }
-    console.warn('未识别 JSON 数组类型');
+    console.warn(I18N.t('utils.transform.weiShiBieJS'));
     return [];
   }
   if (FeatureVT.check(json)) {

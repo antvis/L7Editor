@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
@@ -48,12 +49,12 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
       base: 'vs',
       inherit: true,
       rules: [
-        { token: '调试', foreground: '959595' },
-        { token: '通知', foreground: '00b4ff' },
-        { token: '警告', foreground: 'fff000' },
-        { token: '错误', foreground: 'ff0000' },
-        { token: '崩溃', foreground: 'c30209' },
-        { token: '信息', foreground: 'ffffff' },
+        { token: I18N.t('geojson_editor.index.tiaoShi'), foreground: '959595' },
+        { token: I18N.t('geojson_editor.index.tongZhi'), foreground: '00b4ff' },
+        { token: I18N.t('geojson_editor.index.jingGao'), foreground: 'fff000' },
+        { token: I18N.t('geojson_editor.index.cuoWu'), foreground: 'ff0000' },
+        { token: I18N.t('geojson_editor.index.bengKui'), foreground: 'c30209' },
+        { token: I18N.t('geojson_editor.index.xinXi'), foreground: 'ffffff' },
       ],
       colors: {
         'editor.background': '#fafafa',
@@ -101,7 +102,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
           if (geoData) {
             resolve(geoData);
           } else {
-            reject('脚本数据有误');
+            reject(I18N.t('geojson_editor.index.jiaoBenShuJuYou'));
           }
         }),
     }),

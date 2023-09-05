@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { useLnglat } from '../../../../recoil';
 import { featureCollection } from '@turf/turf';
 import { Form, Input, Radio } from 'antd';
@@ -9,15 +10,15 @@ const LngLatImportTypeOptions: Array<{
   value: LngLatImportType;
 }> = [
   {
-    label: '点',
+    label: I18N.t('import_btn.lnglat_import_btn.dian'),
     value: 'Point',
   },
   {
-    label: '线',
+    label: I18N.t('import_btn.lnglat_import_btn.xian'),
     value: 'LingString',
   },
   {
-    label: '面',
+    label: I18N.t('import_btn.lnglat_import_btn.mian'),
     value: 'Polygon',
   },
 ];
@@ -36,11 +37,11 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
       getData: () =>
         new Promise((resolve, reject) => {
           if (!lngLatText) {
-            reject('请输入经纬度');
+            reject(I18N.t('import_btn.lnglat_import_btn.qingShuRuJingWei'));
           }
           const data = importLngLatText(lngLatText);
           resolve(featureCollection(data));
-          reject('LngLat 导入失败');
+          reject(I18N.t('import_btn.lnglat_import_btn.lNGLA'));
         }),
     }),
     [lngLatText, lngLatImportType],
@@ -49,7 +50,7 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
   return (
     <>
       <Form>
-        <Form.Item style={{ marginTop: 16 }} label="数据类型">
+        <Form.Item style={{ marginTop: 16 }} label={I18N.t('import_btn.lnglat_import_btn.shuJuLeiXing')}>
           <Radio.Group
             value={lngLatImportType}
             buttonStyle="solid"
@@ -64,9 +65,9 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
             ))}
           </Radio.Group>
         </Form.Item>
-        <Form.Item style={{ marginTop: 16 }} label="数据内容">
+        <Form.Item style={{ marginTop: 16 }} label={I18N.t('import_btn.lnglat_import_btn.shuJuNeiRong')}>
           <Input.TextArea
-            placeholder="请输入连续的经纬度并用符号隔开，例如：120.85,30.26;130.85,31.21"
+            placeholder={I18N.t('import_btn.lnglat_import_btn.qingShuRuLianXu')}
             rows={10}
             onChange={(e) => {
               setLngLatText(e.target.value);

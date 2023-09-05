@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash-es';
 import React from 'react';
@@ -11,7 +12,7 @@ const select = [
   { label: '=', value: '=' },
   { label: '<=', value: '<=' },
   { label: '<', value: '<' },
-  { label: '区间', value: 'BETWEEN' },
+  { label: I18N.t('filter_form_list_control.numberFilter.quJian'), value: 'BETWEEN' },
 ];
 interface Props {
   name: number;
@@ -28,7 +29,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
       <Form.Item name={[name, 'operator']}>
         <Select
           style={{ width: '100px', marginRight: '8px' }}
-          placeholder="请选择过滤逻辑"
+          placeholder={I18N.t('filter_form_list_control.numberFilter.qingXuanZeGuoLu')}
           options={select}
           onChange={() => {
             const newFilterFromList = cloneDeep(
@@ -67,7 +68,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
               <div className={styles.filterBetween}>
                 <Form.Item name={[name, 'min']} style={{ width: '70px' }}>
                   <InputNumber
-                    placeholder="请输入筛选值"
+                    placeholder={I18N.t('filter_form_list_control.numberFilter.qingShuRuShaiXuan')}
                     style={{ width: '100%' }}
                     min={DataList?.min ?? 0}
                     max={DataList?.max ?? 0}
@@ -76,7 +77,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
                 <span> - </span>
                 <Form.Item name={[name, 'max']} style={{ width: '70px' }}>
                   <InputNumber
-                    placeholder="请输入筛选值"
+                    placeholder={I18N.t('filter_form_list_control.numberFilter.qingShuRuShaiXuan')}
                     style={{ width: '100%' }}
                     min={DataList?.min ?? 0}
                     max={DataList?.max ?? 0}
@@ -88,7 +89,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
           return (
             <Form.Item name={[name, 'value']}>
               <InputNumber
-                placeholder="请输入筛选值"
+                placeholder={I18N.t('filter_form_list_control.numberFilter.qingShuRuShaiXuan')}
                 style={{ width: '100%' }}
                 min={DataList?.min ?? 0}
                 max={DataList?.max ?? 0}

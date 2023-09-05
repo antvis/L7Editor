@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover, Tabs, TabsProps, Tooltip } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
@@ -15,25 +16,25 @@ import useStyle from './styles';
 const AmapLayerList = [
   {
     type: 'Satellite',
-    title: '卫星图',
+    title: I18N.t('official_layer_control.index.weiXingTu'),
     image:
       'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
   },
   {
     type: 'RoadNet',
-    title: '路网图',
+    title: I18N.t('official_layer_control.index.luWangTu'),
     image:
       'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*G9RtT7qUxwYAAAAAAAAAAAAADqWCAQ/original',
   },
   {
     type: 'Traffic',
-    title: '路况图',
+    title: I18N.t('official_layer_control.index.luKuangTu'),
     image:
       'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*XTFITYbZaIsAAAAAAAAAAAAADqWCAQ/original',
   },
   {
     type: 'Buildings',
-    title: '楼块图',
+    title: I18N.t('official_layer_control.index.louKuaiTu'),
     image:
       'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*hIUgTryh-oAAAAAAAAAAAAAADqWCAQ/original',
   },
@@ -41,7 +42,7 @@ const AmapLayerList = [
 
 const GOOGLE_SATELLITE = {
   type: 'googleSatellite',
-  title: '谷歌卫星图',
+  title: I18N.t('official_layer_control.index.guGeWeiXingTu'),
   image:
     'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
 };
@@ -133,12 +134,12 @@ export function OfficialLayerControl() {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: `高德图层`,
+      label: I18N.t('official_layer_control.index.gaoDeTuCeng'),
       children: <AmapLayer />,
     },
     {
       key: '2',
-      label: `谷歌图层`,
+      label: I18N.t('official_layer_control.index.guGeTuCeng'),
       children: (
         <div className={styles.amapInfo}>
           <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
@@ -171,7 +172,7 @@ export function OfficialLayerControl() {
           height: scene.getType() !== 'mapbox' ? 330 : 190,
         }}
       >
-        <Tooltip title="官方图层" placement="left">
+        <Tooltip title={I18N.t('app_header.constants.guanFangTuCeng')} placement="left">
           <IconFont
             id="l7-editor-aMap"
             type="icon-ditu"

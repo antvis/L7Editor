@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { CustomControl } from '@antv/larkmap';
 import { Popconfirm, Tooltip } from 'antd';
 import React from 'react';
@@ -13,7 +14,7 @@ export const ClearControl = () => {
     <>
       <CustomControl position="topright">
         <Popconfirm
-          title="确认清空所有数据？"
+          title={I18N.t('clear_control.index.queRenQingKongSuo')}
           onConfirm={() => {
             saveEditorText(
               prettierText({
@@ -22,7 +23,7 @@ export const ClearControl = () => {
             );
           }}
         >
-          <Tooltip title="清除" placement="bottom">
+          <Tooltip title={I18N.t('app_header.constants.qingChu')} placement="bottom">
             <div className={styles.clear} id="l7-editor-clear">
               <IconFont type="icon-qingkong" className={styles.clearSvg} />
             </div>

@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { CustomControl } from '@antv/larkmap';
 import { Tooltip } from 'antd';
 import React from 'react';
@@ -11,7 +12,7 @@ export const AutoControl = () => {
   return (
     <CustomControl position="bottomright">
       <div className={styles.l7FilterSwitch}>
-        <Tooltip title="自动缩放至当前元素" placement="left">
+        <Tooltip title={I18N.t('auto_control.index.ziDongSuoFangZhi')} placement="left">
           <button
             type="button"
             id="l7-editor-auto"

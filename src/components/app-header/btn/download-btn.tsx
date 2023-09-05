@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { coordAll } from '@turf/turf';
 import { Button, Dropdown } from 'antd';
@@ -46,8 +47,7 @@ const DownloadBtn: React.FC = () => {
       }}
     >
       <Button id="l7-editor-download" icon={<CloudDownloadOutlined />}>
-        下载
-      </Button>
+        {I18N.t('btn.download_btn.xiaZai')}</Button>
     </Dropdown>
   );
 };

@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
@@ -214,7 +215,7 @@ export const AppTable: React.FC = () => {
 
     if (featureKeyList) {
       newColumns.push({
-        title: '序号',
+        title: I18N.t('app_table.index.xuHao'),
         dataIndex: '__index',
         key: `__index`,
         width: 80,
@@ -269,7 +270,7 @@ export const AppTable: React.FC = () => {
       });
     });
     newColumns.push({
-      title: '操作',
+      title: I18N.t('app_table.index.caoZuo'),
       key: 'action',
       width: 70,
       align: 'center',
@@ -283,11 +284,10 @@ export const AppTable: React.FC = () => {
                   return index !== record[FeatureKey.Index];
                 }),
               );
-              message.success('数据删除成功');
+              message.success(I18N.t('app_table.index.shuJuShanChuCheng'));
             }}
           >
-            删除
-          </a>
+            {I18N.t('app_table.index.shanChu')}</a>
         </Space>
       ),
     });
@@ -350,7 +350,7 @@ export const AppTable: React.FC = () => {
           rowKey={'__index'}
         />
       ) : (
-        <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
+        <Empty description={I18N.t('app_table.index.dangQianShuJuWu')} style={{ margin: '12px 0' }} />
       )}
     </div>
   );

@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { useDebounceFn } from 'ahooks';
 import { Input } from 'antd';
 import React, { forwardRef, useEffect, useState } from 'react';
@@ -48,7 +49,7 @@ export const WktEditor: React.FC = forwardRef(() => {
         height: 'calc(100% - 16px)',
         width: 'calc(100% - 16px)',
       }}
-      placeholder="输入WKT格式的点、线、面都可识别，多个数据请使;分隔，如：POINT(120.104013 30.262134);POINT(120.104033 30.262164)"
+      placeholder={I18N.t('wkt_editor.index.shuRuWKT')}
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
       onChange={(e) => {

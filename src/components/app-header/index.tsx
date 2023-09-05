@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, Switch, Tooltip, Tour } from 'antd';
@@ -82,15 +83,14 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
       </div>
       <div className={styles.mapHeaderRight}>
         {isTooBarState.import && <ImportBtn />}
-        <Tooltip title="保存数据">
+        <Tooltip title={I18N.t('app_header.index.baoCunShuJu')}>
           <Button
             id="l7-editor-save"
             icon={<SaveOutlined />}
             disabled={!savable}
             onClick={onSave}
           >
-            保存
-          </Button>
+            {I18N.t('app_header.constants.baoCun')}</Button>
         </Tooltip>
         {isTooBarState.download && <DownloadBtn />}
         {isTooBarState.guide && (
@@ -102,7 +102,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               },
             }}
           >
-            <Button icon={<FlagOutlined />}>引导</Button>
+            <Button icon={<FlagOutlined />}>{I18N.t('app_header.index.yinDao')}</Button>
           </Dropdown>
         )}
         {isTooBarState.help && <HandBackBtn />}
@@ -110,8 +110,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         {isTooBarState.theme && (
           <Switch
             id="l7-editor-theme"
-            checkedChildren="亮"
-            unCheckedChildren="暗"
+            checkedChildren={I18N.t('app_header.index.liang')}
+            unCheckedChildren={I18N.t('app_header.index.an')}
             defaultChecked={theme === 'normal' ? true : false}
             onChange={(checked: boolean) => {
               setTheme(checked ? 'normal' : 'dark');

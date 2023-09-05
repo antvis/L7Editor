@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import {
   CustomControl,
   Marker,
@@ -102,8 +103,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  添加至数据
-                </Button>
+                  {I18N.t('location_search_control.index.tianJiaZhiShuJu')}</Button>
                 <Button
                   danger
                   style={{ marginLeft: 8 }}
@@ -111,8 +111,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  清除
-                </Button>
+                  {I18N.t('app_header.constants.qingChu')}</Button>
               </div>
             }
           >

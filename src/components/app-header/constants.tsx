@@ -1,25 +1,28 @@
+import I18N from '@/locales';
 import { MenuProps, TourProps } from 'antd';
 import React from 'react';
+
+console.log(I18N);
 
 export const HandBackMenuItems: MenuProps['items'] = [
   {
     key: 'text',
-    label: '平台使用文档',
+    label: I18N.t('app_header.constants.pingTaiShiYongWen'),
   },
   {
     key: 'api',
-    label: '组件API文档',
+    label: I18N.t('app_header.constants.zuJianAPI'),
   },
   {
     key: 'ding',
-    label: '联系我们',
+    label: I18N.t('btn.handback_btn.lianXiWoMen'),
   },
 ];
 
 export const DownloadMenuItems: MenuProps['items'] = [
   {
     key: 'GeoJson',
-    label: '下载 GeoJSON 格式数据',
+    label: I18N.t('app_header.constants.xiaZaiGEO'),
   },
   // {
   //   key: 'FormatGeoJson',
@@ -27,7 +30,7 @@ export const DownloadMenuItems: MenuProps['items'] = [
   // },
   {
     key: 'LngLat',
-    label: '下载 LngLat 格式数据',
+    label: I18N.t('app_header.constants.xiaZaiLNG'),
   },
   // {
   //   key: 'Text',
@@ -35,64 +38,63 @@ export const DownloadMenuItems: MenuProps['items'] = [
   // },
   {
     key: 'KML',
-    label: '下载 KML 格式数据',
+    label: I18N.t('app_header.constants.xiaZaiKML'),
   },
   {
     key: 'WKT',
-    label: '下载 WKT 格式数据',
+    label: I18N.t('app_header.constants.xiaZaiWKT'),
   },
 ];
 
 export const DropdownMenuItems: MenuProps['items'] = [
   {
     key: 'basics',
-    label: '平台基础使用文档',
+    label: I18N.t('app_header.constants.pingTaiJiChuShi'),
   },
   {
     key: 'function',
-    label: '全功能使用引导',
+    label: I18N.t('app_header.constants.quanGongNengShiYong'),
   },
 ];
 
 export const steps: TourProps['steps'] = [
   {
-    title: '上传',
-    description: '上传 GeoJSON 数据',
+    title: I18N.t('import_btn.index.shangChuan'),
+    description: I18N.t('app_header.constants.shangChuanGEO'),
     cover: (
       <img
-        alt="上传.png"
+        alt={I18N.t('app_header.constants.shangChuanPNG')}
         src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*RJfORKi3ntsAAAAAAAAAAAAADjWqAQ/original"
       />
     ),
     target: () => document.getElementById('l7-editor-upload')!,
   },
   {
-    title: '编辑器',
-    description: '可以通过编辑器修改 GeoJSON 数据',
+    title: I18N.t('app_header.constants.bianJiQi'),
+    description: I18N.t('app_header.constants.keYiTongGuoBian'),
     target: () => document.getElementById('l7-editor-panel')!,
     placement: 'left',
   },
   {
-    title: '绘制',
+    title: I18N.t('app_header.constants.huiZhi'),
     cover: (
       <img
-        alt="绘制.png"
+        alt={I18N.t('app_header.constants.huiZhiPNG')}
         src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*NNcDQrzkdt8AAAAAAAAAAAAADjWqAQ/original"
       />
     ),
-    description: '可以激活地图绘制新增 GeoJSON 元素',
+    description: I18N.t('app_header.constants.keYiJiHuoDi'),
     target: () => document.getElementById('l7-editor-draw')!,
     placement: 'right',
   },
   {
-    title: '保存',
-    description:
-      '使用 Ctrl/Command + S 快捷键，或点击保存按钮渲染数据（已保存状态下保存按钮置灰）',
+    title: I18N.t('app_header.constants.baoCun'),
+    description: I18N.t('app_header.constants.shiYongCTR'),
     target: () => document.getElementById('l7-editor-save')!,
   },
   {
-    title: '渲染',
-    description: '地图上查看渲染效果',
+    title: I18N.t('app_header.constants.xuanRan'),
+    description: I18N.t('app_header.constants.diTuShangChaKan'),
     target: () => document.getElementById('l7-editor-map')!,
     placement: 'right',
   },
@@ -100,107 +102,104 @@ export const steps: TourProps['steps'] = [
 
 export const functionSteps: TourProps['steps'] = [
   {
-    title: '上传',
-    description: '上传 GeoJSON 数据',
+    title: I18N.t('import_btn.index.shangChuan'),
+    description: I18N.t('app_header.constants.shangChuanGEO'),
     cover: (
       <img
-        alt="上传.png"
+        alt={I18N.t('app_header.constants.shangChuanPNG')}
         src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*RJfORKi3ntsAAAAAAAAAAAAADjWqAQ/original"
       />
     ),
     target: () => document.getElementById('l7-editor-upload')!,
   },
   {
-    title: '保存',
-    description:
-      '使用 Ctrl/Command + S 快捷键，或点击保存按钮渲染数据（已保存状态下保存按钮置灰）',
+    title: I18N.t('app_header.constants.baoCun'),
+    description: I18N.t('app_header.constants.shiYongCTR'),
     target: () => document.getElementById('l7-editor-save')!,
   },
   {
-    title: '下载',
-    description: '点击下载可将 GeoJSON 数据下载为指定数据格式',
+    title: I18N.t('btn.download_btn.xiaZai'),
+    description: I18N.t('app_header.constants.dianJiXiaZaiKe'),
     target: () => document.getElementById('l7-editor-download')!,
   },
   {
-    title: '设置',
-    description: '用户可设置一些初始化配置',
+    title: I18N.t('btn.setting_btn.sheZhi'),
+    description: I18N.t('app_header.constants.yongHuKeSheZhi'),
     target: () => document.getElementById('l7-editor-set')!,
   },
   {
-    title: '主题',
-    description: '点击可切换不同的主题配色',
+    title: I18N.t('app_header.constants.zhuTi'),
+    description: I18N.t('app_header.constants.dianJiKeQieHuan'),
     target: () => document.getElementById('l7-editor-theme')!,
   },
   {
-    title: '行政区选择器',
-    description: '可以快速选择行政区的省市县区',
+    title: I18N.t('app_header.constants.xingZhengQuXuanZe'),
+    description: I18N.t('app_header.constants.keYiKuaiSuXuan'),
     target: () => document.getElementById('l7-editor-administrativeSelect')!,
   },
   {
-    title: '城市查询',
-    description: '搜索城市后可快速定位并移动至对应城市中心点',
+    title: I18N.t('app_header.constants.chengShiChaXun'),
+    description: I18N.t('app_header.constants.souSuoChengShiHou'),
     target: () => document.getElementById('l7-editor-citySelect')!,
   },
   {
-    title: '绘制',
+    title: I18N.t('app_header.constants.huiZhi'),
     cover: (
       <img
-        alt="绘制.png"
+        alt={I18N.t('app_header.constants.huiZhiPNG')}
         src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*NNcDQrzkdt8AAAAAAAAAAAAADjWqAQ/original"
       />
     ),
-    description: '可以激活地图绘制新增 GeoJSON 元素',
+    description: I18N.t('app_header.constants.keYiJiHuoDi'),
     target: () => document.getElementById('l7-editor-draw')!,
     placement: 'right',
   },
   {
-    title: '清除',
-    description:
-      '点击清除按钮 GeoJSON 数据将被请空 （已清空状态下清空按钮置灰）',
+    title: I18N.t('app_header.constants.qingChu'),
+    description: I18N.t('app_header.constants.dianJiQingChuAn'),
     target: () => document.getElementById('l7-editor-clear')!,
   },
   {
-    title: '筛选',
-    description: '可根据数据中的properties来筛选需要数据',
+    title: I18N.t('app_header.constants.shaiXuan'),
+    description: I18N.t('app_header.constants.keGenJuShuJu'),
     target: () => document.getElementById('l7-editor-filter')!,
   },
   {
-    title: '自动缩放',
-    description: '点击自动缩放按钮 地图将自动缩放的 GeoJSON 数据位置',
+    title: I18N.t('app_header.constants.ziDongSuoFang'),
+    description: I18N.t('app_header.constants.dianJiZiDongSuo'),
     target: () => document.getElementById('l7-editor-auto')!,
   },
   {
-    title: '颜色选择器',
-    description: '选择颜色来修改地图渲染颜色',
+    title: I18N.t('app_header.constants.yanSeXuanZeQi'),
+    description: I18N.t('app_header.constants.xuanZeYanSeLai'),
     target: () => document.getElementById('l7-editor-color')!,
   },
   {
-    title: '主题色',
-    description: '选择不同主题色来修改地图渲染主题颜色',
+    title: I18N.t('app_header.constants.zhuTiSe'),
+    description: I18N.t('app_header.constants.xuanZeBuTongZhu'),
     //@ts-ignore
     target: () => document.getElementsByClassName('l7-editor-mapTheme')[0]!,
   },
   {
-    title: '官方图层',
-    description: '可选择不同的地图的官方图层配置',
+    title: I18N.t('app_header.constants.guanFangTuCeng'),
+    description: I18N.t('app_header.constants.keXuanZeBuTong'),
     target: () => document.getElementById('l7-editor-aMap')!,
   },
   {
-    title: 'GeoJSON编辑器',
-    description: '可以通过编辑器修改 GeoJSON 数据',
+    title: I18N.t('app_header.constants.gEOJS'),
+    description: I18N.t('app_header.constants.keYiTongGuoBian'),
     target: () => document.getElementById('l7-editor-panel')!,
     placement: 'left',
   },
   {
-    title: 'WKT编辑器',
-    description: '可以通过WKT编辑器修改 WKT 数据',
+    title: I18N.t('app_header.constants.wKTBianJi'),
+    description: I18N.t('app_header.constants.keYiTongGuoW'),
     target: () => document.getElementById('l7-editor-wkt')!,
     placement: 'left',
   },
   {
-    title: '表格',
-    description:
-      '可以通过表格来展示修改删除GeoJSON 数据中的properties对象中的字段',
+    title: I18N.t('app_header.constants.biaoGe'),
+    description: I18N.t('app_header.constants.keYiTongGuoBiao'),
     target: () => document.getElementById('l7-editor-table')!,
     placement: 'left',
   },

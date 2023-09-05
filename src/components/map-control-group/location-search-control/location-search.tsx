@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { useDebounceFn } from 'ahooks';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Select } from 'antd';
@@ -85,7 +86,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
 };
 
 LocationSearch.defaultProps = {
-  placeholder: '请输入要搜索地名',
+  placeholder: I18N.t('location_search_control.location_search.qingShuRuYaoSou'),
   showSearch: true,
   allowClear: true,
   filterOption: false,

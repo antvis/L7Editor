@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import { CustomControl } from '@antv/larkmap';
 import { ColorPicker, Tooltip } from 'antd';
 import classNames from 'classnames';
@@ -11,7 +12,7 @@ const LayerColorControl: React.FC = () => {
 
   return (
     <CustomControl position="bottomright">
-      <Tooltip title="图层颜色选择器" placement="left">
+      <Tooltip title={I18N.t('layer_color_control.index.tuCengYanSeXuan')} placement="left">
         <div id="l7-editor-color">
           <ColorPicker
             value={layerColor}
@@ -22,7 +23,7 @@ const LayerColorControl: React.FC = () => {
             format="rgb"
             presets={[
               {
-                label: '常用颜色',
+                label: I18N.t('layer_color_control.index.changYongYanSe'),
                 colors: [
                   '#F5222D',
                   '#FA8C16',

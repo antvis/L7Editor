@@ -1,3 +1,4 @@
+import I18N from '@/locales';
 import {
   DrawCircle,
   DrawEvent,
@@ -344,7 +345,7 @@ export const LayerPopup: React.FC = () => {
         </Descriptions>
       </div>
     ) : (
-      <Empty description="当前元素无字段" style={{ margin: '12px 0' }} />
+      <Empty description={I18N.t('layer_popup.index.dangQianYuanSuWu')} style={{ margin: '12px 0' }} />
     );
   }, [featureFields, popupProps.feature]);
 
@@ -372,7 +373,7 @@ export const LayerPopup: React.FC = () => {
                   <Tooltip
                     title={
                       disabledEdit(popupProps.feature)
-                        ? 'Multi 类型的 GeoJSON 不支持编辑'
+                        ? I18N.t('layer_popup.index.mULTI')
                         : ''
                     }
                   >
@@ -382,8 +383,7 @@ export const LayerPopup: React.FC = () => {
                       onClick={() => onEdit(popupProps.feature)}
                       disabled={disabledEdit(popupProps.feature)}
                     >
-                      更改绘制
-                    </Button>
+                      {I18N.t('layer_popup.index.gengGaiHuiZhi')}</Button>
                   </Tooltip>
                 )}
                 {popupTrigger === 'click' && (
@@ -403,8 +403,7 @@ export const LayerPopup: React.FC = () => {
                       });
                     }}
                   >
-                    删除
-                  </Button>
+                    {I18N.t('app_table.index.shanChu')}</Button>
                 )}
               </div>
             </div>
