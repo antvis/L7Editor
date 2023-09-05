@@ -1,8 +1,6 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
-import en from './en';
-import zh from './zh';
 
 i18n
   // 检测用户当前使用的语言
@@ -18,18 +16,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    resources: {
-      zh: {
-        translation: {
-          ...zh,
-        },
-      },
-      en: {
-        translation: {
-          ...en,
-        },
-      },
-    },
+    resources: {},
   });
 
 export default i18n;

@@ -2,6 +2,7 @@ import { Result } from 'antd';
 import React, { useMemo } from 'react';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
 import { PrimaryColor } from '../constants';
+import i18n from '../locales';
 import {
   activeTabState,
   autoFitBoundsState,
@@ -17,8 +18,6 @@ import {
 } from '../recoil/atomState';
 import type { L7EditorProps } from '../types';
 import { Editor } from './components/editor';
-import '../locales/i18n'
-
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
