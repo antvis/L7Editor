@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from 'antd';
 import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GeoJsonEditor } from '../../../../components/geojson-editor';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
 import { useFeature } from '../../../../recoil';
@@ -33,7 +34,7 @@ export const ImportBtn = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('file');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
-
+  const { t } = useTranslation();
   const formRef = useRef<Record<string, any>>(null);
 
   const items: TabsProps['items'] = [
@@ -91,7 +92,7 @@ export const ImportBtn = () => {
           onClick={() => setIsModalOpen(true)}
           id="l7-editor-upload"
         >
-          上传
+          {t('upload')}
         </Button>
       </Tooltip>
 

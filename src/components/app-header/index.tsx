@@ -3,6 +3,8 @@ import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, Switch, Tooltip, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { ToolbarProps } from '../../types/l7editor';
 import DownloadBtn from './btn/download-btn';
@@ -32,10 +34,12 @@ const isTooBar = {
 };
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState<openType>({ key: '', open: false });
   const { autoFitBounds, theme, setTheme } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
   const [isTooBarState, setIsTooBar] = useState(isTooBar);
+  const [lng, setLng] = useState('zh');
   const styles = useStyle();
 
   const onSave = () => {
@@ -85,7 +89,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             disabled={!savable}
             onClick={onSave}
           >
-            保存
+            {t('save')}
           </Button>
         </Tooltip>
         {isTooBarState.download && <DownloadBtn />}
@@ -114,6 +118,27 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             }}
           />
         )}
+        <div
+        style={{marginLeft:10}}
+          onClick={() => {
+            if (lng === 'zh') {
+              i18n.changeLanguage('en');
+              setLng('en');
+            } else {
+              i18n.changeLanguage('zh');
+              setLng('zh');
+            }
+          }}
+        >
+          <IconFont
+            style={{ fontSize: 34 }}
+            type={
+              lng === 'zh'
+                ? 'icon-zhongyingwenqiehuan-zhongwen'
+                : 'icon-zhongyingwenqiehuan-yingwen'
+            }
+          />
+        </div>
       </div>
       <Tour
         open={open.open}
