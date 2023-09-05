@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover, Tabs, TabsProps, Tooltip } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';

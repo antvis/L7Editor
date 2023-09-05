@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { CustomControl } from '@antv/larkmap';
 import { Popconfirm, Tooltip } from 'antd';
 import React from 'react';

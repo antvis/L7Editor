@@ -1,19 +1,15 @@
-import I18N from '@/locales';
-import {
-  CustomControl,
-  Marker,
-  useScene,
-} from '@antv/larkmap';
+import { CustomControl, Marker, useScene } from '@antv/larkmap';
 import { point } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
+import I18N from '../../../locales';
 import { useFeature, useGlobal } from '../../../recoil';
 import { getPointImage } from '../../../utils/change-image-color';
 import useStyle from '../styles';
-import { LocationSearchOption } from './types';
 import { LocationSearch } from './location-search';
+import { LocationSearchOption } from './types';
 
 const LocationSearchControl: React.FC = React.memo(() => {
   const scene = useScene();
@@ -51,11 +47,10 @@ const LocationSearchControl: React.FC = React.memo(() => {
     <>
       <CustomControl position="lefttop">
         <div id="l7-editor-citySelect" style={{ display: 'flex' }}>
-          <div className={styles.l7LocationSearch}>
-            <div className={styles.l7LocationSearchPanel}>
-              <div className={styles.locationSearcheContainer}>
+          <div>
+            <div>
+              <div>
                 <LocationSearch
-                  popupClassName={styles.locationSearche}
                   getPopupContainer={() =>
                     document.querySelector('.larkmap') as HTMLElement
                   }
@@ -103,7 +98,8 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  {I18N.t('location_search_control.index.tianJiaZhiShuJu')}</Button>
+                  {I18N.t('location_search_control.index.tianJiaZhiShuJu')}
+                </Button>
                 <Button
                   danger
                   style={{ marginLeft: 8 }}
@@ -111,7 +107,8 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  {I18N.t('app_header.constants.qingChu')}</Button>
+                  {I18N.t('app_header.constants.qingChu')}
+                </Button>
               </div>
             }
           >

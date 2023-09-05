@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../../locales';
 import { useLnglat } from '../../../../recoil';
 import { featureCollection } from '@turf/turf';
 import { Form, Input, Radio } from 'antd';

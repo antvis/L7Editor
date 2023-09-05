@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { CustomControl, useScene } from '@antv/larkmap';
 import { message, Tooltip } from 'antd';
 import classNames from 'classnames';

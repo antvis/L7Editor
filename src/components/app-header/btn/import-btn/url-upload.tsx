@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../../locales';
 import { Form, Input, Radio } from 'antd';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { getUrlFeatureCollection } from '../../../../utils';

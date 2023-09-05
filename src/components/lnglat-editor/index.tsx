@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../locales';
 import { useDebounceFn } from 'ahooks';
 import { Input } from 'antd';
 import React, { useEffect, useState } from 'react';

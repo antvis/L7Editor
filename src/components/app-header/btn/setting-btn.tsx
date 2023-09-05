@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
 import React, { useState } from 'react';

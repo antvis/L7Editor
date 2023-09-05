@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../locales';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';

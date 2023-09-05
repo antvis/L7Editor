@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../../locales';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
 import {

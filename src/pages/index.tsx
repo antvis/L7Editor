@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../locales';
 import { Result } from 'antd';
 import React, { useMemo } from 'react';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';

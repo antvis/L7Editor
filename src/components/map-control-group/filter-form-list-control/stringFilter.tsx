@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
 import { cloneDeep, uniq } from 'lodash-es';
 import React from 'react';

@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { coordAll } from '@turf/turf';
 import { Button, Dropdown } from 'antd';

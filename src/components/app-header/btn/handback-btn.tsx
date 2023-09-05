@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Modal } from 'antd';
 import React, { useState } from 'react';

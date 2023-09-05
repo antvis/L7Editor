@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../locales';
 import { MenuProps, TourProps } from 'antd';
 import React from 'react';
 

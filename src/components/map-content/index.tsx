@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../locales';
 import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
 import { Feature } from '@turf/turf';
 import { Select, Tabs, TabsProps } from 'antd';

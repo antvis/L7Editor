@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../../locales';
 import { UploadOutlined } from '@ant-design/icons';
 import { featureCollection } from '@turf/turf';
 import { Button, Form, message, Upload, UploadFile } from 'antd';

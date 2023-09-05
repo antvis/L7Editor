@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../../locales';
 import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
 import {
   Feature,

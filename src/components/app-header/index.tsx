@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../locales';
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
 import { Button, Dropdown, Switch, Tooltip, Tour } from 'antd';
@@ -124,7 +124,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               i18n.changeLanguage('en');
               setLocale('en');
             } else {
-              i18n.changeLanguage('zh');
+              i18n.changeLanguage('zh-CN');
               setLocale('zh');
             }
           }}

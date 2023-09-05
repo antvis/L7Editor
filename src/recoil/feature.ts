@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../locales';
 import { bbox, Feature, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';

@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../../locales';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';

@@ -1,4 +1,4 @@
-import I18N from '@/locales';
+import I18N from '../locales';
 import { getSingleColorStyle } from '@antv/l7-draw';
 import { FeatureCollectionVT, FeatureKey, LayerZIndex } from '../constants';
 //@ts-ignore
