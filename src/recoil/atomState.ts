@@ -100,7 +100,7 @@ const baseMapState = atom<'Gaode' | 'Mapbox'>({
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
 
-const activeTabState = atom<'geojson' | 'table' | 'wkt'>({
+const activeTabState = atom<'geojson' | 'table' | 'wkt' | string>({
   key: 'activeTab',
   default: 'geojson',
   effects: [localStorageEffect(LocalStorageKey.ActiveRightTabKey)],
