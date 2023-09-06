@@ -1,4 +1,3 @@
-import I18N from '../locales';
 import { getSingleColorStyle } from '@antv/l7-draw';
 import { FeatureCollectionVT, FeatureKey, LayerZIndex } from '../constants';
 //@ts-ignore
@@ -54,6 +53,7 @@ export const getParamsNew = (key: string) => {
 export const getUrlFeatureCollection = async (
   url: string,
   urlType: string = 'GeoJSON',
+  t: any,
 ) => {
   const json = await fetch(url);
   if (urlType === 'GeoJSON') {
@@ -61,7 +61,7 @@ export const getUrlFeatureCollection = async (
       const geoData = await json.json();
       return geoData;
     } catch (e) {
-      throw new Error(I18N.t('utils.index.qingJianChaUR'));
+      throw new Error(t('utils.index.qingJianChaUR'));
     }
   } else if (urlType === 'WKT') {
     const wktStr = await json.text();
@@ -69,13 +69,13 @@ export const getUrlFeatureCollection = async (
     if (FeatureCollectionVT.check(geojson)) {
       return geojson;
     } else {
-      message.error(I18N.t('utils.index.qingJianChaUR'));
+      message.error(t('utils.index.qingJianChaUR'));
     }
   } else if (urlType === 'KML') {
     const KML = await json.text();
     const xml = new DOMParser().parseFromString(KML, 'text/xml');
     if (xml.getElementsByTagName('parsererror').length > 0) {
-      message.error(I18N.t('utils.index.qingJianChaUR'));
+      message.error(t('utils.index.qingJianChaUR'));
     } else {
       const geojson = await togeojson.kml(xml, {
         style: true,

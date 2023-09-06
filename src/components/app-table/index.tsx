@@ -1,4 +1,3 @@
-import I18N from '../../locales';
 import { Scene } from '@antv/l7';
 import { bbox, center, Feature, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
@@ -16,6 +15,7 @@ import {
 } from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FeatureKey } from '../../constants';
 import { useFeature } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
@@ -188,6 +188,7 @@ export const AppTable: React.FC = () => {
   const { setEditorText, isDraw, scene, features, resetFeatures } =
     useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const dataSource = features.map((item, index) => {
@@ -215,7 +216,7 @@ export const AppTable: React.FC = () => {
 
     if (featureKeyList) {
       newColumns.push({
-        title: I18N.t('app_table.index.xuHao'),
+        title: t('app_table.index.xuHao'),
         dataIndex: '__index',
         key: `__index`,
         width: 80,
@@ -270,7 +271,7 @@ export const AppTable: React.FC = () => {
       });
     });
     newColumns.push({
-      title: I18N.t('app_table.index.caoZuo'),
+      title: t('app_table.index.caoZuo'),
       key: 'action',
       width: 70,
       align: 'center',
@@ -284,10 +285,11 @@ export const AppTable: React.FC = () => {
                   return index !== record[FeatureKey.Index];
                 }),
               );
-              message.success(I18N.t('app_table.index.shuJuShanChuCheng'));
+              message.success(t('app_table.index.shuJuShanChuCheng'));
             }}
           >
-            {I18N.t('app_table.index.shanChu')}</a>
+            {t('app_table.index.shanChu')}
+          </a>
         </Space>
       ),
     });
@@ -350,7 +352,10 @@ export const AppTable: React.FC = () => {
           rowKey={'__index'}
         />
       ) : (
-        <Empty description={I18N.t('app_table.index.dangQianShuJuWu')} style={{ margin: '12px 0' }} />
+        <Empty
+          description={t('app_table.index.dangQianShuJuWu')}
+          style={{ margin: '12px 0' }}
+        />
       )}
     </div>
   );

@@ -1,13 +1,12 @@
-import I18N from '../../../locales';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Modal } from 'antd';
+import { Button, Dropdown, MenuProps, Modal } from 'antd';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { dingGroupImg } from '../../../constants';
-import { HandBackMenuItems } from '../constants';
 
 export default () => {
   const [dingModal, setDingModal] = useState(false);
-
+  const { t } = useTranslation();
   const onDownload = (key: string) => {
     if (key === 'text') {
       window.open(
@@ -20,6 +19,21 @@ export default () => {
       setDingModal(true);
     }
   };
+
+  const HandBackMenuItems: MenuProps['items'] = [
+    {
+      key: 'text',
+      label: t('app_header.constants.pingTaiShiYongWen'),
+    },
+    {
+      key: 'api',
+      label: t('app_header.constants.zuJianAPI'),
+    },
+    {
+      key: 'ding',
+      label: t('btn.handback_btn.lianXiWoMen'),
+    },
+  ];
   return (
     <>
       <Dropdown
@@ -30,10 +44,12 @@ export default () => {
           },
         }}
       >
-        <Button icon={<QuestionCircleOutlined />}>{I18N.t('btn.handback_btn.bangZhu')}</Button>
+        <Button icon={<QuestionCircleOutlined />}>
+          {t('btn.handback_btn.bangZhu')}
+        </Button>
       </Dropdown>
       <Modal
-        title={I18N.t('btn.handback_btn.lianXiWoMen')}
+        title={t('btn.handback_btn.lianXiWoMen')}
         open={dingModal}
         onCancel={() => setDingModal(false)}
         footer={null}

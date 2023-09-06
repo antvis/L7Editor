@@ -1,51 +1,11 @@
-import I18N from '../../../locales';
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover, Tabs, TabsProps, Tooltip } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IconFont } from '../../../constants';
 import { useGlobal } from '../../../recoil';
 import useStyle from './styles';
-
-/**
- * Satellite 卫星图
- * RoadNet   路网图
- * Traffic   路况图
- * Buildings 楼块图
- */
-const AmapLayerList = [
-  {
-    type: 'Satellite',
-    title: I18N.t('official_layer_control.index.weiXingTu'),
-    image:
-      'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
-  },
-  {
-    type: 'RoadNet',
-    title: I18N.t('official_layer_control.index.luWangTu'),
-    image:
-      'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*G9RtT7qUxwYAAAAAAAAAAAAADqWCAQ/original',
-  },
-  {
-    type: 'Traffic',
-    title: I18N.t('official_layer_control.index.luKuangTu'),
-    image:
-      'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*XTFITYbZaIsAAAAAAAAAAAAADqWCAQ/original',
-  },
-  {
-    type: 'Buildings',
-    title: I18N.t('official_layer_control.index.louKuaiTu'),
-    image:
-      'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*hIUgTryh-oAAAAAAAAAAAAAADqWCAQ/original',
-  },
-];
-
-const GOOGLE_SATELLITE = {
-  type: 'googleSatellite',
-  title: I18N.t('official_layer_control.index.guGeWeiXingTu'),
-  image:
-    'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
-};
 
 const TILE_MAP_URL =
   'https://www.google.com/maps/vt?lyrs=s@820&gl=cn&x={x}&y={y}&z={z}';
@@ -56,6 +16,47 @@ export function OfficialLayerControl() {
   const scene = useScene();
   const styles = useStyle();
   const { layerType, setLayerType } = useGlobal();
+  const { t } = useTranslation();
+
+  /**
+   * Satellite 卫星图
+   * RoadNet   路网图
+   * Traffic   路况图
+   * Buildings 楼块图
+   */
+  const AmapLayerList = [
+    {
+      type: 'Satellite',
+      title: t('official_layer_control.index.weiXingTu'),
+      image:
+        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
+    },
+    {
+      type: 'RoadNet',
+      title: t('official_layer_control.index.luWangTu'),
+      image:
+        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*G9RtT7qUxwYAAAAAAAAAAAAADqWCAQ/original',
+    },
+    {
+      type: 'Traffic',
+      title: t('official_layer_control.index.luKuangTu'),
+      image:
+        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*XTFITYbZaIsAAAAAAAAAAAAADqWCAQ/original',
+    },
+    {
+      type: 'Buildings',
+      title: t('official_layer_control.index.louKuaiTu'),
+      image:
+        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*hIUgTryh-oAAAAAAAAAAAAAADqWCAQ/original',
+    },
+  ];
+
+  const GOOGLE_SATELLITE = {
+    type: 'googleSatellite',
+    title: t('official_layer_control.index.guGeWeiXingTu'),
+    image:
+      'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
+  };
 
   const layers = useRef(
     scene.getType() !== 'mapbox'
@@ -134,12 +135,12 @@ export function OfficialLayerControl() {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: I18N.t('official_layer_control.index.gaoDeTuCeng'),
+      label: t('official_layer_control.index.gaoDeTuCeng'),
       children: <AmapLayer />,
     },
     {
       key: '2',
-      label: I18N.t('official_layer_control.index.guGeTuCeng'),
+      label: t('official_layer_control.index.guGeTuCeng'),
       children: (
         <div className={styles.amapInfo}>
           <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
@@ -172,7 +173,10 @@ export function OfficialLayerControl() {
           height: scene.getType() !== 'mapbox' ? 330 : 190,
         }}
       >
-        <Tooltip title={I18N.t('app_header.constants.guanFangTuCeng')} placement="left">
+        <Tooltip
+          title={t('app_header.constants.guanFangTuCeng')}
+          placement="left"
+        >
           <IconFont
             id="l7-editor-aMap"
             type="icon-ditu"

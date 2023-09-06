@@ -1,7 +1,7 @@
-import I18N from '../../locales';
 import { useDebounceFn } from 'ahooks';
 import { Input } from 'antd';
 import React, { forwardRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../recoil';
 import type { IFeatures } from '../../types';
 import { GeoJSON2Wkt, Wkt2GeoJSON } from '../../utils';
@@ -13,6 +13,7 @@ export const WktEditor: React.FC = forwardRef(() => {
   const { fc, resetFeatures, bboxAutoFit } = useFeature();
   const [isFocus, setIsFocus] = useState(false);
   const { autoFitBounds } = useGlobal();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isFocus) {
@@ -49,7 +50,7 @@ export const WktEditor: React.FC = forwardRef(() => {
         height: 'calc(100% - 16px)',
         width: 'calc(100% - 16px)',
       }}
-      placeholder={I18N.t('wkt_editor.index.shuRuWKT')}
+      placeholder={t('wkt_editor.index.shuRuWKT')}
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
       onChange={(e) => {

@@ -1,22 +1,10 @@
 import { Form, FormInstance, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash-es';
 import React from 'react';
-import I18N from '../../../locales';
+import { useTranslation } from 'react-i18next';
 import { useFeature, useFilter } from '../../../recoil';
 import { FilterNumberData } from '../../../types';
-import useStyle from '../styles';
 
-const select = [
-  { label: '>', value: '>' },
-  { label: '>=', value: '>=' },
-  { label: '=', value: '=' },
-  { label: '<=', value: '<=' },
-  { label: '<', value: '<' },
-  {
-    label: I18N.t('filter_form_list_control.numberFilter.quJian'),
-    value: 'BETWEEN',
-  },
-];
 interface Props {
   name: number;
   index: number;
@@ -25,14 +13,26 @@ interface Props {
 const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
   const { setFilters } = useFilter();
   const { dataSource } = useFeature();
-  const styles = useStyle();
+  const { t } = useTranslation();
+
+  const select = [
+    { label: '>', value: '>' },
+    { label: '>=', value: '>=' },
+    { label: '=', value: '=' },
+    { label: '<=', value: '<=' },
+    { label: '<', value: '<' },
+    {
+      label: t('filter_form_list_control.numberFilter.quJian'),
+      value: 'BETWEEN',
+    },
+  ];
 
   return (
     <div style={{ display: 'flex' }}>
       <Form.Item name={[name, 'operator']}>
         <Select
           style={{ width: '100px', marginRight: '8px' }}
-          placeholder={I18N.t(
+          placeholder={t(
             'filter_form_list_control.numberFilter.qingXuanZeGuoLu',
           )}
           options={select}
@@ -73,7 +73,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
               <div>
                 <Form.Item name={[name, 'min']} style={{ width: '70px' }}>
                   <InputNumber
-                    placeholder={I18N.t(
+                    placeholder={t(
                       'filter_form_list_control.numberFilter.qingShuRuShaiXuan',
                     )}
                     style={{ width: '100%' }}
@@ -84,7 +84,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
                 <span> - </span>
                 <Form.Item name={[name, 'max']} style={{ width: '70px' }}>
                   <InputNumber
-                    placeholder={I18N.t(
+                    placeholder={t(
                       'filter_form_list_control.numberFilter.qingShuRuShaiXuan',
                     )}
                     style={{ width: '100%' }}
@@ -98,7 +98,7 @@ const NumberFilter: React.FC<Props> = ({ name, index, form }) => {
           return (
             <Form.Item name={[name, 'value']}>
               <InputNumber
-                placeholder={I18N.t(
+                placeholder={t(
                   'filter_form_list_control.numberFilter.qingShuRuShaiXuan',
                 )}
                 style={{ width: '100%' }}

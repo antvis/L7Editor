@@ -1,4 +1,3 @@
-import I18N from '../../locales';
 import {
   DrawCircle,
   DrawEvent,
@@ -26,6 +25,7 @@ import {
 } from 'antd';
 import { cloneDeep } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FeatureKey, LayerId } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
@@ -50,6 +50,7 @@ export const LayerPopup: React.FC = () => {
     transformCoord,
   } = useFeature();
   const { layerColor, popupTrigger } = useGlobal();
+  const { t } = useTranslation();
 
   const styles = useStyle();
   const [popupProps, setPopupProps] = useState<
@@ -345,7 +346,10 @@ export const LayerPopup: React.FC = () => {
         </Descriptions>
       </div>
     ) : (
-      <Empty description={I18N.t('layer_popup.index.dangQianYuanSuWu')} style={{ margin: '12px 0' }} />
+      <Empty
+        description={t('layer_popup.index.dangQianYuanSuWu')}
+        style={{ margin: '12px 0' }}
+      />
     );
   }, [featureFields, popupProps.feature]);
 
@@ -373,7 +377,7 @@ export const LayerPopup: React.FC = () => {
                   <Tooltip
                     title={
                       disabledEdit(popupProps.feature)
-                        ? I18N.t('layer_popup.index.mULTI')
+                        ? t('layer_popup.index.mULTI')
                         : ''
                     }
                   >
@@ -383,7 +387,8 @@ export const LayerPopup: React.FC = () => {
                       onClick={() => onEdit(popupProps.feature)}
                       disabled={disabledEdit(popupProps.feature)}
                     >
-                      {I18N.t('layer_popup.index.gengGaiHuiZhi')}</Button>
+                      {t('layer_popup.index.gengGaiHuiZhi')}
+                    </Button>
                   </Tooltip>
                 )}
                 {popupTrigger === 'click' && (
@@ -403,7 +408,8 @@ export const LayerPopup: React.FC = () => {
                       });
                     }}
                   >
-                    {I18N.t('app_table.index.shanChu')}</Button>
+                    {t('app_table.index.shanChu')}
+                  </Button>
                 )}
               </div>
             </div>

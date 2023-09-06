@@ -1,4 +1,3 @@
-import I18N from '../../../locales';
 import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
 import {
   Feature,
@@ -11,6 +10,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IconFont, LayerZIndex } from '../../../constants';
 import { useFeature, useGlobal } from '../../../recoil';
 import { useStyle } from './styles';
@@ -33,6 +33,7 @@ export const AdministrativeSelect = () => {
     useState<Feature<MultiLineString> | null>(null);
   const [data, setData] = useState();
   const [value, setValue] = useState<string[]>([]);
+  const { t } = useTranslation();
 
   const getCascadeData = (list: any) => {
     list.sort((a: { adcode: number }, b: { adcode: number }) => {
@@ -54,9 +55,7 @@ export const AdministrativeSelect = () => {
   };
 
   useEffect(() => {
-    fetch(
-      I18N.t('administrative_select_control.index.hTTPS'),
-    )
+    fetch(t('administrative_select_control.index.hTTPS'))
       .then((res) => res.json())
       .then((res) => {
         setData(getCascadeData(res.districts[0].districts));
@@ -154,7 +153,9 @@ export const AdministrativeSelect = () => {
           }
         })
         .catch(() => {
-          message.error(I18N.t('administrative_select_control.index.weiLanShuJuQing'));
+          message.error(
+            t('administrative_select_control.index.weiLanShuJuQing'),
+          );
         });
     }
   }, [value]);
@@ -171,7 +172,9 @@ export const AdministrativeSelect = () => {
               className={styles.cascader}
               allowClear
               showSearch={{ filter }}
-              placeholder={I18N.t('administrative_select_control.index.keXuanZeShengShi')}
+              placeholder={t(
+                'administrative_select_control.index.keXuanZeShengShi',
+              )}
               changeOnSelect
               style={{ width: 250 }}
               popupClassName={styles.cascaderPopup}
@@ -185,7 +188,10 @@ export const AdministrativeSelect = () => {
             placement="bottomRight"
             trigger={['click']}
           >
-            <Tooltip title={I18N.t('administrative_select_control.index.xingZhengQuHuaLi')} placement="right">
+            <Tooltip
+              title={t('administrative_select_control.index.xingZhengQuHuaLi')}
+              placement="right"
+            >
               <div
                 className={classNames([styles.history, 'l7-draw-control__btn'])}
               >

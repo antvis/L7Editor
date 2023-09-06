@@ -1,4 +1,3 @@
-import I18N from '../../../locales';
 import {
   DeleteOutlined,
   FieldBinaryOutlined,
@@ -11,6 +10,7 @@ import { CustomControl } from '@antv/larkmap';
 import { Button, Form, Select, Tooltip } from 'antd';
 import { cloneDeep, debounce, isEmpty } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { isEmptyFilter } from '../../../hooks/use-filter-features';
 import { useFeature, useFilter } from '../../../recoil';
 import NumberFilter from './numberFilter';
@@ -23,6 +23,7 @@ const FilterControl: React.FC = () => {
   const { dataSource } = useFeature();
   const { setFilters, filters } = useFilter();
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const styles = useStyle();
 
@@ -99,8 +100,12 @@ const FilterControl: React.FC = () => {
                   >
                     <Form.Item name={[name, 'logic']} initialValue="and">
                       <Select style={{ width: 70, marginRight: '8px' }}>
-                        <Option value="and">{I18N.t('filter_form_list_control.index.bingQie')}</Option>
-                        <Option value="or">{I18N.t('filter_form_list_control.index.huoZhe')}</Option>
+                        <Option value="and">
+                          {t('filter_form_list_control.index.bingQie')}
+                        </Option>
+                        <Option value="or">
+                          {t('filter_form_list_control.index.huoZhe')}
+                        </Option>
                       </Select>
                     </Form.Item>
                     <Form.Item
@@ -112,7 +117,9 @@ const FilterControl: React.FC = () => {
                     >
                       <Select
                         style={{ width: 130, marginRight: '8px' }}
-                        placeholder={I18N.t('filter_form_list_control.index.qingXuanZeZiDuan')}
+                        placeholder={t(
+                          'filter_form_list_control.index.qingXuanZeZiDuan',
+                        )}
                         onChange={() => {
                           const newFilterFromList = cloneDeep(
                             form.getFieldValue('filterFromList'),
@@ -211,14 +218,18 @@ const FilterControl: React.FC = () => {
                   icon={<PlusOutlined />}
                   style={{ width: 500 }}
                 >
-                  {I18N.t('filter_form_list_control.index.tianJiaShaiXuanTiao')}</Button>
+                  {t('filter_form_list_control.index.tianJiaShaiXuanTiao')}
+                </Button>
               </>
             )}
           </Form.List>
         </Form>
       </div>
       <div className={styles.l7FilterSwitch}>
-        <Tooltip title={I18N.t('filter_form_list_control.index.shuJuGuoLu')} placement="right">
+        <Tooltip
+          title={t('filter_form_list_control.index.shuJuGuoLu')}
+          placement="right"
+        >
           <button
             type="button"
             id="l7-editor-filter"

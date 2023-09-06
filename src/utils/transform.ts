@@ -1,4 +1,4 @@
-import I18N from '../locales';
+import { Feature, feature } from '@turf/turf';
 import {
   FeatureCollectionVT,
   FeatureListVT,
@@ -6,9 +6,11 @@ import {
   GeometryListVT,
   GeometryVT,
 } from '../constants';
-import { Feature, feature } from '@turf/turf';
 
-export const transformFeatures: (input: string) => Feature[] = (input) => {
+export const transformFeatures: (input: string, t: any) => Feature[] = (
+  input,
+  t,
+) => {
   const json = JSON.parse(input) as any;
   if (FeatureCollectionVT.check(json)) {
     return json.features;
@@ -20,7 +22,7 @@ export const transformFeatures: (input: string) => Feature[] = (input) => {
     if (GeometryListVT.check(json)) {
       return json.map((item) => feature(item));
     }
-    console.warn(I18N.t('utils.transform.weiShiBieJS'));
+    console.warn(t('utils.transform.weiShiBieJS'));
     return [];
   }
   if (FeatureVT.check(json)) {

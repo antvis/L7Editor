@@ -1,4 +1,3 @@
-import I18N from '../../../../locales';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { FeatureCollection } from '@turf/turf';
 import {
@@ -36,16 +35,16 @@ export const ImportBtn = () => {
   const [activeTab, setActiveTab] = useState<TabType>('file');
   const [selectRadio, setSelectRadio] = useState<DataType>('cover');
   const formRef = useRef<Record<string, any>>(null);
-
+  const { t } = useTranslation();
   const items: TabsProps['items'] = [
     {
       key: 'file',
-      label: <div>{I18N.t('import_btn.file_upload.wenJianShangChuan')}</div>,
+      label: <div>{t('import_btn.file_upload.wenJianShangChuan')}</div>,
       children: <FileUpload ref={formRef} />,
     },
     {
       key: 'url',
-      label: <div>{I18N.t('import_btn.index.uRLShangChuan')}</div>,
+      label: <div>{t('import_btn.index.uRLShangChuan')}</div>,
       children: <UrlUpload ref={formRef} />,
     },
     // {
@@ -55,7 +54,7 @@ export const ImportBtn = () => {
     // },
     {
       key: 'script',
-      label: <div>{I18N.t('import_btn.index.jAVAS')}</div>,
+      label: <div>{t('import_btn.index.jAVAS')}</div>,
       children: (
         <div style={{ width: '100%', height: 300 }}>
           <GeoJsonEditor language="javascript" ref={formRef} />
@@ -86,18 +85,19 @@ export const ImportBtn = () => {
   };
   return (
     <>
-      <Tooltip title={I18N.t('import_btn.index.shangChuanShuJu')}>
+      <Tooltip title={t('import_btn.index.shangChuanShuJu')}>
         <Button
           icon={<CloudUploadOutlined />}
           onClick={() => setIsModalOpen(true)}
           id="l7-editor-upload"
         >
-          {I18N.t('import_btn.index.shangChuan')}</Button>
+          {t('import_btn.index.shangChuan')}
+        </Button>
       </Tooltip>
 
       {isModalOpen && (
         <Modal
-          title={I18N.t('import_btn.index.shangChuan')}
+          title={t('import_btn.index.shangChuan')}
           open={isModalOpen}
           onOk={checkWithRestData}
           onCancel={handleCancel}
@@ -115,7 +115,7 @@ export const ImportBtn = () => {
             }}
           />
           <Form.Item
-            label={I18N.t('import_btn.index.shuJuCaoZuo')}
+            label={t('import_btn.index.shuJuCaoZuo')}
             rules={[{ required: true }]}
             style={{ marginTop: 8 }}
           >
@@ -125,8 +125,12 @@ export const ImportBtn = () => {
                 setSelectRadio(e.target.value);
               }}
             >
-              <Radio.Button value="cover">{I18N.t('import_btn.index.fuGai')}</Radio.Button>
-              <Radio.Button value="merge">{I18N.t('import_btn.index.zhuiJia')}</Radio.Button>
+              <Radio.Button value="cover">
+                {t('import_btn.index.fuGai')}
+              </Radio.Button>
+              <Radio.Button value="merge">
+                {t('import_btn.index.zhuiJia')}
+              </Radio.Button>
             </Radio.Group>
           </Form.Item>
         </Modal>

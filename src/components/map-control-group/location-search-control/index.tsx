@@ -4,10 +4,9 @@ import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
-import I18N from '../../../locales';
+import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../../recoil';
 import { getPointImage } from '../../../utils/change-image-color';
-import useStyle from '../styles';
 import { LocationSearch } from './location-search';
 import { LocationSearchOption } from './types';
 
@@ -18,7 +17,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const { features, resetFeatures } = useFeature();
   const { layerColor } = useGlobal();
   const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
-  const styles = useStyle();
+  const { t } = useTranslation();
 
   const syncMapCenter = useCallback(() => {
     if (scene) {
@@ -98,7 +97,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  {I18N.t('location_search_control.index.tianJiaZhiShuJu')}
+                  {t('location_search_control.index.tianJiaZhiShuJu')}
                 </Button>
                 <Button
                   danger
@@ -107,7 +106,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  {I18N.t('app_header.constants.qingChu')}
+                  {t('app_header.constants.qingChu')}
                 </Button>
               </div>
             }

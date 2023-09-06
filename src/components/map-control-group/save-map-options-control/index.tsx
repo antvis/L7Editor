@@ -1,8 +1,8 @@
-import I18N from '../../../locales';
 import { CustomControl, useScene } from '@antv/larkmap';
-import { message, Tooltip } from 'antd';
+import { Tooltip, message } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGlobal } from '../../../recoil';
 import useStyle from './styles';
 
@@ -10,6 +10,8 @@ const SaveMapOptionsControl: React.FC = () => {
   const scene = useScene();
   const styles = useStyle();
   const { setMapOptions } = useGlobal();
+  const { t } = useTranslation();
+
   const onSave = () => {
     const { lng, lat } = scene.getCenter();
     setMapOptions((oldMapOptions) => {
@@ -19,12 +21,15 @@ const SaveMapOptionsControl: React.FC = () => {
         zoom: scene.getZoom(),
       };
     });
-    message.success(I18N.t('save_map_options_control.index.diTuZhuangTaiBao'));
+    message.success(t('save_map_options_control.index.diTuZhuangTaiBao'));
   };
 
   return (
     <CustomControl position="bottomright">
-      <Tooltip overlay={I18N.t('save_map_options_control.index.baoCunDiTuZhuang')} placement="right">
+      <Tooltip
+        overlay={t('save_map_options_control.index.baoCunDiTuZhuang')}
+        placement="right"
+      >
         <button
           className={classNames([styles.l7ButtonControl, 'l7-button-control'])}
           onClick={onSave}

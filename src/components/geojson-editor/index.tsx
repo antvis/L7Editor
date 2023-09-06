@@ -1,4 +1,3 @@
-import I18N from '../../locales';
 import { useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
@@ -8,6 +7,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import MonacoEditor from 'react-monaco-editor';
 import { useFeature, useGlobal } from '../../recoil';
 import { isPromise } from '../../utils';
@@ -30,6 +30,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const styles = useStyle();
+  const { t } = useTranslation();
 
   // document format
   monacoEditor.languages.registerDocumentFormattingEditProvider(language, {
@@ -49,12 +50,12 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
       base: 'vs',
       inherit: true,
       rules: [
-        { token: I18N.t('geojson_editor.index.tiaoShi'), foreground: '959595' },
-        { token: I18N.t('geojson_editor.index.tongZhi'), foreground: '00b4ff' },
-        { token: I18N.t('geojson_editor.index.jingGao'), foreground: 'fff000' },
-        { token: I18N.t('geojson_editor.index.cuoWu'), foreground: 'ff0000' },
-        { token: I18N.t('geojson_editor.index.bengKui'), foreground: 'c30209' },
-        { token: I18N.t('geojson_editor.index.xinXi'), foreground: 'ffffff' },
+        { token: t('geojson_editor.index.tiaoShi'), foreground: '959595' },
+        { token: t('geojson_editor.index.tongZhi'), foreground: '00b4ff' },
+        { token: t('geojson_editor.index.jingGao'), foreground: 'fff000' },
+        { token: t('geojson_editor.index.cuoWu'), foreground: 'ff0000' },
+        { token: t('geojson_editor.index.bengKui'), foreground: 'c30209' },
+        { token: t('geojson_editor.index.xinXi'), foreground: 'ffffff' },
       ],
       colors: {
         'editor.background': '#fafafa',
@@ -102,7 +103,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
           if (geoData) {
             resolve(geoData);
           } else {
-            reject(I18N.t('geojson_editor.index.jiaoBenShuJuYou'));
+            reject(t('geojson_editor.index.jiaoBenShuJuYou'));
           }
         }),
     }),

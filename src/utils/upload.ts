@@ -1,10 +1,9 @@
-import I18N from '../locales';
 import { parserTextFileToSource } from './file-to-source';
 interface newFile extends File {
   uid: string;
 }
 
-export const parserFileToSource = async (file: newFile) => {
+export const parserFileToSource = async (file: newFile, t: any) => {
   const fileFullName = file.name;
   const fileNames = fileFullName.substring(0, fileFullName.lastIndexOf('.'));
   const fileExtension = fileFullName.substring(
@@ -22,7 +21,7 @@ export const parserFileToSource = async (file: newFile) => {
       );
     }
   } catch (e) {
-    return Promise.reject(I18N.t('utils.upload.wenJianJieXiShi'));
+    return Promise.reject(t('utils.upload.wenJianJieXiShi'));
   }
 
   return dataSource;

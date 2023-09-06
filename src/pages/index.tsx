@@ -1,8 +1,9 @@
-import I18N from '../locales';
 import { Result } from 'antd';
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
 import { PrimaryColor } from '../constants';
+import '../locales/index';
 import {
   activeTabState,
   autoFitBoundsState,
@@ -22,6 +23,7 @@ import { Editor } from './components/editor';
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 export const L7Editor = (props: L7EditorProps) => {
+  const { t } = useTranslation();
   const isPc = useMemo(() => {
     return !/Mobi|Android|iPhone/i.test(navigator.userAgent);
   }, []);
@@ -47,6 +49,6 @@ export const L7Editor = (props: L7EditorProps) => {
       <Editor {...props} />
     </RecoilRoot>
   ) : (
-    <Result status="404" title={I18N.t('pages.index.qingYongPCDuan')} />
+    <Result status="404" title={t('pages.index.qingYongPCDuan')} />
   );
 };

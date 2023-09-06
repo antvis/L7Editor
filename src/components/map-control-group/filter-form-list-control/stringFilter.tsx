@@ -1,17 +1,11 @@
-import I18N from '../../../locales';
 import { Form, FormInstance, Input, Select, Tooltip } from 'antd';
 import { cloneDeep, uniq } from 'lodash-es';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useFeature from '../../../recoil/feature';
 import useFilter from '../../../recoil/filter';
 import { FilterStringData } from '../../../types/filter';
 
-const select = [
-  { label: I18N.t('filter_form_list_control.stringFilter.baoHan'), value: 'IN' },
-  { label: I18N.t('filter_form_list_control.stringFilter.buBaoHan'), value: 'NOT_IN' },
-  { label: I18N.t('filter_form_list_control.stringFilter.piPei'), value: 'LIKE' },
-  { label: I18N.t('filter_form_list_control.stringFilter.buPiPei'), value: 'NOT_LIKE' },
-];
 interface Props {
   name: number;
   index: number;
@@ -20,6 +14,21 @@ interface Props {
 const StringFilter: React.FC<Props> = ({ name, index, form }) => {
   const { setFilters } = useFilter();
   const { dataSource } = useFeature();
+  const { t } = useTranslation();
+
+  const select = [
+    { label: t('filter_form_list_control.stringFilter.baoHan'), value: 'IN' },
+    {
+      label: t('filter_form_list_control.stringFilter.buBaoHan'),
+      value: 'NOT_IN',
+    },
+    { label: t('filter_form_list_control.stringFilter.piPei'), value: 'LIKE' },
+    {
+      label: t('filter_form_list_control.stringFilter.buPiPei'),
+      value: 'NOT_LIKE',
+    },
+  ];
+
   return (
     <div style={{ display: 'flex' }}>
       <Form.Item
@@ -27,7 +36,9 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
         style={{ width: '100px', marginRight: '8px' }}
       >
         <Select
-          placeholder={I18N.t('filter_form_list_control.numberFilter.qingXuanZeGuoLu')}
+          placeholder={t(
+            'filter_form_list_control.numberFilter.qingXuanZeGuoLu',
+          )}
           options={select}
           onChange={() => {
             const newFilterFromList = cloneDeep(
@@ -66,7 +77,9 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
             return (
               <Form.Item name={[name, 'value']}>
                 <Input
-                  placeholder={I18N.t('filter_form_list_control.numberFilter.qingShuRuShaiXuan')}
+                  placeholder={t(
+                    'filter_form_list_control.numberFilter.qingShuRuShaiXuan',
+                  )}
                   style={{ width: '100%' }}
                   allowClear
                 />
@@ -76,7 +89,9 @@ const StringFilter: React.FC<Props> = ({ name, index, form }) => {
           return (
             <Form.Item name={[name, 'value']}>
               <Select
-                placeholder={I18N.t('filter_form_list_control.stringFilter.qingXuanZeShaiXuan')}
+                placeholder={t(
+                  'filter_form_list_control.stringFilter.qingXuanZeShaiXuan',
+                )}
                 style={{ width: '100%' }}
                 mode="multiple"
                 maxTagCount={1}

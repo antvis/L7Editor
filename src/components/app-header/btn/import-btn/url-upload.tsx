@@ -1,11 +1,11 @@
-import I18N from '../../../../locales';
 import { Form, Input, Radio } from 'antd';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getUrlFeatureCollection } from '../../../../utils';
 
 const UrlUpload = forwardRef(({}, ref) => {
   const [inputValue, setInputValue] = useState<string>('');
-
+  const { t } = useTranslation();
   const [radioValue, setRadioValue] = useState<string>('GeoJSON');
 
   useImperativeHandle(
@@ -14,10 +14,10 @@ const UrlUpload = forwardRef(({}, ref) => {
       getData: () =>
         new Promise((resolve, reject) => {
           if (inputValue) {
-            resolve(getUrlFeatureCollection(inputValue, radioValue));
-            reject(I18N.t('import_btn.url_upload.shuJuGeShiCuo'));
+            resolve(getUrlFeatureCollection(inputValue, radioValue,t));
+            reject(t('import_btn.url_upload.shuJuGeShiCuo'));
           } else {
-            reject(I18N.t('import_btn.url_upload.qingShuRuWenBen'));
+            reject(t('import_btn.url_upload.qingShuRuWenBen'));
           }
         }),
     }),
@@ -29,7 +29,7 @@ const UrlUpload = forwardRef(({}, ref) => {
       <Form layout={'vertical'}>
         <Form.Item
           name="urlType"
-          label={I18N.t('import_btn.url_upload.shuJuLeiXing')}
+          label={t('import_btn.url_upload.shuJuLeiXing')}
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >
@@ -46,7 +46,7 @@ const UrlUpload = forwardRef(({}, ref) => {
         </Form.Item>
         <Form.Item
           name="url"
-          label={I18N.t('import_btn.url_upload.uRLDiZhi')}
+          label={t('import_btn.url_upload.uRLDiZhi')}
           rules={[{ required: true }]}
           style={{ marginTop: 16, marginBottom: 4 }}
         >

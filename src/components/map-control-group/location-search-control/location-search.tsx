@@ -1,7 +1,7 @@
 import { useDebounceFn } from 'ahooks';
 import { Select } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
-import I18N from '../../../locales';
+import { useTranslation } from 'react-i18next';
 import useStyle from './styles';
 import type { LocationSearchOption, LocationSearchProps } from './types';
 import { urlStringify } from './utils';
@@ -18,6 +18,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
 }) => {
   const styles = useStyle();
   const [options, setOptions] = useState<LocationSearchOption[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     onSearchFinish?.(options);
@@ -70,6 +71,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
       onSearch={onSearch}
       onChange={onLocationChange}
       clearIcon={() => null}
+      placeholder={t('location_search_control.location_search.qingShuRuYaoSou')}
       {...selectProps}
     >
       {options.map((option) => {
@@ -94,9 +96,6 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
 };
 
 LocationSearch.defaultProps = {
-  placeholder: I18N.t(
-    'location_search_control.location_search.qingShuRuYaoSou',
-  ),
   showSearch: true,
   allowClear: true,
   filterOption: false,
