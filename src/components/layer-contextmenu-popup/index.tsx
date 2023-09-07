@@ -13,7 +13,7 @@ export const LayerContextmenuPopup: React.FC = () => {
   const { isDraw, features } = useFeature();
 
   const styles = useStyle();
-  const [popupProps, setPopupProps] = useState<
+  const [markerProps, setMarkerProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
     lngLat: {
@@ -28,9 +28,9 @@ export const LayerContextmenuPopup: React.FC = () => {
     return features.find(
       (feature: { properties: { [x: string]: number | undefined } }) =>
         // @ts-ignore
-        feature.properties?.[FeatureKey.Index] === popupProps.featureIndex,
+        feature.properties?.[FeatureKey.Index] === markerProps.featureIndex,
     );
-  }, [features, popupProps]);
+  }, [features, markerProps]);
   const allLayerList = useLayerList();
   const layerList = useMemo(() => {
     const layerIds: string[] = [
@@ -49,9 +49,9 @@ export const LayerContextmenuPopup: React.FC = () => {
         const { lngLat, feature } = e;
         const featureIndex = feature.properties[FeatureKey.Index];
         const isIndex =
-          popupProps.featureIndex === feature.properties[FeatureKey.Index];
-        if (popupProps.visible && isIndex) {
-          setPopupProps((oldPopupProps) => {
+          markerProps.featureIndex === feature.properties[FeatureKey.Index];
+        if (markerProps.visible && isIndex) {
+          setMarkerProps((oldPopupProps) => {
             return {
               ...oldPopupProps,
               visible: false,
@@ -61,7 +61,7 @@ export const LayerContextmenuPopup: React.FC = () => {
           });
           return;
         }
-        setPopupProps({
+        setMarkerProps({
           lngLat,
           visible: true,
           featureIndex,
@@ -69,7 +69,7 @@ export const LayerContextmenuPopup: React.FC = () => {
         });
       }
     },
-    [setPopupProps, popupProps, isDraw],
+    [setMarkerProps, markerProps, isDraw],
   );
 
   // 单击事件关闭菜单
@@ -77,7 +77,7 @@ export const LayerContextmenuPopup: React.FC = () => {
     const timeOut = setTimeout(() => {
       if (timeOut) {
         clearTimeout(timeOut);
-        setPopupProps({
+        setMarkerProps({
           lngLat: {
             lng: 0,
             lat: 0,
@@ -102,12 +102,12 @@ export const LayerContextmenuPopup: React.FC = () => {
 
   return (
     <>
-      {popupProps.visible &&
-        typeof popupProps.featureIndex === 'number' &&
+      {markerProps.visible &&
+        typeof markerProps.featureIndex === 'number' &&
         targetFeature &&
-        popupProps.lngLat && (
+        markerProps.lngLat && (
           <Marker
-            lngLat={popupProps.lngLat}
+            lngLat={markerProps.lngLat}
             anchor="top-left"
             offsets={[0, 10]}
           >
@@ -119,10 +119,10 @@ export const LayerContextmenuPopup: React.FC = () => {
                       copyType={item}
                       text={
                         item === 'GeoJSON'
-                          ? JSON.stringify(popupProps.feature)
+                          ? JSON.stringify(markerProps.feature)
                           : GeoJSON2Wkt({
                               type: 'FeatureCollection',
-                              features: [popupProps.feature],
+                              features: [markerProps.feature],
                             })
                       }
                     />
