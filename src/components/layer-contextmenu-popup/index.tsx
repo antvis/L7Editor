@@ -7,8 +7,6 @@ import { GeoJSON2Wkt } from '../../utils/wkt';
 import CodeBlock from './code-block';
 import useStyle from './styles';
 
-const copyTypeList = ['GeoJSON', 'WKT'];
-
 export const LayerContextmenuPopup: React.FC = () => {
   const scene = useScene();
   const { isDraw, features } = useFeature();
@@ -101,10 +99,21 @@ export const LayerContextmenuPopup: React.FC = () => {
     };
   }, [onLayerClick, layerList, scene]);
 
-  const featureCollectionData = useMemo(
-    () => featureCollection([markerProps.feature]),
-    [markerProps.feature],
-  );
+  const copyTypeList = useMemo(() => {
+    const featureCollectionData = featureCollection(
+      markerProps.feature ? [markerProps.feature] : [],
+    );
+    return [
+      {
+        copyType: 'GeoJSON',
+        text: JSON.stringify(featureCollectionData),
+      },
+      {
+        copyType: 'WKT',
+        text: GeoJSON2Wkt(featureCollectionData),
+      },
+    ];
+  }, [markerProps.feature]);
 
   return (
     <>
@@ -120,15 +129,8 @@ export const LayerContextmenuPopup: React.FC = () => {
             <div className={styles.layerPopupContent}>
               {copyTypeList.map((item) => {
                 return (
-                  <div className={styles.layerPopupCopyRow} key={item}>
-                    <CodeBlock
-                      copyType={item}
-                      text={
-                        item === 'GeoJSON'
-                          ? JSON.stringify(featureCollectionData)
-                          : GeoJSON2Wkt(featureCollectionData)
-                      }
-                    />
+                  <div className={styles.layerPopupCopyRow} key={item.copyType}>
+                    <CodeBlock copyType={item.copyType} text={item.text} />
                   </div>
                 );
               })}
