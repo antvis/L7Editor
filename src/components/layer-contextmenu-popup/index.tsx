@@ -1,11 +1,9 @@
-import { CopyOutlined } from '@ant-design/icons';
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import { Button } from 'antd';
-import Clipboard from 'clipboard';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId } from '../../constants';
 import { useFeature } from '../../recoil';
 import { GeoJSON2Wkt } from '../../utils/wkt';
+import CodeBlock from './code-block';
 import useStyle from './styles';
 
 const copyTypeList = ['geoJson', 'WKT'];
@@ -99,25 +97,6 @@ export const LayerContextmenuPopup: React.FC = () => {
     setCopyText(newCopyText);
   };
 
-  useEffect(() => {
-    if (copyText) {
-      const clipboard = new Clipboard(`#WKTcopy`, {
-        text: () => copyText,
-      });
-
-      // 监听复制成功事件
-      clipboard.on('success', () => {
-        setCopyText('');
-      });
-
-      // 销毁 clipboard 实例
-      return () => {
-        setCopyText('');
-        clipboard.destroy();
-      };
-    }
-  }, [copyText]);
-
   return (
     <>
       {popupProps.visible &&
@@ -134,14 +113,11 @@ export const LayerContextmenuPopup: React.FC = () => {
                 return (
                   <div className={styles.layerPopupCopyRow} key={item}>
                     <div className={styles.layerPopupCopyText}>{item}</div>
-                    <Button
-                      type="link"
-                      id={`${item}copy`}
-                      className={styles.layerPopupCopyButton}
+                    <CodeBlock
+                      copyType={item}
+                      text={copyText}
                       onClick={(e) => onCopyClick(e, item)}
-                    >
-                      <CopyOutlined />
-                    </Button>
+                    />
                   </div>
                 );
               })}
