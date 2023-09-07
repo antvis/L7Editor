@@ -101,6 +101,11 @@ export const LayerContextmenuPopup: React.FC = () => {
     };
   }, [onLayerClick, layerList, scene]);
 
+  const featureCollectionData = useMemo(
+    () => featureCollection([markerProps.feature]),
+    [markerProps.feature],
+  );
+
   return (
     <>
       {markerProps.visible &&
@@ -120,10 +125,8 @@ export const LayerContextmenuPopup: React.FC = () => {
                       copyType={item}
                       text={
                         item === 'GeoJSON'
-                          ? JSON.stringify(
-                              featureCollection(markerProps.feature),
-                            )
-                          : GeoJSON2Wkt(featureCollection(markerProps.feature))
+                          ? JSON.stringify(featureCollectionData)
+                          : GeoJSON2Wkt(featureCollectionData)
                       }
                     />
                   </div>
