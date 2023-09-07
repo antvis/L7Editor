@@ -5,31 +5,30 @@ const { useToken } = theme;
 
 const useStyle = () => {
   const { token } = useToken();
-  const { colorBgContainer, colorText } = token;
+  const { colorBgContainer, colorText, colorFillSecondary } = token;
   return {
     layerPopupContent: css`
       background: ${colorBgContainer} !important;
-      padding: 8px 0;
       .l7-popup-tip {
         border-top-color: ${colorBgContainer} !important;
       }
       .l7-popup-content {
         background: ${colorBgContainer} !important;
       }
+      padding: 4px;
+      border-radius: 8px;
     `,
     layerPopupCopyRow: css`
-      display: flex;
       color: ${colorText};
-      font-size: 14px;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      padding: 0 8px;
+      font-size: 13px;
+      border-radius: 4px;
+      padding: 8px;
       &:last-child {
         margin-bottom: 0;
       }
-    `,
-    layerPopupCopyText: css`
-      margin-right: 16px;
+      &:hover {
+        background: ${colorFillSecondary};
+      }
     `,
     layerPopupCopyButton: css`
       padding: 0;

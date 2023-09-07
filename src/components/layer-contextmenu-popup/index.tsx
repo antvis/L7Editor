@@ -72,12 +72,31 @@ export const LayerContextmenuPopup: React.FC = () => {
     [setPopupProps, popupProps, isDraw],
   );
 
+  // 单击事件关闭菜单
+  const mapRightMenuClose = () => {
+    const timeOut = setTimeout(() => {
+      if (timeOut) {
+        clearTimeout(timeOut);
+        setPopupProps({
+          lngLat: {
+            lng: 0,
+            lat: 0,
+          },
+          visible: false,
+          feature: null,
+        });
+      }
+    }, 0);
+  };
+
   useEffect(() => {
     //@ts-ignore
     layerList.forEach((layer) => layer.on('contextmenu', onLayerClick));
+    scene.on('click', mapRightMenuClose);
     return () => {
       //@ts-ignore
       layerList.forEach((layer) => layer.off('contextmenu', onLayerClick));
+      scene.off('click', mapRightMenuClose);
     };
   }, [onLayerClick, layerList, scene]);
 
@@ -87,16 +106,19 @@ export const LayerContextmenuPopup: React.FC = () => {
         typeof popupProps.featureIndex === 'number' &&
         targetFeature &&
         popupProps.lngLat && (
-          <Marker lngLat={popupProps.lngLat} anchor="top-left">
+          <Marker
+            lngLat={popupProps.lngLat}
+            anchor="top-left"
+            offsets={[0, 10]}
+          >
             <div className={styles.layerPopupContent}>
               {copyTypeList.map((item) => {
                 return (
                   <div className={styles.layerPopupCopyRow} key={item}>
-                    <div className={styles.layerPopupCopyText}>{item}</div>
                     <CodeBlock
                       copyType={item}
                       text={
-                        item === 'geoJson'
+                        item === 'GeoJSON'
                           ? JSON.stringify(popupProps.feature)
                           : GeoJSON2Wkt({
                               type: 'FeatureCollection',
