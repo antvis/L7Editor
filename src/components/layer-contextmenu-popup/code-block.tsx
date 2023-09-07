@@ -6,10 +6,9 @@ import useStyle from './styles';
 interface Props {
   copyType: string;
   text: string;
-  onClick: (e: any) => void;
 }
 
-export default function CodeBlock({ copyType, text, onClick }: Props) {
+export default function CodeBlock({ copyType, text }: Props) {
   const [copied, setCopied] = useState(false);
   const styles = useStyle();
 
@@ -40,7 +39,6 @@ export default function CodeBlock({ copyType, text, onClick }: Props) {
         className={styles.layerPopupCopyButton}
         data-clipboard-target={`#${copyType}`}
         disabled={copied}
-        onClick={onClick}
       >
         {copied ? '已复制' : '复制'}
       </Button>

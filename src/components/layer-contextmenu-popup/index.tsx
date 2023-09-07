@@ -1,4 +1,4 @@
-import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
+import { Marker, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId } from '../../constants';
 import { useFeature } from '../../recoil';
@@ -6,12 +6,11 @@ import { GeoJSON2Wkt } from '../../utils/wkt';
 import CodeBlock from './code-block';
 import useStyle from './styles';
 
-const copyTypeList = ['geoJson', 'WKT'];
+const copyTypeList = ['GeoJSON', 'WKT'];
 
 export const LayerContextmenuPopup: React.FC = () => {
   const scene = useScene();
   const { isDraw, features } = useFeature();
-  const [copyText, setCopyText] = useState('');
 
   const styles = useStyle();
   const [popupProps, setPopupProps] = useState<
@@ -82,47 +81,34 @@ export const LayerContextmenuPopup: React.FC = () => {
     };
   }, [onLayerClick, layerList, scene]);
 
-  const onCopyClick = (e: any, copyType: string) => {
-    e.stopPropagation();
-    let newCopyText = '';
-    if (copyType === 'geoJson') {
-      newCopyText = JSON.stringify(popupProps.feature);
-    }
-    if (copyType === 'WKT') {
-      newCopyText = GeoJSON2Wkt({
-        type: 'FeatureCollection',
-        features: [popupProps.feature],
-      });
-    }
-    setCopyText(newCopyText);
-  };
-
   return (
     <>
       {popupProps.visible &&
         typeof popupProps.featureIndex === 'number' &&
-        targetFeature && (
-          <Popup
-            className={styles.layerPopupContent}
-            lngLat={popupProps.lngLat}
-            closeButton={false}
-            offsets={[0, 10]}
-          >
-            <div className={styles.layerPopup}>
+        targetFeature &&
+        popupProps.lngLat && (
+          <Marker lngLat={popupProps.lngLat} anchor="top-left">
+            <div className={styles.layerPopupContent}>
               {copyTypeList.map((item) => {
                 return (
                   <div className={styles.layerPopupCopyRow} key={item}>
                     <div className={styles.layerPopupCopyText}>{item}</div>
                     <CodeBlock
                       copyType={item}
-                      text={copyText}
-                      onClick={(e) => onCopyClick(e, item)}
+                      text={
+                        item === 'geoJson'
+                          ? JSON.stringify(popupProps.feature)
+                          : GeoJSON2Wkt({
+                              type: 'FeatureCollection',
+                              features: [popupProps.feature],
+                            })
+                      }
                     />
                   </div>
                 );
               })}
             </div>
-          </Popup>
+          </Marker>
         )}
     </>
   );
