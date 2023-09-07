@@ -20,7 +20,7 @@ export const WktEditor: React.FC = forwardRef(() => {
       return;
     }
     //@ts-ignore
-    const result = GeoJSON2Wkt(fc).replaceAll(' (', '(');
+    const result = GeoJSON2Wkt(fc);
     if (result !== input) {
       setInput(result);
     }

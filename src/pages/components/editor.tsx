@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import {
   AppHeader,
   AppMap,
+  LayerContextmenuPopup,
   LayerList,
   LayerPopup,
   MapContent,
@@ -61,6 +62,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
               {showIndex && <EditorTextLayer />}
               <LayerList />
               <LayerPopup />
+              <LayerContextmenuPopup />
             </AppMap>
           }
           right={
