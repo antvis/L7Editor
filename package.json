@@ -1,6 +1,6 @@
 {
   "name": "@antv/l7-editor",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A React tool for editing GIS data based on L7",
   "files": [
     "lib",
@@ -32,6 +32,7 @@
     "@turf/turf": "^6.5.0",
     "ahooks": "^3.7.0",
     "classnames": "^2.3.2",
+    "clipboard": "^2.0.11",
     "color": "^4.2.3",
     "dayjs": "^1.11.7",
     "gcoord": "^1.0.5",

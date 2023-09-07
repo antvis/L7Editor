@@ -120,6 +120,11 @@ export const isRect = (feature: Feature) => {
     return true;
   }
   const positions = coordAll(feature);
+
+  if (positions.length !== 5) {
+    return false;
+  }
+
   const line1 = distance(positions[0], positions[1], {
     units: 'meters',
   }).toFixed(0);

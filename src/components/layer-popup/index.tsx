@@ -9,9 +9,9 @@ import {
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
   Feature,
+  featureCollection,
   Geometry,
   GeometryCollection,
-  featureCollection,
 } from '@turf/turf';
 import {
   Button,
@@ -359,6 +359,7 @@ export const LayerPopup: React.FC = () => {
             closeButton={false}
             offsets={[0, 10]}
             followCursor={popupTrigger === 'hover'}
+            closeOnClick
           >
             <div
               className={styles.layerPopup}
