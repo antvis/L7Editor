@@ -1,6 +1,6 @@
 {
   "name": "@antv/l7-editor",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A React tool for editing GIS data based on L7",
   "files": [
     "lib",
