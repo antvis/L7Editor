@@ -1,4 +1,5 @@
 import { Marker, PopupProps, useLayerList, useScene } from '@antv/larkmap';
+import { featureCollection } from '@turf/turf';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId } from '../../constants';
 import { useFeature } from '../../recoil';
@@ -119,11 +120,10 @@ export const LayerContextmenuPopup: React.FC = () => {
                       copyType={item}
                       text={
                         item === 'GeoJSON'
-                          ? JSON.stringify(markerProps.feature)
-                          : GeoJSON2Wkt({
-                              type: 'FeatureCollection',
-                              features: [markerProps.feature],
-                            })
+                          ? JSON.stringify(
+                              featureCollection(markerProps.feature),
+                            )
+                          : GeoJSON2Wkt(featureCollection(markerProps.feature))
                       }
                     />
                   </div>
