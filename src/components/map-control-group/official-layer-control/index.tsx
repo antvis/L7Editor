@@ -188,6 +188,7 @@ export function OfficialLayerControl() {
         <>
           <RasterLayer
             zIndex={1}
+            id='reactLayerGoode'
             source={{
               data: TILE_MAP_URL,
               parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },

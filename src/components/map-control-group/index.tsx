@@ -18,6 +18,7 @@ import LocationSearchControl from './location-search-control';
 import { MapAdministrativeControl } from './map-administrative-control';
 import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
+import { SamControl } from './sam-control';
 import useStyle from './styles';
 
 type MapControlGroupProps = {
@@ -87,6 +88,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
           className={styles.fullScreen}
         />
       )}
+      <SamControl />
     </>
   );
 };

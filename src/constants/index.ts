@@ -43,7 +43,7 @@ export const FeatureKey = {
 };
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_xxigekkz5qd.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_hkat5amif.js',
 });
 
 export const MapBoxConfig = {
