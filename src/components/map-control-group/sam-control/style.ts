@@ -10,7 +10,7 @@ const useStyle = () => {
     sam: css`
       background-color: ${colorBgContainer} !important;
       padding: 0px !important;
-      color: ${colorIcon} !important;
+      color: ${colorIcon};
       &:hover {
         color: ${colorText} !important;
         background: ${colorBgContainer} !important;
