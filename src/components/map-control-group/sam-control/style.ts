@@ -8,22 +8,22 @@ const useStyle = () => {
   const { colorBgContainer, boxShadow, colorIcon, colorText } = token;
   return {
     sam: css`
-      width: 30px;
-      height: 30px;
-      line-height: 38px;
-      text-align: center;
-      border-radius: 2px;
-      background-color: ${colorBgContainer};
-      box-shadow: ${boxShadow} !important;
-      cursor: pointer;
-      color: ${colorIcon};
+      background-color: ${colorBgContainer} !important;
+      padding: 0px !important;
+      color: ${colorIcon} !important;
       &:hover {
-        color: ${colorText};
-        background: ${colorBgContainer};
+        color: ${colorText} !important;
+        background: ${colorBgContainer} !important;
       }
     `,
     samSvg: css`
       font-size: 20px;
+    `,
+    marker: css`
+      color: #fff;
+      background: #ff0000;
+      font-size: 12px;
+      padding: 6px;
     `,
   };
 };

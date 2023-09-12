@@ -44,7 +44,7 @@ const DefaultMapControl: MapControlProps = {
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
 }) => {
-  const { baseMap } = useGlobal();
+  const { baseMap, layerType } = useGlobal();
   const styles = useStyle();
   const [isControlGroupState, setIsControlGroup] = useState(DefaultMapControl);
 
@@ -88,7 +88,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
           className={styles.fullScreen}
         />
       )}
-      <SamControl />
+      {layerType.includes('googleSatellite') && <SamControl />}
     </>
   );
 };
