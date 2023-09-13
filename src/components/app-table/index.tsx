@@ -86,24 +86,6 @@ const EditableCell = ({
   }, [editing]);
   const toggleEdit = () => {
     if (scene && !isDraw) {
-      const bboxFit = features.find((item: any) => {
-        return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
-      });
-      if (bboxFit) {
-        if (
-          bboxFit.geometry.type === 'Point' ||
-          bboxFit.geometry.type === 'MultiPoint'
-        ) {
-          const content = center(bboxFit);
-          scene.setCenter(content.geometry.coordinates as [number, number]);
-        } else {
-          const content = bbox(bboxFit);
-          scene.fitBounds([
-            [content[0], content[1]],
-            [content[2], content[3]],
-          ]);
-        }
-      }
       setEditing(!editing);
       form?.setFieldsValue(
         inputType !== 'object'
@@ -188,6 +170,7 @@ export const AppTable: React.FC = () => {
   const { setEditorText, isDraw, scene, features, resetFeatures } =
     useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
+  const { transformCoord } = useFeature();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -280,6 +263,38 @@ export const AppTable: React.FC = () => {
         <Space size="middle">
           <a
             onClick={() => {
+              if (scene) {
+                const bboxFit = features.find((item: any) => {
+                  return (
+                    item.properties[FeatureKey.Index] ===
+                    record[FeatureKey.Index]
+                  );
+                });
+                if (bboxFit) {
+                  const newBboxFit = transformCoord([bboxFit]);
+                  if (
+                    newBboxFit[0].geometry.type === 'Point' ||
+                    newBboxFit[0].geometry.type === 'MultiPoint'
+                  ) {
+                    const content = center(newBboxFit[0]);
+                    scene.setCenter(
+                      content.geometry.coordinates as [number, number],
+                    );
+                  } else {
+                    const content = bbox(newBboxFit[0]);
+                    scene.fitBounds([
+                      [content[0], content[1]],
+                      [content[2], content[3]],
+                    ]);
+                  }
+                }
+              }
+            }}
+          >
+            定位
+          </a>
+          <a
+            onClick={() => {
               resetFeatures(
                 features.filter((_, index) => {
                   return index !== record[FeatureKey.Index];
@@ -287,6 +302,7 @@ export const AppTable: React.FC = () => {
               );
               message.success(t('app_table.index.shuJuShanChuCheng'));
             }}
+            style={{ color: '#ff0000' }}
           >
             {t('app_table.index.shanChu')}
           </a>

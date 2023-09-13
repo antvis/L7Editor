@@ -4,6 +4,8 @@ import togeojson from '@mapbox/togeojson';
 // @ts-ignore
 import { uniqueId } from 'lodash-es';
 import { Wkt2GeoJSON } from './wkt';
+//@ts-ignore
+import papaparse from 'papaparse';
 
 export const readFileAsText = (file: File) => {
   return new Promise<string>((resolve, reject) => {
@@ -99,4 +101,30 @@ export const parserTextFileToSource = async (
       type: 'local',
     };
   }
+};
+
+export const csv2json = async (
+  file: File,
+  name: string,
+  id?: string,
+): Promise<any> => {
+  const fileFullName = file.name;
+  const fileExtension = fileFullName.substring(
+    fileFullName.lastIndexOf('.') + 1,
+  );
+  let content: string;
+  content = await readFileAsText(file);
+
+  const result = papaparse.parse(content, {
+    header: true,
+    skipEmptyLines: true,
+    dynamicTyping: true,
+  });
+  return {
+    id: id || uniqueId(id),
+    metadata: { name },
+    data: result.data,
+    type: 'local',
+    columns: result.meta.fields,
+  };
 };

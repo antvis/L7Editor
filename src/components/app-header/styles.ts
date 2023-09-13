@@ -64,6 +64,14 @@ const useStyle = () => {
     localeIcon: css`
       font-size: 20px;
     `,
+    upload: css`
+      height: 200px;
+      display: flex;
+      overflow: hidden;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    `,
   };
 };
 export default useStyle;

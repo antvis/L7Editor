@@ -1,4 +1,3 @@
-import { Bounds } from '@antv/l7';
 import {
   CustomControl,
   LineLayer,
@@ -22,6 +21,7 @@ import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { IconFont } from '../../../constants';
 import { useFeature } from '../../../recoil';
+import { IFeatures } from '../../../types';
 import useStyle from './style';
 
 const options: Omit<LineLayerProps, 'source'> = {
@@ -46,7 +46,7 @@ const options: Omit<LineLayerProps, 'source'> = {
 export const SamControl = () => {
   const styles = useStyle();
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
-  const { scene, features, resetFeatures } = useFeature();
+  const { scene, features, resetFeatures, revertCoord } = useFeature();
   const allLayerList = useLayerList();
   const [samOpen, setSamOpen] = useState(false);
   const [tileLayer, setTileLayer] = useState<Layer | undefined>(undefined);
@@ -178,7 +178,8 @@ export const SamControl = () => {
                 feature: polygon.features as any,
                 imageUrl: image.src,
               };
-              resetFeatures([...features, ...newData.feature]);
+              const newFeature = revertCoord(newData.feature);
+              resetFeatures([...features, ...newFeature] as IFeatures);
             });
           }
         } else {

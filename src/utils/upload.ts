@@ -1,7 +1,20 @@
-import { parserTextFileToSource } from './file-to-source';
+import { csv2json, parserTextFileToSource } from './file-to-source';
 interface newFile extends File {
   uid: string;
 }
+
+export const isWkt = (data: string) => {
+  // Detecting WKT in text reference: https://en.wikipedia.org/wiki/Well-known_text
+  // string start with POINT|LINESTRING|POLYGON|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON [Z] ( and end with )
+  const regExp = /^(POINT|LINESTRING|POLYGON|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON)(\sz)?\s?\(.*\)$/i;
+  let iswktField = false;
+  if (typeof data === 'string' && regExp.test(data)) {
+    iswktField = true;
+  }
+
+  return iswktField;
+};
+
 
 export const parserFileToSource = async (file: newFile, t: any) => {
   const fileFullName = file.name;
@@ -13,12 +26,14 @@ export const parserFileToSource = async (file: newFile, t: any) => {
   let dataSource;
 
   try {
-    if (['csv', 'geojson', 'json', 'kml', 'wkt'].includes(fileExtension)) {
+    if (['geojson', 'json', 'kml', 'wkt'].includes(fileExtension)) {
       dataSource = await parserTextFileToSource(
         file,
         fileNames,
         file.uid as string,
       );
+    } else if (fileExtension === 'csv') {
+      dataSource = await csv2json(file, fileNames, file.uid as string);
     }
   } catch (e) {
     return Promise.reject(t('utils.upload.wenJianJieXiShi'));
