@@ -51,9 +51,14 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
               return value[val];
             });
             if (isWkt(data[0])) {
-              const newGeoJsons = data.map((item: string) => {
-                const geometry = parse(item) as Geometry;
-                return feature(geometry, {});
+              const propertiesList = dataSource?.data.map((v: any) => {
+                const properties = v;
+                delete properties[val];
+                return { ...properties };
+              });
+              const newGeoJsons = data.map((v: string, index: number) => {
+                const geometry = parse(v) as Geometry;
+                return feature(geometry, { ...propertiesList[index] });
               });
               const newDates = uploadData;
               newDates.push({ features: newGeoJsons, id: dataSource?.id });
@@ -97,7 +102,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           }
         }),
     }),
-    [fileList,uploadData],
+    [fileList, uploadData],
   );
 
   const selectItem = useMemo(() => {
@@ -120,9 +125,14 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                   return value[e];
                 });
                 if (isWkt(data[0])) {
-                  const newGeoJsons = data.map((item: string) => {
-                    const geometry = parse(item) as Geometry;
-                    return feature(geometry, {});
+                  const propertiesList = newData?.data.map((v: any) => {
+                    const properties = v;
+                    delete properties[e];
+                    return { ...properties };
+                  });
+                  const newGeoJsons = data.map((v: string, index: number) => {
+                    const geometry = parse(v) as Geometry;
+                    return feature(geometry, { ...propertiesList[index] });
                   });
                   const newDates = uploadData.filter(
                     (item) => item.id !== newData?.id,
