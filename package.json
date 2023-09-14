@@ -27,7 +27,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
     "@antv/l7-draw": "^3.0.21",
-    "@antv/larkmap": "^1.0.0",
+    "@antv/larkmap": "^1.4.4",
     "@antv/sam": "^0.1.0",
     "@emotion/css": "^11.11.2",
     "@mapbox/togeojson": "^0.16.0",

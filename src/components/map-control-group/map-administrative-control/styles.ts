@@ -13,6 +13,10 @@ const useStyle = () => {
       padding: 2px 6px;
       box-shadow: ${boxShadow};
     `,
+    regionLocation: css`
+      background: ${colorBgContainer} !important;
+      color: ${colorText} !important;
+    `,
   };
 };
 export default useStyle;
