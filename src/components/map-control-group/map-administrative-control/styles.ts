@@ -10,12 +10,12 @@ const useStyle = () => {
     mapAdministrative: css`
       background: ${colorBgContainer};
       color: ${colorText};
-      padding: 2px 6px;
       box-shadow: ${boxShadow};
     `,
     regionLocation: css`
       background: ${colorBgContainer} !important;
       color: ${colorText} !important;
+      padding: 2px 4px !important;
     `,
   };
 };

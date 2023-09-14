@@ -256,7 +256,7 @@ export const AppTable: React.FC = () => {
     newColumns.push({
       title: t('app_table.index.caoZuo'),
       key: 'action',
-      width: 70,
+      width: 120,
       align: 'center',
       fixed: 'right',
       render: (_, record: any) => (
