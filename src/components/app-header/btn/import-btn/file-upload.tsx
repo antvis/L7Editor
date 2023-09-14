@@ -165,7 +165,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           style={{ marginTop: 16, marginBottom: 4 }}
         >
           <Dragger
-            accept=".json,.geojson,.kml,.wkt,.csv"
+            accept=".json,.geojson,.kml,.wkt,.csv,.xlsx,.xls"
             customRequest={customRequest}
             multiple
             onRemove={(file) => {

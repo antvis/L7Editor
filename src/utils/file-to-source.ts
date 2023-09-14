@@ -6,6 +6,7 @@ import { uniqueId } from 'lodash-es';
 import { Wkt2GeoJSON } from './wkt';
 //@ts-ignore
 import papaparse from 'papaparse';
+import { read as XLSX_read, utils as XLSX_utils } from 'xlsx';
 
 export const readFileAsText = (file: File) => {
   return new Promise<string>((resolve, reject) => {
@@ -127,4 +128,75 @@ export const csv2json = async (
     type: 'local',
     columns: result.meta.fields,
   };
+};
+
+export const readFileAsArrayBuffer = (file: File) => {
+  return new Promise<ArrayBuffer>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+
+    reader.onload = (event) => {
+      const result = event.target?.result as ArrayBuffer;
+      resolve(result);
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
+/* 解析 excel 文件数据至数据集格式
+ */
+export const parserExcelToSource = (
+  content: ArrayBuffer,
+  name: string,
+  id?: string,
+): any => {
+  let data: Record<string, any>[];
+
+  try {
+    const workbook = XLSX_read(content, { type: 'array', cellDates: true });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    console.log(workbook);
+    // 日期格式直接处理为字符串
+    Object.keys(sheet).forEach((key) => {
+      const item = sheet[key];
+      if (item.t === 'd') {
+        item.v = item.w;
+      }
+    });
+
+    // 默认只解析第一个工作簿
+    data = XLSX_utils.sheet_to_json<Record<string, any>>(sheet);
+  } catch (e) {
+    throw e;
+  }
+  console.log(data);
+  const columns = Object.keys(data[0]);
+  return {
+    id: id,
+    metadata: { name },
+    data: data,
+    type: 'local',
+    columns: columns,
+  };
+};
+
+/* 解析 excel 文件至数据集格式
+ */
+export const parserExcelFileToSource = async (
+  file: File,
+  name: string,
+  id?: string,
+): Promise<any> => {
+  let content: ArrayBuffer;
+
+  try {
+    content = await readFileAsArrayBuffer(file);
+  } catch (e) {
+    throw e;
+  }
+
+  return parserExcelToSource(content, name, id);
 };

@@ -55,7 +55,8 @@
     "recoil": "^0.7.7",
     "tokml": "^0.4.0",
     "variable-type": "^1.0.0",
-    "wellknown": "^0.5.0"
+    "wellknown": "^0.5.0",
+    "xlsx": "^0.18.5"
   },
   "tnpm": {
     "mode": "npm"
