@@ -1,6 +1,7 @@
 export default {
   file_upload: {
-    jinZhiChiJS: '仅支持.json, .geojson, .wkt, .kml, .csv后缀的文件',
+    jinZhiChiJS:
+      '仅支持.json, .geojson, .wkt, .kml, .csv, .xlsx ,.xls后缀的文件',
     wenJianShangChuan: '文件上传',
     wenJianShangChuan2: '文件上传 :',
     qingJianChaShuJu: '请检查数据格式',
