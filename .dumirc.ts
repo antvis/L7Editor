@@ -56,7 +56,8 @@ export default defineConfig({
     config
       .plugin('monaco-editor')
       .use(MonacoEditorWebpackPlugin, [{ languages: ['json', 'javascript'] }])
-      .end()
+      .end();
+    config
       .plugin('CopyPlugin')
       .use(CopyPlugin, [
         {
