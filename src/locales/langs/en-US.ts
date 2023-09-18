@@ -117,7 +117,7 @@ export default {
   'btn.setting_btn.queRen': 'Confirm',
   'import_btn.file_upload.wenJianShangChuan': 'File Upload',
   'import_btn.file_upload.jinZhiChiJS':
-    'Only files with. json, .geojson, .wkt, and. kml suffixes are supported',
+    'Only files with. json, .geojson, .wkt, .csv, .xlsx, .xls and. kml suffixes are supported',
   'btn.setting_btn.diTuSheZhi': 'Map Setting',
   'btn.setting_btn.sheZhi': 'Setup',
   'import_btn.lnglat_import_btn.xian': 'Line',

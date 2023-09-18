@@ -106,7 +106,7 @@ export default {
   'btn.setting_btn.queRen': '确认',
   'import_btn.file_upload.wenJianShangChuan': '文件上传',
   'import_btn.file_upload.jinZhiChiJS':
-    '仅支持.json, .geojson, .wkt, .kml后缀的文件',
+    '仅支持.json, .geojson, .wkt, .kml, .csv, .xlsx, .xls后缀的文件',
   'btn.setting_btn.diTuSheZhi': '地图设置',
   'btn.setting_btn.sheZhi': '设置',
   'import_btn.lnglat_import_btn.xian': '线',

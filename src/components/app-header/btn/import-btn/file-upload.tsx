@@ -189,6 +189,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
             </div>
           </Dragger>
         </Form.Item>
+        {selectList.length ? <div>WKT字段选择：</div> : null}
         {selectItem}
       </Form>
       <div style={{ color: '#777' }}>
