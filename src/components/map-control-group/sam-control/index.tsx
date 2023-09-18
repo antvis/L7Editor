@@ -229,7 +229,7 @@ export const SamControl = () => {
               onClick={() => {
                 setSamOpen(!samOpen);
               }}
-              style={{ color: samOpen ? '#006fde' : '' }}
+              style={{ color: samOpen ? '#1677ff' : '' }}
             >
               <IconFont type="icon-zhinengxuanze" className={styles.samSvg} />
             </div>
