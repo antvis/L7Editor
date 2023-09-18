@@ -10,6 +10,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IconFont, LayerZIndex } from '../../../constants';
 import { useFeature, useGlobal } from '../../../recoil';
 import { useStyle } from './styles';
@@ -32,6 +33,7 @@ export const AdministrativeSelect = () => {
     useState<Feature<MultiLineString> | null>(null);
   const [data, setData] = useState();
   const [value, setValue] = useState<string[]>([]);
+  const { t } = useTranslation();
 
   const getCascadeData = (list: any) => {
     list.sort((a: { adcode: number }, b: { adcode: number }) => {
@@ -53,9 +55,7 @@ export const AdministrativeSelect = () => {
   };
 
   useEffect(() => {
-    fetch(
-      'https://restapi.amap.com/v3/config/district?key=98d10f05a2da96697313a2ce35ebf1a2&keywords=中华人民共和国&subdistrict=3&extensions=base',
-    )
+    fetch(t('administrative_select_control.index.hTTPS'))
       .then((res) => res.json())
       .then((res) => {
         setData(getCascadeData(res.districts[0].districts));
@@ -153,7 +153,9 @@ export const AdministrativeSelect = () => {
           }
         })
         .catch(() => {
-          message.error('围栏数据请求失败');
+          message.error(
+            t('administrative_select_control.index.weiLanShuJuQing'),
+          );
         });
     }
   }, [value]);
@@ -170,7 +172,9 @@ export const AdministrativeSelect = () => {
               className={styles.cascader}
               allowClear
               showSearch={{ filter }}
-              placeholder="可选择省/市/县"
+              placeholder={t(
+                'administrative_select_control.index.keXuanZeShengShi',
+              )}
               changeOnSelect
               style={{ width: 250 }}
               popupClassName={styles.cascaderPopup}
@@ -184,9 +188,12 @@ export const AdministrativeSelect = () => {
             placement="bottomRight"
             trigger={['click']}
           >
-            <Tooltip title="行政区划历史记录" placement="right">
+            <Tooltip
+              title={t('administrative_select_control.index.xingZhengQuHuaLi')}
+              placement="right"
+            >
               <div
-                className={classNames(['l7-draw-control__btn', styles.history])}
+                className={classNames([styles.history, 'l7-draw-control__btn'])}
               >
                 <IconFont type="icon-lishi" className={styles.historyIcon} />
               </div>

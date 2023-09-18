@@ -1,3 +1,4 @@
+import CopyPlugin from 'copy-webpack-plugin';
 import { defineConfig } from 'dumi';
 import MonacoEditorWebpackPlugin from 'monaco-editor-webpack-plugin';
 
@@ -23,7 +24,8 @@ export default defineConfig({
   metas: [
     {
       name: 'keywords',
-      content: 'L7, Map,GIS Data, GeoJSON, GIS, Editor, AntV, L7Editor, L7 Editor',
+      content:
+        'L7, Map,GIS Data, GeoJSON, GIS, Editor, AntV, L7Editor, L7 Editor',
     },
     {
       name: 'description',
@@ -51,10 +53,23 @@ export default defineConfig({
       })();`,
   ],
   chainWebpack: (config: any) => {
-    config.plugin('monaco-editor').use(MonacoEditorWebpackPlugin, [
-      {
-        languages: ['json', 'javascript'],
-      },
-    ]);
+    config
+      .plugin('monaco-editor')
+      .use(MonacoEditorWebpackPlugin, [{ languages: ['json', 'javascript'] }])
+      .end();
+    config
+      .plugin('CopyPlugin')
+      .use(CopyPlugin, [
+        {
+          patterns: [
+            {
+              from: 'node_modules/onnxruntime-web/dist/*.wasm',
+              to: '[name][ext]',
+            },
+          ],
+        },
+      ])
+      .end();
+    return config;
   },
 });

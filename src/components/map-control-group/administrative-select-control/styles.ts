@@ -33,8 +33,9 @@ export const useStyle = () => {
       }
     `,
     history: css`
-      background: ${colorBgContainer};
-      border-right: none;
+      height: auto !important;
+      background: ${colorBgContainer} !important;
+      border-right: none !important;
       border-radius: 0 6px 6px 0;
       border: 1px solid ${colorBorder};
       border-bottom: 1px solid ${colorBorder} !important;

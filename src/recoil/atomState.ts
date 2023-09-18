@@ -100,7 +100,7 @@ const baseMapState = atom<'Gaode' | 'Mapbox'>({
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
 
-const activeTabState = atom<'geojson' | 'table' | 'wkt'>({
+const activeTabState = atom<'geojson' | 'table' | 'wkt' | string>({
   key: 'activeTab',
   default: 'geojson',
   effects: [localStorageEffect(LocalStorageKey.ActiveRightTabKey)],
@@ -136,13 +136,18 @@ const showIndexState = atom<boolean>({
   effects: [localStorageEffect(LocalStorageKey.showIndex)],
 });
 
+const localeState = atom<string>({
+  key: 'locale',
+  default: 'zh-CN',
+  effects: [localStorageEffect(LocalStorageKey.locale)],
+});
+
 export {
   activeTabState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
-  showIndexState,
   editorTextState,
   featureState,
   filterState,
@@ -151,11 +156,13 @@ export {
   layerColorState,
   lnglatTextState,
   lnglatTypeState,
+  localeState,
   mapOptionState,
   officialLayersState,
   popupTriggerState,
   rightWidthState,
   savedTextState,
   sceneState,
+  showIndexState,
   themeState,
 };

@@ -2,6 +2,7 @@ import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';
 import React, { ReactNode, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FeatureCollectionVT, MapBoxConfig } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { getParamsNew, getUrlFeatureCollection } from '../../utils';
@@ -16,12 +17,13 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { saveEditorText, editorText, scene, setScene, bboxAutoFit } =
     useFeature();
   const styles = useStyle();
+  const { t } = useTranslation();
 
   useMount(async () => {
     const url = getParamsNew('url');
     if (url) {
       try {
-        const geoData = await getUrlFeatureCollection(url);
+        const geoData = await getUrlFeatureCollection(url, 'GeoJSON', t);
         saveEditorText(prettierText({ content: geoData }));
       } catch (e) {
         message.error(`${e}`);

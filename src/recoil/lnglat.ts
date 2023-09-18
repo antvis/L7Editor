@@ -1,12 +1,14 @@
-import { LngLatVT } from '../constants';
 import { Feature, lineString, point, polygon, Position } from '@turf/turf';
 import { first, isEqual, last } from 'lodash-es';
+import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
+import { LngLatVT } from '../constants';
 import { lnglatTextState, lnglatTypeState } from './atomState';
 
 export default function useLnglat() {
   const [lngLatImportType, setLngLatImportType] =
     useRecoilState(lnglatTypeState);
+  const { t } = useTranslation();
 
   const [lngLatText, setLngLatText] = useRecoilState(lnglatTextState);
 
@@ -48,7 +50,7 @@ export default function useLnglat() {
       }
       return newFeatures;
     } else {
-      throw new Error('LngLat 导入失败');
+      throw new Error(t('import_btn.lnglat_import_btn.lNGLA'));
     }
   };
 

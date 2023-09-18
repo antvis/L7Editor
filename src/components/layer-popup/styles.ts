@@ -5,7 +5,7 @@ const { useToken } = theme;
 
 const useStyle = () => {
   const { token } = useToken();
-  const { colorBgContainer } = token;
+  const { colorBgContainer, colorBgElevated, colorFillSecondary } = token;
   return {
     layerPopupContent: css`
       .l7-popup-tip {
@@ -20,6 +20,14 @@ const useStyle = () => {
     `,
     layerPopupInfo: css`
       margin-bottom: 16px;
+      *::-webkit-scrollbar {
+        width: 8px;
+        background-color: ${colorBgElevated};
+      }
+      *::-webkit-scrollbar-thumb {
+        background-color: ${colorFillSecondary};
+        border-radius: 10px;
+      }
       .ant-descriptions {
         max-height: 200px;
         overflow: auto;

@@ -1,18 +1,14 @@
-import {
-  CustomControl,
-  Marker,
-  useScene,
-} from '@antv/larkmap';
+import { CustomControl, Marker, useScene } from '@antv/larkmap';
 import { point } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../../recoil';
 import { getPointImage } from '../../../utils/change-image-color';
-import useStyle from '../styles';
-import { LocationSearchOption } from './types';
 import { LocationSearch } from './location-search';
+import { LocationSearchOption } from './types';
 
 const LocationSearchControl: React.FC = React.memo(() => {
   const scene = useScene();
@@ -21,7 +17,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
   const { features, resetFeatures } = useFeature();
   const { layerColor } = useGlobal();
   const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
-  const styles = useStyle();
+  const { t } = useTranslation();
 
   const syncMapCenter = useCallback(() => {
     if (scene) {
@@ -50,11 +46,10 @@ const LocationSearchControl: React.FC = React.memo(() => {
     <>
       <CustomControl position="lefttop">
         <div id="l7-editor-citySelect" style={{ display: 'flex' }}>
-          <div className={styles.l7LocationSearch}>
-            <div className={styles.l7LocationSearchPanel}>
-              <div className={styles.locationSearcheContainer}>
+          <div>
+            <div>
+              <div>
                 <LocationSearch
-                  popupClassName={styles.locationSearche}
                   getPopupContainer={() =>
                     document.querySelector('.larkmap') as HTMLElement
                   }
@@ -102,7 +97,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  添加至数据
+                  {t('location_search_control.index.tianJiaZhiShuJu')}
                 </Button>
                 <Button
                   danger
@@ -111,7 +106,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
                     setSelectLocation(undefined);
                   }}
                 >
-                  清除
+                  {t('app_header.constants.qingChu')}
                 </Button>
               </div>
             }

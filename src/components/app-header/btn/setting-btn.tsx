@@ -1,6 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Form, Modal, Radio, Switch, Tooltip } from 'antd';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGlobal } from '../../../recoil';
 
 export const SettingBtn = () => {
@@ -16,7 +17,7 @@ export const SettingBtn = () => {
     showIndex,
     setShowIndex,
   } = useGlobal();
-
+  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -34,23 +35,23 @@ export const SettingBtn = () => {
 
   return (
     <>
-      <Tooltip title="地图设置">
+      <Tooltip title={t('btn.setting_btn.diTuSheZhi')}>
         <Button
           id="l7-editor-set"
           icon={<SettingOutlined />}
           onClick={showModal}
         >
-          设置
+          {t('btn.setting_btn.sheZhi')}
         </Button>
       </Tooltip>
       <Modal
-        title="设置"
+        title={t('btn.setting_btn.sheZhi')}
         open={isModalOpen}
         onOk={handleOk} /*  */
         onCancel={handleCancel}
         destroyOnClose
-        okText="确认"
-        cancelText="取消"
+        okText={t('btn.setting_btn.queRen')}
+        cancelText={t('btn.setting_btn.quXiao')}
       >
         <Form
           form={form}
@@ -70,31 +71,47 @@ export const SettingBtn = () => {
             setShowIndex(e.showIndex);
           }}
         >
-          <Form.Item name="popupTrigger" label="图层气泡展示方式">
+          <Form.Item
+            name="popupTrigger"
+            label={t('btn.setting_btn.tuCengQiPaoZhan')}
+          >
             <Radio.Group>
-              <Radio.Button value={'click'}>点击</Radio.Button>
-              <Radio.Button value={'hover'}>划入</Radio.Button>
+              <Radio.Button value={'click'}>
+                {t('btn.setting_btn.dianJi')}
+              </Radio.Button>
+              <Radio.Button value={'hover'}>
+                {t('btn.setting_btn.huaRu')}
+              </Radio.Button>
             </Radio.Group>
           </Form.Item>
 
           <Form.Item
             name="autoFitBounds"
             valuePropName="checked"
-            label="自动缩放至所有元素可见"
+            label={t('btn.setting_btn.ziDongSuoFangZhi')}
           >
             <Switch />
           </Form.Item>
 
-          <Form.Item name="baseMap" label="地图底图切换">
+          <Form.Item name="baseMap" label={t('btn.setting_btn.diTuDiTuQie')}>
             <Radio.Group>
-              <Radio.Button value="Gaode">高德</Radio.Button>
+              <Radio.Button value="Gaode">
+                {t('btn.setting_btn.gaoDe')}
+              </Radio.Button>
               <Radio.Button value="Mapbox">Mapbox</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="showIndex" label="是否展示元素序号">
+          <Form.Item
+            name="showIndex"
+            label={t('btn.setting_btn.shiFouZhanShiYuan')}
+          >
             <Radio.Group>
-              <Radio.Button value={true}>开启</Radio.Button>
-              <Radio.Button value={false}>关闭</Radio.Button>
+              <Radio.Button value={true}>
+                {t('btn.setting_btn.kaiQi')}
+              </Radio.Button>
+              <Radio.Button value={false}>
+                {t('btn.setting_btn.guanBi')}
+              </Radio.Button>
             </Radio.Group>
           </Form.Item>
         </Form>
