@@ -7,8 +7,14 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "@antv/l7-editor": ["./src/index.ts"]
+      "@antv/l7-editor": [
+        "./src/index.ts"
+      ]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "docs/**/*"]
+  "include": [
+    ".dumirc.ts",
+    "src/**/*",
+    "docs/**/*"
+  ]
 }
