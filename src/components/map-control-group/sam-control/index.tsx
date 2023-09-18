@@ -185,7 +185,7 @@ export const SamControl = () => {
                 const newFeature = revertCoord(newData.feature);
                 resetFeatures([...features, ...newFeature] as IFeatures);
               } else {
-                message.error('图形解析错误，请重新选择');
+                message.warning('图形解析错误，请重新选择');
               }
             });
           }
