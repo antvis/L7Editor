@@ -178,7 +178,6 @@ export const SamControl = () => {
                 feature: polygon.features as any,
                 imageUrl: image.src,
               };
-              console.log(newData?.feature[0].geometry.coordinates[0].length);
               if (
                 booleanPointInPolygon(point(coords), newData?.feature[0]) &&
                 newData?.feature[0].geometry.coordinates[0].length > 4
