@@ -9,7 +9,7 @@ import useStyle from './styles';
 
 export const LayerContextmenuPopup: React.FC = () => {
   const scene = useScene();
-  const { isDraw, features } = useFeature();
+  const { isDraw, features, revertCoord } = useFeature();
 
   const styles = useStyle();
   const [markerProps, setMarkerProps] = useState<
@@ -100,9 +100,10 @@ export const LayerContextmenuPopup: React.FC = () => {
   }, [onLayerClick, layerList, scene]);
 
   const copyTypeList = useMemo(() => {
-    const featureCollectionData = featureCollection(
+    const newFeater = revertCoord(
       markerProps.feature ? [markerProps.feature] : [],
     );
+    const featureCollectionData = featureCollection(newFeater);
     return [
       {
         copyType: 'GeoJSON',
