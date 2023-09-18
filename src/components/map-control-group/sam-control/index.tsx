@@ -162,7 +162,7 @@ export const SamControl = () => {
         if (booleanPointInPolygon(point(coords), bound)) {
           if (samModel) {
             const px = samModel.lngLat2ImagePixel(coords)!;
-            const point = [
+            const newPoint = [
               {
                 x: px[0],
                 y: px[1],
@@ -171,15 +171,22 @@ export const SamControl = () => {
             ];
             const threshold = 1;
 
-            samModel.predict(point).then(async (res) => {
+            samModel.predict(newPoint).then(async (res) => {
               const polygon = await samModel.exportGeoPolygon(res, threshold);
               const image = samModel.exportImageClip(res)!;
               const newData = {
                 feature: polygon.features as any,
                 imageUrl: image.src,
               };
-              const newFeature = revertCoord(newData.feature);
-              resetFeatures([...features, ...newFeature] as IFeatures);
+              if (
+                booleanPointInPolygon(point(coords), newData?.feature[0]) &&
+                newData?.feature[0].geometry.coordinates[0].length > 4
+              ) {
+                const newFeature = revertCoord(newData.feature);
+                resetFeatures([...features, ...newFeature] as IFeatures);
+              } else {
+                message.warning('图形解析错误，请重新选择');
+              }
             });
           }
         } else {
@@ -221,7 +228,7 @@ export const SamControl = () => {
               onClick={() => {
                 setSamOpen(!samOpen);
               }}
-              style={{ color: samOpen ? '#006fde' : '' }}
+              style={{ color: samOpen ? '#1677ff' : '' }}
             >
               <IconFont type="icon-zhinengxuanze" className={styles.samSvg} />
             </div>

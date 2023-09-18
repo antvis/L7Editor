@@ -5,7 +5,7 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorBgContainer, boxShadow, colorIcon, colorText } = token;
+  const { colorBgContainer, colorIcon, colorText } = token;
   return {
     sam: css`
       background-color: ${colorBgContainer} !important;
