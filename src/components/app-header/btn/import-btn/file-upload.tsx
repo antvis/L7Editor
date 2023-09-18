@@ -1,6 +1,6 @@
-import { FileTextOutlined } from '@ant-design/icons';
+import { FileTextOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Geometry, feature, featureCollection } from '@turf/turf';
-import { Form, Select, Upload, UploadFile, message } from 'antd';
+import { Form, Select, Tooltip, Upload, UploadFile, message } from 'antd';
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -48,11 +48,13 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           }
           if (val) {
             const data = dataSource?.data.map((value: any) => {
+              //@ts-ignore
               return value[val];
             });
             if (isWkt(data[0])) {
               const propertiesList = dataSource?.data.map((v: any) => {
                 const properties = v;
+                //@ts-ignore
                 delete properties[val];
                 return { ...properties };
               });
@@ -107,7 +109,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
 
   const selectItem = useMemo(() => {
     if (selectList.length) {
-      const data = selectList.map((item) => {
+      const data = selectList.map((item, index) => {
         const options = item.columns.map((item: string | number) => {
           return {
             value: item,
@@ -115,7 +117,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           };
         });
         return (
-          <Form.Item name={item.id} label={item.metadata.name}>
+          <Form.Item name={item.id} label={`文件${index + 1}`}>
             <Select
               options={options}
               style={{ width: 300 }}
@@ -189,12 +191,19 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
             </div>
           </Dragger>
         </Form.Item>
-        {selectList.length ? <div>WKT字段选择：</div> : null}
+        <div style={{ color: '#777' }}>
+          {t('import_btn.file_upload.jinZhiChiJS')}
+        </div>
+        {selectList.length ? (
+          <div style={{ display: 'flex' }}>
+            <div className={styles.uploadTitle}>地理字段选择</div>
+            <Tooltip title="当前仅支持 WKT 格式字段数据">
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </div>
+        ) : null}
         {selectItem}
       </Form>
-      <div style={{ color: '#777' }}>
-        {t('import_btn.file_upload.jinZhiChiJS')}
-      </div>
     </>
   );
 });

@@ -72,6 +72,11 @@ const useStyle = () => {
       align-items: center;
       justify-content: center;
     `,
+    uploadTitle: css`
+      font-size: 14px;
+      color: #f00;
+      padding: 10px 6px 10px 0;
+    `,
   };
 };
 export default useStyle;
