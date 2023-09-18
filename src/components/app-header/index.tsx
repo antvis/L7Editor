@@ -285,27 +285,29 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             }}
           />
         )}
-        <Button
-          className={styles.locale}
-          onClick={() => {
-            if (locale === 'zh') {
-              i18n.changeLanguage('en');
-              setLocale('en');
-            } else {
-              i18n.changeLanguage('zh-CN');
-              setLocale('zh');
-            }
-          }}
-        >
-          <IconFont
-            className={styles.localeIcon}
-            type={
-              locale === 'zh'
-                ? 'icon-zhongyingwenqiehuan-zhongwen'
-                : 'icon-zhongyingwenqiehuan-yingwen'
-            }
-          />
-        </Button>
+        {false && (
+          <Button
+            className={styles.locale}
+            onClick={() => {
+              if (locale === 'zh-CN') {
+                i18n.changeLanguage('en-US');
+                setLocale('en-US');
+              } else {
+                i18n.changeLanguage('zh-CN');
+                setLocale('zh-CN');
+              }
+            }}
+          >
+            <IconFont
+              className={styles.localeIcon}
+              type={
+                locale === 'zh'
+                  ? 'icon-zhongyingwenqiehuan-zhongwen'
+                  : 'icon-zhongyingwenqiehuan-yingwen'
+              }
+            />
+          </Button>
+        )}
       </div>
       <Tour
         open={open.open}

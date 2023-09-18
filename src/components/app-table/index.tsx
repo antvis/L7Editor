@@ -291,7 +291,7 @@ export const AppTable: React.FC = () => {
               }
             }}
           >
-            定位
+            {t('app_table.index.dingWei')}
           </a>
           <a
             onClick={() => {
