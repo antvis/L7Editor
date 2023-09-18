@@ -7,14 +7,8 @@ const useStyle = () => {
   const {
     colorBgContainer,
     boxShadow,
-    colorBorder,
     colorIcon,
-    colorTextDescription,
     colorText,
-    colorPrimary,
-    colorBgElevated,
-    colorFillSecondary,
-    colorTextPlaceholder,
   } = token;
   return {
     l7FilterPanel: css`

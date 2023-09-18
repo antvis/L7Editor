@@ -15,6 +15,7 @@ import {
 } from 'antd';
 import { isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FeatureKey } from '../../constants';
 import { useFeature } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
@@ -45,9 +46,7 @@ const formatTableValue = (value: any) => {
   return value instanceof Object ? (
     JSON.stringify(value)
   ) : (
-    <Text style={{ width: 100 }} ellipsis={{ tooltip: String(value) }}>
-      {String(value)}
-    </Text>
+    <Text ellipsis={{ tooltip: String(value) }}>{String(value)}</Text>
   );
 };
 
@@ -85,24 +84,6 @@ const EditableCell = ({
   }, [editing]);
   const toggleEdit = () => {
     if (scene && !isDraw) {
-      const bboxFit = features.find((item: any) => {
-        return item.properties[FeatureKey.Index] === record[FeatureKey.Index];
-      });
-      if (bboxFit) {
-        if (
-          bboxFit.geometry.type === 'Point' ||
-          bboxFit.geometry.type === 'MultiPoint'
-        ) {
-          const content = center(bboxFit);
-          scene.setCenter(content.geometry.coordinates as [number, number]);
-        } else {
-          const content = bbox(bboxFit);
-          scene.fitBounds([
-            [content[0], content[1]],
-            [content[2], content[3]],
-          ]);
-        }
-      }
       setEditing(!editing);
       form?.setFieldsValue(
         inputType !== 'object'
@@ -187,6 +168,8 @@ export const AppTable: React.FC = () => {
   const { setEditorText, isDraw, scene, features, resetFeatures } =
     useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
+  const { transformCoord } = useFeature();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const dataSource = features.map((item, index) => {
@@ -214,7 +197,7 @@ export const AppTable: React.FC = () => {
 
     if (featureKeyList) {
       newColumns.push({
-        title: '序号',
+        title: t('app_table.index.xuHao'),
         dataIndex: '__index',
         key: `__index`,
         width: 80,
@@ -240,7 +223,7 @@ export const AppTable: React.FC = () => {
         title: (
           <Tooltip title={key}>
             <Text
-              style={{ overflow: 'hidden', width: 70 }}
+              style={{ wordWrap: 'break-word', whiteSpace: 'break-spaces' }}
               ellipsis={{ tooltip: key }}
             >
               {key}
@@ -269,13 +252,42 @@ export const AppTable: React.FC = () => {
       });
     });
     newColumns.push({
-      title: '操作',
+      title: t('app_table.index.caoZuo'),
       key: 'action',
-      width: 70,
+      width: 120,
       align: 'center',
       fixed: 'right',
       render: (_, record: any) => (
         <Space size="middle">
+          <a
+            onClick={() => {
+              if (scene) {
+                const targetFeature = features.find((item: any) => {
+                  return (
+                    item.properties[FeatureKey.Index] ===
+                    record[FeatureKey.Index]
+                  );
+                });
+                if (targetFeature) {
+                  const newBboxFit = transformCoord([targetFeature]);
+                  if (newBboxFit[0].geometry.type === 'Point') {
+                    const content = center(newBboxFit[0]);
+                    scene.setCenter(
+                      content.geometry.coordinates as [number, number],
+                    );
+                  } else {
+                    const content = bbox(newBboxFit[0]);
+                    scene.fitBounds([
+                      [content[0], content[1]],
+                      [content[2], content[3]],
+                    ]);
+                  }
+                }
+              }
+            }}
+          >
+            {t('app_table.index.dingWei')}
+          </a>
           <a
             onClick={() => {
               resetFeatures(
@@ -283,16 +295,17 @@ export const AppTable: React.FC = () => {
                   return index !== record[FeatureKey.Index];
                 }),
               );
-              message.success('数据删除成功');
+              message.success(t('app_table.index.shuJuShanChuCheng'));
             }}
+            style={{ color: '#ff0000' }}
           >
-            删除
+            {t('app_table.index.shanChu')}
           </a>
         </Space>
       ),
     });
     return newColumns;
-  }, [features, newDataSource]);
+  }, [features, newDataSource, resetFeatures, scene, t, transformCoord]);
 
   const handleSave = (row: any) => {
     const newData = [...newDataSource];
@@ -350,7 +363,10 @@ export const AppTable: React.FC = () => {
           rowKey={'__index'}
         />
       ) : (
-        <Empty description="当前数据无字段" style={{ margin: '12px 0' }} />
+        <Empty
+          description={t('app_table.index.dangQianShuJuWu')}
+          style={{ margin: '12px 0' }}
+        />
       )}
     </div>
   );

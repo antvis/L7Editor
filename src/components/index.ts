@@ -2,6 +2,7 @@ export { AppHeader } from './app-header';
 export { AppMap } from './app-map';
 export { AppTable } from './app-table';
 export { GeoJsonEditor } from './geojson-editor';
+export { LayerContextmenuPopup } from './layer-contextmenu-popup';
 export { LayerList } from './layer-list';
 export { LayerPopup } from './layer-popup';
 export { LngLatEditor } from './lnglat-editor';

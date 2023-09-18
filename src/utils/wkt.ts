@@ -1,17 +1,19 @@
-import {
-  FeatureCollection,
-  Geometry,
-  feature,
-  featureCollection,
-} from '@turf/turf';
-import { GeoJSONGeometry, parse, stringify } from 'wellknown';
+import type { FeatureCollection, Geometry } from '@turf/turf';
+import { feature, featureCollection } from '@turf/turf';
+import type { GeoJSONGeometry } from 'wellknown';
+import { parse, stringify } from 'wellknown';
 
 export function GeoJSON2Wkt(fc: FeatureCollection): string {
-  return fc.features
-    .map((item) => {
-      return stringify(item.geometry as GeoJSONGeometry);
-    })
-    .join(';');
+  return (
+    fc.features
+      .map((item) => {
+        return stringify(item.geometry as GeoJSONGeometry);
+      })
+      .join(';')
+      //@ts-ignore
+      .replaceAll(' (', '(')
+      .replaceAll(', ', ',')
+  );
 }
 
 export function Wkt2GeoJSON(wkt: string): FeatureCollection {

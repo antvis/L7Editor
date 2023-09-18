@@ -1,6 +1,7 @@
 import { useDebounceFn } from 'ahooks';
 import { Input } from 'antd';
 import React, { forwardRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../recoil';
 import type { IFeatures } from '../../types';
 import { GeoJSON2Wkt, Wkt2GeoJSON } from '../../utils';
@@ -12,13 +13,14 @@ export const WktEditor: React.FC = forwardRef(() => {
   const { fc, resetFeatures, bboxAutoFit } = useFeature();
   const [isFocus, setIsFocus] = useState(false);
   const { autoFitBounds } = useGlobal();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isFocus) {
       return;
     }
     //@ts-ignore
-    const result = GeoJSON2Wkt(fc).replaceAll(' (', '(');
+    const result = GeoJSON2Wkt(fc);
     if (result !== input) {
       setInput(result);
     }
@@ -48,7 +50,7 @@ export const WktEditor: React.FC = forwardRef(() => {
         height: 'calc(100% - 16px)',
         width: 'calc(100% - 16px)',
       }}
-      placeholder="输入WKT格式的点、线、面都可识别，多个数据请使;分隔，如：POINT(120.104013 30.262134);POINT(120.104033 30.262164)"
+      placeholder={t('wkt_editor.index.shuRuWKT')}
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
       onChange={(e) => {

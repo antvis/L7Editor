@@ -1,6 +1,7 @@
 import { CustomControl } from '@antv/larkmap';
 import { Tooltip } from 'antd';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { IconFont } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import useStyle from './styles';
@@ -8,10 +9,15 @@ import useStyle from './styles';
 export const AutoControl = () => {
   const styles = useStyle();
   const { bboxAutoFit } = useFeature();
+  const { t } = useTranslation();
+
   return (
     <CustomControl position="bottomright">
       <div className={styles.l7FilterSwitch}>
-        <Tooltip title="自动缩放至当前元素" placement="left">
+        <Tooltip
+          title={t('auto_control.index.ziDongSuoFangZhi')}
+          placement="left"
+        >
           <button
             type="button"
             id="l7-editor-auto"

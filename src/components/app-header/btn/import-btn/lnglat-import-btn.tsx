@@ -1,26 +1,10 @@
-import { useLnglat } from '../../../../recoil';
 import { featureCollection } from '@turf/turf';
 import { Form, Input, Radio } from 'antd';
 import React, { forwardRef, useImperativeHandle } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLnglat } from '../../../../recoil';
 import { LngLatImportType } from '../../../../types';
 
-const LngLatImportTypeOptions: Array<{
-  label: string;
-  value: LngLatImportType;
-}> = [
-  {
-    label: '点',
-    value: 'Point',
-  },
-  {
-    label: '线',
-    value: 'LingString',
-  },
-  {
-    label: '面',
-    value: 'Polygon',
-  },
-];
 const LngLatImportBtn = forwardRef(({}, ref) => {
   const {
     lngLatText,
@@ -29,6 +13,25 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
     lngLatImportType,
     setLngLatImportType,
   } = useLnglat();
+  const { t } = useTranslation();
+
+  const LngLatImportTypeOptions: Array<{
+    label: string;
+    value: LngLatImportType;
+  }> = [
+    {
+      label: t('import_btn.lnglat_import_btn.dian'),
+      value: 'Point',
+    },
+    {
+      label: t('import_btn.lnglat_import_btn.xian'),
+      value: 'LingString',
+    },
+    {
+      label: t('import_btn.lnglat_import_btn.mian'),
+      value: 'Polygon',
+    },
+  ];
 
   useImperativeHandle(
     ref,
@@ -36,11 +39,11 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
       getData: () =>
         new Promise((resolve, reject) => {
           if (!lngLatText) {
-            reject('请输入经纬度');
+            reject(t('import_btn.lnglat_import_btn.qingShuRuJingWei'));
           }
           const data = importLngLatText(lngLatText);
           resolve(featureCollection(data));
-          reject('LngLat 导入失败');
+          reject(t('import_btn.lnglat_import_btn.lNGLA'));
         }),
     }),
     [lngLatText, lngLatImportType],
@@ -49,7 +52,10 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
   return (
     <>
       <Form>
-        <Form.Item style={{ marginTop: 16 }} label="数据类型">
+        <Form.Item
+          style={{ marginTop: 16 }}
+          label={t('import_btn.lnglat_import_btn.shuJuLeiXing')}
+        >
           <Radio.Group
             value={lngLatImportType}
             buttonStyle="solid"
@@ -64,9 +70,12 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
             ))}
           </Radio.Group>
         </Form.Item>
-        <Form.Item style={{ marginTop: 16 }} label="数据内容">
+        <Form.Item
+          style={{ marginTop: 16 }}
+          label={t('import_btn.lnglat_import_btn.shuJuNeiRong')}
+        >
           <Input.TextArea
-            placeholder="请输入连续的经纬度并用符号隔开，例如：120.85,30.26;130.85,31.21"
+            placeholder={t('import_btn.lnglat_import_btn.qingShuRuLianXu')}
             rows={10}
             onChange={(e) => {
               setLngLatText(e.target.value);

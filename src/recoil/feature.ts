@@ -2,6 +2,7 @@ import { bbox, Feature, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { FeatureKey } from '../constants';
 import { FilterField, IFeatures } from '../types';
@@ -23,6 +24,7 @@ export default function useFeature() {
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
   const [scene, setScene] = useRecoilState(sceneState);
+  const { t } = useTranslation();
 
   const savable = useMemo(() => {
     return editorText !== savedText;
@@ -67,14 +69,14 @@ export default function useFeature() {
     let newFeatures: Feature[] = [];
     if (editorText || value) {
       try {
-        newFeatures = transformFeatures(value ?? editorText);
+        newFeatures = transformFeatures(value ?? editorText, t);
         if (value) {
           setEditorText(value);
         }
         setSavedText(value ?? editorText);
         setFeatures(newFeatures as IFeatures);
       } catch (e) {
-        message.warning('数据加载有误');
+        message.warning(t('recoil.feature.shuJuJiaZaiYou'));
       }
     } else {
       setEditorText(emptyFeatures);

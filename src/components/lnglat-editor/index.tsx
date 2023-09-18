@@ -1,6 +1,7 @@
 import { useDebounceFn } from 'ahooks';
 import { Input } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../recoil';
 import { IFeatures } from '../../types';
 import { GeoJSON2LngLat, LngLat2GeoJson } from '../../utils';
@@ -12,6 +13,7 @@ export const LngLatEditor: React.FC = () => {
   const { fc, resetFeatures, bboxAutoFit } = useFeature();
   const { autoFitBounds } = useGlobal();
   const [isFocus, setIsFocus] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isFocus) {
@@ -47,7 +49,7 @@ export const LngLatEditor: React.FC = () => {
           height: 'calc(100% - 16px)',
           width: 'calc(100% - 16px)',
         }}
-        placeholder="请输入连续的经纬度并用符号隔开，例如：120.85,30.26;130.85,31.21"
+        placeholder={t('import_btn.lnglat_import_btn.qingShuRuLianXu')}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(e) => {
