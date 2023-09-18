@@ -46,9 +46,7 @@ const formatTableValue = (value: any) => {
   return value instanceof Object ? (
     JSON.stringify(value)
   ) : (
-    <Text style={{ width: 100 }} ellipsis={{ tooltip: String(value) }}>
-      {String(value)}
-    </Text>
+    <Text ellipsis={{ tooltip: String(value) }}>{String(value)}</Text>
   );
 };
 
@@ -225,7 +223,7 @@ export const AppTable: React.FC = () => {
         title: (
           <Tooltip title={key}>
             <Text
-              style={{ overflow: 'hidden', width: 70 }}
+              style={{ wordWrap: 'break-word', whiteSpace: 'break-spaces' }}
               ellipsis={{ tooltip: key }}
             >
               {key}
@@ -264,18 +262,15 @@ export const AppTable: React.FC = () => {
           <a
             onClick={() => {
               if (scene) {
-                const bboxFit = features.find((item: any) => {
+                const targetFeature = features.find((item: any) => {
                   return (
                     item.properties[FeatureKey.Index] ===
                     record[FeatureKey.Index]
                   );
                 });
-                if (bboxFit) {
-                  const newBboxFit = transformCoord([bboxFit]);
-                  if (
-                    newBboxFit[0].geometry.type === 'Point' ||
-                    newBboxFit[0].geometry.type === 'MultiPoint'
-                  ) {
+                if (targetFeature) {
+                  const newBboxFit = transformCoord([targetFeature]);
+                  if (newBboxFit[0].geometry.type === 'Point') {
                     const content = center(newBboxFit[0]);
                     scene.setCenter(
                       content.geometry.coordinates as [number, number],
@@ -310,7 +305,7 @@ export const AppTable: React.FC = () => {
       ),
     });
     return newColumns;
-  }, [features, newDataSource]);
+  }, [features, newDataSource, resetFeatures, scene, t, transformCoord]);
 
   const handleSave = (row: any) => {
     const newData = [...newDataSource];
