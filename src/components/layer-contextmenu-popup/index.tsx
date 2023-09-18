@@ -100,10 +100,11 @@ export const LayerContextmenuPopup: React.FC = () => {
   }, [onLayerClick, layerList, scene]);
 
   const copyTypeList = useMemo(() => {
-    const newFeater = revertCoord(
-      markerProps.feature ? [markerProps.feature] : [],
-    );
-    const featureCollectionData = featureCollection(newFeater);
+    if (!markerProps.feature) {
+      return;
+    }
+    const index = markerProps.feature.properties[FeatureKey.Index];
+    const featureCollectionData = featureCollection([features[index]]);
     return [
       {
         copyType: 'GeoJSON',
@@ -114,7 +115,7 @@ export const LayerContextmenuPopup: React.FC = () => {
         text: GeoJSON2Wkt(featureCollectionData),
       },
     ];
-  }, [markerProps.feature]);
+  }, [features, markerProps.feature]);
 
   return (
     <>
@@ -125,6 +126,7 @@ export const LayerContextmenuPopup: React.FC = () => {
           <Marker
             lngLat={markerProps.lngLat}
             anchor="top-left"
+            // @ts-ignore
             offsets={[0, 10]}
           >
             <div className={styles.layerPopupContent}>
