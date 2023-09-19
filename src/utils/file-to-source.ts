@@ -121,7 +121,6 @@ export const csv2json = async (
     skipEmptyLines: true,
     dynamicTyping: true,
   });
-  console.log(result)
   return {
     id: id || uniqueId(id),
     metadata: { name },
