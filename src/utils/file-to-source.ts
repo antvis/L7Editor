@@ -118,7 +118,6 @@ export const csv2json = async (
     dynamicTyping: true,
   });
 
-  console.log(result);
   return {
     id: id || uniqueId(id),
     metadata: { name },

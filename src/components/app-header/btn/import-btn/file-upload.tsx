@@ -76,7 +76,6 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                 return feature(JSON.parse(v), { ...propertiesList[index] });
               });
             }
-            console.log(newGeoJson);
             const newDates = uploadData;
             newDates.push({ features: newGeoJson, id: dataSource?.id });
             setUploadData(newDates);
