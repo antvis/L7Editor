@@ -217,7 +217,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
         {selectList.length ? (
           <div style={{ display: 'flex' }}>
             <div className={styles.uploadTitle}>地理字段选择</div>
-            <Tooltip title="当前仅支持 WKT 格式字段数据 和 字符串格式的 geometry 数据">
+            <Tooltip title="当前仅支持 WKT 格式字段数据 和 geometry 数据">
               <QuestionCircleOutlined />
             </Tooltip>
           </div>
