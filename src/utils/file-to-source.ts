@@ -121,6 +121,7 @@ export const csv2json = async (
     skipEmptyLines: true,
     dynamicTyping: true,
   });
+  console.log(result)
   return {
     id: id || uniqueId(id),
     metadata: { name },
@@ -158,7 +159,6 @@ export const parserExcelToSource = (
   try {
     const workbook = XLSX_read(content, { type: 'array', cellDates: true });
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    console.log(workbook);
     // 日期格式直接处理为字符串
     Object.keys(sheet).forEach((key) => {
       const item = sheet[key];
@@ -172,7 +172,6 @@ export const parserExcelToSource = (
   } catch (e) {
     throw e;
   }
-  console.log(data);
   const columns = Object.keys(data[0]);
   return {
     id: id,

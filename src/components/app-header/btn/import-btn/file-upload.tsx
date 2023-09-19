@@ -1,6 +1,7 @@
 import { FileTextOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Geometry, feature, featureCollection } from '@turf/turf';
 import { Form, Select, Tooltip, Upload, UploadFile, message } from 'antd';
+import { cloneDeep } from 'lodash';
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -10,7 +11,11 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { parse } from 'wellknown';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
-import { isWkt, parserFileToSource } from '../../../../utils/upload';
+import {
+  isGeometryString,
+  isWkt,
+  parserFileToSource,
+} from '../../../../utils/upload';
 import useStyle from '../../styles';
 
 const { Dragger } = Upload;
@@ -27,6 +32,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
     const { file, onSuccess, onError } = uploadRequestOption;
     parserFileToSource(file, t)
       .then((dataSource) => {
+        console.log(dataSource);
         if (!dataSource?.columns) {
           if (dataSource.data?.features?.length) {
             const newData = uploadData;
@@ -44,6 +50,9 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
             if (isWkt(values)) {
               form.setFieldValue(dataSource.id, key);
               val = key;
+            } else if (isGeometryString(values)) {
+              form.setFieldValue(dataSource.id, key);
+              val = key;
             }
           }
           if (val) {
@@ -51,16 +60,27 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
               //@ts-ignore
               return value[val];
             });
+            const propertiesList = dataSource?.data.map((v: any) => {
+              const properties = cloneDeep(v);
+              //@ts-ignore
+              delete properties[val];
+              return { ...properties };
+            });
             if (isWkt(data[0])) {
-              const propertiesList = dataSource?.data.map((v: any) => {
-                const properties = v;
-                //@ts-ignore
-                delete properties[val];
-                return { ...properties };
-              });
               const newGeoJsons = data.map((v: string, index: number) => {
                 const geometry = parse(v) as Geometry;
                 return feature(geometry, { ...propertiesList[index] });
+              });
+              const newDates = uploadData;
+              newDates.push({ features: newGeoJsons, id: dataSource?.id });
+              setUploadData(newDates);
+            } else if (isGeometryString(data[0])) {
+              const newGeoJsons = data.map((v: string, index: number) => {
+                return {
+                  type: 'Feature',
+                  properties: { ...propertiesList[index] },
+                  geometry: JSON.parse(v),
+                };
               });
               const newDates = uploadData;
               newDates.push({ features: newGeoJsons, id: dataSource?.id });
@@ -126,12 +146,12 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                 const data = newData?.data.map((value: any) => {
                   return value[e];
                 });
+                const propertiesList = newData?.data.map((v: any) => {
+                  const properties = cloneDeep(v);
+                  delete properties[e];
+                  return { ...properties };
+                });
                 if (isWkt(data[0])) {
-                  const propertiesList = newData?.data.map((v: any) => {
-                    const properties = v;
-                    delete properties[e];
-                    return { ...properties };
-                  });
                   const newGeoJsons = data.map((v: string, index: number) => {
                     const geometry = parse(v) as Geometry;
                     return feature(geometry, { ...propertiesList[index] });
@@ -141,8 +161,21 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                   );
                   newDates.push({ features: newGeoJsons, id: newData?.id });
                   setUploadData(newDates);
+                } else if (isGeometryString(data[0])) {
+                  const newGeoJsons = data.map((v: string, index: number) => {
+                    return {
+                      type: 'Feature',
+                      properties: { ...propertiesList[index] },
+                      geometry: JSON.parse(v),
+                    };
+                  });
+                  const newDates = uploadData.filter(
+                    (item) => item.id !== newData?.id,
+                  );
+                  newDates.push({ features: newGeoJsons, id: newData?.id });
+                  setUploadData(newDates);
                 } else {
-                  message.error('此字段非wkt数据');
+                  message.error('此字段非地理数据');
                   const newDates = uploadData.filter(
                     (item) => item.id !== newData?.id,
                   );

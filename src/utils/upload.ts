@@ -16,6 +16,14 @@ export const isWkt = (data: string) => {
   return iswktField;
 };
 
+export const isGeometryString = (data: string) => {
+  // string start with { and end with }
+  const isStringObject = /^{([\s\S]*)}$/.test(data);
+  const isgeometryField = isStringObject && /type/.test(data) && /coordinates/.test(data);
+  return isgeometryField;
+};
+
+
 export const parserFileToSource = async (file: newFile, t: any) => {
   const fileFullName = file.name;
   const fileNames = fileFullName.substring(0, fileFullName.lastIndexOf('.'));
