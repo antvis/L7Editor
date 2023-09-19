@@ -32,7 +32,6 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
     const { file, onSuccess, onError } = uploadRequestOption;
     parserFileToSource(file, t)
       .then((dataSource) => {
-        console.log(dataSource);
         if (!dataSource?.columns) {
           if (dataSource.data?.features?.length) {
             const newData = uploadData;
@@ -66,29 +65,23 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
               delete properties[val];
               return { ...properties };
             });
+            let newGeoJson = [];
             if (isWkt(data[0])) {
-              const newGeoJsons = data.map((v: string, index: number) => {
+              newGeoJson = data.map((v: string, index: number) => {
                 const geometry = parse(v) as Geometry;
                 return feature(geometry, { ...propertiesList[index] });
               });
-              const newDates = uploadData;
-              newDates.push({ features: newGeoJsons, id: dataSource?.id });
-              setUploadData(newDates);
             } else if (isGeometryString(data[0])) {
-              const newGeoJsons = data.map((v: string, index: number) => {
+              newGeoJson = data.map((v: string, index: number) => {
                 return {
                   type: 'Feature',
                   properties: { ...propertiesList[index] },
                   geometry: JSON.parse(v),
                 };
               });
-              const newDates = uploadData;
-              newDates.push({ features: newGeoJsons, id: dataSource?.id });
-              setUploadData(newDates);
             }
-          } else {
             const newDates = uploadData;
-            newDates.push({ features: [], id: dataSource?.id });
+            newDates.push({ features: newGeoJson, id: dataSource?.id });
             setUploadData(newDates);
           }
           setSelectList((pre) => [...pre, dataSource]);
@@ -151,37 +144,28 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                   delete properties[e];
                   return { ...properties };
                 });
+                let newGeoJson = [];
                 if (isWkt(data[0])) {
-                  const newGeoJsons = data.map((v: string, index: number) => {
+                  newGeoJson = data.map((v: string, index: number) => {
                     const geometry = parse(v) as Geometry;
                     return feature(geometry, { ...propertiesList[index] });
                   });
-                  const newDates = uploadData.filter(
-                    (item) => item.id !== newData?.id,
-                  );
-                  newDates.push({ features: newGeoJsons, id: newData?.id });
-                  setUploadData(newDates);
                 } else if (isGeometryString(data[0])) {
-                  const newGeoJsons = data.map((v: string, index: number) => {
+                  newGeoJson = data.map((v: string, index: number) => {
                     return {
                       type: 'Feature',
                       properties: { ...propertiesList[index] },
                       geometry: JSON.parse(v),
                     };
                   });
-                  const newDates = uploadData.filter(
-                    (item) => item.id !== newData?.id,
-                  );
-                  newDates.push({ features: newGeoJsons, id: newData?.id });
-                  setUploadData(newDates);
                 } else {
                   message.error('此字段非地理数据');
-                  const newDates = uploadData.filter(
-                    (item) => item.id !== newData?.id,
-                  );
-                  newDates.push({ features: [], id: newData?.id });
-                  setUploadData(newDates);
                 }
+                const newDates = uploadData.filter(
+                  (item) => item.id !== newData?.id,
+                );
+                newDates.push({ features: newGeoJson, id: newData?.id });
+                setUploadData(newDates);
               }}
             />
           </Form.Item>
