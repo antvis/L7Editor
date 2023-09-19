@@ -21,7 +21,7 @@ export const isWkt = (data: string) => {
   return iswktField;
 };
 
-export const isGeometry = (data: any) => {
+export const isGeometry = (data: string) => {
   try {
     const json = JSON.parse(data);
     return GeometryVT.check(json);

@@ -32,6 +32,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
     const { file, onSuccess, onError } = uploadRequestOption;
     parserFileToSource(file, t)
       .then((dataSource) => {
+        console.log(dataSource);
         if (!dataSource?.columns) {
           if (dataSource.data?.features?.length) {
             const newData = uploadData;
