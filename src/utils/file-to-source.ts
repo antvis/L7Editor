@@ -109,10 +109,6 @@ export const csv2json = async (
   name: string,
   id?: string,
 ): Promise<any> => {
-  const fileFullName = file.name;
-  const fileExtension = fileFullName.substring(
-    fileFullName.lastIndexOf('.') + 1,
-  );
   let content: string;
   content = await readFileAsText(file);
 
@@ -121,6 +117,8 @@ export const csv2json = async (
     skipEmptyLines: true,
     dynamicTyping: true,
   });
+
+  console.log(result);
   return {
     id: id || uniqueId(id),
     metadata: { name },

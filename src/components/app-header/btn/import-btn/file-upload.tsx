@@ -73,11 +73,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
               });
             } else if (isGeometry(data[0])) {
               newGeoJson = data.map((v: string, index: number) => {
-                if (typeof v === 'string') {
-                  return feature(JSON.parse(v), { ...propertiesList[index] });
-                } else {
-                  return feature(v, { ...propertiesList[index] });
-                }
+                return feature(JSON.parse(v), { ...propertiesList[index] });
               });
             }
             console.log(newGeoJson);
@@ -153,13 +149,9 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                   });
                 } else if (isGeometry(data[0])) {
                   newGeoJson = data.map((v: string, index: number) => {
-                    if (typeof v === 'string') {
-                      return feature(JSON.parse(v), {
-                        ...propertiesList[index],
-                      });
-                    } else {
-                      return feature(v, { ...propertiesList[index] });
-                    }
+                    return feature(JSON.parse(v), {
+                      ...propertiesList[index],
+                    });
                   });
                 } else {
                   message.error('此字段非地理数据');

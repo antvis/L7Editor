@@ -23,12 +23,8 @@ export const isWkt = (data: string) => {
 
 export const isGeometry = (data: any) => {
   try {
-    if (typeof data == 'string') {
-      const json = JSON.parse(data);
-      return GeometryVT.check(json);
-    } else {
-      return GeometryVT.check(data);
-    }
+    const json = JSON.parse(data);
+    return GeometryVT.check(json);
   } catch {
     return false;
   }
