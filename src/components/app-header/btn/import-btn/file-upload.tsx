@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { parse } from 'wellknown';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
 import {
-  isGeometryString,
+  isGeometry,
   isWkt,
   parserFileToSource,
 } from '../../../../utils/upload';
@@ -49,7 +49,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
             if (isWkt(values)) {
               form.setFieldValue(dataSource.id, key);
               val = key;
-            } else if (isGeometryString(values)) {
+            } else if (isGeometry(values)) {
               form.setFieldValue(dataSource.id, key);
               val = key;
             }
@@ -71,15 +71,16 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                 const geometry = parse(v) as Geometry;
                 return feature(geometry, { ...propertiesList[index] });
               });
-            } else if (isGeometryString(data[0])) {
+            } else if (isGeometry(data[0])) {
               newGeoJson = data.map((v: string, index: number) => {
-                return {
-                  type: 'Feature',
-                  properties: { ...propertiesList[index] },
-                  geometry: JSON.parse(v),
-                };
+                if (typeof v === 'string') {
+                  return feature(JSON.parse(v), { ...propertiesList[index] });
+                } else {
+                  return feature(v, { ...propertiesList[index] });
+                }
               });
             }
+            console.log(newGeoJson);
             const newDates = uploadData;
             newDates.push({ features: newGeoJson, id: dataSource?.id });
             setUploadData(newDates);
@@ -150,13 +151,15 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                     const geometry = parse(v) as Geometry;
                     return feature(geometry, { ...propertiesList[index] });
                   });
-                } else if (isGeometryString(data[0])) {
+                } else if (isGeometry(data[0])) {
                   newGeoJson = data.map((v: string, index: number) => {
-                    return {
-                      type: 'Feature',
-                      properties: { ...propertiesList[index] },
-                      geometry: JSON.parse(v),
-                    };
+                    if (typeof v === 'string') {
+                      return feature(JSON.parse(v), {
+                        ...propertiesList[index],
+                      });
+                    } else {
+                      return feature(v, { ...propertiesList[index] });
+                    }
                   });
                 } else {
                   message.error('此字段非地理数据');
