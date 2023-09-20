@@ -8,7 +8,7 @@
     "baseUrl": "./",
     "paths": {
       "@antv/l7-editor": [
-        "./src/index.ts"
+        "./src/index.tsx"
       ]
     }
   },

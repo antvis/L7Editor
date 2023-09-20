@@ -74,7 +74,6 @@ const useStyle = () => {
     `,
     uploadTitle: css`
       font-size: 14px;
-      color: #f00;
       padding: 10px 6px 10px 0;
     `,
   };
