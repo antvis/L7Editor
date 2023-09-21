@@ -23,6 +23,7 @@ import { GOOGLE_TILE_MAP_URL, IconFont } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import { IFeatures } from '../../../types';
 import useStyle from './style';
+import { useTranslation } from 'react-i18next';
 
 const options: Omit<LineLayerProps, 'source'> = {
   shape: 'line' as const,
@@ -58,6 +59,7 @@ export const SamControl = () => {
   const [source, setSource] = useState<any>({
     data: { type: 'FeatureCollection', features: [] },
   });
+  const { t } = useTranslation();
 
   // 生成 embedding 并初始化载入模型
   const generateEmbedding = async () => {
@@ -128,9 +130,9 @@ export const SamControl = () => {
       setBound(bounds);
       setSource({ data: { type: 'FeatureCollection', features: [bounds] } });
       samModel.setEmbedding(res);
-      message.success('embedding计算完成');
+      message.success(t('map_control_group.sam.jiSuanWanCheng'));
     } catch (error) {
-      message.error('embedding计算失败');
+      message.error(t('map_control_group.sam.jiSuanShiBai'));
       scene?.off('click', onMapClick);
     } finally {
       setLoading(false);
@@ -187,12 +189,12 @@ export const SamControl = () => {
                 const newFeature = revertCoord(newData.feature);
                 resetFeatures([...features, ...newFeature] as IFeatures);
               } else {
-                message.warning('图形解析错误，请重新选择');
+                message.warning(t('map_control_group.sam.tuXingJieXiCuoWu'));
               }
             });
           }
         } else {
-          message.error('请在区域内进行选择');
+          message.error(t('map_control_group.sam.qingZaiQuYuNei'));
         }
       }
     },
@@ -223,7 +225,7 @@ export const SamControl = () => {
   return (
     <>
       <CustomControl position="bottomright">
-        <Tooltip title={'智能选择'} placement="bottom">
+        <Tooltip title={t('map_control_group.sam.zhiNengXuanZe')} placement="bottom">
           <Spin spinning={loading}>
             <div
               className={classNames([styles.sam, 'l7-button-control'])}
@@ -244,7 +246,7 @@ export const SamControl = () => {
           //@ts-ignore
           offsets={[43, -16]}
         >
-          <div className={styles.marker}>自动识别边界</div>
+          <div className={styles.marker}>{t('map_control_group.sam.ziDongShiBie')}</div>
         </Marker>
       )}
       <LineLayer {...options} source={source} />
