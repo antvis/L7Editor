@@ -66,9 +66,10 @@ export const SettingBtn = () => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
-            setCoordConvert(e.baseMap ? 'GCJ02' : 'WGS84');
+            setCoordConvert(e.baseMap === 'Gaode' ? 'GCJ02' : 'WGS84');
             setBaseMap(e.baseMap);
             setShowIndex(e.showIndex);
+            location.reload();
           }}
         >
           <Form.Item
