@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import Clipboard from 'clipboard';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   copyType: string;
@@ -8,13 +9,14 @@ interface Props {
 }
 
 export default function CodeBlock({ copyType, text }: Props) {
+  const { t } = useTranslation();
   useEffect(() => {
     const clipboard = new Clipboard(`#${copyType}copy_btn`, {
       text: () => text,
     });
 
     clipboard.on('success', () => {
-      message.success('复制成功');
+      message.success(t('layer_contextmenu_popup.fuZhiChengGong'));
     });
 
     // 销毁 clipboard 实例
@@ -29,7 +31,7 @@ export default function CodeBlock({ copyType, text }: Props) {
         {text}
       </div>
       <div id={`${copyType}copy_btn`} data-clipboard-target={`#${copyType}`}>
-        复制 {copyType}
+        {t('layer_contextmenu_popup.fuZhi')} {copyType}
       </div>
     </div>
   );
