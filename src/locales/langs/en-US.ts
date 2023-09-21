@@ -94,6 +94,14 @@ export default {
   'import_btn.file_upload.qingShanChuBaoCuo': 'Please delete the error file',
   'import_btn.file_upload.qingJianChaShuJu': 'Please check the data format',
   'import_btn.file_upload.wenJianShangChuan2': 'File upload:',
+  'import_btn.file_upload.wenJian': 'File',
+  'import_btn.file_upload.ciZiDuanFeiDiLiZiDuan':
+    'This field is not geographic data',
+  'import_btn.file_upload.dianJiHuoJiangWenJian':
+    'Click or drag the file here.',
+  'import_btn.file_upload.diLiZiDuanXuanZe': 'Geographical field selection',
+  'import_btn.file_upload.dangQianJinZhiChi':
+    'Currently, only WKT format field data and geometry data are supported.',
   'import_btn.lnglat_import_btn.shuJuNeiRong': 'Data Content',
   'import_btn.lnglat_import_btn.mian': 'Face',
   'import_btn.lnglat_import_btn.qingShuRuJingWei':
@@ -176,4 +184,13 @@ export default {
   'app_header.constants.gEOJS': 'GeoJSON Editor',
   'app_header.constants.keYiTongGuoBian':
     'GeoJSON data can be modified by editor',
+  'layer_contextmenu_popup.fuZhiChengGong': 'Copy success',
+  'layer_contextmenu_popup.fuZhi': 'Copy',
+  'map_control_group.sam.jiSuanWanCheng': 'Embedding calculation complete',
+  'map_control_group.sam.jiSuanShiBai': 'Embedding calculation failed',
+  'map_control_group.sam.tuXingJieXiCuoWu':
+    'Graph parsing error, please reselect',
+  'map_control_group.sam.qingZaiQuYuNei': 'Please select within the area',
+  'map_control_group.sam.zhiNengXuanZe': 'Smart Selection',
+  'map_control_group.sam.ziDongShiBie': 'automatically identify boundaries',
 };

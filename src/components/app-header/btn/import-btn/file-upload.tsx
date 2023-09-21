@@ -127,7 +127,10 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           };
         });
         return (
-          <Form.Item name={item.id} label={`文件${index + 1}`}>
+          <Form.Item
+            name={item.id}
+            label={`${t('import_btn.file_upload.wenJian')}${index + 1}`}
+          >
             <Select
               options={options}
               style={{ width: 300 }}
@@ -154,7 +157,9 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                     });
                   });
                 } else {
-                  message.error('此字段非地理数据');
+                  message.error(
+                    t('import_btn.file_upload.ciZiDuanFeiDiLiZiDuan'),
+                  );
                 }
                 const newDates = uploadData.filter(
                   (item) => item.id !== newData?.id,
@@ -199,7 +204,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
               <span style={{ fontSize: 40 }}>
                 <FileTextOutlined />
               </span>
-              <div>点击或将文件拖拽到这里。</div>
+              <div>{t('import_btn.file_upload.dianJiHuoJiangWenJian')}</div>
             </div>
           </Dragger>
         </Form.Item>
@@ -208,8 +213,10 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
         </div>
         {selectList.length ? (
           <div style={{ display: 'flex' }}>
-            <span className={styles.uploadTitle}>地理字段选择</span>
-            <Tooltip title="当前仅支持 WKT 格式字段数据 和 geometry 数据">
+            <span className={styles.uploadTitle}>
+              {t('import_btn.file_upload.diLiZiDuanXuanZe')}
+            </span>
+            <Tooltip title={t('import_btn.file_upload.dangQianJinZhiChi')}>
               <QuestionCircleOutlined />
             </Tooltip>
           </div>
