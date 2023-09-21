@@ -1,64 +1,68 @@
 import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
-import { Checkbox, Popover, Tabs, TabsProps, Tooltip } from 'antd';
-import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import React, { useEffect, useRef } from 'react';
+import { Checkbox, Popover, Tabs, Tooltip } from 'antd';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../../constants';
+import {
+  GOOGLE_TILE_MAP_URL,
+  IconFont,
+  OfficeLayerEnum,
+} from '../../../constants';
 import { useGlobal } from '../../../recoil';
 import useStyle from './styles';
-
-const TILE_MAP_URL =
-  'https://www.google.com/maps/vt?lyrs=s@820&gl=cn&x={x}&y={y}&z={z}';
-const TILE_MARK_URL =
-  'https://tiles{1-3}.geovisearth.com/base/v1/cat/{z}/{x}/{y}?format=png&tmsIds=w&token=b2a0cfc132cd60b61391b9dd63c15711eadb9b38a9943e3f98160d5710aef788';
 
 export function OfficialLayerControl() {
   const scene = useScene();
   const styles = useStyle();
-  const { layerType, setLayerType } = useGlobal();
+  const { layerType, setLayerType, baseMap } = useGlobal();
   const { t } = useTranslation();
 
-  /**
-   * Satellite 卫星图
-   * RoadNet   路网图
-   * Traffic   路况图
-   * Buildings 楼块图
-   */
-  const AmapLayerList = [
-    {
-      type: 'Satellite',
-      title: t('official_layer_control.index.weiXingTu'),
-      image:
-        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
-    },
-    {
-      type: 'RoadNet',
-      title: t('official_layer_control.index.luWangTu'),
-      image:
-        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*G9RtT7qUxwYAAAAAAAAAAAAADqWCAQ/original',
-    },
-    {
-      type: 'Traffic',
-      title: t('official_layer_control.index.luKuangTu'),
-      image:
-        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*XTFITYbZaIsAAAAAAAAAAAAADqWCAQ/original',
-    },
-    {
-      type: 'Buildings',
-      title: t('official_layer_control.index.louKuaiTu'),
-      image:
-        'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*hIUgTryh-oAAAAAAAAAAAAAADqWCAQ/original',
-    },
-  ];
+  const officeLayerGroup = useMemo(() => {
+    return [
+      {
+        label: t('official_layer_control.index.guGeTuCeng'),
+        children: [
+          {
+            type: OfficeLayerEnum.GoogleSatellite,
+            title: t('official_layer_control.index.guGeWeiXingTu'),
+            image:
+              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
+            layers: [GOOGLE_TILE_MAP_URL],
+          },
+        ],
+      },
+      {
+        label: t('official_layer_control.index.gaoDeTuCeng'),
+        children: [
+          {
+            type: OfficeLayerEnum.AmapSatellite,
+            title: t('official_layer_control.index.weiXingTu'),
+            image:
+              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
+          },
+          {
+            type: OfficeLayerEnum.AmapRoadNet,
+            title: t('official_layer_control.index.luWangTu'),
+            image:
+              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*G9RtT7qUxwYAAAAAAAAAAAAADqWCAQ/original',
+          },
+          {
+            type: OfficeLayerEnum.AmapTraffic,
+            title: t('official_layer_control.index.luKuangTu'),
+            image:
+              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*XTFITYbZaIsAAAAAAAAAAAAADqWCAQ/original',
+          },
+          {
+            type: OfficeLayerEnum.AmapBuildings,
+            title: t('official_layer_control.index.louKuaiTu'),
+            image:
+              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*hIUgTryh-oAAAAAAAAAAAAAADqWCAQ/original',
+          },
+        ],
+      },
+    ];
+  }, [baseMap, t]);
 
-  const GOOGLE_SATELLITE = {
-    type: 'googleSatellite',
-    title: t('official_layer_control.index.guGeWeiXingTu'),
-    image:
-      'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
-  };
-
-  const layers = useRef(
+  const amapLayerInstanceRef = useRef(
     scene.getType() !== 'mapbox'
       ? {
           satellite: new AMap.TileLayer.Satellite(),
@@ -69,102 +73,95 @@ export function OfficialLayerControl() {
       : {},
   );
 
-  const isIncludes = (type: string) => layerType?.includes(type);
+  const inCludeLayerType = (type: string) => layerType?.includes(type);
 
   useEffect(() => {
     if (scene && scene.getType() !== 'mapbox') {
       try {
-        const amapAdd = scene.map as any;
-        const { roadNet, satellite, traffic, buildings } = layers.current;
+        const amap = scene.map as any;
+        const { roadNet, satellite, traffic, buildings } =
+          amapLayerInstanceRef.current;
 
-        if (isIncludes('Satellite')) {
-          amapAdd.add(satellite);
+        if (inCludeLayerType('amapSatellite')) {
+          amap.add(satellite);
         } else {
-          amapAdd.remove(satellite);
+          amap.remove(satellite);
         }
-        if (isIncludes('RoadNet')) {
-          amapAdd.add(roadNet);
+        if (inCludeLayerType('RoadNet')) {
+          amap.add(roadNet);
         } else {
-          amapAdd.remove(roadNet);
+          amap.remove(roadNet);
         }
-        if (isIncludes('Traffic')) {
-          amapAdd.add(traffic);
+        if (inCludeLayerType('Traffic')) {
+          amap.add(traffic);
         } else {
-          amapAdd.remove(traffic);
+          amap.remove(traffic);
         }
-        if (isIncludes('Buildings')) {
-          amapAdd.add(buildings);
+        if (inCludeLayerType('Buildings')) {
+          amap.add(buildings);
         } else {
-          amapAdd.remove(buildings);
+          amap.remove(buildings);
         }
       } catch {}
     }
   }, [layerType, scene]);
 
-  const onCheckboxChange = (e: (CheckboxValueType | string)[]) => {
-    setLayerType(e as string[]);
-  };
+  const officialLayerList = useMemo(() => {
+    const urlList: string[] = [];
 
-  const AmapLayer = () => {
-    return (
-      <div className={styles.amapInfo}>
-        <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
-          {scene.getType() !== 'mapbox' && (
-            <>
-              {AmapLayerList.map((item) => {
-                return (
-                  <Checkbox key={item.type} value={item.type}>
-                    <div key={item.type} className={styles.amapInfoItem}>
-                      <img
-                        src={item.image}
-                        alt=""
-                        className={styles.amapInfoItemImage}
-                      />
-                      <h5 style={{ marginTop: 0 }}>{item.title}</h5>
-                    </div>
-                  </Checkbox>
-                );
-              })}
-            </>
-          )}
-        </Checkbox.Group>
-      </div>
-    );
-  };
+    officeLayerGroup
+      .map((group) => group.children)
+      .flat()
+      .forEach((item) => {
+        if (layerType.includes(item.type)) {
+          // @ts-ignore
+          urlList.push(...(item?.layers ?? []));
+        }
+      });
 
-  const items: TabsProps['items'] = [
-    {
-      key: '1',
-      label: t('official_layer_control.index.gaoDeTuCeng'),
-      children: <AmapLayer />,
-    },
-    {
-      key: '2',
-      label: t('official_layer_control.index.guGeTuCeng'),
-      children: (
-        <div className={styles.amapInfo}>
-          <Checkbox.Group value={layerType} onChange={onCheckboxChange}>
-            <Checkbox value={GOOGLE_SATELLITE.type}>
-              <div key={GOOGLE_SATELLITE.type} className={styles.amapInfoItem}>
-                <img
-                  src={GOOGLE_SATELLITE.image}
-                  alt=""
-                  className={styles.amapInfoItemImage}
-                />
-                <h5 style={{ marginTop: 0 }}>{GOOGLE_SATELLITE.title}</h5>
-              </div>
-            </Checkbox>
-          </Checkbox.Group>
-        </div>
-      ),
-    },
-  ];
+    return urlList;
+  }, [officeLayerGroup, layerType]);
 
   return (
     <CustomControl position="bottomright" className={styles.l7amap}>
       <Popover
         content={
-          <Tabs items={scene.getType() !== 'mapbox' ? items : [items[1]]} />
+          <Tabs
+            items={officeLayerGroup.map((group) => {
+              return {
+                label: group.label,
+                key: group.label,
+                children: (
+                  <div className={styles.amapInfo}>
+                    <Checkbox.Group
+                      value={layerType}
+                      onChange={(newLayerType) => {
+                        setLayerType(newLayerType as string[]);
+                      }}
+                    >
+                      {group.children.map((item) => {
+                        return (
+                          <Checkbox key={item.type} value={item.type}>
+                            <div
+                              key={item.type}
+                              className={styles.amapInfoItem}
+                            >
+                              <img
+                                src={item.image}
+                                alt=""
+                                className={styles.amapInfoItemImage}
+                              />
+                              <h5 style={{ marginTop: 0 }}>{item.title}</h5>
+                            </div>
+                          </Checkbox>
+                        );
+                      })}
+                    </Checkbox.Group>
+                  </div>
+                ),
+              };
+            })}
+          />
         }
         trigger="click"
         placement="leftTop"
@@ -184,25 +181,19 @@ export function OfficialLayerControl() {
           />
         </Tooltip>
       </Popover>
-      {isIncludes(GOOGLE_SATELLITE.type) && (
-        <>
+
+      {officialLayerList.map((url) => {
+        return (
           <RasterLayer
+            key={url}
             zIndex={1}
-            id='reactLayerGoode'
             source={{
-              data: TILE_MAP_URL,
+              data: url,
               parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
             }}
           />
-          <RasterLayer
-            zIndex={1}
-            source={{
-              data: TILE_MARK_URL,
-              parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
-            }}
-          />
-        </>
-      )}
+        );
+      })}
     </CustomControl>
   );
 }

@@ -2,9 +2,6 @@ import { createFromIconfontCN } from '@ant-design/icons';
 
 export const RightPanelWidthRange = [20, 80];
 
-
-
-
 export enum LocalStorageKey {
   RightPanelWidth = 'RightPanelWidth',
   MapOptions = 'MapOptions',
@@ -53,3 +50,14 @@ export const MapBoxConfig = {
 };
 
 export const LayerZIndex = 100;
+
+export const GOOGLE_TILE_MAP_URL =
+  'https://gac-geo.googlecnapps.cn/maps/vt?lyrs=s,m&gl=CN&x={x}&y={y}&z={z}';
+
+export enum OfficeLayerEnum {
+  AmapSatellite = 'amapSatellite',
+  AmapRoadNet = 'amapRoadNet',
+  AmapTraffic = 'amapTraffic',
+  AmapBuildings = 'amapBuildings',
+  GoogleSatellite = 'googleSatellite',
+}

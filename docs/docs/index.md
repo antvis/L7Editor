@@ -91,21 +91,21 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 
 底图数据选择
 
-`['googleSatellite'] | ['Satellite','RoadNet','Buildings','Traffic']`
+`['googleSatellite'] | ['amapSatellite','amapRoadNet','AmapBuildings', 'amapTraffic']`
 
 ```js
 {
-  officialLayers: ['Satellite', 'RoadNet'];
+  officialLayers: ['amapSatellite', 'amapRoadNet'];
 }
 ```
 
 | 属性            | 描述       |
 | --------------- | ---------- |
 | googleSatellite | 谷歌卫星图 |
-| Satellite       | 高德卫星图 |
-| RoadNet         | 高德路网图 |
-| Buildings       | 高德楼块图 |
-| Traffic         | 高德路况图 |
+| amapSatellite   | 高德卫星图 |
+| amapRoadNet     | 高德路网图 |
+| amapBuildings   | 高德楼块图 |
+| amapTraffic     | 高德路况图 |
 
 #### coordConvert
 

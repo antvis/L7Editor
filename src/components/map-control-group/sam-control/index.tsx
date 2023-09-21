@@ -19,7 +19,7 @@ import { Spin, Tooltip, message } from 'antd';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
-import { IconFont } from '../../../constants';
+import { GOOGLE_TILE_MAP_URL, IconFont } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import { IFeatures } from '../../../types';
 import useStyle from './style';
@@ -148,10 +148,12 @@ export const SamControl = () => {
 
   useEffect(() => {
     if (!isEmpty(allLayerList)) {
-      const moreTileLayer = allLayerList.find(
-        (item) => item.id === 'reactLayerGoode',
+      const targetLayer = allLayerList.find(
+        (layer) =>
+          layer.type === 'rasterLayer' &&
+          [GOOGLE_TILE_MAP_URL].includes(layer.options.source.data),
       );
-      setTileLayer(moreTileLayer);
+      setTileLayer(targetLayer);
     }
   }, [allLayerList]);
 
