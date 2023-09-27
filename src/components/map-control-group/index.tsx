@@ -42,7 +42,7 @@ const DefaultMapControl: MapControlProps = {
   fullscreenControl: true,
   administrativeSelectControl: true,
   mapAdministrativeControl: true,
-  logo: true,
+  logoControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -57,7 +57,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
 
   return (
     <>
-      {isControlGroupState.logo && <LogoControl position="leftbottom" />}
+      {isControlGroupState.logoControl && <LogoControl position="leftbottom" />}
       {isControlGroupState.drawControl && <DrawControl />}
       {isControlGroupState.clearControl && <ClearControl />}
       {isControlGroupState.zoomControl && (
