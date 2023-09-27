@@ -64,10 +64,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
         <ZoomControl className={styles.zoom} showZoom />
       )}
       {isControlGroupState.scaleControl && (
-        <ScaleControl
-          position={'leftbottom'}
-          className={styles.scalesControl}
-        />
+        <ScaleControl position="leftbottom" className={styles.scalesControl} />
       )}
       {isControlGroupState.mapAdministrativeControl && (
         <MapAdministrativeControl />
@@ -78,7 +75,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.locationSearchControl && <LocationSearchControl />}
       {isControlGroupState.mouseLocationControl && (
         <MouseLocationControl
-          position={'leftbottom'}
+          position="leftbottom"
           className={styles.fullScreen}
         />
       )}
