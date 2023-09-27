@@ -167,7 +167,7 @@ export const AdministrativeSelect = () => {
             <Cascader
               options={data}
               value={value}
-              //@ts-ignore
+
               onChange={onChange}
               className={styles.cascader}
               allowClear

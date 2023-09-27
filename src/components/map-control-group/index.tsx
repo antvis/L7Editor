@@ -1,6 +1,7 @@
 import {
   FullscreenControl,
   GeoLocateControl,
+  LogoControl,
   MouseLocationControl,
   ScaleControl,
   ZoomControl,
@@ -40,6 +41,7 @@ const DefaultMapControl: MapControlProps = {
   fullscreenControl: true,
   administrativeSelectControl: true,
   mapAdministrativeControl: true,
+  logo: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -54,13 +56,17 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
 
   return (
     <>
+      {isControlGroupState.logo && <LogoControl position="leftbottom" />}
       {isControlGroupState.drawControl && <DrawControl />}
       {isControlGroupState.clearControl && <ClearControl />}
       {isControlGroupState.zoomControl && (
         <ZoomControl className={styles.zoom} showZoom />
       )}
       {isControlGroupState.scaleControl && (
-        <ScaleControl className={styles.scalesControl} />
+        <ScaleControl
+          position={'leftbottom'}
+          className={styles.scalesControl}
+        />
       )}
       {isControlGroupState.mapAdministrativeControl && (
         <MapAdministrativeControl />
@@ -70,7 +76,10 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       )}
       {isControlGroupState.locationSearchControl && <LocationSearchControl />}
       {isControlGroupState.mouseLocationControl && (
-        <MouseLocationControl className={styles.fullScreen} />
+        <MouseLocationControl
+          position={'leftbottom'}
+          className={styles.fullScreen}
+        />
       )}
       {isControlGroupState.filterControl && <FilterControl />}
       {baseMap === 'Gaode' && isControlGroupState.officialLayerControl && (
