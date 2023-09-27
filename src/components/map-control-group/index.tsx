@@ -7,6 +7,7 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React, { useEffect, useState } from 'react';
+import { OfficeLayerEnum } from '../../constants';
 import { useGlobal } from '../../recoil';
 import { MapControlProps } from '../../types/l7editor';
 import { AdministrativeSelect } from './administrative-select-control';
@@ -97,7 +98,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
           className={styles.fullScreen}
         />
       )}
-      {layerType.includes('googleSatellite') && <SamControl />}
+      {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />}
     </>
   );
 };
