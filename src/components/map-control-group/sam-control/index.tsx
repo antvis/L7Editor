@@ -225,7 +225,7 @@ export const SamControl = () => {
   return (
     <>
       <CustomControl position="bottomright">
-        <Tooltip title={t('map_control_group.sam.zhiNengXuanZe')} placement="bottom">
+        <Tooltip title={t('map_control_group.sam.zhiNengXuanZe')} placement="left">
           <Spin spinning={loading}>
             <div
               className={classNames([styles.sam, 'l7-button-control'])}
@@ -234,7 +234,7 @@ export const SamControl = () => {
               }}
               style={{ color: samOpen ? '#1677ff' : '' }}
             >
-              <IconFont type="icon-zhinengxuanze" className={styles.samSvg} />
+              <IconFont type="icon-zhinengshibie" className={styles.samSvg} />
             </div>
           </Spin>
         </Tooltip>
