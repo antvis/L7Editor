@@ -32,6 +32,7 @@ export default {
   'app_header.index.yinDao': '引导',
   'app_header.index.liang': '亮',
   'app_header.index.an': '暗',
+  'app_header.index.zhutiqiehuan': '主题切换',
   'app_table.index.dingWei': '定位',
   'administrative_select_control.index.weiLanShuJuQing': '围栏数据请求失败',
   'app_header.constants.zuJianAPI': '组件API文档',
