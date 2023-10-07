@@ -234,7 +234,7 @@ export const SamControl = () => {
               }}
               style={{ color: samOpen ? '#1677ff' : '' }}
             >
-              <IconFont type="icon-zhinengxuanze" className={styles.samSvg} />
+              <IconFont type="icon-zhinengshibie" className={styles.samSvg} />
             </div>
           </Spin>
         </Tooltip>
