@@ -76,6 +76,19 @@ const useStyle = () => {
       font-size: 14px;
       padding: 10px 6px 10px 0;
     `,
+
+    theme: css`
+      cursor: pointer;
+      padding: 0 !important;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `,
+    themeIcon: css`
+      font-size: 20px;
+    `,
   };
 };
 export default useStyle;
