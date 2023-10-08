@@ -10,7 +10,7 @@ export default defineConfig({
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.tsx',
   },
-  title: 'L7 Editor',
+  title: 'L7 Editor - 基于 L7 的地理数据绘制工具',
   outputPath: 'dist',
   copy: isProduction ? ['docs/CNAME'] : [],
   themeConfig: {
@@ -38,7 +38,7 @@ export default defineConfig({
   mfsu: false,
   logo: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
   favicons: [
-    'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
+    'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*b7G7Tovmss0AAAAAAAAAAAAADjWqAQ/original',
   ],
   headScripts: [
     'https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js',
