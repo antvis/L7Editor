@@ -44,6 +44,9 @@ const useStyle = () => {
       border-radius: 2px;
       background-color: ${colorBgContainer};
       box-shadow: ${boxShadow} !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       &:hover {
         svg {
           color: ${colorText};
