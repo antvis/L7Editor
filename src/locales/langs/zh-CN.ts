@@ -164,7 +164,7 @@ export default {
   'app_header.constants.keYiTongGuoBian': '可以通过编辑器修改 GeoJSON 数据',
   'layer_contextmenu_popup.fuZhiChengGong': '复制成功',
   'layer_contextmenu_popup.fuZhi': '复制',
-  'map_control_group.sam.jiSuanWanCheng': '地块区域识别完成，可在红色区域内点击地图选取地块',
+  'map_control_group.sam.jiSuanWanCheng': '地块区域识别完成,可在红色区域内点击地图选取地块,再次点击按钮将关闭地块智能识别',
   'map_control_group.sam.jiSuanShiBai': '地块识区域别失败，请调整地图大小重新识别地块区域',
   'map_control_group.sam.tuXingJieXiCuoWu': '地块解析错误，请重新选择',
   'map_control_group.sam.qingZaiQuYuNei': '请在地块边界内进行选择',
