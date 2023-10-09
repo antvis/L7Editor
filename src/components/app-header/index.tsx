@@ -232,7 +232,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               'l7-editor-header__logo',
             ])}
           >
-            <img src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*3dBJQ5sBMR0AAAAAAAAAAAAADjWqAQ/original" />
+            <img src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*RSdESJd70P8AAAAAAAAAAAAADjWqAQ/original" />
             <span className={styles.mapHeaderTitle}>L7 Editor</span>
           </div>
         )}
