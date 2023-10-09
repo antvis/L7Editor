@@ -187,11 +187,13 @@ export default {
     'GeoJSON data can be modified by editor',
   'layer_contextmenu_popup.fuZhiChengGong': 'Copy success',
   'layer_contextmenu_popup.fuZhi': 'Copy',
-  'map_control_group.sam.jiSuanWanCheng': 'Embedding calculation complete',
-  'map_control_group.sam.jiSuanShiBai': 'Embedding calculation failed',
+  'map_control_group.sam.jiSuanWanCheng':
+    'After the identification of the plot area is completed, click on the map in the red area to select the plot.',
+  'map_control_group.sam.jiSuanShiBai':
+    'Failed to identify the area of the plot. Please resize the map and re-identify the plot area.',
   'map_control_group.sam.tuXingJieXiCuoWu':
-    'Graph parsing error, please reselect',
-  'map_control_group.sam.qingZaiQuYuNei': 'Please select within the area',
-  'map_control_group.sam.zhiNengXuanZe': 'Smart Selection',
-  'map_control_group.sam.ziDongShiBie': 'automatically identify boundaries',
+    'Parcel parsing error, please reselect',
+  'map_control_group.sam.qingZaiQuYuNei': 'Please select within the parcel boundary',
+  'map_control_group.sam.zhiNengXuanZe': 'Block intelligent identification',
+  'map_control_group.sam.ziDongShiBie': 'Plot Identification Area Boundary',
 };

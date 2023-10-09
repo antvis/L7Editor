@@ -19,11 +19,11 @@ import { Spin, Tooltip, message } from 'antd';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GOOGLE_TILE_MAP_URL, IconFont } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import { IFeatures } from '../../../types';
 import useStyle from './style';
-import { useTranslation } from 'react-i18next';
 
 const options: Omit<LineLayerProps, 'source'> = {
   shape: 'line' as const,
@@ -47,7 +47,8 @@ const options: Omit<LineLayerProps, 'source'> = {
 export const SamControl = () => {
   const styles = useStyle();
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
-  const { scene, features, resetFeatures, revertCoord } = useFeature();
+  const { scene, features, resetFeatures, revertCoord, bboxAutoFit } =
+    useFeature();
   const allLayerList = useLayerList();
   const [samOpen, setSamOpen] = useState(false);
   const [tileLayer, setTileLayer] = useState<Layer | undefined>(undefined);
@@ -129,6 +130,7 @@ export const SamControl = () => {
       setMarker(topLeft);
       setBound(bounds);
       setSource({ data: { type: 'FeatureCollection', features: [bounds] } });
+      bboxAutoFit([bounds]);
       samModel.setEmbedding(res);
       message.success(t('map_control_group.sam.jiSuanWanCheng'));
     } catch (error) {
@@ -225,7 +227,10 @@ export const SamControl = () => {
   return (
     <>
       <CustomControl position="bottomright">
-        <Tooltip title={t('map_control_group.sam.zhiNengXuanZe')} placement="left">
+        <Tooltip
+          title={t('map_control_group.sam.zhiNengXuanZe')}
+          placement="left"
+        >
           <Spin spinning={loading}>
             <div
               className={classNames([styles.sam, 'l7-button-control'])}
@@ -246,7 +251,9 @@ export const SamControl = () => {
           //@ts-ignore
           offsets={[43, -16]}
         >
-          <div className={styles.marker}>{t('map_control_group.sam.ziDongShiBie')}</div>
+          <div className={styles.marker}>
+            {t('map_control_group.sam.ziDongShiBie')}
+          </div>
         </Marker>
       )}
       <LineLayer {...options} source={source} />
