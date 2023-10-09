@@ -90,7 +90,7 @@ export const SamControl = () => {
         }
       }
     },
-    [bound, samModel, revertCoord, resetFeatures, features, t],
+    [bound, samModel, revertCoord, features, t],
   );
 
   // 生成 embedding 并初始化载入模型
@@ -144,7 +144,6 @@ export const SamControl = () => {
       const action = 'https://sam.lvisei.icu/api';
       const formData = new FormData();
       formData.append('image_path', strBaseImg);
-
       const res = await (
         await fetch(action, {
           body: formData,
