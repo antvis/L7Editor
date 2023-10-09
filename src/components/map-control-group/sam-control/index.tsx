@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GOOGLE_TILE_MAP_URL, IconFont } from '../../../constants';
+import { GOOGLE_TILE_MAP_URL, IconFont, LayerId } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import type { IFeatures } from '../../../types';
 import useStyle from './style';
@@ -41,6 +41,9 @@ export const SamControl = () => {
   const allLayerList = useLayerList();
   const [samOpen, setSamOpen] = useState(false);
   const [tileLayer, setTileLayer] = useState<Layer | undefined>(undefined);
+  const [polygonLayer, setPolygonLayer] = useState<Layer | undefined>(
+    undefined,
+  );
   const [loading, setLoading] = useState(false);
   const [marker, setMarker] = useState<number[] | undefined>(undefined);
   const [bound, setBound] = useState<
@@ -53,7 +56,7 @@ export const SamControl = () => {
 
   const onMapClick = useCallback(
     (event: any) => {
-      const coords = [event.lnglat.lng, event.lnglat.lat] as [number, number];
+      const coords = [event.lngLat.lng, event.lngLat.lat] as [number, number];
       if (bound) {
         if (booleanPointInPolygon(point(coords), bound)) {
           if (samModel) {
@@ -187,23 +190,27 @@ export const SamControl = () => {
           layer.type === 'rasterLayer' &&
           [GOOGLE_TILE_MAP_URL].includes(layer.options.source.data),
       );
+      const selectLayer = allLayerList.find(
+        (layer) => layer.id === LayerId.PolygonLayer,
+      );
+      setPolygonLayer(selectLayer);
       setTileLayer(targetLayer);
     }
   }, [allLayerList]);
 
   useEffect(() => {
-    if (scene) {
+    if (polygonLayer) {
       if (samOpen) {
-        scene.on('click', onMapClick);
+        polygonLayer.on('unclick', onMapClick);
       } else {
         setSource({ data: { type: 'FeatureCollection', features: [] } });
         setMarker(undefined);
-        scene.off('click', onMapClick);
+        polygonLayer.off('unclick', onMapClick);
       }
-      return () => {
-        scene.off('click', onMapClick);
-      };
     }
+    return () => {
+      polygonLayer?.off('unclick', onMapClick);
+    };
   }, [samOpen, scene, onMapClick]);
 
   useEffect(() => {
