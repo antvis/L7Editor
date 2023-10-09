@@ -267,7 +267,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         {isTooBarState.help && <HandBackBtn />}
         {isTooBarState.setting && <SettingBtn />}
         {isTooBarState.theme && (
-          <Tooltip title={t('app_header.index.zhutiqiehuan')}>
+          <Tooltip title={t('app_header.index.zhutiqiehuan')} trigger="hover">
             <Button
               id="l7-editor-theme"
               className={styles.theme}

@@ -14,6 +14,7 @@ export default defineConfig({
   outputPath: 'dist',
   copy: isProduction ? ['docs/CNAME'] : [],
   themeConfig: {
+    name: 'L7 Editor',
     carrier: 'L7 Editor',
     pc: {
       primaryColor: '#1677ff',
