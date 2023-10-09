@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GOOGLE_TILE_MAP_URL, IconFont } from '../../../constants';
+import { GOOGLE_TILE_MAP_URL, IconFont, LayerId } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import type { IFeatures } from '../../../types';
 import useStyle from './style';
@@ -191,7 +191,7 @@ export const SamControl = () => {
           [GOOGLE_TILE_MAP_URL].includes(layer.options.source.data),
       );
       const selectLayer = allLayerList.find(
-        (layer) => layer.id === 'PolygonLayer',
+        (layer) => layer.id === LayerId.PolygonLayer,
       );
       setPolygonLayer(selectLayer);
       setTileLayer(targetLayer);
