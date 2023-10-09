@@ -207,10 +207,10 @@ export const SamControl = () => {
         setMarker(undefined);
         polygonLayer.off('unclick', onMapClick);
       }
-      return () => {
-        polygonLayer.off('unclick', onMapClick);
-      };
     }
+    return () => {
+      polygonLayer?.off('unclick', onMapClick);
+    };
   }, [samOpen, scene, onMapClick]);
 
   useEffect(() => {
