@@ -199,7 +199,6 @@ export const SamControl = () => {
         setSource({ data: { type: 'FeatureCollection', features: [] } });
         setMarker(undefined);
         scene.off('click', onMapClick);
-        message.success(t('map_control_group.sam.zhiNengShiBieGuanBi'));
       }
       return () => {
         scene.off('click', onMapClick);
@@ -225,6 +224,11 @@ export const SamControl = () => {
               className={classNames([styles.sam, 'l7-button-control'])}
               onClick={() => {
                 setSamOpen(!samOpen);
+                if (samOpen) {
+                  message.success(
+                    t('map_control_group.sam.zhiNengShiBieGuanBi'),
+                  );
+                }
               }}
               style={{ color: samOpen ? '#1677ff' : '' }}
             >
