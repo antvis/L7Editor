@@ -1,5 +1,6 @@
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Button, Dropdown, MenuProps, Modal } from 'antd';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown, Modal } from 'antd';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { dingGroupImg } from '../../../constants';
@@ -8,11 +9,8 @@ export default () => {
   const [dingModal, setDingModal] = useState(false);
   const { t } = useTranslation();
   const onDownload = (key: string) => {
-    if (key === 'text') {
-      window.open(
-        'https://www.yuque.com/antv/l7/buhith8khkc9mfsg?singleDoc#',
-        '_blank',
-      );
+    if (key === 'guide') {
+      window.open('/guide');
     } else if (key === 'api') {
       window.open('/docs');
     } else if (key === 'ding') {
@@ -22,7 +20,7 @@ export default () => {
 
   const HandBackMenuItems: MenuProps['items'] = [
     {
-      key: 'text',
+      key: 'guide',
       label: t('app_header.constants.pingTaiShiYongWen'),
     },
     {
