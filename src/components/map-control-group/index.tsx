@@ -58,13 +58,19 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   return (
     <>
       {isControlGroupState.logoControl && <LogoControl position="leftbottom" />}
+      {isControlGroupState.scaleControl && (
+        <ScaleControl position="leftbottom" className={styles.scalesControl} />
+      )}
+      {isControlGroupState.mouseLocationControl && (
+        <MouseLocationControl
+          position="leftbottom"
+          className={styles.fullScreen}
+        />
+      )}
       {isControlGroupState.drawControl && <DrawControl />}
       {isControlGroupState.clearControl && <ClearControl />}
       {isControlGroupState.zoomControl && (
         <ZoomControl className={styles.zoom} showZoom />
-      )}
-      {isControlGroupState.scaleControl && (
-        <ScaleControl position="leftbottom" className={styles.scalesControl} />
       )}
       {isControlGroupState.mapAdministrativeControl && (
         <MapAdministrativeControl />
@@ -73,12 +79,6 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
         <AdministrativeSelect />
       )}
       {isControlGroupState.locationSearchControl && <LocationSearchControl />}
-      {isControlGroupState.mouseLocationControl && (
-        <MouseLocationControl
-          position="leftbottom"
-          className={styles.fullScreen}
-        />
-      )}
       {isControlGroupState.filterControl && <FilterControl />}
       {baseMap === 'Gaode' && isControlGroupState.officialLayerControl && (
         <OfficialLayerControl />
