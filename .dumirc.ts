@@ -36,9 +36,9 @@ export default defineConfig({
     '@': require('path').resolve(__dirname, 'src'),
   },
   mfsu: false,
-  logo: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+  logo: 'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*3dBJQ5sBMR0AAAAAAAAAAAAADjWqAQ/original',
   favicons: [
-    'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*b7G7Tovmss0AAAAAAAAAAAAADjWqAQ/original',
+    'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*KnaOQ5ucgeoAAAAAAAAAAAAADjWqAQ/original',
   ],
   headScripts: [
     'https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js',
