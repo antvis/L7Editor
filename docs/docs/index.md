@@ -143,6 +143,7 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 | fullscreenControl           | 全屏控件             |
 | administrativeSelectControl | 行政区域选择控件     |
 | mapAdministrativeControl    | 查看当前行政区域控件 |
+| logoControl                 | Logo 控件            |
 
 #### toolbar
 

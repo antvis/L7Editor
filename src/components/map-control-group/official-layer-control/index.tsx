@@ -176,7 +176,7 @@ export function OfficialLayerControl() {
         >
           <IconFont
             id="l7-editor-aMap"
-            type="icon-ditu"
+            type="icon-tuceng"
             className={styles.l7AmapControl}
           />
         </Tooltip>

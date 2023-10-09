@@ -77,7 +77,7 @@ const FilterControl: React.FC = () => {
 
   return (
     <CustomControl
-      position="bottomleft"
+      position="bottomright"
       className={styles.l7FilterPanel}
       style={{ display: 'flex' }}
     >
@@ -228,7 +228,7 @@ const FilterControl: React.FC = () => {
       <div className={styles.l7FilterSwitch}>
         <Tooltip
           title={t('filter_form_list_control.index.shuJuGuoLu')}
-          placement="right"
+          placement="left"
         >
           <button
             type="button"

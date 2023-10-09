@@ -12,7 +12,7 @@ export const MapAdministrativeControl: React.FC = () => {
         'map-administrative-control',
         styles.mapAdministrative,
       ])}
-      position="bottomleft"
+      position="leftbottom"
     >
       <RegionLocation
         searchParams={{ key: '98d10f05a2da96697313a2ce35ebf1a2' }}

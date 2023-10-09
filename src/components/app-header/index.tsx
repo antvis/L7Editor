@@ -1,14 +1,6 @@
 import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import {
-  Button,
-  Dropdown,
-  MenuProps,
-  Switch,
-  Tooltip,
-  Tour,
-  TourProps,
-} from 'antd';
+import { Button, Dropdown, MenuProps, Tooltip, Tour, TourProps } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -240,8 +232,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               'l7-editor-header__logo',
             ])}
           >
-            <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QGswQZ2nlGkAAAAAAAAAAAAADmJ7AQ/original" />
-            <span className={styles.mapHeaderTitle}>L7Editor</span>
+            <img src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*3dBJQ5sBMR0AAAAAAAAAAAAADjWqAQ/original" />
+            <span className={styles.mapHeaderTitle}>L7 Editor</span>
           </div>
         )}
       </div>
@@ -275,15 +267,24 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         {isTooBarState.help && <HandBackBtn />}
         {isTooBarState.setting && <SettingBtn />}
         {isTooBarState.theme && (
-          <Switch
-            id="l7-editor-theme"
-            checkedChildren={t('app_header.index.liang')}
-            unCheckedChildren={t('app_header.index.an')}
-            defaultChecked={theme === 'normal' ? true : false}
-            onChange={(checked: boolean) => {
-              setTheme(checked ? 'normal' : 'dark');
-            }}
-          />
+          <Tooltip title={t('app_header.index.zhutiqiehuan')}>
+            <Button
+              id="l7-editor-theme"
+              className={styles.theme}
+              onClick={() => {
+                setTheme(theme === 'normal' ? 'dark' : 'normal');
+              }}
+            >
+              <IconFont
+                className={styles.themeIcon}
+                type={
+                  theme === 'normal'
+                    ? 'icon-taiyang'
+                    : 'icon-a-qingtianwanshang'
+                }
+              />
+            </Button>
+          </Tooltip>
         )}
         {false && (
           <Button

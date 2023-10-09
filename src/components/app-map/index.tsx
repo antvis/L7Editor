@@ -66,6 +66,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
       mapType={baseMap}
       onSceneLoaded={setScene}
       id="l7-editor-map"
+      logoVisible={false}
     >
       {children}
     </LarkMap>
