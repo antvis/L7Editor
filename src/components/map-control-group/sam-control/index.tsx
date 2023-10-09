@@ -238,7 +238,7 @@ export const SamControl = () => {
           lngLat={{ lng: marker[0], lat: marker[1] }}
           anchor="center"
           //@ts-ignore
-          offsets={[43, -16]}
+          offsets={[54, -16]}
         >
           <div className={styles.marker}>
             {t('map_control_group.sam.ziDongShiBie')}
