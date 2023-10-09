@@ -170,4 +170,5 @@ export default {
   'map_control_group.sam.qingZaiQuYuNei': '请在地块边界内进行选择',
   'map_control_group.sam.zhiNengXuanZe': '地块智能识别',
   'map_control_group.sam.ziDongShiBie': '地块识别区域边界',
+  'map_control_group.sam.zhiNengShiBieGuanBi': '地块智能识别功能已关闭'
 };

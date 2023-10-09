@@ -199,6 +199,7 @@ export const SamControl = () => {
         setSource({ data: { type: 'FeatureCollection', features: [] } });
         setMarker(undefined);
         scene.off('click', onMapClick);
+        message.success(t('map_control_group.sam.zhiNengShiBieGuanBi'));
       }
       return () => {
         scene.off('click', onMapClick);

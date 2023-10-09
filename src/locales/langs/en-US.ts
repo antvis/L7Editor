@@ -197,4 +197,5 @@ export default {
     'Please select within the parcel boundary',
   'map_control_group.sam.zhiNengXuanZe': 'Block intelligent identification',
   'map_control_group.sam.ziDongShiBie': 'Plot Identification Area Boundary',
+  'map_control_group.sam.zhiNengShiBieGuanBi': 'Block intelligent identification function is turned off'
 };
