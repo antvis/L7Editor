@@ -34,6 +34,7 @@ export default {
   'app_header.index.yinDao': 'Guide',
   'app_header.index.liang': 'Light',
   'app_header.index.zhutiqiehuan': 'Theme change',
+  'app_header.index.dingTalk': 'DingTalk Group',
   'app_header.index.an': 'Dark',
   'app_table.index.dingWei': 'Locate',
   'administrative_select_control.index.weiLanShuJuQing':

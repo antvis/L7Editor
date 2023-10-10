@@ -1,20 +1,16 @@
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Button, Dropdown, Modal } from 'antd';
+import { Button, Dropdown } from 'antd';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { dingGroupImg } from '../../../constants';
 
 export default () => {
-  const [dingModal, setDingModal] = useState(false);
   const { t } = useTranslation();
   const onDownload = (key: string) => {
     if (key === 'guide') {
       window.open('/guide');
     } else if (key === 'api') {
       window.open('/docs');
-    } else if (key === 'ding') {
-      setDingModal(true);
     }
   };
 
@@ -26,10 +22,6 @@ export default () => {
     {
       key: 'api',
       label: t('app_header.constants.zuJianAPI'),
-    },
-    {
-      key: 'ding',
-      label: t('btn.handback_btn.lianXiWoMen'),
     },
   ];
   return (
@@ -46,16 +38,6 @@ export default () => {
           {t('btn.handback_btn.bangZhu')}
         </Button>
       </Dropdown>
-      <Modal
-        title={t('btn.handback_btn.lianXiWoMen')}
-        open={dingModal}
-        onCancel={() => setDingModal(false)}
-        footer={null}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <img style={{ width: 400 }} src={dingGroupImg} />
-        </div>
-      </Modal>
     </>
   );
 };

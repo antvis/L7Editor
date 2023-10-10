@@ -19,7 +19,6 @@ const useStyle = () => {
       background: ${colorBgContainer};
       z-index: 1;
       .ant-btn {
-        margin-right: 8px;
         border: 0;
       }
     `,
@@ -87,7 +86,7 @@ const useStyle = () => {
       justify-content: center;
     `,
     themeIcon: css`
-      font-size: 20px;
+      font-size: 20px !important;
     `,
   };
 };
