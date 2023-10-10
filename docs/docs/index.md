@@ -34,7 +34,7 @@ title: API
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
-| toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
+| toolbar | 头部组件显隐 | [ToolbarProps](#toolbarprops) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
 | showIndex | 是否展示元素序号 | `boolean` | `false` |
 
