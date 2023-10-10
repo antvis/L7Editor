@@ -29,6 +29,7 @@ export interface ToolbarProps {
   help?: boolean;
   setting?: boolean;
   theme?: boolean;
+  dingTalk?: boolean;
 }
 
 export interface L7EditorProps {

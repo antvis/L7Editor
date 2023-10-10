@@ -1,12 +1,17 @@
-import { FlagOutlined, SaveOutlined } from '@ant-design/icons';
+import {
+  DingtalkOutlined,
+  FlagOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
-import { Button, Dropdown, MenuProps, Tooltip, Tour, TourProps } from 'antd';
+import type { MenuProps, TourProps } from 'antd';
+import { Button, Divider, Dropdown, Popover, Space, Tooltip, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconFont } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
-import { ToolbarProps } from '../../types/l7editor';
+import type { ToolbarProps } from '../../types/l7editor';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import { ImportBtn } from './btn/import-btn';
@@ -30,6 +35,7 @@ const isTooBar = {
   help: true,
   setting: true,
   theme: true,
+  dingTalk: true,
 };
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
@@ -238,77 +244,99 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         )}
       </div>
       <div className={styles.mapHeaderRight}>
-        {isTooBarState.import && <ImportBtn />}
-        <Tooltip title={t('app_header.index.baoCunShuJu')}>
-          <Button
-            id="l7-editor-save"
-            icon={<SaveOutlined />}
-            disabled={!savable}
-            onClick={onSave}
-          >
-            {t('app_header.constants.baoCun')}
-          </Button>
-        </Tooltip>
-        {isTooBarState.download && <DownloadBtn />}
-        {isTooBarState.guide && (
-          <Dropdown
-            menu={{
-              items: DropdownMenuItems,
-              onClick: ({ key }) => {
-                onDownload(key);
-              },
-            }}
-          >
-            <Button icon={<FlagOutlined />}>
-              {t('app_header.index.yinDao')}
-            </Button>
-          </Dropdown>
-        )}
-        {isTooBarState.help && <HandBackBtn />}
-        {isTooBarState.setting && <SettingBtn />}
-        {isTooBarState.theme && (
-          <Tooltip title={t('app_header.index.zhutiqiehuan')} trigger="hover">
+        <Space>
+          {isTooBarState.import && <ImportBtn />}
+          <Tooltip title={t('app_header.index.baoCunShuJu')}>
             <Button
-              id="l7-editor-theme"
-              className={styles.theme}
+              id="l7-editor-save"
+              icon={<SaveOutlined />}
+              disabled={!savable}
+              onClick={onSave}
+            >
+              {t('app_header.constants.baoCun')}
+            </Button>
+          </Tooltip>
+          {isTooBarState.download && <DownloadBtn />}
+          {isTooBarState.guide && (
+            <Dropdown
+              menu={{
+                items: DropdownMenuItems,
+                onClick: ({ key }) => {
+                  onDownload(key);
+                },
+              }}
+            >
+              <Button icon={<FlagOutlined />}>
+                {t('app_header.index.yinDao')}
+              </Button>
+            </Dropdown>
+          )}
+          {isTooBarState.help && <HandBackBtn />}
+          {isTooBarState.setting && <SettingBtn />}
+        </Space>
+
+        <Divider type="vertical" />
+
+        <Space>
+          {isTooBarState.dingTalk && (
+            <Popover
+              title={t('app_header.index.dingTalk')}
+              content={
+                <img
+                  style={{ width: 300 }}
+                  src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*LxZCT7FIMdsAAAAAAAAAAAAADjWqAQ/original"
+                />
+              }
+              trigger="hover"
+            >
+              <Button icon={<DingtalkOutlined />} />
+            </Popover>
+          )}
+          {isTooBarState.theme && (
+            <Tooltip title={t('app_header.index.zhutiqiehuan')} trigger="hover">
+              <Button
+                id="l7-editor-theme"
+                icon={
+                  <IconFont
+                    className={styles.themeIcon}
+                    type={
+                      theme === 'normal'
+                        ? 'icon-taiyang'
+                        : 'icon-a-qingtianwanshang'
+                    }
+                  />
+                }
+                // className={styles.theme}
+                onClick={() => {
+                  setTheme(theme === 'normal' ? 'dark' : 'normal');
+                }}
+              />
+            </Tooltip>
+          )}
+          {false && (
+            <Button
+              className={styles.locale}
               onClick={() => {
-                setTheme(theme === 'normal' ? 'dark' : 'normal');
+                if (locale === 'zh-CN') {
+                  i18n.changeLanguage('en-US');
+                  setLocale('en-US');
+                } else {
+                  i18n.changeLanguage('zh-CN');
+                  setLocale('zh-CN');
+                }
               }}
             >
               <IconFont
-                className={styles.themeIcon}
+                className={styles.localeIcon}
                 type={
-                  theme === 'normal'
-                    ? 'icon-taiyang'
-                    : 'icon-a-qingtianwanshang'
+                  locale === 'zh'
+                    ? 'icon-zhongyingwenqiehuan-zhongwen'
+                    : 'icon-zhongyingwenqiehuan-yingwen'
                 }
               />
             </Button>
-          </Tooltip>
-        )}
-        {false && (
-          <Button
-            className={styles.locale}
-            onClick={() => {
-              if (locale === 'zh-CN') {
-                i18n.changeLanguage('en-US');
-                setLocale('en-US');
-              } else {
-                i18n.changeLanguage('zh-CN');
-                setLocale('zh-CN');
-              }
-            }}
-          >
-            <IconFont
-              className={styles.localeIcon}
-              type={
-                locale === 'zh'
-                  ? 'icon-zhongyingwenqiehuan-zhongwen'
-                  : 'icon-zhongyingwenqiehuan-yingwen'
-              }
-            />
-          </Button>
-        )}
+          )}
+        </Space>
       </div>
       <Tour
         open={open.open}
