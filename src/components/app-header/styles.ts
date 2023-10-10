@@ -19,7 +19,6 @@ const useStyle = () => {
       background: ${colorBgContainer};
       z-index: 1;
       .ant-btn {
-        margin-right: 8px;
         border: 0;
       }
     `,
@@ -74,8 +73,20 @@ const useStyle = () => {
     `,
     uploadTitle: css`
       font-size: 14px;
-      color: #f00;
       padding: 10px 6px 10px 0;
+    `,
+
+    theme: css`
+      cursor: pointer;
+      padding: 0 !important;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `,
+    themeIcon: css`
+      font-size: 20px !important;
     `,
   };
 };

@@ -1,4 +1,9 @@
-import { csv2json, parserExcelFileToSource, parserTextFileToSource } from './file-to-source';
+import { GeometryVT } from '../constants';
+import {
+  csv2json,
+  parserExcelFileToSource,
+  parserTextFileToSource,
+} from './file-to-source';
 interface newFile extends File {
   uid: string;
 }
@@ -14,6 +19,15 @@ export const isWkt = (data: string) => {
   }
 
   return iswktField;
+};
+
+export const isGeometry = (data: string) => {
+  try {
+    const json = JSON.parse(data);
+    return GeometryVT.check(json);
+  } catch {
+    return false;
+  }
 };
 
 export const parserFileToSource = async (file: newFile, t: any) => {

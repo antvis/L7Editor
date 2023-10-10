@@ -20,7 +20,7 @@ const useStyle = () => {
       padding: 16px;
       margin-right: 8px;
       position: absolute;
-      left: 40px;
+      right: 35px;
       bottom: 0;
       box-shadow: ${boxShadow} !important;
       .ant-form-item {

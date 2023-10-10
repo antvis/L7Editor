@@ -21,6 +21,6 @@
   },
   "defaultTranslateKeyApi": "Pinyin",
   "importI18N": "import I18N from '@/locales';",
-  "ignoreDir": [],
+  "ignoreDir": ["/src/locales"],
   "ignoreFile": []
 }

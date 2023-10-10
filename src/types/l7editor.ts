@@ -3,6 +3,7 @@ import { Feature } from '@turf/turf';
 import { TabsProps } from 'antd';
 
 export interface MapControlProps {
+  logoControl: boolean;
   drawControl?: boolean;
   clearControl?: boolean;
   zoomControl?: boolean;
@@ -28,6 +29,7 @@ export interface ToolbarProps {
   help?: boolean;
   setting?: boolean;
   theme?: boolean;
+  dingTalk?: boolean;
 }
 
 export interface L7EditorProps {

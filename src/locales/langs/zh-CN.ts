@@ -32,6 +32,8 @@ export default {
   'app_header.index.yinDao': '引导',
   'app_header.index.liang': '亮',
   'app_header.index.an': '暗',
+  'app_header.index.zhutiqiehuan': '主题切换',
+  'app_header.index.dingTalk': '钉钉答疑群',
   'app_table.index.dingWei': '定位',
   'administrative_select_control.index.weiLanShuJuQing': '围栏数据请求失败',
   'app_header.constants.zuJianAPI': '组件API文档',
@@ -84,6 +86,12 @@ export default {
   'import_btn.file_upload.qingShanChuBaoCuo': '请删除报错文件',
   'import_btn.file_upload.qingJianChaShuJu': '请检查数据格式',
   'import_btn.file_upload.wenJianShangChuan2': '文件上传 :',
+  'import_btn.file_upload.wenJian': '文件',
+  'import_btn.file_upload.ciZiDuanFeiDiLiZiDuan': '此字段非地理数据',
+  'import_btn.file_upload.dianJiHuoJiangWenJian': '点击或将文件拖拽到这里。',
+  'import_btn.file_upload.diLiZiDuanXuanZe': '地理字段选择',
+  'import_btn.file_upload.dangQianJinZhiChi':
+    '当前仅支持 WKT 格式字段数据 和 geometry 数据',
   'import_btn.lnglat_import_btn.shuJuNeiRong': '数据内容',
   'import_btn.lnglat_import_btn.mian': '面',
   'import_btn.lnglat_import_btn.qingShuRuJingWei': '请输入经纬度',
@@ -155,4 +163,15 @@ export default {
   'app_header.constants.keXuanZeBuTong': '可选择不同的地图的官方图层配置',
   'app_header.constants.gEOJS': 'GeoJSON编辑器',
   'app_header.constants.keYiTongGuoBian': '可以通过编辑器修改 GeoJSON 数据',
+  'layer_contextmenu_popup.fuZhiChengGong': '复制成功',
+  'layer_contextmenu_popup.fuZhi': '复制',
+  'map_control_group.sam.jiSuanWanCheng':
+    '地块区域识别完成,可在红色区域内点击地图选取地块,再次点击按钮将关闭地块智能识别',
+  'map_control_group.sam.jiSuanShiBai':
+    '地块识区域别失败，请调整地图大小重新识别地块区域',
+  'map_control_group.sam.tuXingJieXiCuoWu': '地块解析错误，请重新选择',
+  'map_control_group.sam.qingZaiQuYuNei': '请在地块边界内进行选择',
+  'map_control_group.sam.zhiNengXuanZe': '地块智能识别',
+  'map_control_group.sam.ziDongShiBie': '地块识别区域边界',
+  'map_control_group.sam.zhiNengShiBieGuanBi': '地块智能识别功能已关闭',
 };

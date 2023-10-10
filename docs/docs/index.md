@@ -1,6 +1,12 @@
 ---
-title: L7Editor文档
+title: API
 ---
+
+### 说明
+
+该文档主要说明将 L7 Editor 作为 React 组件在项目中使用的 API。
+
+**注意在使用 `<L7Editor />` 之前请保证环境中已安装 `"@antv/l7": "^2.0.0"` 和 `"antd": "^5.0.0"`。**
 
 ### 代码演示
 
@@ -28,7 +34,7 @@ title: L7Editor文档
 | theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
-| toolbar | 头部组件显隐 | [ToolbarProps](#ToolbarProps) | `-` |
+| toolbar | 头部组件显隐 | [ToolbarProps](#toolbarprops) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
 | showIndex | 是否展示元素序号 | `boolean` | `false` |
 
@@ -91,21 +97,21 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 
 底图数据选择
 
-`['googleSatellite'] | ['Satellite','RoadNet','Buildings','Traffic']`
+`['googleSatellite'] | ['amapSatellite','amapRoadNet','AmapBuildings', 'amapTraffic']`
 
 ```js
 {
-  officialLayers: ['Satellite', 'RoadNet'];
+  officialLayers: ['amapSatellite', 'amapRoadNet'];
 }
 ```
 
 | 属性            | 描述       |
 | --------------- | ---------- |
 | googleSatellite | 谷歌卫星图 |
-| Satellite       | 高德卫星图 |
-| RoadNet         | 高德路网图 |
-| Buildings       | 高德楼块图 |
-| Traffic         | 高德路况图 |
+| amapSatellite   | 高德卫星图 |
+| amapRoadNet     | 高德路网图 |
+| amapBuildings   | 高德楼块图 |
+| amapTraffic     | 高德路况图 |
 
 #### coordConvert
 
@@ -143,6 +149,7 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 | fullscreenControl           | 全屏控件             |
 | administrativeSelectControl | 行政区域选择控件     |
 | mapAdministrativeControl    | 查看当前行政区域控件 |
+| logoControl                 | Logo 控件            |
 
 #### toolbar
 
@@ -156,15 +163,16 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 
 #### ToolbarProps
 
-| 属性     | 描述 |
-| -------- | ---- |
-| logo     | logo |
-| import   | 上传 |
-| download | 下载 |
-| guide    | 引导 |
-| help     | 帮助 |
-| setting  | 设置 |
-| theme    | 主题 |
+| 属性     | 描述   |
+| -------- | ------ |
+| logo     | logo   |
+| import   | 上传   |
+| download | 下载   |
+| guide    | 引导   |
+| help     | 帮助   |
+| setting  | 设置   |
+| theme    | 主题   |
+| dingTalk | 钉钉群 |
 
 #### `onFeatureChange`
 

@@ -101,7 +101,7 @@ export const LayerContextmenuPopup: React.FC = () => {
 
   const copyTypeList = useMemo(() => {
     if (!markerProps.feature) {
-      return;
+      return [];
     }
     const index = markerProps.feature.properties[FeatureKey.Index];
     const featureCollectionData = featureCollection([features[index]]);

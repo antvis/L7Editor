@@ -33,6 +33,8 @@ export default {
   'app_header.index.baoCunShuJu': 'Save Data',
   'app_header.index.yinDao': 'Guide',
   'app_header.index.liang': 'Light',
+  'app_header.index.zhutiqiehuan': 'Theme change',
+  'app_header.index.dingTalk': 'DingTalk Group',
   'app_header.index.an': 'Dark',
   'app_table.index.dingWei': 'Locate',
   'administrative_select_control.index.weiLanShuJuQing':
@@ -94,6 +96,14 @@ export default {
   'import_btn.file_upload.qingShanChuBaoCuo': 'Please delete the error file',
   'import_btn.file_upload.qingJianChaShuJu': 'Please check the data format',
   'import_btn.file_upload.wenJianShangChuan2': 'File upload:',
+  'import_btn.file_upload.wenJian': 'File',
+  'import_btn.file_upload.ciZiDuanFeiDiLiZiDuan':
+    'This field is not geographic data',
+  'import_btn.file_upload.dianJiHuoJiangWenJian':
+    'Click or drag the file here.',
+  'import_btn.file_upload.diLiZiDuanXuanZe': 'Geographical field selection',
+  'import_btn.file_upload.dangQianJinZhiChi':
+    'Currently, only WKT format field data and geometry data are supported.',
   'import_btn.lnglat_import_btn.shuJuNeiRong': 'Data Content',
   'import_btn.lnglat_import_btn.mian': 'Face',
   'import_btn.lnglat_import_btn.qingShuRuJingWei':
@@ -176,4 +186,18 @@ export default {
   'app_header.constants.gEOJS': 'GeoJSON Editor',
   'app_header.constants.keYiTongGuoBian':
     'GeoJSON data can be modified by editor',
+  'layer_contextmenu_popup.fuZhiChengGong': 'Copy success',
+  'layer_contextmenu_popup.fuZhi': 'Copy',
+  'map_control_group.sam.jiSuanWanCheng':
+    'After the identification of the plot area is completed, click the map in the red area to select the plot, and click the button again to close the intelligent identification of the plot.',
+  'map_control_group.sam.jiSuanShiBai':
+    'Failed to identify the area of the plot. Please resize the map and re-identify the plot area.',
+  'map_control_group.sam.tuXingJieXiCuoWu':
+    'Parcel parsing error, please reselect',
+  'map_control_group.sam.qingZaiQuYuNei':
+    'Please select within the parcel boundary',
+  'map_control_group.sam.zhiNengXuanZe': 'Block intelligent identification',
+  'map_control_group.sam.ziDongShiBie': 'Plot Identification Area Boundary',
+  'map_control_group.sam.zhiNengShiBieGuanBi':
+    'Block intelligent identification function is turned off',
 };

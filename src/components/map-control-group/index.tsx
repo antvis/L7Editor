@@ -1,11 +1,13 @@
 import {
   FullscreenControl,
   GeoLocateControl,
+  LogoControl,
   MouseLocationControl,
   ScaleControl,
   ZoomControl,
 } from '@antv/larkmap';
 import React, { useEffect, useState } from 'react';
+import { OfficeLayerEnum } from '../../constants';
 import { useGlobal } from '../../recoil';
 import { MapControlProps } from '../../types/l7editor';
 import { AdministrativeSelect } from './administrative-select-control';
@@ -40,6 +42,7 @@ const DefaultMapControl: MapControlProps = {
   fullscreenControl: true,
   administrativeSelectControl: true,
   mapAdministrativeControl: true,
+  logoControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -54,13 +57,20 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
 
   return (
     <>
+      {isControlGroupState.logoControl && <LogoControl position="leftbottom" />}
+      {isControlGroupState.scaleControl && (
+        <ScaleControl position="leftbottom" className={styles.scalesControl} />
+      )}
+      {isControlGroupState.mouseLocationControl && (
+        <MouseLocationControl
+          position="leftbottom"
+          className={styles.fullScreen}
+        />
+      )}
       {isControlGroupState.drawControl && <DrawControl />}
       {isControlGroupState.clearControl && <ClearControl />}
       {isControlGroupState.zoomControl && (
         <ZoomControl className={styles.zoom} showZoom />
-      )}
-      {isControlGroupState.scaleControl && (
-        <ScaleControl className={styles.scalesControl} />
       )}
       {isControlGroupState.mapAdministrativeControl && (
         <MapAdministrativeControl />
@@ -69,9 +79,6 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
         <AdministrativeSelect />
       )}
       {isControlGroupState.locationSearchControl && <LocationSearchControl />}
-      {isControlGroupState.mouseLocationControl && (
-        <MouseLocationControl className={styles.fullScreen} />
-      )}
       {isControlGroupState.filterControl && <FilterControl />}
       {baseMap === 'Gaode' && isControlGroupState.officialLayerControl && (
         <OfficialLayerControl />
@@ -88,7 +95,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
           className={styles.fullScreen}
         />
       )}
-      {layerType.includes('googleSatellite') && <SamControl />}
+      {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />}
     </>
   );
 };

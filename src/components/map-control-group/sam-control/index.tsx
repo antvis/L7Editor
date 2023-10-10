@@ -1,27 +1,17 @@
-import {
-  CustomControl,
-  LineLayer,
-  LineLayerProps,
-  Marker,
-  useLayerList,
-} from '@antv/larkmap';
-import { Layer } from '@antv/larkmap/es/types';
+import type { LineLayerProps } from '@antv/larkmap';
+import { CustomControl, LineLayer, Marker, useLayerList } from '@antv/larkmap';
+import type { Layer } from '@antv/larkmap/es/types';
 import { MODEL_URL, SAMGeo } from '@antv/sam';
-import {
-  Feature,
-  MultiPolygon,
-  Polygon,
-  booleanPointInPolygon,
-  point,
-  polygon,
-} from '@turf/turf';
+import type { Feature, MultiPolygon, Polygon } from '@turf/turf';
+import { booleanPointInPolygon, point, polygon } from '@turf/turf';
 import { Spin, Tooltip, message } from 'antd';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
-import { IconFont } from '../../../constants';
+import { useTranslation } from 'react-i18next';
+import { GOOGLE_TILE_MAP_URL, IconFont, LayerId } from '../../../constants';
 import { useFeature } from '../../../recoil';
-import { IFeatures } from '../../../types';
+import type { IFeatures } from '../../../types';
 import useStyle from './style';
 
 const options: Omit<LineLayerProps, 'source'> = {
@@ -46,10 +36,14 @@ const options: Omit<LineLayerProps, 'source'> = {
 export const SamControl = () => {
   const styles = useStyle();
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
-  const { scene, features, resetFeatures, revertCoord } = useFeature();
+  const { scene, features, resetFeatures, revertCoord, bboxAutoFit } =
+    useFeature();
   const allLayerList = useLayerList();
   const [samOpen, setSamOpen] = useState(false);
   const [tileLayer, setTileLayer] = useState<Layer | undefined>(undefined);
+  const [polygonLayer, setPolygonLayer] = useState<Layer | undefined>(
+    undefined,
+  );
   const [loading, setLoading] = useState(false);
   const [marker, setMarker] = useState<number[] | undefined>(undefined);
   const [bound, setBound] = useState<
@@ -58,6 +52,49 @@ export const SamControl = () => {
   const [source, setSource] = useState<any>({
     data: { type: 'FeatureCollection', features: [] },
   });
+  const { t } = useTranslation();
+
+  const onMapClick = useCallback(
+    (event: any) => {
+      const coords = [event.lngLat.lng, event.lngLat.lat] as [number, number];
+      if (bound) {
+        if (booleanPointInPolygon(point(coords), bound)) {
+          if (samModel) {
+            const px = samModel.lngLat2ImagePixel(coords)!;
+            const newPoint = [
+              {
+                x: px[0],
+                y: px[1],
+                clickType: 1,
+              },
+            ];
+            const threshold = 1;
+
+            samModel.predict(newPoint).then(async (res) => {
+              const fc = await samModel.exportGeoPolygon(res, threshold);
+              const image = samModel.exportImageClip(res)!;
+              const newData = {
+                feature: fc.features as any,
+                imageUrl: image.src,
+              };
+              if (
+                booleanPointInPolygon(point(coords), newData?.feature[0]) &&
+                newData?.feature[0].geometry.coordinates[0].length > 4
+              ) {
+                const newFeature = revertCoord(newData.feature);
+                resetFeatures([...features, ...newFeature] as IFeatures);
+              } else {
+                message.warning(t('map_control_group.sam.tuXingJieXiCuoWu'));
+              }
+            });
+          }
+        } else {
+          message.error(t('map_control_group.sam.qingZaiQuYuNei'));
+        }
+      }
+    },
+    [bound, samModel, revertCoord, features, t],
+  );
 
   // 生成 embedding 并初始化载入模型
   const generateEmbedding = async () => {
@@ -110,7 +147,6 @@ export const SamControl = () => {
       const action = 'https://sam.lvisei.icu/api';
       const formData = new FormData();
       formData.append('image_path', strBaseImg);
-
       const res = await (
         await fetch(action, {
           body: formData,
@@ -127,10 +163,11 @@ export const SamControl = () => {
       setMarker(topLeft);
       setBound(bounds);
       setSource({ data: { type: 'FeatureCollection', features: [bounds] } });
+      bboxAutoFit([bounds]);
       samModel.setEmbedding(res);
-      message.success('embedding计算完成');
+      message.success(t('map_control_group.sam.jiSuanWanCheng'));
     } catch (error) {
-      message.error('embedding计算失败');
+      message.error(t('map_control_group.sam.jiSuanShiBai'));
       scene?.off('click', onMapClick);
     } finally {
       setLoading(false);
@@ -148,68 +185,32 @@ export const SamControl = () => {
 
   useEffect(() => {
     if (!isEmpty(allLayerList)) {
-      const moreTileLayer = allLayerList.find(
-        (item) => item.id === 'reactLayerGoode',
+      const targetLayer = allLayerList.find(
+        (layer) =>
+          layer.type === 'rasterLayer' &&
+          [GOOGLE_TILE_MAP_URL].includes(layer.options.source.data),
       );
-      setTileLayer(moreTileLayer);
+      const selectLayer = allLayerList.find(
+        (layer) => layer.id === LayerId.PolygonLayer,
+      );
+      setPolygonLayer(selectLayer);
+      setTileLayer(targetLayer);
     }
   }, [allLayerList]);
 
-  const onMapClick = useCallback(
-    (event: any) => {
-      const coords = [event.lnglat.lng, event.lnglat.lat] as [number, number];
-      if (bound) {
-        if (booleanPointInPolygon(point(coords), bound)) {
-          if (samModel) {
-            const px = samModel.lngLat2ImagePixel(coords)!;
-            const newPoint = [
-              {
-                x: px[0],
-                y: px[1],
-                clickType: 1,
-              },
-            ];
-            const threshold = 1;
-
-            samModel.predict(newPoint).then(async (res) => {
-              const polygon = await samModel.exportGeoPolygon(res, threshold);
-              const image = samModel.exportImageClip(res)!;
-              const newData = {
-                feature: polygon.features as any,
-                imageUrl: image.src,
-              };
-              if (
-                booleanPointInPolygon(point(coords), newData?.feature[0]) &&
-                newData?.feature[0].geometry.coordinates[0].length > 4
-              ) {
-                const newFeature = revertCoord(newData.feature);
-                resetFeatures([...features, ...newFeature] as IFeatures);
-              } else {
-                message.warning('图形解析错误，请重新选择');
-              }
-            });
-          }
-        } else {
-          message.error('请在区域内进行选择');
-        }
-      }
-    },
-    [samModel, features, bound],
-  );
-
   useEffect(() => {
-    if (scene) {
+    if (polygonLayer) {
       if (samOpen) {
-        scene.on('click', onMapClick);
+        polygonLayer.on('unclick', onMapClick);
       } else {
         setSource({ data: { type: 'FeatureCollection', features: [] } });
         setMarker(undefined);
-        scene.off('click', onMapClick);
+        polygonLayer.off('unclick', onMapClick);
       }
-      return () => {
-        scene.off('click', onMapClick);
-      };
     }
+    return () => {
+      polygonLayer?.off('unclick', onMapClick);
+    };
   }, [samOpen, scene, onMapClick]);
 
   useEffect(() => {
@@ -221,16 +222,24 @@ export const SamControl = () => {
   return (
     <>
       <CustomControl position="bottomright">
-        <Tooltip title={'智能选择'} placement="bottom">
+        <Tooltip
+          title={t('map_control_group.sam.zhiNengXuanZe')}
+          placement="left"
+        >
           <Spin spinning={loading}>
             <div
               className={classNames([styles.sam, 'l7-button-control'])}
               onClick={() => {
                 setSamOpen(!samOpen);
+                if (samOpen) {
+                  message.success(
+                    t('map_control_group.sam.zhiNengShiBieGuanBi'),
+                  );
+                }
               }}
               style={{ color: samOpen ? '#1677ff' : '' }}
             >
-              <IconFont type="icon-zhinengxuanze" className={styles.samSvg} />
+              <IconFont type="icon-zhinengshibie" className={styles.samSvg} />
             </div>
           </Spin>
         </Tooltip>
@@ -240,9 +249,11 @@ export const SamControl = () => {
           lngLat={{ lng: marker[0], lat: marker[1] }}
           anchor="center"
           //@ts-ignore
-          offsets={[43, -16]}
+          offsets={[54, -16]}
         >
-          <div className={styles.marker}>自动识别边界</div>
+          <div className={styles.marker}>
+            {t('map_control_group.sam.ziDongShiBie')}
+          </div>
         </Marker>
       )}
       <LineLayer {...options} source={source} />
