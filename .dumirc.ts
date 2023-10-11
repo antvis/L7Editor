@@ -20,8 +20,14 @@ export default defineConfig({
       primaryColor: '#1677ff',
       borderRadiusBase: '4px',
     },
+    nav: [
+      { title: '首页', link: '/' },
+      { title: '指南', link: '/guide' },
+      { title: 'API', link: '/docs' },
+    ],
     footer: false,
   },
+
   metas: [
     {
       name: 'keywords',
