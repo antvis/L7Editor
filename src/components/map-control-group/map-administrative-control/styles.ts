@@ -5,7 +5,8 @@ const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
 
-  const { colorText, colorBgContainer, boxShadow } = token;
+  const { colorText, colorBgContainer, boxShadow, colorTextDescription } =
+    token;
   return {
     mapAdministrative: css`
       background: ${colorBgContainer};
@@ -14,7 +15,7 @@ const useStyle = () => {
     `,
     regionLocation: css`
       background: ${colorBgContainer} !important;
-      color: ${colorText} !important;
+      color: ${colorTextDescription} !important;
       padding: 2px 4px !important;
     `,
   };
