@@ -8,11 +8,13 @@ import {
   OfficeLayerEnum,
 } from '../../../constants';
 import { useGlobal } from '../../../recoil';
+import useStyles from '../styles';
 import useStyle from './styles';
 
 export function OfficialLayerControl() {
   const scene = useScene();
   const styles = useStyle();
+  const style = useStyles();
   const { layerType, setLayerType, baseMap } = useGlobal();
   const { t } = useTranslation();
 
@@ -123,7 +125,7 @@ export function OfficialLayerControl() {
   }, [officeLayerGroup, layerType]);
 
   return (
-    <CustomControl position="bottomright" className={styles.l7amap}>
+    <CustomControl position="bottomright" >
       <Popover
         content={
           <Tabs
@@ -174,11 +176,17 @@ export function OfficialLayerControl() {
           title={t('app_header.constants.guanFangTuCeng')}
           placement="left"
         >
-          <IconFont
-            id="l7-editor-aMap"
-            type="icon-tuceng"
-            className={styles.l7AmapControl}
-          />
+          <button
+            type="button"
+            id="l7-editor-filter"
+            className={style.L7EditorControl}
+          >
+            <IconFont
+              id="l7-editor-aMap"
+              type="icon-tuceng"
+              className={style.l7EditorIcon}
+            />
+          </button>
         </Tooltip>
       </Popover>
 

@@ -5,13 +5,13 @@ import { MODEL_URL, SAMGeo } from '@antv/sam';
 import type { Feature, MultiPolygon, Polygon } from '@turf/turf';
 import { booleanPointInPolygon, point, polygon } from '@turf/turf';
 import { Spin, Tooltip, message } from 'antd';
-import classNames from 'classnames';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GOOGLE_TILE_MAP_URL, IconFont, LayerId } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import type { IFeatures } from '../../../types';
+import useStyles from '../styles';
 import useStyle from './style';
 
 const options: Omit<LineLayerProps, 'source'> = {
@@ -35,6 +35,7 @@ const options: Omit<LineLayerProps, 'source'> = {
 
 export const SamControl = () => {
   const styles = useStyle();
+  const style = useStyles();
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
   const { scene, features, resetFeatures, revertCoord, bboxAutoFit } =
     useFeature();
@@ -227,8 +228,9 @@ export const SamControl = () => {
           placement="left"
         >
           <Spin spinning={loading}>
-            <div
-              className={classNames([styles.sam, 'l7-button-control'])}
+            <button
+              type="button"
+              className={style.L7EditorControl}
               onClick={() => {
                 setSamOpen(!samOpen);
                 if (samOpen) {
@@ -239,8 +241,12 @@ export const SamControl = () => {
               }}
               style={{ color: samOpen ? '#1677ff' : '' }}
             >
-              <IconFont type="icon-zhinengshibie" className={styles.samSvg} />
-            </div>
+              <IconFont
+                type="icon-zhinengshibie"
+                style={{ fontSize: 20 }}
+                className={style.l7EditorIcon}
+              />
+            </button>
           </Spin>
         </Tooltip>
       </CustomControl>

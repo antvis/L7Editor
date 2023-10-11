@@ -4,16 +4,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconFont } from '../../../constants';
 import { useFeature } from '../../../recoil';
-import useStyle from './styles';
+import useStyles from '../styles';
 
 export const AutoControl = () => {
-  const styles = useStyle();
+  const styles = useStyles();
   const { bboxAutoFit } = useFeature();
   const { t } = useTranslation();
 
   return (
     <CustomControl position="bottomright">
-      <div className={styles.l7FilterSwitch}>
         <Tooltip
           title={t('auto_control.index.ziDongSuoFangZhi')}
           placement="left"
@@ -21,15 +20,14 @@ export const AutoControl = () => {
           <button
             type="button"
             id="l7-editor-auto"
-            className="l7-draw-control__btn"
+            className={styles.L7EditorControl}
             onClick={() => {
               bboxAutoFit();
             }}
           >
-            <IconFont type="icon-suofang" className={styles.l7AmapControl} />
+            <IconFont type="icon-suofang" className={styles.l7EditorIcon} />
           </button>
         </Tooltip>
-      </div>
     </CustomControl>
   );
 };

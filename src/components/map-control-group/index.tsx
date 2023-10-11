@@ -21,7 +21,7 @@ import { MapAdministrativeControl } from './map-administrative-control';
 import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
 import { SamControl } from './sam-control';
-import useStyle from './styles';
+import useStyles from './styles';
 
 type MapControlGroupProps = {
   mapControl?: MapControlProps;
@@ -48,7 +48,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
 }) => {
   const { baseMap, layerType } = useGlobal();
-  const styles = useStyle();
+  const styles = useStyles();
   const [isControlGroupState, setIsControlGroup] = useState(DefaultMapControl);
 
   useEffect(() => {
