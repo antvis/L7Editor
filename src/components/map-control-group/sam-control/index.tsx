@@ -154,19 +154,23 @@ export const SamControl = () => {
           method: 'post',
         })
       ).arrayBuffer();
-      const topRight = mapHelper.tileToLngLat(maxX + 1, minY, zoom);
-      const bottomLeft = mapHelper.tileToLngLat(minX, maxY + 1, zoom);
-      const topLeft = [bottomLeft[0], topRight[1]];
-      const bottomRight = [topRight[0], bottomLeft[1]];
-      const bounds = polygon([
-        [topRight, topLeft, bottomLeft, bottomRight, topRight],
-      ]);
-      setMarker(topLeft);
-      setBound(bounds);
-      setSource({ data: { type: 'FeatureCollection', features: [bounds] } });
-      bboxAutoFit([bounds]);
-      samModel.setEmbedding(res);
-      message.success(t('map_control_group.sam.jiSuanWanCheng'));
+      try {
+        const topRight = mapHelper.tileToLngLat(maxX + 1, minY, zoom);
+        const bottomLeft = mapHelper.tileToLngLat(minX, maxY + 1, zoom);
+        const topLeft = [bottomLeft[0], topRight[1]];
+        const bottomRight = [topRight[0], bottomLeft[1]];
+        const bounds = polygon([
+          [topRight, topLeft, bottomLeft, bottomRight, topRight],
+        ]);
+        setMarker(topLeft);
+        setBound(bounds);
+        setSource({ data: { type: 'FeatureCollection', features: [bounds] } });
+        bboxAutoFit([bounds]);
+        samModel.setEmbedding(res);
+        message.success(t('map_control_group.sam.jiSuanWanCheng'));
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
       message.error(t('map_control_group.sam.jiSuanShiBai'));
       scene?.off('click', onMapClick);
@@ -239,11 +243,10 @@ export const SamControl = () => {
                   );
                 }
               }}
-              style={{ color: samOpen ? '#1677ff' : '' }}
             >
               <IconFont
                 type="icon-zhinengshibie"
-                style={{ fontSize: 20 }}
+                style={{ fontSize: 20, color: samOpen ? '#1677ff' : '' }}
                 className={style.l7EditorIcon}
               />
             </button>

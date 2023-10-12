@@ -64,7 +64,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.mouseLocationControl && (
         <MouseLocationControl
           position="leftbottom"
-          className={styles.fullScreen}
+          className={styles.mouseLocatio}
         />
       )}
       {isControlGroupState.drawControl && <DrawControl />}

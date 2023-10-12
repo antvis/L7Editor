@@ -70,6 +70,11 @@ const useStyles = () => {
         border-color: ${colorBorder};
       }
     `,
+    mouseLocatio: css`
+      color: ${colorTextDescription} !important;
+      background: ${colorBgContainer} !important;
+      border-color: ${colorBorder};
+    `,
     fullScreen: css`
       color: ${colorTextDescription};
       background: ${colorBgContainer} !important;
