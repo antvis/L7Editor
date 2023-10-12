@@ -1,3 +1,6 @@
+import type { Locale } from 'antd/es/locale';
+import antd_en_US from 'antd/lib/locale/en_US';
+import antd_zh_cn from 'antd/lib/locale/zh_CN';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
@@ -23,14 +26,16 @@ i18n
     },
   });
 
-export const LangList = [
+export const LangList: { lang: string; name: string; antd: Locale }[] = [
   {
-    key: 'zh-CN',
-    label: '简体中文',
+    lang: 'zh-CN',
+    name: '简体中文',
+    antd: antd_zh_cn,
   },
   {
-    key: 'en-US',
-    label: 'English',
+    lang: 'en-US',
+    name: 'English',
+    antd: antd_en_US,
   },
 ];
 

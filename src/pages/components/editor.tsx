@@ -1,7 +1,6 @@
 import { ConfigProvider, theme as antdTheme } from 'antd';
-import zhCN from 'antd/es/locale/zh_CN';
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   AppHeader,
   AppMap,
@@ -13,6 +12,7 @@ import {
   ResizePanel,
 } from '../../components';
 import { EditorTextLayer } from '../../components/text-layer';
+import { LangList } from '../../locales';
 import { useGlobal } from '../../recoil';
 import type { L7EditorProps } from '../../types';
 import useStyle from './styles';
@@ -21,7 +21,7 @@ type EditorProps = L7EditorProps;
 
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
-  const { theme, mapOptions, setMapOptions, showIndex } = useGlobal();
+  const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
 
   useEffect(() => {
@@ -32,9 +32,14 @@ export const Editor: React.FC<EditorProps> = (props) => {
     }
   }, [theme]);
 
+  const antdLocale = useMemo(
+    () => LangList.find((lang) => lang.lang === locale)?.antd,
+    [locale],
+  );
+
   return (
     <ConfigProvider
-      locale={zhCN}
+      locale={antdLocale}
       theme={{
         algorithm:
           theme === 'dark'
