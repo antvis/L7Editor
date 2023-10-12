@@ -14,6 +14,7 @@ export const SettingBtn = () => {
     autoFitBounds,
     setAutoFitBounds,
     setCoordConvert,
+    setMapOptions,
     showIndex,
     setShowIndex,
   } = useGlobal();
@@ -67,6 +68,12 @@ export const SettingBtn = () => {
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
             setCoordConvert(e.baseMap === 'Gaode' ? 'GCJ02' : 'WGS84');
+            setMapOptions((options) => {
+              return {
+                ...options,
+                style: e.baseMap === 'Gaode' ? 'normal' : 'mapbox://styles/zcxduo/ck2ypyb1r3q9o1co1766dex29'
+              };
+            });
             setBaseMap(e.baseMap);
             setShowIndex(e.showIndex);
             location.reload();
