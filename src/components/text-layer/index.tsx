@@ -1,10 +1,13 @@
 import { TextLayer, TextLayerProps } from '@antv/larkmap';
 import { center } from '@turf/turf';
 import React, { useMemo } from 'react';
+import { FeatureKey } from '../../constants';
+import { useFilterFeatures } from '../../hooks';
 import { useFeature, useGlobal } from '../../recoil';
 
 export const EditorTextLayer = () => {
-  const { features, transformCoord } = useFeature();
+  const { transformCoord } = useFeature();
+  const { features: newFeatures } = useFilterFeatures();
   const { coordConvert, layerColor } = useGlobal();
 
   const layerOptions: Omit<TextLayerProps, 'source'> = useMemo(() => {
@@ -25,20 +28,24 @@ export const EditorTextLayer = () => {
   }, [layerColor]);
 
   const sourceData = useMemo(() => {
-    const transformData = features.map((item) => {
-      return center(item);
+    const transformData = transformCoord(newFeatures).map((item) => {
+      return {
+        data: center(item),
+        //@ts-ignore
+        featureIndex: item.properties?.[FeatureKey.Index],
+      };
     });
-    const data = transformCoord(transformData).map((item, index) => {
+    const data = transformData.map((item, index) => {
       return {
         //@ts-ignore
-        x: item.geometry.coordinates[0],
+        x: item.data.geometry.coordinates[0],
         //@ts-ignore
-        y: item.geometry.coordinates[1],
-        name: `${index + 1}`,
+        y: item.data.geometry.coordinates[1],
+        name: `${item.featureIndex + 1}`,
       };
     });
     return data;
-  }, [features, coordConvert]);
+  }, [newFeatures, coordConvert]);
   return (
     <TextLayer
       {...layerOptions}

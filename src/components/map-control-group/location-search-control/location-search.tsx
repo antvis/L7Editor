@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import useStyle from './styles';
 import type { LocationSearchOption, LocationSearchProps } from './types';
 import { urlStringify } from './utils';
+import classNames from 'classnames';
 
 const { Option } = Select;
 
@@ -84,7 +85,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
               {option.name}
             </div>
             {tip && (
-              <div title={tip} className={styles.locationSearchTip}>
+              <div title={tip} className={classNames([styles.locationSearchTip,'option-tip']) }>
                 {tip}
               </div>
             )}

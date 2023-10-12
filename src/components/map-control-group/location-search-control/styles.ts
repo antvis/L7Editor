@@ -4,6 +4,13 @@ const useStyle = () => {
   return {
     locationSearch: css`
       min-width: 200px;
+      .ant-select-selector {
+        .ant-select-selection-item {
+          .option-tip {
+            display: none;
+          }
+        }
+      }
     `,
     locationSearchName: css`
       overflow: hidden;
