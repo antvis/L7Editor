@@ -70,8 +70,8 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
       className={styles.locationSearch}
       onSearch={onSearch}
       onChange={onLocationChange}
-      clearIcon={() => null}
       placeholder={t('location_search_control.location_search.qingShuRuYaoSou')}
+      optionLabelProp="label"
       {...selectProps}
     >
       {options.map((option) => {
@@ -79,7 +79,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
           showAddress ? option.address : ''
         }`;
         return (
-          <Option key={option.id} value={option.name}>
+          <Option key={option.id} value={option.name} label={option.name}>
             <div title={option.name} className={styles.locationSearchName}>
               {option.name}
             </div>
