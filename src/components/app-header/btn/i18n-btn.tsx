@@ -7,6 +7,11 @@ import { LangList } from '../../../locales';
 import { useGlobal } from '../../../recoil';
 import useStyle from '../styles';
 
+const items: MenuProps['items'] = LangList.map((item) => ({
+  key: item.lang,
+  label: item.name,
+}));
+
 const I18nBtn: React.FC = () => {
   const { i18n } = useTranslation();
   const { locale, setLocale } = useGlobal();
@@ -19,7 +24,12 @@ const I18nBtn: React.FC = () => {
 
   return (
     <Dropdown
-      menu={{ items: LangList, onClick: onLocaleChange, selectedKeys: [locale], selectable: true }}
+      menu={{
+        items,
+        onClick: onLocaleChange,
+        selectedKeys: [locale],
+        selectable: true,
+      }}
     >
       <Button
         className={styles.locale}
