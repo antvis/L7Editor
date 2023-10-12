@@ -44,7 +44,6 @@ export const IconFont = createFromIconfontCN({
 });
 
 export const MapBoxConfig = {
-  style: 'mapbox://styles/zcxduo/ck2ypyb1r3q9o1co1766dex29',
   token:
     'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
 };

@@ -54,7 +54,10 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
 
   const mapOptions = useMemo(() => {
     if (baseMap === 'Mapbox') {
-      return MapBoxConfig;
+      return {
+        ...MapBoxConfig,
+        ...baseMapOptions,
+      };
     }
     return baseMapOptions;
   }, [baseMap, baseMapOptions]);
