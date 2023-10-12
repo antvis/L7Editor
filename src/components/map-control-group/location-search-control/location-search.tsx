@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import useStyle from './styles';
 import type { LocationSearchOption, LocationSearchProps } from './types';
 import { urlStringify } from './utils';
-import classNames from 'classnames';
 
 const { Option } = Select;
 
@@ -73,6 +72,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
       onChange={onLocationChange}
       clearIcon={() => null}
       placeholder={t('location_search_control.location_search.qingShuRuYaoSou')}
+      optionLabelProp="label"
       {...selectProps}
     >
       {options.map((option) => {
@@ -80,12 +80,12 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
           showAddress ? option.address : ''
         }`;
         return (
-          <Option key={option.id} value={option.name}>
+          <Option key={option.id} value={option.name} label={option.name}>
             <div title={option.name} className={styles.locationSearchName}>
               {option.name}
             </div>
             {tip && (
-              <div title={tip} className={classNames([styles.locationSearchTip,'option-tip']) }>
+              <div title={tip} className={styles.locationSearchTip}>
                 {tip}
               </div>
             )}
