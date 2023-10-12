@@ -125,7 +125,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
         language={language}
         {...value}
         onChange={monacoChange}
-        theme={theme === 'normal' ? 'custome-theme' : 'vs-dark'}
+        theme={theme === 'dark' ? 'vs-dark' : 'custome-theme'}
         options={{
           selectOnLineNumbers: true,
           tabIndex: 2,

@@ -39,7 +39,7 @@ export const L7Editor = (props: L7EditorProps) => {
       set(activeTabState, props?.activeTab ?? 'geojson');
       set(officialLayersState, props?.officialLayers ?? []);
       set(hideEditorState, props?.hidePanel ?? false);
-      set(themeState, props?.theme ?? 'normal');
+      set(themeState, props?.theme ?? 'light');
       set(convertState, props?.coordConvert ?? 'GCJ02');
     };
   }, [props]);

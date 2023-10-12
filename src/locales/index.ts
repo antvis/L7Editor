@@ -1,8 +1,8 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
-import zhCN from './langs/zh-CN';
 import enUS from './langs/en-US';
+import zhCN from './langs/zh-CN';
 
 i18n
   // 检测用户当前使用的语言
@@ -22,5 +22,16 @@ i18n
       'en-US': { translation: enUS },
     },
   });
+
+export const LangList = [
+  {
+    key: 'zh-CN',
+    label: '简体中文',
+  },
+  {
+    key: 'en-US',
+    label: 'English',
+  },
+];
 
 export default i18n;
