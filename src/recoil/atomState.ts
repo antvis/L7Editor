@@ -120,7 +120,7 @@ const convertState = atom<string>({
 
 const themeState = atom<string>({
   key: 'theme',
-  default: 'normal',
+  default: 'light',
   effects: [localStorageEffect(LocalStorageKey.theme)],
 });
 
