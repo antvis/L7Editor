@@ -70,7 +70,6 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({
       className={styles.locationSearch}
       onSearch={onSearch}
       onChange={onLocationChange}
-      clearIcon={() => null}
       placeholder={t('location_search_control.location_search.qingShuRuYaoSou')}
       optionLabelProp="label"
       {...selectProps}
