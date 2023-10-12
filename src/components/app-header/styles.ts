@@ -47,21 +47,10 @@ const useStyle = () => {
       align-items: center;
     `,
     locale: css`
-      margin-left: 10px;
-      cursor: pointer;
-      padding: 0 !important;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      :hover {
-        color: ${colorText} !important;
-        background: ${colorFill}!important;
-      }
+      font-size: 16px;
     `,
     localeIcon: css`
-      font-size: 20px;
+      font-size: 16px;
     `,
     upload: css`
       height: 200px;

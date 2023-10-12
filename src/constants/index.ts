@@ -40,7 +40,7 @@ export const FeatureKey = {
 };
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_m46nqwk3rf.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_q8yw5w6air.js',
 });
 
 export const MapBoxConfig = {
