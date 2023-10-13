@@ -66,8 +66,6 @@ export default {
   'filter_form_list_control.numberFilter.qingShuRuShaiXuan': '请输入筛选值',
   'clear_control.index.queRenQingKongSuo': '确认清空所有数据？',
   'auto_control.index.ziDongSuoFangZhi': '自动缩放至当前元素',
-  'administrative_select_control.index.hTTPS':
-    'https://restapi.amap.com/v3/config/district?key=98d10f05a2da96697313a2ce35ebf1a2&keywords=中华人民共和国&subdistrict=3&extensions=base',
   'filter_form_list_control.stringFilter.buPiPei': '不匹配',
   'layer_color_control.index.changYongYanSe': '常用颜色',
   'filter_form_list_control.stringFilter.baoHan': '包含',
