@@ -124,7 +124,7 @@ export default {
   'layer_popup.index.gengGaiHuiZhi': 'Edit',
   'layer_popup.index.mULTI': 'GeoJSON of type Multi does not support editing',
   'layer_popup.index.dangQianYuanSuWu': 'Current element has no fields',
-  'map_content.index.zuoBiaoXi': 'Geographic Coordinate System',
+  'map_content.index.zuoBiaoXi': 'Coordinate System',
   'administrative_select_control.index.xingZhengQuHuaLi':
     'Historical records of administrative divisions',
   'administrative_select_control.index.keXuanZeShengShi':
