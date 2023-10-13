@@ -3,7 +3,7 @@ import { Feature } from '@turf/turf';
 import { TabsProps } from 'antd';
 
 export interface MapControlProps {
-  logoControl: boolean;
+  logoControl?: boolean;
   drawControl?: boolean;
   clearControl?: boolean;
   zoomControl?: boolean;
