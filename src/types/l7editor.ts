@@ -118,4 +118,8 @@ export interface L7EditorProps {
    * @default false
    */
   showIndex?: boolean;
+  /**
+   * 默认语言设置
+   */
+  locale?: 'zh-CN' | 'en-US';
 }

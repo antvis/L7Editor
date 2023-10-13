@@ -1,6 +1,7 @@
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AppHeader,
   AppMap,
@@ -21,6 +22,7 @@ type EditorProps = L7EditorProps;
 
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
+  const { i18n } = useTranslation();
   const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
 
@@ -31,6 +33,10 @@ export const Editor: React.FC<EditorProps> = (props) => {
       setMapOptions({ ...mapOptions, style: 'light' });
     }
   }, [theme]);
+
+  useEffect(() => {
+    i18n.changeLanguage(locale);
+  }, []);
 
   const antdLocale = useMemo(
     () => LangList.find((lang) => lang.lang === locale)?.antd,

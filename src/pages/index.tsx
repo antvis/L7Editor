@@ -11,6 +11,7 @@ import {
   convertState,
   hideEditorState,
   layerColorState,
+  localeState,
   mapOptionState,
   officialLayersState,
   popupTriggerState,
@@ -41,6 +42,7 @@ export const L7Editor = (props: L7EditorProps) => {
       set(hideEditorState, props?.hidePanel ?? false);
       set(themeState, props?.theme ?? 'light');
       set(convertState, props?.coordConvert ?? 'GCJ02');
+      set(localeState, props?.locale ?? 'zh-CN');
     };
   }, [props]);
 
