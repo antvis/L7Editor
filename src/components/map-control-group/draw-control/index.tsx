@@ -8,6 +8,7 @@ import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FeatureKey } from '../../../constants';
 import { useFeature, useGlobal } from '../../../recoil';
 import { IFeatures } from '../../../types';
@@ -15,6 +16,7 @@ import { getDrawStyle } from '../../../utils';
 import useStyle from './styles';
 
 const DrawControl = () => {
+  const { t } = useTranslation();
   const scene = useScene();
   const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
@@ -46,6 +48,14 @@ const DrawControl = () => {
         commonDrawOptions: {
           maxCount: 1,
           style: getDrawStyle(layerColor!),
+          helper: {
+            //@ts-ignore
+            draw: `${t('map_contorl_group.draw.draw')}`,
+            //@ts-ignore
+            drawFinish: `${t('map_contorl_group.draw.drawFinish')}`,
+            //@ts-ignore
+            drawContinue: `${t('map_contorl_group.draw.drawContinue')}`,
+          },
         },
       });
       setDrawControl(newDrawControl);

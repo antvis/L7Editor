@@ -9,9 +9,9 @@ import {
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
   Feature,
-  featureCollection,
   Geometry,
   GeometryCollection,
+  featureCollection,
 } from '@turf/turf';
 import {
   Button,
@@ -205,15 +205,44 @@ export const LayerPopup: React.FC = () => {
     const [originFeature] = transformCoord([newFeature]);
     const type = originFeature?.geometry.type;
     if (type === 'Point') {
-      draw = new DrawPoint(scene, options);
+      draw = new DrawPoint(scene, {
+        ...options,
+        helper: { pointHover: `${t('map_contorl_group.point.pontHover')}` },
+      });
     } else if (type === 'LineString') {
-      draw = new DrawLine(scene, options);
+      draw = new DrawLine(scene, {
+        ...options,
+        helper: {
+          pointHover: `${t('map_contorl_group.line.pontHover')}`,
+          lineHover: `${t('map_contorl_group.line.lineHover')}`,
+          midPointHover: `${t(`map_contorl_group.line.midPointHover`)}`,
+        },
+      });
     } else if (type === 'Polygon' && isRect(originFeature)) {
-      draw = new DrawRect(scene, options);
+      draw = new DrawRect(scene, {
+        ...options,
+        helper: {
+          pointHover: `${t('map_contorl_group.line.pontHover')}`,
+          lineHover: `${t('map_contorl_group.rect.lineHover')}`,
+          polygonHover: `${t('map_contorl_group.rect.lineHover')}`,
+        },
+      });
     } else if (type === 'Polygon' && isCircle(originFeature)) {
-      draw = new DrawCircle(scene, options);
+      draw = new DrawCircle(scene, { ...options, helper: {
+        pointHover: `${t('map_contorl_group.line.pontHover')}`,
+        lineHover: `${t('map_contorl_group.circle.lineHover')}`,
+        polygonHover: `${t('map_contorl_group.circle.lineHover')}`,
+      } });
     } else {
-      draw = new DrawPolygon(scene, options);
+      draw = new DrawPolygon(scene, {
+        ...options,
+        helper: {
+          pointHover: `${t('map_contorl_group.line.pontHover')}`,
+          lineHover: `${t('map_contorl_group.polygon.lineHover')}`,
+          polygonHover: `${t('map_contorl_group.polygon.lineHover')}`,
+          midPointHover: `${t(`map_contorl_group.line.midPointHover`)}`,
+        },
+      });
     }
     draw.enable();
     draw.setActiveFeature(draw.getData()[0]);
