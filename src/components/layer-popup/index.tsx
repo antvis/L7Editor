@@ -200,49 +200,26 @@ export const LayerPopup: React.FC = () => {
       initialData: [newFeature],
       maxCount: 1,
       style: getDrawStyle(layerColor),
+      helper: {
+        pointHover: `${t('map_contorl_group.line.pontHover')}`,
+        lineHover: `${t('map_contorl_group.polygon.lineHover')}`,
+        polygonHover: `${t('map_contorl_group.polygon.lineHover')}`,
+        midPointHover: `${t(`map_contorl_group.line.midPointHover`)}`,
+      },
     };
     let draw: DrawType;
     const [originFeature] = transformCoord([newFeature]);
     const type = originFeature?.geometry.type;
     if (type === 'Point') {
-      draw = new DrawPoint(scene, {
-        ...options,
-        helper: { pointHover: `${t('map_contorl_group.point.pontHover')}` },
-      });
+      draw = new DrawPoint(scene, options);
     } else if (type === 'LineString') {
-      draw = new DrawLine(scene, {
-        ...options,
-        helper: {
-          pointHover: `${t('map_contorl_group.line.pontHover')}`,
-          lineHover: `${t('map_contorl_group.line.lineHover')}`,
-          midPointHover: `${t(`map_contorl_group.line.midPointHover`)}`,
-        },
-      });
+      draw = new DrawLine(scene, options);
     } else if (type === 'Polygon' && isRect(originFeature)) {
-      draw = new DrawRect(scene, {
-        ...options,
-        helper: {
-          pointHover: `${t('map_contorl_group.line.pontHover')}`,
-          lineHover: `${t('map_contorl_group.rect.lineHover')}`,
-          polygonHover: `${t('map_contorl_group.rect.lineHover')}`,
-        },
-      });
+      draw = new DrawRect(scene, options);
     } else if (type === 'Polygon' && isCircle(originFeature)) {
-      draw = new DrawCircle(scene, { ...options, helper: {
-        pointHover: `${t('map_contorl_group.line.pontHover')}`,
-        lineHover: `${t('map_contorl_group.circle.lineHover')}`,
-        polygonHover: `${t('map_contorl_group.circle.lineHover')}`,
-      } });
+      draw = new DrawCircle(scene, options);
     } else {
-      draw = new DrawPolygon(scene, {
-        ...options,
-        helper: {
-          pointHover: `${t('map_contorl_group.line.pontHover')}`,
-          lineHover: `${t('map_contorl_group.polygon.lineHover')}`,
-          polygonHover: `${t('map_contorl_group.polygon.lineHover')}`,
-          midPointHover: `${t(`map_contorl_group.line.midPointHover`)}`,
-        },
-      });
+      draw = new DrawPolygon(scene, options);
     }
     draw.enable();
     draw.setActiveFeature(draw.getData()[0]);
