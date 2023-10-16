@@ -203,11 +203,9 @@ export default {
 
   'map_contorl_group.draw.drawFinish':
     'Click to continue drawing, double-click to end drawing',
-  'map_contorl_group.point.pontHover':
-    'Drag-and-drop adjustment point position',
-  'map_contorl_group.line.pontHover': 'Drag and Drop to Adjust Node Position',
-  'map_contorl_group.line.midPointHover':
+  'map_contorl_group.draw.pontHover': 'Drag and Drop to Adjust Node Position',
+  'map_contorl_group.draw.midPointHover':
     'Click to add a node at this location',
-  'map_contorl_group.polygon.lineHover':
+  'map_contorl_group.draw.lineHover':
     'Drag and Drop to Adjust Surface Position',
 };
