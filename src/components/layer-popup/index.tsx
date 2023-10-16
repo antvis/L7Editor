@@ -201,10 +201,10 @@ export const LayerPopup: React.FC = () => {
       maxCount: 1,
       style: getDrawStyle(layerColor),
       helper: {
-        pointHover: `${t('map_contorl_group.line.pontHover')}`,
-        lineHover: `${t('map_contorl_group.polygon.lineHover')}`,
-        polygonHover: `${t('map_contorl_group.polygon.lineHover')}`,
-        midPointHover: `${t(`map_contorl_group.line.midPointHover`)}`,
+        pointHover: `${t('map_contorl_group.draw.pontHover')}`,
+        lineHover: `${t('map_contorl_group.draw.lineHover')}`,
+        polygonHover: `${t('map_contorl_group.draw.lineHover')}`,
+        midPointHover: `${t(`map_contorl_group.draw.midPointHover`)}`,
       },
     };
     let draw: DrawType;

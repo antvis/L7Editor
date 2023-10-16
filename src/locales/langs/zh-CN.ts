@@ -175,7 +175,7 @@ export default {
   'map_contorl_group.draw.draw': '单击开始绘制',
   'map_contorl_group.draw.drawContinue': '单击继续绘制',
   'map_contorl_group.draw.drawFinish': '单击继续绘制，双击结束绘制',
-  'map_contorl_group.line.pontHover': '可拖拽调整节点位置',
-  'map_contorl_group.line.midPointHover': '单击在该位置新增节点',
-  'map_contorl_group.polygon.lineHover': '可拖拽调整图形位置',
+  'map_contorl_group.draw.pontHover': '可拖拽调整节点位置',
+  'map_contorl_group.draw.midPointHover': '单击在该位置新增节点',
+  'map_contorl_group.draw.lineHover': '可拖拽调整图形位置',
 };
