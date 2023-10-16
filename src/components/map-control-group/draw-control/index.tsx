@@ -8,7 +8,6 @@ import { DrawType } from '@antv/larkmap/es/components/Draw/types';
 import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { FeatureKey } from '../../../constants';
 import { useDrawHelper } from '../../../hooks';
 import { useFeature, useGlobal } from '../../../recoil';
@@ -17,7 +16,6 @@ import { getDrawStyle } from '../../../utils';
 import useStyle from './styles';
 
 const DrawControl = () => {
-  const { t } = useTranslation();
   const helperText = useDrawHelper();
   const scene = useScene();
   const styles = useStyle();
