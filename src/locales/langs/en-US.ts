@@ -198,4 +198,14 @@ export default {
   'map_control_group.sam.ziDongShiBie': 'Plot Identification Area Boundary',
   'map_control_group.sam.zhiNengShiBieGuanBi':
     'Block intelligent identification function is turned off',
+  'map_contorl_group.draw.draw': 'Click to start drawing',
+  'map_contorl_group.draw.drawContinue': 'Click to continue drawing',
+
+  'map_contorl_group.draw.drawFinish':
+    'Click to continue drawing, double-click to end drawing',
+  'map_contorl_group.draw.pontHover': 'Drag and Drop to Adjust Node Position',
+  'map_contorl_group.draw.midPointHover':
+    'Click to add a node at this location',
+  'map_contorl_group.draw.lineHover':
+    'Drag and Drop to Adjust Surface Position',
 };

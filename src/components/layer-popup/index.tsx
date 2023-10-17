@@ -9,9 +9,9 @@ import {
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
   Feature,
-  featureCollection,
   Geometry,
   GeometryCollection,
+  featureCollection,
 } from '@turf/turf';
 import {
   Button,
@@ -27,6 +27,7 @@ import { cloneDeep } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FeatureKey, LayerId } from '../../constants';
+import { useDrawHelper } from '../../hooks';
 import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
@@ -51,7 +52,7 @@ export const LayerPopup: React.FC = () => {
   } = useFeature();
   const { layerColor, popupTrigger } = useGlobal();
   const { t } = useTranslation();
-
+  const helperText = useDrawHelper();
   const styles = useStyle();
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
@@ -200,6 +201,7 @@ export const LayerPopup: React.FC = () => {
       initialData: [newFeature],
       maxCount: 1,
       style: getDrawStyle(layerColor),
+      helper: helperText,
     };
     let draw: DrawType;
     const [originFeature] = transformCoord([newFeature]);
