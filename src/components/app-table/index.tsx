@@ -215,7 +215,6 @@ export const AppTable: React.FC = () => {
     }
 
     const delConfirm = (key: string) => {
-      console.log(key);
       const newFeatures = features.map((feature) => {
         const { properties } = feature;
         const newProperties = cloneDeep(properties);
