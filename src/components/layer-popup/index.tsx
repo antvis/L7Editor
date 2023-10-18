@@ -398,7 +398,7 @@ export const LayerPopup: React.FC = () => {
             }}
           >
             <PlusSquareOutlined />
-            添加字段
+            {t('layer_popup.index.tianJiaZiDuan')}
           </Button>
         ) : (
           <Descriptions size="small" bordered column={1}>

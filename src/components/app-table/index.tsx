@@ -252,7 +252,7 @@ export const AppTable: React.FC = () => {
               </Text>
             </Tooltip>
             <Popconfirm
-              title="确认删除此列数据？"
+              title={t('app_table.index.shanChuLie')}
               onConfirm={() => {
                 delConfirm(key);
               }}
@@ -309,10 +309,10 @@ export const AppTable: React.FC = () => {
         <div className={styles.addColumns}>
           <Popconfirm
             placement="bottom"
-            title={'添加列字段'}
+            title={t('app_table.index.tianJiaLieZiDuan')}
             description={
               <Input
-                placeholder="请输入列字段"
+                placeholder={t('app_table.index.qingShuRuLieZiDuan')}
                 value={addInputValue}
                 onChange={(e) => {
                   setAddInputValue(e.target.value);
