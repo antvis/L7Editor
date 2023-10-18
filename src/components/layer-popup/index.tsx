@@ -1,3 +1,4 @@
+import { PlusSquareOutlined } from '@ant-design/icons';
 import {
   DrawCircle,
   DrawEvent,
@@ -31,6 +32,7 @@ import { useDrawHelper } from '../../hooks';
 import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
+import './index.css';
 import useStyle from './styles';
 
 const { Paragraph } = Typography;
@@ -54,6 +56,7 @@ export const LayerPopup: React.FC = () => {
   const { t } = useTranslation();
   const helperText = useDrawHelper();
   const styles = useStyle();
+  const [addOpen, setAddOpen] = useState(false);
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
@@ -70,6 +73,13 @@ export const LayerPopup: React.FC = () => {
   }>({
     isInput: false,
     index: null,
+  });
+  const [addValue, setAddValue] = useState<{
+    label: string | undefined;
+    value: string | undefined;
+  }>({
+    label: undefined,
+    value: undefined,
   });
 
   const targetFeature = useMemo(() => {
@@ -286,72 +296,138 @@ export const LayerPopup: React.FC = () => {
     setTableClick({ isInput: false, index: null });
   };
 
+  const addBlur = () => {
+    if (addValue.label && addValue.value) {
+      const properties = {
+        ...popupProps.feature.properties,
+        [addValue.label]: addValue.value,
+      };
+      const feature = { ...popupProps.feature, properties };
+      setPopupProps((event) => ({ ...event, feature }));
+      const index = features.findIndex((item: Feature) => {
+        return (
+          //@ts-ignore
+          item.properties[FeatureKey.Index] ===
+          //@ts-ignore
+          feature.properties?.[FeatureKey.Index]
+        );
+      });
+      features[index] = feature;
+      saveEditorText(prettierText({ content: featureCollection(features) }));
+      setAddValue({ label: undefined, value: undefined });
+      setAddOpen(!addOpen);
+    }
+  };
+
   const popupTable = useMemo(() => {
-    return featureFields.length ? (
-      <div
-        className={styles.layerPopupInfo}
-        onWheel={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <Descriptions size="small" bordered column={1}>
-          {featureFields.map(([key, value], index) => {
-            if (!(value instanceof Object)) {
-              return (
-                <Descriptions.Item label={key} key={key}>
-                  <Paragraph
-                    copyable
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    {tableClick.isInput && tableClick.index === index ? (
-                      <Form form={form}>
-                        <Form.Item name="input">
-                          {typeof value === 'number' ? (
-                            <InputNumber
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          ) : (
-                            <Input
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          )}
-                        </Form.Item>
-                      </Form>
-                    ) : (
-                      <div
-                        style={{ width: '100%' }}
-                        onClick={() => {
-                          setTableClick({
-                            isInput: !tableClick.isInput,
-                            index: index,
-                          });
-                          form.setFieldsValue({ input: value });
+    return (
+      <div>
+        {featureFields.length ? (
+          <div
+            className={styles.layerPopupInfo}
+            onWheel={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <Descriptions size="small" bordered column={1}>
+              {featureFields.map(([key, value], index) => {
+                if (!(value instanceof Object)) {
+                  return (
+                    <Descriptions.Item label={key} key={key}>
+                      <Paragraph
+                        copyable
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
                         }}
                       >
-                        {String(value)}
-                      </div>
-                    )}
-                  </Paragraph>
-                </Descriptions.Item>
-              );
-            }
-            return null;
-          })}
-        </Descriptions>
+                        {tableClick.isInput && tableClick.index === index ? (
+                          <Form form={form}>
+                            <Form.Item name="input">
+                              {typeof value === 'number' ? (
+                                <InputNumber
+                                  autoFocus
+                                  onPressEnter={() => save(key, value)}
+                                  onBlur={() => save(key, value)}
+                                />
+                              ) : (
+                                <Input
+                                  autoFocus
+                                  onPressEnter={() => save(key, value)}
+                                  onBlur={() => save(key, value)}
+                                />
+                              )}
+                            </Form.Item>
+                          </Form>
+                        ) : (
+                          <div
+                            style={{ width: '100%' }}
+                            onClick={() => {
+                              setTableClick({
+                                isInput: !tableClick.isInput,
+                                index: index,
+                              });
+                              setAddOpen(false);
+                              form.setFieldsValue({ input: value });
+                            }}
+                          >
+                            {String(value)}
+                          </div>
+                        )}
+                      </Paragraph>
+                    </Descriptions.Item>
+                  );
+                }
+                return null;
+              })}
+            </Descriptions>
+          </div>
+        ) : (
+          <Empty
+            description={t('layer_popup.index.dangQianYuanSuWu')}
+            style={{ margin: '12px 0' }}
+          />
+        )}
+        {!addOpen ? (
+          <Button
+            type="dashed"
+            style={{ width: '100%' }}
+            onClick={() => {
+              setAddOpen(!addOpen);
+            }}
+          >
+            <PlusSquareOutlined />
+            添加字段
+          </Button>
+        ) : (
+          <Descriptions size="small" bordered column={1}>
+            <Descriptions.Item
+              label={
+                <Input
+                  onChange={(e) => {
+                    setAddValue((prevState) => ({
+                      ...prevState,
+                      label: e.target.value,
+                    }));
+                  }}
+                  onBlur={addBlur}
+                />
+              }
+            >
+              <Input
+                onChange={(e) => {
+                  setAddValue((prevState) => ({
+                    ...prevState,
+                    value: e.target.value,
+                  }));
+                }}
+                onBlur={addBlur}
+              />
+            </Descriptions.Item>
+          </Descriptions>
+        )}
       </div>
-    ) : (
-      <Empty
-        description={t('layer_popup.index.dangQianYuanSuWu')}
-        style={{ margin: '12px 0' }}
-      />
     );
   }, [featureFields, popupProps.feature]);
 
@@ -367,6 +443,9 @@ export const LayerPopup: React.FC = () => {
             offsets={[0, 10]}
             followCursor={popupTrigger === 'hover'}
             closeOnClick
+            onClose={() => {
+              setAddOpen(false);
+            }}
           >
             <div
               className={styles.layerPopup}

@@ -1,19 +1,23 @@
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { Scene } from '@antv/l7';
-import { bbox, center, Feature, featureCollection } from '@turf/turf';
+import { Feature, bbox, center, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
 import {
+  Button,
   Empty,
   Form,
   FormInstance,
   Input,
   InputNumber,
-  message,
+  Popconfirm,
   Space,
   Table,
   Tooltip,
   Typography,
+  message,
 } from 'antd';
-import { isNull, isUndefined, uniqBy } from 'lodash-es';
+import classNames from 'classnames';
+import { cloneDeep, isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FeatureKey } from '../../constants';
@@ -169,6 +173,9 @@ export const AppTable: React.FC = () => {
     useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
   const { transformCoord } = useFeature();
+  const [addInputValue, setAddInputValue] = useState<string | undefined>(
+    undefined,
+  );
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -207,6 +214,20 @@ export const AppTable: React.FC = () => {
       });
     }
 
+    const delConfirm = (key: string) => {
+      console.log(key);
+      const newFeatures = features.map((feature) => {
+        const { properties } = feature;
+        const newProperties = cloneDeep(properties);
+        //@ts-ignore
+        delete newProperties[key];
+        return {
+          ...feature,
+          properties: newProperties,
+        };
+      });
+      resetFeatures(newFeatures);
+    };
     featureKeyList.forEach((key, index) => {
       const options = uniqBy(
         newDataSource
@@ -221,14 +242,29 @@ export const AppTable: React.FC = () => {
       );
       newColumns.push({
         title: (
-          <Tooltip title={key}>
-            <Text
-              style={{ wordWrap: 'break-word', whiteSpace: 'break-spaces' }}
-              ellipsis={{ tooltip: key }}
+          <div className={styles.deleteColumns}>
+            <Tooltip title={key}>
+              <Text
+                style={{ wordWrap: 'break-word', whiteSpace: 'break-spaces' }}
+                ellipsis={{ tooltip: key }}
+              >
+                {key}
+              </Text>
+            </Tooltip>
+            <Popconfirm
+              title="确认删除此列数据？"
+              onConfirm={() => {
+                delConfirm(key);
+              }}
             >
-              {key}
-            </Text>
-          </Tooltip>
+              <Button
+                type="text"
+                className={classNames([styles.delButton, 'delete'])}
+              >
+                <DeleteOutlined />
+              </Button>
+            </Popconfirm>
+          </div>
         ),
         width: 200,
         align: 'center',
@@ -251,8 +287,51 @@ export const AppTable: React.FC = () => {
           : undefined,
       });
     });
+
+    const confirm = () => {
+      if (!addInputValue) {
+        return;
+      }
+      const newFeatures = features.map((item) => {
+        const { properties } = item;
+        const newProperties = { ...properties, [addInputValue]: '' };
+        return {
+          ...item,
+          properties: newProperties,
+        };
+      });
+      resetFeatures(newFeatures);
+      setAddInputValue(undefined);
+    };
+
     newColumns.push({
-      title: t('app_table.index.caoZuo'),
+      title: (
+        <div className={styles.addColumns}>
+          <Popconfirm
+            placement="bottom"
+            title={'添加列字段'}
+            description={
+              <Input
+                placeholder="请输入列字段"
+                value={addInputValue}
+                onChange={(e) => {
+                  setAddInputValue(e.target.value);
+                }}
+              />
+            }
+            onConfirm={confirm}
+            onCancel={() => {
+              setAddInputValue(undefined);
+            }}
+          >
+            <Button type="text" className={styles.addButton}>
+              <PlusSquareOutlined />
+            </Button>
+          </Popconfirm>
+
+          {t('app_table.index.caoZuo')}
+        </div>
+      ),
       key: 'action',
       width: 120,
       align: 'center',

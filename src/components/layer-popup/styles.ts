@@ -19,7 +19,6 @@ const useStyle = () => {
       background: ${colorBgContainer} !important;
     `,
     layerPopupInfo: css`
-      margin-bottom: 16px;
       *::-webkit-scrollbar {
         width: 8px;
         background-color: ${colorBgElevated};
