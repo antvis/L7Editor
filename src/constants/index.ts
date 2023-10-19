@@ -19,7 +19,7 @@ export enum LocalStorageKey {
   cityHistory = 'cityHistory',
   showIndex = 'showIndex',
   locale = 'locale',
-  firstOpening = 'firstOpening'
+  firstOpening = 'firstOpening',
 }
 
 export enum LayerId {
@@ -47,6 +47,10 @@ export const IconFont = createFromIconfontCN({
 export const MapBoxConfig = {
   token:
     'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
+};
+
+export const GaodeConfig = {
+  token: '5ae4492ef912cbbc93034fea0e66ff2a',
 };
 
 export const LayerZIndex = 100;
