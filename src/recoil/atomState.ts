@@ -132,7 +132,7 @@ const cityHistoryState = atom<{ value: string; label: string }[]>({
 
 const showIndexState = atom<boolean>({
   key: 'showIndex',
-  default: false,
+  default: true,
   effects: [localStorageEffect(LocalStorageKey.showIndex)],
 });
 

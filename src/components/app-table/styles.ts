@@ -34,6 +34,30 @@ const useStyle = () => {
         cursor: pointer;
       }
     `,
+    addColumns: css`
+      position: relative;
+    `,
+    addButton: css`
+      position: absolute;
+      left: 0;
+      top: -5px;
+      padding: 4px;
+    `,
+    deleteColumns: css`
+      position: relative;
+      :hover {
+        .delete {
+          display: inline;
+        }
+      }
+    `,
+    delButton: css`
+      display: none;
+      position: absolute;
+      padding: 4px;
+      margin-left:5px;
+      top: -5px;
+    `,
   };
 };
 export default useStyle;

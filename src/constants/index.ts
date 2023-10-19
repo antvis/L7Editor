@@ -19,6 +19,7 @@ export enum LocalStorageKey {
   cityHistory = 'cityHistory',
   showIndex = 'showIndex',
   locale = 'locale',
+  firstOpening = 'firstOpening'
 }
 
 export enum LayerId {
