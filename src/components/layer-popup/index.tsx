@@ -372,7 +372,7 @@ export const LayerPopup: React.FC = () => {
                               form.setFieldsValue({ input: value });
                             }}
                           >
-                            {String(value)}
+                            {value ? String(value) : '-'}
                           </div>
                         )}
                       </Paragraph>
@@ -389,55 +389,59 @@ export const LayerPopup: React.FC = () => {
             style={{ margin: '12px 0' }}
           />
         )}
-        {!addOpen ? (
-          <Button
-            type="dashed"
-            style={{ width: '100%' }}
-            onClick={() => {
-              setAddOpen(!addOpen);
-            }}
-          >
-            <PlusSquareOutlined />
-            {t('layer_popup.index.tianJiaZiDuan')}
-          </Button>
-        ) : (
-          <div className={styles.addField}>
-            <Descriptions size="small" bordered column={1}>
-              <Descriptions.Item
-                label={
+        <div style={{ marginTop: 10 }}>
+          {!addOpen ? (
+            <Button
+              type="dashed"
+              style={{ width: '100%' }}
+              onClick={() => {
+                setAddOpen(!addOpen);
+              }}
+            >
+              <PlusSquareOutlined />
+              {t('layer_popup.index.tianJiaZiDuan')}
+            </Button>
+          ) : (
+            <div className={styles.addField}>
+              <Descriptions size="small" bordered column={1}>
+                <Descriptions.Item
+                  label={
+                    <Input
+                      size="small"
+                      onChange={(e) => {
+                        setAddValue((prevState) => ({
+                          ...prevState,
+                          label: e.target.value,
+                        }));
+                      }}
+                      onBlur={addBlur}
+                    />
+                  }
+                >
                   <Input
+                    size="small"
                     onChange={(e) => {
                       setAddValue((prevState) => ({
                         ...prevState,
-                        label: e.target.value,
+                        value: e.target.value,
                       }));
                     }}
                     onBlur={addBlur}
                   />
-                }
+                </Descriptions.Item>
+              </Descriptions>
+              <Button
+                type="text"
+                className={styles.addBut}
+                onClick={() => {
+                  setAddOpen(false);
+                }}
               >
-                <Input
-                  onChange={(e) => {
-                    setAddValue((prevState) => ({
-                      ...prevState,
-                      value: e.target.value,
-                    }));
-                  }}
-                  onBlur={addBlur}
-                />
-              </Descriptions.Item>
-            </Descriptions>
-            <Button
-              type="text"
-              className={styles.addBut}
-              onClick={() => {
-                setAddOpen(false);
-              }}
-            >
-              <DeleteOutlined />
-            </Button>
-          </div>
-        )}
+                <DeleteOutlined />
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
     );
   }, [featureFields, popupProps.feature]);

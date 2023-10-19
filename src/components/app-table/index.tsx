@@ -44,7 +44,7 @@ type EditableCellType = {
 };
 
 const formatTableValue = (value: any) => {
-  if (isNull(value) || isUndefined(value)) {
+  if (isNull(value) || isUndefined(value) || value === '') {
     return '-';
   }
   return value instanceof Object ? (
@@ -308,15 +308,19 @@ export const AppTable: React.FC = () => {
         <div className={styles.addColumns}>
           <Popconfirm
             placement="bottom"
+            icon={null}
             title={t('app_table.index.tianJiaLieZiDuan')}
             description={
-              <Input
-                placeholder={t('app_table.index.qingShuRuLieZiDuan')}
-                value={addInputValue}
-                onChange={(e) => {
-                  setAddInputValue(e.target.value);
-                }}
-              />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ width: 80 }}>字段名：</div>
+                <Input
+                  placeholder={t('app_table.index.qingShuRuLieZiDuan')}
+                  value={addInputValue}
+                  onChange={(e) => {
+                    setAddInputValue(e.target.value);
+                  }}
+                />
+              </div>
             }
             onConfirm={confirm}
             onCancel={() => {
