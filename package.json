@@ -10,7 +10,6 @@
   "module": "es/index.js",
   "types": "es/index.d.ts",
   "license": "MIT",
-  "author": "oujinhui.ojh",
   "scripts": {
     "start": "dumi dev",
     "build": "father build",
@@ -110,6 +109,11 @@
       "prettier --parser=typescript --write"
     ]
   },
+  "author": {
+    "name": "AntV",
+    "url": "https://antv.antgroup.com"
+  },
+  "homepage": "https://l7editor.antv.antgroup.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/antvis/L7Editor"
@@ -117,5 +121,8 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/antvis/L7Editor/issues"
   }
 }
