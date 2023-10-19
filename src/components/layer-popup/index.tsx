@@ -1,4 +1,4 @@
-import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import { PlusSquareOutlined } from '@ant-design/icons';
 import {
   DrawCircle,
   DrawEvent,
@@ -32,7 +32,7 @@ import { useDrawHelper } from '../../hooks';
 import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
-import './index.css';
+// import './index.css';
 import useStyle from './styles';
 
 const { Paragraph } = Typography;
@@ -335,7 +335,7 @@ export const LayerPopup: React.FC = () => {
                   return (
                     <Descriptions.Item label={key} key={key}>
                       <Paragraph
-                        copyable
+                        copyable={{ text: `${value}` }}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -343,7 +343,7 @@ export const LayerPopup: React.FC = () => {
                         }}
                       >
                         {tableClick.isInput && tableClick.index === index ? (
-                          <Form form={form}>
+                          <Form form={form} className={styles.form}>
                             <Form.Item name="input">
                               {typeof value === 'number' ? (
                                 <InputNumber
@@ -381,30 +381,9 @@ export const LayerPopup: React.FC = () => {
                 }
                 return null;
               })}
-            </Descriptions>
-          </div>
-        ) : (
-          <Empty
-            description={t('layer_popup.index.dangQianYuanSuWu')}
-            style={{ margin: '12px 0' }}
-          />
-        )}
-        <div style={{ marginTop: 10 }}>
-          {!addOpen ? (
-            <Button
-              type="dashed"
-              style={{ width: '100%' }}
-              onClick={() => {
-                setAddOpen(!addOpen);
-              }}
-            >
-              <PlusSquareOutlined />
-              {t('layer_popup.index.tianJiaZiDuan')}
-            </Button>
-          ) : (
-            <div className={styles.addField}>
-              <Descriptions size="small" bordered column={1}>
+              {addOpen && (
                 <Descriptions.Item
+                  contentStyle={{ paddingRight: 8 }}
                   label={
                     <Input
                       size="small"
@@ -418,28 +397,49 @@ export const LayerPopup: React.FC = () => {
                     />
                   }
                 >
-                  <Input
-                    size="small"
-                    onChange={(e) => {
-                      setAddValue((prevState) => ({
-                        ...prevState,
-                        value: e.target.value,
-                      }));
-                    }}
-                    onBlur={addBlur}
-                  />
+                  <div className={styles.addField}>
+                    <Input
+                      size="small"
+                      onChange={(e) => {
+                        setAddValue((prevState) => ({
+                          ...prevState,
+                          value: e.target.value,
+                        }));
+                      }}
+                      onBlur={addBlur}
+                    />
+                    <Button
+                      type="link"
+                      className={styles.addBut}
+                      onClick={() => {
+                        setAddOpen(false);
+                      }}
+                    >
+                      取消
+                    </Button>
+                  </div>
                 </Descriptions.Item>
-              </Descriptions>
-              <Button
-                type="text"
-                className={styles.addBut}
-                onClick={() => {
-                  setAddOpen(false);
-                }}
-              >
-                <DeleteOutlined />
-              </Button>
-            </div>
+              )}
+            </Descriptions>
+          </div>
+        ) : (
+          <Empty
+            description={t('layer_popup.index.dangQianYuanSuWu')}
+            style={{ margin: '12px 0' }}
+          />
+        )}
+        <div style={{ marginTop: 10 }}>
+          {!addOpen && (
+            <Button
+              type="dashed"
+              style={{ width: '100%' }}
+              onClick={() => {
+                setAddOpen(!addOpen);
+              }}
+            >
+              <PlusSquareOutlined />
+              {t('layer_popup.index.tianJiaZiDuan')}
+            </Button>
           )}
         </div>
       </div>

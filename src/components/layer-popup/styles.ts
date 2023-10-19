@@ -8,6 +8,8 @@ const useStyle = () => {
   const { colorBgContainer, colorBgElevated, colorFillSecondary } = token;
   return {
     layerPopupContent: css`
+      width: 300px !important;
+      z-index: 1000;
       .l7-popup-tip {
         border-top-color: ${colorBgContainer} !important;
       }
@@ -43,6 +45,11 @@ const useStyle = () => {
         }
       }
     `,
+    form: css`
+      .ant-form-item {
+        margin-bottom: 0px !important;
+      }
+    `,
     layerPopupBtnGroup: css`
       display: flex;
       justify-content: space-between;
@@ -56,6 +63,7 @@ const useStyle = () => {
       padding: 4px;
       margin-left: 4px;
     `,
+    addItem: css``,
   };
 };
 export default useStyle;
