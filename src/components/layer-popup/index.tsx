@@ -1,4 +1,4 @@
-import { PlusSquareOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import {
   DrawCircle,
   DrawEvent,
@@ -409,14 +409,13 @@ export const LayerPopup: React.FC = () => {
                       onBlur={addBlur}
                     />
                     <Button
-                      type="link"
+                      type="text"
                       className={styles.addBut}
+                      icon={<CloseOutlined />}
                       onClick={() => {
                         setAddOpen(false);
                       }}
-                    >
-                      {t('btn.setting_btn.quXiao')}
-                    </Button>
+                    />
                   </div>
                 </Descriptions.Item>
               )}
@@ -432,7 +431,8 @@ export const LayerPopup: React.FC = () => {
           {!addOpen && (
             <Button
               type="dashed"
-              style={{ width: '100%' }}
+              block
+              style={{ marginBottom: 6 }}
               onClick={() => {
                 setAddOpen(!addOpen);
               }}
