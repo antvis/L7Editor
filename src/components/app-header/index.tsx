@@ -3,13 +3,13 @@ import {
   FlagOutlined,
   SaveOutlined,
 } from '@ant-design/icons';
-import { useKeyPress } from 'ahooks';
+import { useKeyPress, useLocalStorageState } from 'ahooks';
 import type { MenuProps, TourProps } from 'antd';
 import { Button, Divider, Dropdown, Popover, Space, Tooltip, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../constants';
+import { IconFont, LocalStorageKey } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import type { ToolbarProps } from '../../types/l7editor';
 import DownloadBtn from './btn/download-btn';
@@ -47,6 +47,22 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
   const [isTooBarState, setIsTooBar] = useState(isTooBar);
   const styles = useStyle();
+  const [firstOpen, setFirstOpen] = useLocalStorageState<boolean>(
+    LocalStorageKey.firstOpening,
+    {
+      defaultValue: true,
+    },
+  );
+
+  useEffect(() => {
+    if (firstOpen) {
+      setOpen({
+        key: 'basics',
+        open: true,
+      });
+      setFirstOpen(false);
+    }
+  }, []);
 
   const DropdownMenuItems: MenuProps['items'] = [
     {

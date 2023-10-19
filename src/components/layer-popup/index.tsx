@@ -322,7 +322,7 @@ export const LayerPopup: React.FC = () => {
   const popupTable = useMemo(() => {
     return (
       <div>
-        {featureFields.length ? (
+        {featureFields.length || addOpen ? (
           <div
             className={styles.layerPopupInfo}
             onWheel={(e) => {
@@ -444,7 +444,7 @@ export const LayerPopup: React.FC = () => {
         </div>
       </div>
     );
-  }, [featureFields, popupProps.feature]);
+  }, [featureFields, popupProps.feature, addOpen]);
 
   return (
     <>
