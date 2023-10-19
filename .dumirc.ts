@@ -51,13 +51,19 @@ export default defineConfig({
     'https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js',
     'https://cdn.bootcdn.net/ajax/libs/PapaParse/5.4.0/papaparse.min.js',
     'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js',
-    `var _hmt = _hmt || [];
+    `
+      var _hmt = _hmt || [];
       (function() {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?058f3804ba67cf2c918042746dcaefbb";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
       })();`,
+    `
+      window._AMapSecurityConfig = {
+        securityJsCode: '68398c08084800b68071635d7ba573b0',
+      }
+    `,
   ],
   chainWebpack: (config: any) => {
     config
