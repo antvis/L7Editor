@@ -415,7 +415,7 @@ export const LayerPopup: React.FC = () => {
                         setAddOpen(false);
                       }}
                     >
-                      取消
+                      {t('btn.setting_btn.quXiao')}
                     </Button>
                   </div>
                 </Descriptions.Item>
