@@ -3,17 +3,18 @@ import {
   FlagOutlined,
   SaveOutlined,
 } from '@ant-design/icons';
-import { useKeyPress } from 'ahooks';
+import { useKeyPress, useLocalStorageState } from 'ahooks';
 import type { MenuProps, TourProps } from 'antd';
 import { Button, Divider, Dropdown, Popover, Space, Tooltip, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../constants';
+import { IconFont, LocalStorageKey } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import type { ToolbarProps } from '../../types/l7editor';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
+import I18nBtn from './btn/i18n-btn';
 import { ImportBtn } from './btn/import-btn';
 import { SettingBtn } from './btn/setting-btn';
 import useStyle from './styles';
@@ -36,15 +37,32 @@ const isTooBar = {
   setting: true,
   theme: true,
   dingTalk: true,
+  i18n: true,
 };
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [open, setOpen] = useState<openType>({ key: '', open: false });
-  const { autoFitBounds, theme, setTheme, locale, setLocale } = useGlobal();
+  const { autoFitBounds, theme, setTheme } = useGlobal();
   const { saveEditorText, savable, bboxAutoFit } = useFeature();
   const [isTooBarState, setIsTooBar] = useState(isTooBar);
   const styles = useStyle();
+  const [firstOpen, setFirstOpen] = useLocalStorageState<boolean>(
+    LocalStorageKey.firstOpening,
+    {
+      defaultValue: true,
+    },
+  );
+
+  useEffect(() => {
+    if (firstOpen) {
+      setOpen({
+        key: 'basics',
+        open: true,
+      });
+      setFirstOpen(false);
+    }
+  }, []);
 
   const DropdownMenuItems: MenuProps['items'] = [
     {
@@ -300,42 +318,20 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
                   <IconFont
                     className={styles.themeIcon}
                     type={
-                      theme === 'normal'
-                        ? 'icon-taiyang'
-                        : 'icon-a-qingtianwanshang'
+                      theme === 'dark'
+                        ? 'icon-a-qingtianwanshang'
+                        : 'icon-taiyang'
                     }
                   />
                 }
                 // className={styles.theme}
                 onClick={() => {
-                  setTheme(theme === 'normal' ? 'dark' : 'normal');
+                  setTheme(theme === 'dark' ? 'light' : 'dark');
                 }}
               />
             </Tooltip>
           )}
-          {false && (
-            <Button
-              className={styles.locale}
-              onClick={() => {
-                if (locale === 'zh-CN') {
-                  i18n.changeLanguage('en-US');
-                  setLocale('en-US');
-                } else {
-                  i18n.changeLanguage('zh-CN');
-                  setLocale('zh-CN');
-                }
-              }}
-            >
-              <IconFont
-                className={styles.localeIcon}
-                type={
-                  locale === 'zh'
-                    ? 'icon-zhongyingwenqiehuan-zhongwen'
-                    : 'icon-zhongyingwenqiehuan-yingwen'
-                }
-              />
-            </Button>
-          )}
+          {isTooBarState.i18n && <I18nBtn />}
         </Space>
       </div>
       <Tour

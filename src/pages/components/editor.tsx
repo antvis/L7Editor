@@ -1,7 +1,7 @@
-import { ConfigProvider, theme } from 'antd';
-import zhCN from 'antd/es/locale/zh_CN';
+import { ConfigProvider, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AppHeader,
   AppMap,
@@ -13,36 +13,44 @@ import {
   ResizePanel,
 } from '../../components';
 import { EditorTextLayer } from '../../components/text-layer';
+import { LangList } from '../../locales';
 import { useGlobal } from '../../recoil';
-import { L7EditorProps } from '../../types';
+import type { L7EditorProps } from '../../types';
 import useStyle from './styles';
 
 type EditorProps = L7EditorProps;
 
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
-  const {
-    theme: antdTheme,
-    mapOptions,
-    setMapOptions,
-    showIndex,
-  } = useGlobal();
+  const { i18n } = useTranslation();
+  const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
 
   useEffect(() => {
-    if (antdTheme === 'normal') {
-      setMapOptions({ ...mapOptions, style: 'normal' });
-    } else {
+    if (theme === 'dark') {
       setMapOptions({ ...mapOptions, style: 'dark' });
+    } else {
+      setMapOptions({ ...mapOptions, style: 'light' });
     }
-  }, [antdTheme]);
+  }, [theme]);
+
+  useEffect(() => {
+    i18n.changeLanguage(locale);
+  }, []);
+
+  const antdLocale = useMemo(
+    () => LangList.find((lang) => lang.lang === locale)?.antd,
+    [locale],
+  );
 
   return (
     <ConfigProvider
-      locale={zhCN}
+      locale={antdLocale}
       theme={{
         algorithm:
-          antdTheme === 'normal' ? theme.defaultAlgorithm : theme.darkAlgorithm,
+          theme === 'dark'
+            ? antdTheme.darkAlgorithm
+            : antdTheme.defaultAlgorithm,
       }}
     >
       <div

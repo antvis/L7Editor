@@ -19,6 +19,7 @@ export enum LocalStorageKey {
   cityHistory = 'cityHistory',
   showIndex = 'showIndex',
   locale = 'locale',
+  firstOpening = 'firstOpening',
 }
 
 export enum LayerId {
@@ -40,13 +41,16 @@ export const FeatureKey = {
 };
 
 export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_m46nqwk3rf.js',
+  scriptUrl: '//at.alicdn.com/t/a/font_3567033_q8yw5w6air.js',
 });
 
 export const MapBoxConfig = {
-  style: 'mapbox://styles/zcxduo/ck2ypyb1r3q9o1co1766dex29',
   token:
     'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
+};
+
+export const GaodeConfig = {
+  token: '5ae4492ef912cbbc93034fea0e66ff2a',
 };
 
 export const LayerZIndex = 100;

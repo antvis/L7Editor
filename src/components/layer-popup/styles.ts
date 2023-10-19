@@ -8,6 +8,8 @@ const useStyle = () => {
   const { colorBgContainer, colorBgElevated, colorFillSecondary } = token;
   return {
     layerPopupContent: css`
+      width: 300px !important;
+      z-index: 1000;
       .l7-popup-tip {
         border-top-color: ${colorBgContainer} !important;
       }
@@ -19,7 +21,6 @@ const useStyle = () => {
       background: ${colorBgContainer} !important;
     `,
     layerPopupInfo: css`
-      margin-bottom: 16px;
       *::-webkit-scrollbar {
         width: 8px;
         background-color: ${colorBgElevated};
@@ -44,11 +45,25 @@ const useStyle = () => {
         }
       }
     `,
+    form: css`
+      .ant-form-item {
+        margin-bottom: 0px !important;
+      }
+    `,
     layerPopupBtnGroup: css`
       display: flex;
       justify-content: space-between;
       align-items: center;
     `,
+    addField: css`
+      display: flex;
+      align-items: center;
+    `,
+    addBut: css`
+      padding: 4px;
+      margin-left: 4px;
+    `,
+    addItem: css``,
   };
 };
 export default useStyle;

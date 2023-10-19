@@ -31,7 +31,8 @@ title: API
 | activeTab | 侧面板展示 | `'geojson'｜'table'｜'wkt' ｜ string` | `geojson` |
 | features | 初始化数据 | ` Feature[]` | `[]` |
 | officialLayers | 官方图层选择 | `string[]` | `[]` |
-| theme | 主题配置 | `'normal' ｜ 'dark'` | `'normal'` |
+| theme | 主题配置 | `'light' ｜ 'dark'` | `'light'` |
+| locale | 语言设置 | `'zh-CN' ｜ 'en-US'` | `'zh-CN'` |
 | coordConvert | 数据转换 | `'GCJ02'｜'WGS84'` | `GCJ02` |
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
 | toolbar | 头部组件显隐 | [ToolbarProps](#toolbarprops) | `-` |
@@ -163,16 +164,17 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 
 #### ToolbarProps
 
-| 属性     | 描述   |
-| -------- | ------ |
-| logo     | logo   |
-| import   | 上传   |
-| download | 下载   |
-| guide    | 引导   |
-| help     | 帮助   |
-| setting  | 设置   |
-| theme    | 主题   |
-| dingTalk | 钉钉群 |
+| 属性     | 描述     |
+| -------- | -------- |
+| logo     | logo     |
+| import   | 上传     |
+| download | 下载     |
+| guide    | 引导     |
+| help     | 帮助     |
+| setting  | 设置     |
+| theme    | 主题     |
+| dingTalk | 钉钉群   |
+| i18n     | 语言切换 |
 
 #### `onFeatureChange`
 

@@ -55,7 +55,9 @@ export const AdministrativeSelect = () => {
   };
 
   useEffect(() => {
-    fetch(t('administrative_select_control.index.hTTPS'))
+    fetch(
+      'https://restapi.amap.com/v3/config/district?key=98d10f05a2da96697313a2ce35ebf1a2&keywords=中华人民共和国&subdistrict=3&extensions=base',
+    )
       .then((res) => res.json())
       .then((res) => {
         setData(getCascadeData(res.districts[0].districts));
@@ -167,7 +169,6 @@ export const AdministrativeSelect = () => {
             <Cascader
               options={data}
               value={value}
-
               onChange={onChange}
               className={styles.cascader}
               allowClear

@@ -36,29 +36,6 @@ const useStyle = () => {
       text-align: center;
       margin-bottom: 10px;
     `,
-    l7amap: css`
-      width: 28px;
-      height: 28px;
-      line-height: 28px;
-      text-align: center;
-      border-radius: 2px;
-      background-color: ${colorBgContainer};
-      box-shadow: ${boxShadow} !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      &:hover {
-        svg {
-          color: ${colorText};
-        }
-      }
-    `,
-    l7AmapControl: css`
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-      color: ${colorIcon};
-    `,
   };
 };
 export default useStyle;

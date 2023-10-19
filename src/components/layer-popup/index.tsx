@@ -1,3 +1,4 @@
+import { CloseOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import {
   DrawCircle,
   DrawEvent,
@@ -9,9 +10,9 @@ import {
 import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
 import {
   Feature,
-  featureCollection,
   Geometry,
   GeometryCollection,
+  featureCollection,
 } from '@turf/turf';
 import {
   Button,
@@ -27,9 +28,11 @@ import { cloneDeep } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FeatureKey, LayerId } from '../../constants';
+import { useDrawHelper } from '../../hooks';
 import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
+// import './index.css';
 import useStyle from './styles';
 
 const { Paragraph } = Typography;
@@ -51,8 +54,9 @@ export const LayerPopup: React.FC = () => {
   } = useFeature();
   const { layerColor, popupTrigger } = useGlobal();
   const { t } = useTranslation();
-
+  const helperText = useDrawHelper();
   const styles = useStyle();
+  const [addOpen, setAddOpen] = useState(false);
   const [popupProps, setPopupProps] = useState<
     PopupProps & { visible: boolean; featureIndex?: number; feature?: any }
   >({
@@ -69,6 +73,13 @@ export const LayerPopup: React.FC = () => {
   }>({
     isInput: false,
     index: null,
+  });
+  const [addValue, setAddValue] = useState<{
+    label: string | undefined;
+    value: string | undefined;
+  }>({
+    label: undefined,
+    value: undefined,
   });
 
   const targetFeature = useMemo(() => {
@@ -200,6 +211,7 @@ export const LayerPopup: React.FC = () => {
       initialData: [newFeature],
       maxCount: 1,
       style: getDrawStyle(layerColor),
+      helper: helperText,
     };
     let draw: DrawType;
     const [originFeature] = transformCoord([newFeature]);
@@ -284,74 +296,155 @@ export const LayerPopup: React.FC = () => {
     setTableClick({ isInput: false, index: null });
   };
 
+  const addBlur = () => {
+    if (addValue.label && addValue.value) {
+      const properties = {
+        ...popupProps.feature.properties,
+        [addValue.label]: addValue.value,
+      };
+      const feature = { ...popupProps.feature, properties };
+      setPopupProps((event) => ({ ...event, feature }));
+      const index = features.findIndex((item: Feature) => {
+        return (
+          //@ts-ignore
+          item.properties[FeatureKey.Index] ===
+          //@ts-ignore
+          feature.properties?.[FeatureKey.Index]
+        );
+      });
+      features[index] = feature;
+      saveEditorText(prettierText({ content: featureCollection(features) }));
+      setAddValue({ label: undefined, value: undefined });
+      setAddOpen(!addOpen);
+    }
+  };
+
   const popupTable = useMemo(() => {
-    return featureFields.length ? (
-      <div
-        className={styles.layerPopupInfo}
-        onWheel={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <Descriptions size="small" bordered column={1}>
-          {featureFields.map(([key, value], index) => {
-            if (!(value instanceof Object)) {
-              return (
-                <Descriptions.Item label={key} key={key}>
-                  <Paragraph
-                    copyable
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    {tableClick.isInput && tableClick.index === index ? (
-                      <Form form={form}>
-                        <Form.Item name="input">
-                          {typeof value === 'number' ? (
-                            <InputNumber
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          ) : (
-                            <Input
-                              autoFocus
-                              onPressEnter={() => save(key, value)}
-                              onBlur={() => save(key, value)}
-                            />
-                          )}
-                        </Form.Item>
-                      </Form>
-                    ) : (
-                      <div
-                        style={{ width: '100%' }}
-                        onClick={() => {
-                          setTableClick({
-                            isInput: !tableClick.isInput,
-                            index: index,
-                          });
-                          form.setFieldsValue({ input: value });
+    return (
+      <div>
+        {featureFields.length || addOpen ? (
+          <div
+            className={styles.layerPopupInfo}
+            onWheel={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <Descriptions size="small" bordered column={1}>
+              {featureFields.map(([key, value], index) => {
+                if (!(value instanceof Object)) {
+                  return (
+                    <Descriptions.Item label={key} key={key}>
+                      <Paragraph
+                        copyable={{ text: `${value}` }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
                         }}
                       >
-                        {String(value)}
-                      </div>
-                    )}
-                  </Paragraph>
+                        {tableClick.isInput && tableClick.index === index ? (
+                          <Form form={form} className={styles.form}>
+                            <Form.Item name="input">
+                              {typeof value === 'number' ? (
+                                <InputNumber
+                                  autoFocus
+                                  onPressEnter={() => save(key, value)}
+                                  onBlur={() => save(key, value)}
+                                />
+                              ) : (
+                                <Input
+                                  autoFocus
+                                  onPressEnter={() => save(key, value)}
+                                  onBlur={() => save(key, value)}
+                                />
+                              )}
+                            </Form.Item>
+                          </Form>
+                        ) : (
+                          <div
+                            style={{ width: '100%' }}
+                            onClick={() => {
+                              setTableClick({
+                                isInput: !tableClick.isInput,
+                                index: index,
+                              });
+                              setAddOpen(false);
+                              form.setFieldsValue({ input: value });
+                            }}
+                          >
+                            {value ? String(value) : '-'}
+                          </div>
+                        )}
+                      </Paragraph>
+                    </Descriptions.Item>
+                  );
+                }
+                return null;
+              })}
+              {addOpen && (
+                <Descriptions.Item
+                  contentStyle={{ paddingRight: 8 }}
+                  label={
+                    <Input
+                      size="small"
+                      onChange={(e) => {
+                        setAddValue((prevState) => ({
+                          ...prevState,
+                          label: e.target.value,
+                        }));
+                      }}
+                      onBlur={addBlur}
+                    />
+                  }
+                >
+                  <div className={styles.addField}>
+                    <Input
+                      size="small"
+                      onChange={(e) => {
+                        setAddValue((prevState) => ({
+                          ...prevState,
+                          value: e.target.value,
+                        }));
+                      }}
+                      onBlur={addBlur}
+                    />
+                    <Button
+                      type="text"
+                      className={styles.addBut}
+                      icon={<CloseOutlined />}
+                      onClick={() => {
+                        setAddOpen(false);
+                      }}
+                    />
+                  </div>
                 </Descriptions.Item>
-              );
-            }
-            return null;
-          })}
-        </Descriptions>
+              )}
+            </Descriptions>
+          </div>
+        ) : (
+          <Empty
+            description={t('layer_popup.index.dangQianYuanSuWu')}
+            style={{ margin: '12px 0' }}
+          />
+        )}
+        <div style={{ marginTop: 10 }}>
+          {!addOpen && (
+            <Button
+              type="dashed"
+              block
+              style={{ marginBottom: 6 }}
+              onClick={() => {
+                setAddOpen(!addOpen);
+              }}
+            >
+              <PlusSquareOutlined />
+              {t('layer_popup.index.tianJiaZiDuan')}
+            </Button>
+          )}
+        </div>
       </div>
-    ) : (
-      <Empty
-        description={t('layer_popup.index.dangQianYuanSuWu')}
-        style={{ margin: '12px 0' }}
-      />
     );
-  }, [featureFields, popupProps.feature]);
+  }, [featureFields, popupProps.feature, addOpen]);
 
   return (
     <>
@@ -365,6 +458,9 @@ export const LayerPopup: React.FC = () => {
             offsets={[0, 10]}
             followCursor={popupTrigger === 'hover'}
             closeOnClick
+            onClose={() => {
+              setAddOpen(false);
+            }}
           >
             <div
               className={styles.layerPopup}

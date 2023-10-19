@@ -3,7 +3,7 @@ import { Feature } from '@turf/turf';
 import { TabsProps } from 'antd';
 
 export interface MapControlProps {
-  logoControl: boolean;
+  logoControl?: boolean;
   drawControl?: boolean;
   clearControl?: boolean;
   zoomControl?: boolean;
@@ -30,6 +30,7 @@ export interface ToolbarProps {
   setting?: boolean;
   theme?: boolean;
   dingTalk?: boolean;
+  i18n?: boolean;
 }
 
 export interface L7EditorProps {
@@ -92,9 +93,9 @@ export interface L7EditorProps {
   tabs?: TabsProps['items'];
   /**
    * 主题配色
-   * @default 'normal'
+   * @default 'light'
    */
-  theme?: 'normal' | 'dark';
+  theme?: 'light' | 'dark';
   /**
    * 数据转换
    * @default 'GCJ02'
@@ -117,4 +118,8 @@ export interface L7EditorProps {
    * @default false
    */
   showIndex?: boolean;
+  /**
+   * 默认语言设置
+   */
+  locale?: 'zh-CN' | 'en-US';
 }

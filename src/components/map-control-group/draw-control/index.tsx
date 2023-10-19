@@ -9,12 +9,14 @@ import { Feature } from '@turf/turf';
 import { cloneDeep, fromPairs } from 'lodash-es';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey } from '../../../constants';
+import { useDrawHelper } from '../../../hooks';
 import { useFeature, useGlobal } from '../../../recoil';
 import { IFeatures } from '../../../types';
 import { getDrawStyle } from '../../../utils';
 import useStyle from './styles';
 
 const DrawControl = () => {
+  const helperText = useDrawHelper();
   const scene = useScene();
   const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
@@ -46,6 +48,8 @@ const DrawControl = () => {
         commonDrawOptions: {
           maxCount: 1,
           style: getDrawStyle(layerColor!),
+          //@ts-ignore
+          helper: helperText,
         },
       });
       setDrawControl(newDrawControl);

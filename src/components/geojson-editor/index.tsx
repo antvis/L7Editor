@@ -1,4 +1,4 @@
-import { useMount, useSize } from 'ahooks';
+import { useDebounceEffect, useMount, useSize } from 'ahooks';
 import { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, {
@@ -24,12 +24,14 @@ type EditorProps = {
 
 export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const { language = 'json' } = props;
-  const { theme } = useGlobal();
-  const { editorText, setEditorText } = useFeature();
+  const { theme, autoFitBounds } = useGlobal();
+  const { editorText, setEditorText, saveEditorText, bboxAutoFit } =
+    useFeature();
   const [scriptContent, setScriptContent] = useState('');
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const styles = useStyle();
+  const [editorTextChange, setEditorTextChange] = useState('');
   const { t } = useTranslation();
 
   // document format
@@ -80,6 +82,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const monacoChange = (event: string) => {
     if (language === 'json') {
       setEditorText(event);
+      setEditorTextChange(event);
       return;
     }
     setScriptContent?.(event);
@@ -110,6 +113,17 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     [scriptContent],
   );
 
+  useDebounceEffect(
+    () => {
+      const features = saveEditorText();
+      if (autoFitBounds) {
+        bboxAutoFit(features);
+      }
+    },
+    [editorTextChange],
+    { wait: 2000 },
+  );
+
   const value = useMemo(() => {
     if (language === 'javascript') {
       return {};
@@ -125,7 +139,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
         language={language}
         {...value}
         onChange={monacoChange}
-        theme={theme === 'normal' ? 'custome-theme' : 'vs-dark'}
+        theme={theme === 'dark' ? 'vs-dark' : 'custome-theme'}
         options={{
           selectOnLineNumbers: true,
           tabIndex: 2,

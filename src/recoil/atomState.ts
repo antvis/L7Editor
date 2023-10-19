@@ -120,7 +120,7 @@ const convertState = atom<string>({
 
 const themeState = atom<string>({
   key: 'theme',
-  default: 'normal',
+  default: 'light',
   effects: [localStorageEffect(LocalStorageKey.theme)],
 });
 
@@ -132,7 +132,7 @@ const cityHistoryState = atom<{ value: string; label: string }[]>({
 
 const showIndexState = atom<boolean>({
   key: 'showIndex',
-  default: false,
+  default: true,
   effects: [localStorageEffect(LocalStorageKey.showIndex)],
 });
 

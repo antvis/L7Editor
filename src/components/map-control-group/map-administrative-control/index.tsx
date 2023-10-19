@@ -4,19 +4,19 @@ import React from 'react';
 import useStyle from './styles';
 
 export const MapAdministrativeControl: React.FC = () => {
-  const styles = useStyle();
+  const style = useStyle();
 
   return (
     <CustomControl
       className={classNames([
         'map-administrative-control',
-        styles.mapAdministrative,
+        style.mapAdministrative,
       ])}
       position="leftbottom"
     >
       <RegionLocation
         searchParams={{ key: '98d10f05a2da96697313a2ce35ebf1a2' }}
-        className={styles.regionLocation}
+        className={style.regionLocation}
       />
     </CustomControl>
   );

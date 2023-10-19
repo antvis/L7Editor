@@ -14,8 +14,11 @@ export const SettingBtn = () => {
     autoFitBounds,
     setAutoFitBounds,
     setCoordConvert,
+    mapOptions,
+    setMapOptions,
     showIndex,
     setShowIndex,
+    theme,
   } = useGlobal();
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -67,6 +70,10 @@ export const SettingBtn = () => {
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
             setCoordConvert(e.baseMap === 'Gaode' ? 'GCJ02' : 'WGS84');
+            setMapOptions({
+              ...mapOptions,
+              style: theme === 'dark' ? 'dark' : 'normal',
+            });
             setBaseMap(e.baseMap);
             setShowIndex(e.showIndex);
             location.reload();

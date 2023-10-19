@@ -3,7 +3,11 @@ import { useMount } from 'ahooks';
 import { message } from 'antd';
 import React, { ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FeatureCollectionVT, MapBoxConfig } from '../../constants';
+import {
+  FeatureCollectionVT,
+  GaodeConfig,
+  MapBoxConfig,
+} from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { getParamsNew, getUrlFeatureCollection } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
@@ -54,9 +58,15 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
 
   const mapOptions = useMemo(() => {
     if (baseMap === 'Mapbox') {
-      return MapBoxConfig;
+      return {
+        ...MapBoxConfig,
+        ...baseMapOptions,
+      };
     }
-    return baseMapOptions;
+    return {
+      ...GaodeConfig,
+      ...baseMapOptions,
+    };
   }, [baseMap, baseMapOptions]);
 
   return (

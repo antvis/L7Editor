@@ -13,6 +13,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isEmptyFilter } from '../../../hooks/use-filter-features';
 import { useFeature, useFilter } from '../../../recoil';
+import useStyles from '../styles';
 import NumberFilter from './numberFilter';
 import StringFilter from './stringFilter';
 import useStyle from './styles';
@@ -26,6 +27,7 @@ const FilterControl: React.FC = () => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const styles = useStyle();
+  const style = useStyles();
 
   const addVisible = useMemo(() => {
     return !dataSource.length;
@@ -225,7 +227,6 @@ const FilterControl: React.FC = () => {
           </Form.List>
         </Form>
       </div>
-      <div className={styles.l7FilterSwitch}>
         <Tooltip
           title={t('filter_form_list_control.index.shuJuGuoLu')}
           placement="left"
@@ -233,7 +234,7 @@ const FilterControl: React.FC = () => {
           <button
             type="button"
             id="l7-editor-filter"
-            className="l7-draw-control__btn"
+            className={style.L7EditorControl}
             onClick={() => {
               setIsVisible(!isVisible);
             }}
@@ -254,7 +255,6 @@ const FilterControl: React.FC = () => {
             )}
           </button>
         </Tooltip>
-      </div>
     </CustomControl>
   );
 };
