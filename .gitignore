@@ -19,3 +19,4 @@ yarn.lock
 /lib
 /umd
 /.kiwi
+/.vscode
