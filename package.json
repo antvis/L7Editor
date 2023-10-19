@@ -1,7 +1,7 @@
 {
   "name": "@antv/l7-editor",
   "version": "1.1.2",
-  "description": "A React tool for editing GIS data based on L7",
+  "description": "Geographic data editing tool based on L7",
   "files": [
     "lib",
     "es"
@@ -13,16 +13,21 @@
   "author": "oujinhui.ojh",
   "scripts": {
     "start": "dumi dev",
-    "build": "dumi build",
-    "package:build": "father build",
+    "build": "father build",
     "i18n:collect": "kiwi --extract src",
+    "lint": "run-p lint:*",
+    "lint:ts": "eslint src __tests__ --ext .ts,.tsx --ignore-pattern 'src/**/demos/'",
+    "lint:style": "stylelint --fix src/**/*.less",
+    "prettier": "prettier --write 'src/*.{tsx,ts,md,json}'",
+    "lint-fix": "eslint src __tests__ --fix --ext .ts,.tsx --format=pretty && npm run lint:style",
     "clean": "rimraf es lib dist umd",
     "format": "prettier --cache --write .",
     "prepare": "dumi setup",
     "setup": "dumi setup",
     "doctor": "father doctor",
-    "prettier": "prettier --write 'src/*.{tsx,ts,md,json}'",
-    "lint-fix": "eslint src --fix --ext .ts,.tsx --format=pretty && npm run lint:style"
+    "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "deploy": "npm run docs:build && npm run docs:deploy"
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
@@ -107,7 +112,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://code.alipay.com/datavis/l7-editor"
+    "url": "https://github.com/antvis/L7Editor"
   },
   "publishConfig": {
     "access": "public",

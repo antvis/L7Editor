@@ -31,6 +31,7 @@ export interface ToolbarProps {
   theme?: boolean;
   dingTalk?: boolean;
   i18n?: boolean;
+  Github?: boolean;
 }
 
 export interface L7EditorProps {
