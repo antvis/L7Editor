@@ -61,9 +61,6 @@
     "wellknown": "^0.5.0",
     "xlsx": "^0.18.5"
   },
-  "tnpm": {
-    "mode": "npm"
-  },
   "yuyanId": "180020010001251474",
   "devDependencies": {
     "@antv/l7": "^2.11.0",
