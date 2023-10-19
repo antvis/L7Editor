@@ -48,6 +48,14 @@ const useStyle = () => {
       justify-content: space-between;
       align-items: center;
     `,
+    addField: css`
+      display: flex;
+      align-items: center;
+    `,
+    addBut: css`
+      padding: 4px;
+      margin-left: 4px;
+    `,
   };
 };
 export default useStyle;

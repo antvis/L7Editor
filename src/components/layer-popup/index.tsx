@@ -1,4 +1,4 @@
-import { PlusSquareOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import {
   DrawCircle,
   DrawEvent,
@@ -401,31 +401,42 @@ export const LayerPopup: React.FC = () => {
             {t('layer_popup.index.tianJiaZiDuan')}
           </Button>
         ) : (
-          <Descriptions size="small" bordered column={1}>
-            <Descriptions.Item
-              label={
+          <div className={styles.addField}>
+            <Descriptions size="small" bordered column={1}>
+              <Descriptions.Item
+                label={
+                  <Input
+                    onChange={(e) => {
+                      setAddValue((prevState) => ({
+                        ...prevState,
+                        label: e.target.value,
+                      }));
+                    }}
+                    onBlur={addBlur}
+                  />
+                }
+              >
                 <Input
                   onChange={(e) => {
                     setAddValue((prevState) => ({
                       ...prevState,
-                      label: e.target.value,
+                      value: e.target.value,
                     }));
                   }}
                   onBlur={addBlur}
                 />
-              }
+              </Descriptions.Item>
+            </Descriptions>
+            <Button
+              type="text"
+              className={styles.addBut}
+              onClick={() => {
+                setAddOpen(false);
+              }}
             >
-              <Input
-                onChange={(e) => {
-                  setAddValue((prevState) => ({
-                    ...prevState,
-                    value: e.target.value,
-                  }));
-                }}
-                onBlur={addBlur}
-              />
-            </Descriptions.Item>
-          </Descriptions>
+              <DeleteOutlined />
+            </Button>
+          </div>
         )}
       </div>
     );
