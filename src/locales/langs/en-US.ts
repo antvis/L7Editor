@@ -40,6 +40,7 @@ export default {
   'administrative_select_control.index.weiLanShuJuQing':
     'Fence data request failed',
   'app_header.constants.zuJianAPI': 'Component API Documentation',
+  'app_header.constants.issue':'Quick Issue',
   'app_header.constants.xiaZaiGEO': 'Download GeoJSON format data',
   'app_header.constants.xiaZaiLNG': 'Download LngLat format data',
   'official_layer_control.index.gaoDeTuCeng': 'Gaode Layer',

@@ -1,7 +1,7 @@
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default () => {
@@ -11,6 +11,8 @@ export default () => {
       window.open('/guide');
     } else if (key === 'api') {
       window.open('/docs');
+    } else if (key === 'issue') {
+      window.open('https://github.com/antvis/L7Editor/issues/new');
     }
   };
 
@@ -22,6 +24,10 @@ export default () => {
     {
       key: 'api',
       label: t('app_header.constants.zuJianAPI'),
+    },
+    {
+      key: 'issue',
+      label: t('app_header.constants.issue'),
     },
   ];
   return (

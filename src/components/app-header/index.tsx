@@ -1,6 +1,7 @@
 import {
   DingtalkOutlined,
   FlagOutlined,
+  GithubOutlined,
   SaveOutlined,
 } from '@ant-design/icons';
 import { useKeyPress } from 'ahooks';
@@ -36,6 +37,7 @@ const isTooBar = {
   setting: true,
   theme: true,
   dingTalk: true,
+  Github: true,
 };
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
@@ -335,6 +337,16 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
                 }
               />
             </Button>
+          )}
+          {isTooBarState.Github && (
+            <Tooltip title={'Github'} trigger="hover">
+              <Button
+                icon={<GithubOutlined />}
+                onClick={() => {
+                  window.open('https://github.com/antvis/L7Editor');
+                }}
+              />
+            </Tooltip>
           )}
         </Space>
       </div>

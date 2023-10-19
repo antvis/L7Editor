@@ -37,6 +37,7 @@ export default {
   'app_table.index.dingWei': '定位',
   'administrative_select_control.index.weiLanShuJuQing': '围栏数据请求失败',
   'app_header.constants.zuJianAPI': '组件API文档',
+  'app_header.constants.issue':'提交 Issue',
   'app_header.constants.xiaZaiGEO': '下载 GeoJSON 格式数据',
   'app_header.constants.xiaZaiLNG': '下载 LngLat 格式数据',
   'official_layer_control.index.gaoDeTuCeng': '高德图层',
