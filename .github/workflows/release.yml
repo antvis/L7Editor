@@ -12,8 +12,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm install
-      - run: npm run ci
+      - run: yarn
+      - run: yarn ci
 
   publish-site:
     needs: build
@@ -23,8 +23,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm install
-      - run: npm run docs:build
+      - run: yarn
+      - run: yarn docs:build
       - run: |
           cd docs-dist
           git init

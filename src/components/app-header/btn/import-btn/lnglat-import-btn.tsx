@@ -3,7 +3,7 @@ import { Form, Input, Radio } from 'antd';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLnglat } from '../../../../recoil';
-import { LngLatImportType } from '../../../../types';
+import type { LngLatImportType } from '../../../../types';
 
 const LngLatImportBtn = forwardRef(({}, ref) => {
   const {
@@ -15,10 +15,10 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
   } = useLnglat();
   const { t } = useTranslation();
 
-  const LngLatImportTypeOptions: Array<{
+  const LngLatImportTypeOptions: {
     label: string;
     value: LngLatImportType;
-  }> = [
+  }[] = [
     {
       label: t('import_btn.lnglat_import_btn.dian'),
       value: 'Point',
@@ -46,7 +46,7 @@ const LngLatImportBtn = forwardRef(({}, ref) => {
           reject(t('import_btn.lnglat_import_btn.lNGLA'));
         }),
     }),
-    [lngLatText, lngLatImportType],
+    [lngLatText, importLngLatText, t],
   );
 
   return (

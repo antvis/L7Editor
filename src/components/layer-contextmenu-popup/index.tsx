@@ -1,4 +1,5 @@
-import { Marker, PopupProps, useLayerList, useScene } from '@antv/larkmap';
+import type { PopupProps } from '@antv/larkmap';
+import { Marker, useLayerList, useScene } from '@antv/larkmap';
 import { featureCollection } from '@turf/turf';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId } from '../../constants';
@@ -9,7 +10,7 @@ import useStyle from './styles';
 
 export const LayerContextmenuPopup: React.FC = () => {
   const scene = useScene();
-  const { isDraw, features, revertCoord } = useFeature();
+  const { isDraw, features } = useFeature();
 
   const styles = useStyle();
   const [markerProps, setMarkerProps] = useState<
@@ -25,7 +26,7 @@ export const LayerContextmenuPopup: React.FC = () => {
 
   const targetFeature = useMemo(() => {
     return features.find(
-      (feature: { properties: { [x: string]: number | undefined } }) =>
+      (feature: { properties: Record<string, number | undefined> }) =>
         // @ts-ignore
         feature.properties?.[FeatureKey.Index] === markerProps.featureIndex,
     );

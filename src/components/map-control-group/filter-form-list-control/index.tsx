@@ -97,7 +97,7 @@ const FilterControl: React.FC = () => {
               <>
                 {fields.map(({ name }, index) => (
                   <div
-                    key={index.toString()}
+                    key={name}
                     style={{ display: 'flex', marginBottom: 8 }}
                   >
                     <Form.Item name={[name, 'logic']} initialValue="and">

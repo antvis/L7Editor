@@ -1,7 +1,8 @@
 import { Result } from 'antd';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MutableSnapshot, RecoilEnv, RecoilRoot } from 'recoil';
+import type { MutableSnapshot } from 'recoil';
+import { RecoilEnv, RecoilRoot } from 'recoil';
 import { PrimaryColor } from '../constants';
 import '../locales/index';
 import {

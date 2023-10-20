@@ -1,7 +1,8 @@
 import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import type { ReactNode } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   FeatureCollectionVT,
@@ -42,6 +43,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
     if (scene) {
       bboxAutoFit();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scene]);
 
   useEffect(() => {
@@ -54,6 +56,7 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
         JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const mapOptions = useMemo(() => {

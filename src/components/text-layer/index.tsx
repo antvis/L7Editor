@@ -1,4 +1,5 @@
-import { TextLayer, TextLayerProps } from '@antv/larkmap';
+import type { TextLayerProps } from '@antv/larkmap';
+import { TextLayer } from '@antv/larkmap';
 import { center } from '@turf/turf';
 import React, { useMemo } from 'react';
 import { FeatureKey } from '../../constants';
@@ -8,7 +9,7 @@ import { useFeature, useGlobal } from '../../recoil';
 export const EditorTextLayer = () => {
   const { transformCoord } = useFeature();
   const { features: newFeatures } = useFilterFeatures();
-  const { coordConvert, layerColor } = useGlobal();
+  const { layerColor } = useGlobal();
 
   const layerOptions: Omit<TextLayerProps, 'source'> = useMemo(() => {
     return {
@@ -35,7 +36,7 @@ export const EditorTextLayer = () => {
         featureIndex: item.properties?.[FeatureKey.Index],
       };
     });
-    const data = transformData.map((item, index) => {
+    const data = transformData.map((item) => {
       return {
         //@ts-ignore
         x: item.data.geometry.coordinates[0],
@@ -45,7 +46,8 @@ export const EditorTextLayer = () => {
       };
     });
     return data;
-  }, [newFeatures, coordConvert]);
+  }, [transformCoord, newFeatures]);
+  
   return (
     <TextLayer
       {...layerOptions}

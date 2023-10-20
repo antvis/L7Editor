@@ -10,6 +10,7 @@ interface Props {
 
 export default function CodeBlock({ copyType, text }: Props) {
   const { t } = useTranslation();
+
   useEffect(() => {
     const clipboard = new Clipboard(`#${copyType}copy_btn`, {
       text: () => text,
@@ -23,6 +24,7 @@ export default function CodeBlock({ copyType, text }: Props) {
     return () => {
       clipboard.destroy();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
-import { Feature } from '@turf/turf';
-import { Select, Tabs, TabsProps } from 'antd';
+import type { Feature } from '@turf/turf';
+import type { TabsProps } from 'antd';
+import { Select, Tabs } from 'antd';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconFont } from '../../constants';
@@ -31,6 +32,7 @@ export const MapContent: React.FC<MapContentProps> = ({
         JSON.stringify({ type: 'FeatureCollection', features }, null, 2),
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
 
   const tabItem = [

@@ -1,14 +1,15 @@
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { coordAll } from '@turf/turf';
-import { Button, Dropdown, MenuProps } from 'antd';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { downloadText } from '../../../utils';
-import { prettierText } from '../../../utils/prettier-text';
-import { useFeature } from './../../../recoil';
 // @ts-ignore
 import tokml from 'tokml';
+import { downloadText } from '../../../utils';
+import { prettierText } from '../../../utils/prettier-text';
 import { GeoJSON2Wkt } from '../../../utils/wkt';
+import { useFeature } from './../../../recoil';
 
 const DownloadBtn: React.FC = () => {
   const { editorText, fc } = useFeature();

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../../recoil';
 import { getPointImage } from '../../../utils/change-image-color';
 import { LocationSearch } from './location-search';
-import { LocationSearchOption } from './types';
+import type { LocationSearchOption } from './types';
 
 const LocationSearchControl: React.FC = React.memo(() => {
   const scene = useScene();

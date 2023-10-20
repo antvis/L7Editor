@@ -1,5 +1,5 @@
 import { useDebounceEffect, useMount, useSize } from 'ahooks';
-import { editor } from 'monaco-editor';
+import type { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, {
   forwardRef,
@@ -110,7 +110,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
           }
         }),
     }),
-    [scriptContent],
+    [scriptContent, t],
   );
 
   useDebounceEffect(

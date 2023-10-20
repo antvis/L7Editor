@@ -1,21 +1,13 @@
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { FeatureCollection } from '@turf/turf';
-import {
-  Button,
-  Form,
-  message,
-  Modal,
-  Radio,
-  Tabs,
-  TabsProps,
-  Tooltip,
-} from 'antd';
+import type { FeatureCollection } from '@turf/turf';
+import type { TabsProps } from 'antd';
+import { Button, Form, message, Modal, Radio, Tabs, Tooltip } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GeoJsonEditor } from '../../../../components/geojson-editor';
 import { FeatureCollectionVT } from '../../../../constants/variable-type';
 import { useFeature } from '../../../../recoil';
-import { IFeatures } from '../../../../types';
+import type { IFeatures } from '../../../../types';
 import FileUpload from './file-upload';
 import UrlUpload from './url-upload';
 

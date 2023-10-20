@@ -1,11 +1,12 @@
+import type {
+  PolygonLayerProps} from '@antv/larkmap';
 import {
   LineLayer,
   PointLayer,
   PolygonLayer,
-  PolygonLayerProps,
   useScene,
 } from '@antv/larkmap';
-import { Feature } from '@turf/turf';
+import type { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
 import { cloneDeep, groupBy } from 'lodash-es';
@@ -29,6 +30,7 @@ export const LayerList: React.FC = () => {
     } else {
       setFeatures([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newFeatures, coordConvert, baseMap]);
 
   const [
@@ -48,9 +50,9 @@ export const LayerList: React.FC = () => {
       (feature: Feature) => feature.geometry.type.replace('Multi', ''),
     );
 
-    return [pointList, lineStringList, polygonList].map((features) => {
+    return [pointList, lineStringList, polygonList].map((typeFeatures) => {
       return {
-        data: { type: 'FeatureCollection', features },
+        data: { type: 'FeatureCollection', features: typeFeatures },
       };
     });
   }, [features]);

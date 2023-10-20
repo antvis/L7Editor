@@ -1,6 +1,6 @@
-import { LarkMapProps } from '@antv/larkmap';
-import { Feature } from '@turf/turf';
-import { TabsProps } from 'antd';
+import type { LarkMapProps } from '@antv/larkmap';
+import type { Feature } from '@turf/turf';
+import type { TabsProps } from 'antd';
 
 export interface MapControlProps {
   logoControl?: boolean;

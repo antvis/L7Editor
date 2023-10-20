@@ -7,13 +7,10 @@ import {
   DrawPolygon,
   DrawRect,
 } from '@antv/l7-draw';
-import { Popup, PopupProps, useLayerList, useScene } from '@antv/larkmap';
-import {
-  Feature,
-  Geometry,
-  GeometryCollection,
-  featureCollection,
-} from '@turf/turf';
+import type { PopupProps } from '@antv/larkmap';
+import { Popup, useLayerList, useScene } from '@antv/larkmap';
+import type { Feature, Geometry, GeometryCollection } from '@turf/turf';
+import { featureCollection } from '@turf/turf';
 import {
   Button,
   Descriptions,
@@ -84,7 +81,7 @@ export const LayerPopup: React.FC = () => {
 
   const targetFeature = useMemo(() => {
     return features.find(
-      (feature: { properties: { [x: string]: number | undefined } }) =>
+      (feature: { properties: Record<string, number | undefined> }) =>
         // @ts-ignore
         feature.properties?.[FeatureKey.Index] === popupProps.featureIndex,
     );
@@ -151,7 +148,7 @@ export const LayerPopup: React.FC = () => {
         });
       }
     },
-    [setPopupProps, popupProps, isDraw],
+    [setPopupProps, isDraw],
   );
 
   const onLayerMouseout = useCallback(() => {
@@ -164,7 +161,7 @@ export const LayerPopup: React.FC = () => {
         };
       });
     }
-  }, [setPopupProps, popupProps, isDraw]);
+  }, [setPopupProps, isDraw]);
 
   const onEdit = (feature: Feature) => {
     setIsDraw(true);
@@ -239,6 +236,7 @@ export const LayerPopup: React.FC = () => {
     });
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onLayerDblClick = (e: any) => {
     const { feature } = e;
     if (!disabledEdit(feature) && !isDraw) {
@@ -271,6 +269,7 @@ export const LayerPopup: React.FC = () => {
         layerList.forEach((layer) => layer.off(e.event, e.click));
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onLayerClick, onLayerMouseenter, layerList, popupTrigger, scene]);
 
   const save = (key: string, value: any) => {
@@ -319,132 +318,130 @@ export const LayerPopup: React.FC = () => {
     }
   };
 
-  const popupTable = useMemo(() => {
-    return (
-      <div>
-        {featureFields.length || addOpen ? (
-          <div
-            className={styles.layerPopupInfo}
-            onWheel={(e) => {
-              e.stopPropagation();
+  const popupTable = (
+    <div>
+      {featureFields.length || addOpen ? (
+        <div
+          className={styles.layerPopupInfo}
+          onWheel={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <Descriptions size="small" bordered column={1}>
+            {featureFields.map(([key, value], index) => {
+              if (!(value instanceof Object)) {
+                return (
+                  <Descriptions.Item label={key} key={key}>
+                    <Paragraph
+                      copyable={{ text: `${value}` }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      {tableClick.isInput && tableClick.index === index ? (
+                        <Form form={form} className={styles.form}>
+                          <Form.Item name="input">
+                            {typeof value === 'number' ? (
+                              <InputNumber
+                                autoFocus
+                                onPressEnter={() => save(key, value)}
+                                onBlur={() => save(key, value)}
+                              />
+                            ) : (
+                              <Input
+                                autoFocus
+                                onPressEnter={() => save(key, value)}
+                                onBlur={() => save(key, value)}
+                              />
+                            )}
+                          </Form.Item>
+                        </Form>
+                      ) : (
+                        <div
+                          style={{ width: '100%' }}
+                          onClick={() => {
+                            setTableClick({
+                              isInput: !tableClick.isInput,
+                              index: index,
+                            });
+                            setAddOpen(false);
+                            form.setFieldsValue({ input: value });
+                          }}
+                        >
+                          {value ? String(value) : '-'}
+                        </div>
+                      )}
+                    </Paragraph>
+                  </Descriptions.Item>
+                );
+              }
+              return null;
+            })}
+            {addOpen && (
+              <Descriptions.Item
+                contentStyle={{ paddingRight: 8 }}
+                label={
+                  <Input
+                    size="small"
+                    onChange={(e) => {
+                      setAddValue((prevState) => ({
+                        ...prevState,
+                        label: e.target.value,
+                      }));
+                    }}
+                    onBlur={addBlur}
+                  />
+                }
+              >
+                <div className={styles.addField}>
+                  <Input
+                    size="small"
+                    onChange={(e) => {
+                      setAddValue((prevState) => ({
+                        ...prevState,
+                        value: e.target.value,
+                      }));
+                    }}
+                    onBlur={addBlur}
+                  />
+                  <Button
+                    type="text"
+                    className={styles.addBut}
+                    icon={<CloseOutlined />}
+                    onClick={() => {
+                      setAddOpen(false);
+                    }}
+                  />
+                </div>
+              </Descriptions.Item>
+            )}
+          </Descriptions>
+        </div>
+      ) : (
+        <Empty
+          description={t('layer_popup.index.dangQianYuanSuWu')}
+          style={{ margin: '12px 0' }}
+        />
+      )}
+      <div style={{ marginTop: 10 }}>
+        {!addOpen && (
+          <Button
+            type="dashed"
+            block
+            style={{ marginBottom: 6 }}
+            onClick={() => {
+              setAddOpen(!addOpen);
             }}
           >
-            <Descriptions size="small" bordered column={1}>
-              {featureFields.map(([key, value], index) => {
-                if (!(value instanceof Object)) {
-                  return (
-                    <Descriptions.Item label={key} key={key}>
-                      <Paragraph
-                        copyable={{ text: `${value}` }}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        {tableClick.isInput && tableClick.index === index ? (
-                          <Form form={form} className={styles.form}>
-                            <Form.Item name="input">
-                              {typeof value === 'number' ? (
-                                <InputNumber
-                                  autoFocus
-                                  onPressEnter={() => save(key, value)}
-                                  onBlur={() => save(key, value)}
-                                />
-                              ) : (
-                                <Input
-                                  autoFocus
-                                  onPressEnter={() => save(key, value)}
-                                  onBlur={() => save(key, value)}
-                                />
-                              )}
-                            </Form.Item>
-                          </Form>
-                        ) : (
-                          <div
-                            style={{ width: '100%' }}
-                            onClick={() => {
-                              setTableClick({
-                                isInput: !tableClick.isInput,
-                                index: index,
-                              });
-                              setAddOpen(false);
-                              form.setFieldsValue({ input: value });
-                            }}
-                          >
-                            {value ? String(value) : '-'}
-                          </div>
-                        )}
-                      </Paragraph>
-                    </Descriptions.Item>
-                  );
-                }
-                return null;
-              })}
-              {addOpen && (
-                <Descriptions.Item
-                  contentStyle={{ paddingRight: 8 }}
-                  label={
-                    <Input
-                      size="small"
-                      onChange={(e) => {
-                        setAddValue((prevState) => ({
-                          ...prevState,
-                          label: e.target.value,
-                        }));
-                      }}
-                      onBlur={addBlur}
-                    />
-                  }
-                >
-                  <div className={styles.addField}>
-                    <Input
-                      size="small"
-                      onChange={(e) => {
-                        setAddValue((prevState) => ({
-                          ...prevState,
-                          value: e.target.value,
-                        }));
-                      }}
-                      onBlur={addBlur}
-                    />
-                    <Button
-                      type="text"
-                      className={styles.addBut}
-                      icon={<CloseOutlined />}
-                      onClick={() => {
-                        setAddOpen(false);
-                      }}
-                    />
-                  </div>
-                </Descriptions.Item>
-              )}
-            </Descriptions>
-          </div>
-        ) : (
-          <Empty
-            description={t('layer_popup.index.dangQianYuanSuWu')}
-            style={{ margin: '12px 0' }}
-          />
+            <PlusSquareOutlined />
+            {t('layer_popup.index.tianJiaZiDuan')}
+          </Button>
         )}
-        <div style={{ marginTop: 10 }}>
-          {!addOpen && (
-            <Button
-              type="dashed"
-              block
-              style={{ marginBottom: 6 }}
-              onClick={() => {
-                setAddOpen(!addOpen);
-              }}
-            >
-              <PlusSquareOutlined />
-              {t('layer_popup.index.tianJiaZiDuan')}
-            </Button>
-          )}
-        </div>
       </div>
-    );
-  }, [featureFields, popupProps.feature, addOpen]);
+    </div>
+  );
 
   return (
     <>

@@ -21,7 +21,7 @@ const UrlUpload = forwardRef(({}, ref) => {
           }
         }),
     }),
-    [inputValue, radioValue],
+    [inputValue, radioValue, t],
   );
 
   return (
