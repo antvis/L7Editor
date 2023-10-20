@@ -11,7 +11,7 @@ export default defineConfig({
     entryFile: './src/index.tsx',
   },
   title: 'L7 Editor - 基于 L7 的地理数据绘制工具',
-  outputPath: 'dist',
+  outputPath: 'docs-dist',
   copy: isProduction ? ['docs/CNAME'] : [],
   themeConfig: {
     name: 'L7 Editor',

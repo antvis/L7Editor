@@ -20,3 +20,4 @@ yarn.lock
 /umd
 /.kiwi
 /.vscode
+/docs-dist
