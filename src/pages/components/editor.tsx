@@ -17,6 +17,7 @@ import { LangList } from '../../locales';
 import { useGlobal } from '../../recoil';
 import type { L7EditorProps } from '../../types';
 import useStyle from './styles';
+import { useUpdateEffect } from 'ahooks';
 
 type EditorProps = L7EditorProps;
 
@@ -26,7 +27,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     if (theme === 'dark') {
       setMapOptions({ ...mapOptions, style: 'dark' });
     } else {
