@@ -1,12 +1,13 @@
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import { Scene } from '@antv/l7';
-import { Feature, bbox, center, featureCollection } from '@turf/turf';
+import type { Scene } from '@antv/l7';
+import type { Feature } from '@turf/turf';
+import { bbox, center, featureCollection } from '@turf/turf';
 import { useSize } from 'ahooks';
+import type { FormInstance } from 'antd';
 import {
   Button,
   Empty,
   Form,
-  FormInstance,
   Input,
   InputNumber,
   Popconfirm,
@@ -210,7 +211,7 @@ export const AppTable: React.FC = () => {
         width: 80,
         align: 'center',
         fixed: 'left',
-        sorter: (a: any, b: any) => a['__index'] - b['__index'],
+        sorter: (a: any, b: any) => a.__index - b.__index,
       });
     }
 
@@ -373,7 +374,7 @@ export const AppTable: React.FC = () => {
           <a
             onClick={() => {
               resetFeatures(
-                features.filter((_, index) => {
+                features.filter((feature, index) => {
                   return index !== record[FeatureKey.Index];
                 }),
               );
@@ -387,7 +388,19 @@ export const AppTable: React.FC = () => {
       ),
     });
     return newColumns;
-  }, [features, newDataSource, resetFeatures, scene, t, transformCoord]);
+  }, [
+    addInputValue,
+    features,
+    newDataSource,
+    resetFeatures,
+    scene,
+    styles.addButton,
+    styles.addColumns,
+    styles.delButton,
+    styles.deleteColumns,
+    t,
+    transformCoord,
+  ]);
 
   const handleSave = (row: any) => {
     const newData = [...newDataSource];

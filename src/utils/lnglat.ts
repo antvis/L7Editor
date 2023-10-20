@@ -1,10 +1,5 @@
-import {
-  Feature,
-  FeatureCollection,
-  Position,
-  coordAll,
-  point,
-} from '@turf/turf';
+import type { Feature, FeatureCollection, Position } from '@turf/turf';
+import { coordAll, point } from '@turf/turf';
 import { LngLatVT } from '../constants';
 
 export function GeoJSON2LngLat(fc: FeatureCollection) {
@@ -22,12 +17,12 @@ export function LngLat2GeoJson(lngLat: string) {
     .map((item) =>
       item
         .split(';')
-        .filter((item) => item)
-        .map((item) =>
-          item
+        .filter((str) => str)
+        .map((str) =>
+          str
             .split(',')
-            .filter((item) => item)
-            .map((item) => +item),
+            .filter((num) => num)
+            .map((num) => +num),
         ),
     );
   if (LngLatVT.check(featurePositionList)) {

@@ -24,6 +24,7 @@ export const WktEditor: React.FC = forwardRef(() => {
     if (result !== input) {
       setInput(result);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fc, isFocus]);
 
   const { run: onInputChange } = useDebounceFn(

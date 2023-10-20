@@ -7,6 +7,7 @@ import { initReactI18next } from 'react-i18next';
 import enUS from './langs/en-US';
 import zhCN from './langs/zh-CN';
 
+// eslint-disable-next-line import/no-named-as-default-member
 i18n
   // 检测用户当前使用的语言
   // 文档: https://github.com/i18next/i18next-browser-languageDetector

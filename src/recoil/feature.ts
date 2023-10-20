@@ -1,11 +1,12 @@
-import { bbox, Feature, featureCollection, getType } from '@turf/turf';
+import type { Feature } from '@turf/turf';
+import { bbox, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { FeatureKey } from '../constants';
-import { FilterField, IFeatures } from '../types';
+import type { FilterField, IFeatures } from '../types';
 import { gcj02towgs84, transformFeatures, wgs84togcj02 } from '../utils';
 import { prettierText } from '../utils/prettier-text';
 import {
@@ -123,19 +124,22 @@ export default function useFeature() {
     return featureKeyList;
   }, [features]);
 
-  const transformCoord = (newFeatures: Feature[]) => {
-    let data = [...newFeatures];
-    if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
-      data = data.map((item) => {
-        return wgs84togcj02(cloneDeep(item));
-      });
-    } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
-      data = data.map((item) => {
-        return gcj02towgs84(cloneDeep(item));
-      });
-    }
-    return data;
-  };
+  const transformCoord = useCallback(
+    (newFeatures: Feature[]) => {
+      let data = [...newFeatures];
+      if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
+        data = data.map((item) => {
+          return wgs84togcj02(cloneDeep(item));
+        });
+      } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
+        data = data.map((item) => {
+          return gcj02towgs84(cloneDeep(item));
+        });
+      }
+      return data;
+    },
+    [baseMap, coordConvert],
+  );
 
   const revertCoord = useCallback(
     (newFeatures: Feature[]) => {

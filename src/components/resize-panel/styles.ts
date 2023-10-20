@@ -9,8 +9,6 @@ const useStyle = () => {
     colorBgContainer,
     boxShadow,
     colorBorderSecondary,
-    colorFillContentHover,
-    boxShadowSecondary,
     colorInfoHover,
     colorIcon,
   } = token;

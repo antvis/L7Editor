@@ -1,4 +1,5 @@
-import { Feature, feature } from '@turf/turf';
+import type { Feature } from '@turf/turf';
+import { feature } from '@turf/turf';
 import {
   FeatureCollectionVT,
   FeatureListVT,

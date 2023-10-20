@@ -15,7 +15,7 @@ export function OfficialLayerControl() {
   const scene = useScene();
   const styles = useStyle();
   const style = useStyles();
-  const { layerType, setLayerType, baseMap } = useGlobal();
+  const { layerType, setLayerType } = useGlobal();
   const { t } = useTranslation();
 
   const officeLayerGroup = useMemo(() => {
@@ -62,7 +62,7 @@ export function OfficialLayerControl() {
         ],
       },
     ];
-  }, [baseMap, t]);
+  }, [t]);
 
   const amapLayerInstanceRef = useRef(
     scene.getType() !== 'mapbox'
@@ -106,6 +106,7 @@ export function OfficialLayerControl() {
         }
       } catch {}
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layerType, scene]);
 
   const officialLayerList = useMemo(() => {

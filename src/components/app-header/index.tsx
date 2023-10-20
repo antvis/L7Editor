@@ -64,6 +64,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
       });
       setFirstOpen(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const DropdownMenuItems: MenuProps['items'] = [

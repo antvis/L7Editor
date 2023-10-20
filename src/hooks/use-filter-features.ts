@@ -1,9 +1,9 @@
-import { Feature } from '@turf/turf';
+import type { Feature } from '@turf/turf';
 import { isEmpty, isUndefined } from 'lodash-es';
 import { useEffect } from 'react';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useFeature, useFilter } from '../recoil';
-import { FilterNode } from './../types/filter';
+import type { FilterNode } from './../types/filter';
 
 export function isEmptyFilter(filter: FilterNode) {
   const { operator, value, type, field } = filter;

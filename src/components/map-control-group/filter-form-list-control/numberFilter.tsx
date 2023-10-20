@@ -1,9 +1,10 @@
-import { Form, FormInstance, InputNumber, Select } from 'antd';
+import type { FormInstance } from 'antd';
+import { Form, InputNumber, Select } from 'antd';
 import { cloneDeep } from 'lodash-es';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFeature, useFilter } from '../../../recoil';
-import { FilterNumberData } from '../../../types';
+import type { FilterNumberData } from '../../../types';
 
 interface Props {
   name: number;

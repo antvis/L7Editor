@@ -1,4 +1,4 @@
-import { Feature } from '@turf/turf';
+import type { Feature } from '@turf/turf';
 import gcoord from 'gcoord';
 
 export const wgs84togcj02 = (feature: Feature) => {

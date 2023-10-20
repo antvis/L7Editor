@@ -1,9 +1,9 @@
-import { Scene } from '@antv/l7';
-import { LarkMapProps } from '@antv/larkmap';
+import type { Scene } from '@antv/l7';
+import type { LarkMapProps } from '@antv/larkmap';
 import { atom, DefaultValue } from 'recoil';
 import { LocalStorageKey } from '../constants';
-import { IFeatures, LngLatImportType } from '../types';
-import { FilterNode } from '../types/filter';
+import type { IFeatures, LngLatImportType } from '../types';
+import type { FilterNode } from '../types/filter';
 
 const localStorageEffect =
   (key: string) =>

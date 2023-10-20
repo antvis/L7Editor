@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../recoil';
-import { IFeatures } from '../../types';
+import type { IFeatures } from '../../types';
 import { GeoJSON2LngLat, LngLat2GeoJson } from '../../utils';
 
 const { TextArea } = Input;
@@ -23,11 +23,12 @@ export const LngLatEditor: React.FC = () => {
     if (result !== input) {
       setInput(result);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fc, isFocus]);
 
   const { run: onInputChange } = useDebounceFn(
-    (input: string) => {
-      const features = LngLat2GeoJson(input);
+    (newInput: string) => {
+      const features = LngLat2GeoJson(newInput);
       if (features) {
         resetFeatures(features as IFeatures);
         if (autoFitBounds) {

@@ -35,7 +35,7 @@ const SaveMapOptionsControl: React.FC = () => {
           onClick={onSave}
           type="button"
         >
-          <i className="iconfont icon-ditu l7-iconfont"></i>
+          <i className="iconfont icon-ditu l7-iconfont" />
         </button>
       </Tooltip>
     </CustomControl>

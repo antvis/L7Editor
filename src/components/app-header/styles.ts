@@ -4,8 +4,7 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBorder, colorBgContainer, colorText, colorIcon, colorFill } =
-    token;
+  const { colorBorder, colorBgContainer, colorText } = token;
 
   return {
     mapHeader: css`

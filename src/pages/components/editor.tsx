@@ -32,10 +32,12 @@ export const Editor: React.FC<EditorProps> = (props) => {
     } else {
       setMapOptions({ ...mapOptions, style: 'light' });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme]);
 
   useEffect(() => {
     i18n.changeLanguage(locale);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const antdLocale = useMemo(

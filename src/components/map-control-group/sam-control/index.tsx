@@ -94,7 +94,7 @@ export const SamControl = () => {
         }
       }
     },
-    [bound, samModel, revertCoord, features, t],
+    [bound, samModel, revertCoord, resetFeatures, features, t],
   );
 
   // 生成 embedding 并初始化载入模型
@@ -216,12 +216,14 @@ export const SamControl = () => {
     return () => {
       polygonLayer?.off('unclick', onMapClick);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [samOpen, scene, onMapClick]);
 
   useEffect(() => {
     if (samOpen && samModel) {
       generateEmbedding();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [samOpen, samModel]);
 
   return (

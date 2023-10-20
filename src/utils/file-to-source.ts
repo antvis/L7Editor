@@ -1,12 +1,12 @@
-import { FeatureCollectionVT } from '../constants';
 // @ts-ignore
 import togeojson from '@mapbox/togeojson';
 // @ts-ignore
 import { uniqueId } from 'lodash-es';
-import { Wkt2GeoJSON } from './wkt';
 //@ts-ignore
 import papaparse from 'papaparse';
 import { read as XLSX_read, utils as XLSX_utils } from 'xlsx';
+import { FeatureCollectionVT } from '../constants';
+import { Wkt2GeoJSON } from './wkt';
 
 export const readFileAsText = (file: File) => {
   return new Promise<string>((resolve, reject) => {
@@ -27,9 +27,9 @@ export const readFileAsText = (file: File) => {
 /* 解析 geojson 文件数据至数据集格式
  */
 export const parserGeoJson = (content: string, name: string, id?: string) => {
-  let originData: GeoJSON.FeatureCollection;
-
-  originData = JSON.parse(content) as GeoJSON.FeatureCollection;
+  const originData: GeoJSON.FeatureCollection = JSON.parse(
+    content,
+  ) as GeoJSON.FeatureCollection;
 
   return {
     id: id || uniqueId(id),
@@ -47,9 +47,7 @@ export const parserJsonToGeoJson = (
   name: string,
   id?: string,
 ) => {
-  let data: Record<string, any>[];
-
-  data = JSON.parse(content);
+  const data: Record<string, any>[] = JSON.parse(content);
 
   // 兼容 geojson 文件
   if (FeatureCollectionVT.check(data)) {
@@ -75,8 +73,7 @@ export const parserTextFileToSource = async (
   const fileExtension = fileFullName.substring(
     fileFullName.lastIndexOf('.') + 1,
   );
-  let content: string;
-  content = await readFileAsText(file);
+  const content = await readFileAsText(file);
 
   if (fileExtension === 'json') {
     return parserJsonToGeoJson(content, name, id);
@@ -109,8 +106,7 @@ export const csv2json = async (
   name: string,
   id?: string,
 ): Promise<any> => {
-  let content: string;
-  content = await readFileAsText(file);
+  const content = await readFileAsText(file);
 
   const result = papaparse.parse(content, {
     header: true,

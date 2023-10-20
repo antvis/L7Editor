@@ -1,4 +1,5 @@
-import { Feature, lineString, point, polygon, Position } from '@turf/turf';
+import type { Feature, Position } from '@turf/turf';
+import { lineString, point, polygon } from '@turf/turf';
 import { first, isEqual, last } from 'lodash-es';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
@@ -19,12 +20,12 @@ export default function useLnglat() {
       .map((item) =>
         item
           .split(';')
-          .filter((item) => item)
-          .map((item) =>
-            item
+          .filter((str) => str)
+          .map((str) =>
+            str
               .split(',')
-              .filter((item) => item)
-              .map((item) => +item),
+              .filter((num) => num)
+              .map((num) => +num),
           ),
       );
 

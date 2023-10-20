@@ -1,6 +1,8 @@
 import { FileTextOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import { Geometry, feature, featureCollection } from '@turf/turf';
-import { Form, Select, Tooltip, Upload, UploadFile, message } from 'antd';
+import type { Geometry } from '@turf/turf';
+import { feature, featureCollection } from '@turf/turf';
+import type { UploadFile } from 'antd';
+import { Form, Select, Tooltip, Upload, message } from 'antd';
 import { cloneDeep } from 'lodash';
 import React, {
   forwardRef,
@@ -114,46 +116,47 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
           }
         }),
     }),
-    [fileList, uploadData],
+    [fileList, t, uploadData],
   );
 
   const selectItem = useMemo(() => {
     if (selectList.length) {
       const data = selectList.map((item, index) => {
-        const options = item.columns.map((item: string | number) => {
+        const options = item.columns.map((option: string | number) => {
           return {
-            value: item,
-            label: item,
+            value: option,
+            label: option,
           };
         });
         return (
           <Form.Item
             name={item.id}
             label={`${t('import_btn.file_upload.wenJian')}${index + 1}`}
+            key={item.id}
           >
             <Select
               options={options}
               style={{ width: 300 }}
               onChange={(e) => {
-                const newData = selectList.find((v) => v.id === item.id);
-                const data = newData?.data.map((value: any) => {
+                const newData1 = selectList.find((v) => v.id === item.id);
+                const newData2 = newData1?.data.map((value: any) => {
                   return value[e];
                 });
-                const propertiesList = newData?.data.map((v: any) => {
+                const propertiesList = newData1?.data.map((v: any) => {
                   const properties = cloneDeep(v);
                   delete properties[e];
                   return { ...properties };
                 });
                 let newGeoJson = [];
-                if (isWkt(data[0])) {
-                  newGeoJson = data.map((v: string, index: number) => {
+                if (isWkt(newData2[0])) {
+                  newGeoJson = newData2.map((v: string, geojsonIndex: number) => {
                     const geometry = parse(v) as Geometry;
-                    return feature(geometry, { ...propertiesList[index] });
+                    return feature(geometry, { ...propertiesList[geojsonIndex] });
                   });
-                } else if (isGeometry(data[0])) {
-                  newGeoJson = data.map((v: string, index: number) => {
+                } else if (isGeometry(newData2[0])) {
+                  newGeoJson = newData2.map((v: string, geojsonIndex: number) => {
                     return feature(JSON.parse(v), {
-                      ...propertiesList[index],
+                      ...propertiesList[geojsonIndex],
                     });
                   });
                 } else {
@@ -162,9 +165,9 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                   );
                 }
                 const newDates = uploadData.filter(
-                  (item) => item.id !== newData?.id,
+                  (updateItem) => updateItem.id !== newData1?.id,
                 );
-                newDates.push({ features: newGeoJson, id: newData?.id });
+                newDates.push({ features: newGeoJson, id: newData1?.id });
                 setUploadData(newDates);
               }}
             />
@@ -173,7 +176,7 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
       });
       return data;
     }
-  }, [selectList, uploadData]);
+  }, [selectList, t, uploadData]);
 
   return (
     <>

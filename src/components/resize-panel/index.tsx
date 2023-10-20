@@ -1,9 +1,10 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import { Feature } from '@turf/turf';
+import type { Feature } from '@turf/turf';
 import { useSize } from 'ahooks';
 import classNames from 'classnames';
 import { Resizable } from 're-resizable';
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import type { ReactNode} from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { RightPanelWidthRange } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import useStyle from './styles';
@@ -28,17 +29,17 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({
   const styles = useStyle();
 
   const onResize = (event: Event) => {
-    const { left = 0 } = resizePanel?.getBoundingClientRect() ?? {};
+    const { left: leftWidth = 0 } = resizePanel?.getBoundingClientRect() ?? {};
 
-    let rightPanelWidth =
-      100 * (1 - ((event as MouseEvent).clientX - left) / containerWidth);
-    if (rightPanelWidth < minRightWidth) {
-      rightPanelWidth = minRightWidth;
+    let newRightPanelWidth =
+      100 * (1 - ((event as MouseEvent).clientX - leftWidth) / containerWidth);
+    if (newRightPanelWidth < minRightWidth) {
+      newRightPanelWidth = minRightWidth;
     }
-    if (rightPanelWidth > maxRightWidth) {
-      rightPanelWidth = maxRightWidth;
+    if (newRightPanelWidth > maxRightWidth) {
+      newRightPanelWidth = maxRightWidth;
     }
-    setRightWidth(rightPanelWidth);
+    setRightWidth(newRightPanelWidth);
   };
 
   const calcRightWidth = useMemo(() => {
@@ -47,6 +48,7 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({
 
   useEffect(() => {
     onFeatureChange(features);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
 
   return (

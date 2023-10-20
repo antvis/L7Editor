@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { OfficeLayerEnum } from '../../constants';
 import { useGlobal } from '../../recoil';
-import { MapControlProps } from '../../types/l7editor';
+import type { MapControlProps } from '../../types/l7editor';
 import { AdministrativeSelect } from './administrative-select-control';
 import { AutoControl } from './auto-control';
 import { ClearControl } from './clear-control';

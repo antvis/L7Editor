@@ -1,12 +1,13 @@
 import { getSingleColorStyle } from '@antv/l7-draw';
-import { FeatureCollectionVT, FeatureKey, LayerZIndex } from '../constants';
 //@ts-ignore
 import togeojson from '@mapbox/togeojson';
-import { bearing, center, coordAll, distance, Feature } from '@turf/turf';
+import type { Feature } from '@turf/turf';
+import { bearing, center, coordAll, distance } from '@turf/turf';
 import { message } from 'antd';
 import Color from 'color';
 import dayjs from 'dayjs';
 import { isUndefined } from 'lodash-es';
+import { FeatureCollectionVT, FeatureKey, LayerZIndex } from '../constants';
 // @ts-ignore
 import { Wkt2GeoJSON } from './wkt';
 

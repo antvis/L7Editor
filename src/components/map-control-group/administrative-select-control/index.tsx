@@ -1,12 +1,9 @@
-import { CustomControl, LineLayer, LineLayerProps } from '@antv/larkmap';
-import {
-  Feature,
-  MultiLineString,
-  featureCollection,
-  multiLineString,
-} from '@turf/turf';
+import type { LineLayerProps } from '@antv/larkmap';
+import { CustomControl, LineLayer } from '@antv/larkmap';
+import type { Feature, MultiLineString } from '@turf/turf';
+import { featureCollection, multiLineString } from '@turf/turf';
 import { Cascader, Dropdown, Empty, Tooltip, message } from 'antd';
-import { DefaultOptionType } from 'antd/es/select';
+import type { DefaultOptionType } from 'antd/es/select';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -62,10 +59,11 @@ export const AdministrativeSelect = () => {
       .then((res) => {
         setData(getCascadeData(res.districts[0].districts));
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onChange = (value: string[], option: any) => {
-    setValue(value);
+  const onChange = (items: string[], option: any) => {
+    setValue(items);
     if (option) {
       const code: string[] = [];
       const label: string[] = [];
@@ -76,10 +74,10 @@ export const AdministrativeSelect = () => {
       const item = { value: JSON.stringify(code), label: label.join('/') };
       const arr = [item, ...cityHistory];
       const formatArr = () => {
-        let map = new Map();
-        for (let item of arr) {
-          if (!map.has(item.value)) {
-            map.set(item.value, item);
+        const map = new Map();
+        for (const o of arr) {
+          if (!map.has(o.value)) {
+            map.set(o.value, o);
           }
         }
         //@ts-ignore
@@ -87,7 +85,7 @@ export const AdministrativeSelect = () => {
       };
       setCityHistory(formatArr());
       if (cityHistory.length >= 10) {
-        let arrHistory = cloneDeep(cityHistory);
+        const arrHistory = cloneDeep(cityHistory);
         arrHistory.pop();
         setCityHistory(arrHistory);
       }
@@ -106,21 +104,21 @@ export const AdministrativeSelect = () => {
 
   const historyItem = useMemo(() => {
     if (cityHistory.length) {
-      const data = cityHistory.map((item) => {
+      const item = cityHistory.map((city) => {
         return {
-          key: item.value,
+          key: city.value,
           label: (
             <div
               onClick={() => {
-                setValue(JSON.parse(item.value));
+                setValue(JSON.parse(city.value));
               }}
             >
-              {item.label}
+              {city.label}
             </div>
           ),
         };
       });
-      return data;
+      return item;
     } else {
       return [{ key: 'undefined', label: <Empty /> }];
     }
@@ -128,8 +126,7 @@ export const AdministrativeSelect = () => {
 
   useEffect(() => {
     if (value) {
-      const data = value[value.length - 1];
-      const name = data;
+      const name = value[value.length - 1];
       fetch(
         `https://restapi.amap.com/v3/config/district?keywords=${name}&subdistrict=0&key=98d10f05a2da96697313a2ce35ebf1a2&extensions=all`,
       )
@@ -160,7 +157,9 @@ export const AdministrativeSelect = () => {
           );
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
   return (
     <>
       <CustomControl position="lefttop">
@@ -169,6 +168,7 @@ export const AdministrativeSelect = () => {
             <Cascader
               options={data}
               value={value}
+              // @ts-ignore
               onChange={onChange}
               className={styles.cascader}
               allowClear
