@@ -1,4 +1,4 @@
-import { useDebounceEffect, useMount, useSize } from 'ahooks';
+import { useDebounce, useMount, useSize, useUpdateEffect } from 'ahooks';
 import type { editor } from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 import React, {
@@ -31,7 +31,8 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const styles = useStyle();
-  const [editorTextChange, setEditorTextChange] = useState('');
+  const [geoJonText, setGeoJonText] = useState('');
+  const debouncedGeoJsonText = useDebounce(geoJonText, { wait: 2000 });
   const { t } = useTranslation();
 
   // document format
@@ -82,7 +83,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const monacoChange = (event: string) => {
     if (language === 'json') {
       setEditorText(event);
-      setEditorTextChange(event);
+      setGeoJonText(event);
       return;
     }
     setScriptContent?.(event);
@@ -113,16 +114,12 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     [scriptContent, t],
   );
 
-  useDebounceEffect(
-    () => {
-      const features = saveEditorText();
-      if (autoFitBounds) {
-        bboxAutoFit(features);
-      }
-    },
-    [editorTextChange],
-    { wait: 2000 },
-  );
+  useUpdateEffect(() => {
+    const features = saveEditorText();
+    if (autoFitBounds) {
+      bboxAutoFit(features);
+    }
+  }, [debouncedGeoJsonText]);
 
   const value = useMemo(() => {
     if (language === 'javascript') {
