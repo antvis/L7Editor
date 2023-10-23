@@ -1,3 +1,4 @@
+import { useUpdateEffect } from 'ahooks';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useMemo } from 'react';
@@ -26,7 +27,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     if (theme === 'dark') {
       setMapOptions({ ...mapOptions, style: 'dark' });
     } else {
