@@ -313,7 +313,9 @@ export const AppTable: React.FC = () => {
             title={t('app_table.index.tianJiaLieZiDuan')}
             description={
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ width: 80 }}>字段名：</div>
+                <div style={{ width: 80 }}>
+                  {t('app_table.index.ziDuanMing')}
+                </div>
                 <Input
                   placeholder={t('app_table.index.qingShuRuLieZiDuan')}
                   value={addInputValue}

@@ -1,3 +1,4 @@
+import { useUpdateEffect } from 'ahooks';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useMemo } from 'react';
@@ -17,7 +18,6 @@ import { LangList } from '../../locales';
 import { useGlobal } from '../../recoil';
 import type { L7EditorProps } from '../../types';
 import useStyle from './styles';
-import { useUpdateEffect } from 'ahooks';
 
 type EditorProps = L7EditorProps;
 
