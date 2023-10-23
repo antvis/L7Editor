@@ -32,7 +32,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const styles = useStyle();
   const [geoJonText, setGeoJonText] = useState('');
-  const debouncedGeoJson = useDebounce(geoJonText, { wait: 2000 });
+  const debouncedGeoJsonText = useDebounce(geoJonText, { wait: 2000 });
   const { t } = useTranslation();
 
   // document format
@@ -119,7 +119,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     if (autoFitBounds) {
       bboxAutoFit(features);
     }
-  }, [debouncedGeoJson]);
+  }, [debouncedGeoJsonText]);
 
   const value = useMemo(() => {
     if (language === 'javascript') {
