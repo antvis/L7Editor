@@ -31,8 +31,8 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { width = 0, height = 0 } = useSize(container) ?? {};
   const styles = useStyle();
-  const [editorTextChange, setEditorTextChange] = useState('');
-  const debouncedValue = useDebounce(editorTextChange, { wait: 2000 });
+  const [geoJonText, setGeoJonText] = useState('');
+  const debouncedGeoJson = useDebounce(geoJonText, { wait: 2000 });
   const { t } = useTranslation();
 
   // document format
@@ -83,7 +83,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   const monacoChange = (event: string) => {
     if (language === 'json') {
       setEditorText(event);
-      setEditorTextChange(event);
+      setGeoJonText(event);
       return;
     }
     setScriptContent?.(event);
@@ -119,7 +119,7 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
     if (autoFitBounds) {
       bboxAutoFit(features);
     }
-  }, [debouncedValue]);
+  }, [debouncedGeoJson]);
 
   const value = useMemo(() => {
     if (language === 'javascript') {
