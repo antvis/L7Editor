@@ -50,6 +50,7 @@ const useStyle = () => {
     `,
     localeIcon: css`
       font-size: 16px;
+
     `,
     upload: css`
       height: 200px;

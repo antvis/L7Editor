@@ -1,0 +1,114 @@
+{
+  "id": "3567033",
+  "name": "L7Editor",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "13303555",
+      "name": "i18n",
+      "font_class": "in",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "37579223",
+      "name": "图层",
+      "font_class": "tuceng",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "37571494",
+      "name": "晴天 晚上",
+      "font_class": "a-qingtianwanshang",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "37571110",
+      "name": "太阳",
+      "font_class": "taiyang",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "34499867",
+      "name": "智能识别",
+      "font_class": "zhinengshibie",
+      "unicode": "e81e",
+      "unicode_decimal": 59422
+    },
+    {
+      "icon_id": "37236614",
+      "name": "中英文切换-英文",
+      "font_class": "zhongyingwenqiehuan-yingwen",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "37236610",
+      "name": "中英文切换-中文",
+      "font_class": "zhongyingwenqiehuan-zhongwen",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "37017029",
+      "name": "历史",
+      "font_class": "lishi",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "1444787",
+      "name": "json",
+      "font_class": "json",
+      "unicode": "e7bd",
+      "unicode_decimal": 59325
+    },
+    {
+      "icon_id": "1573888",
+      "name": "logistic",
+      "font_class": "logistic",
+      "unicode": "e811",
+      "unicode_decimal": 59409
+    },
+    {
+      "icon_id": "36866350",
+      "name": "主题切换 (1)",
+      "font_class": "a-zhutiqiehuan1",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "36863363",
+      "name": "地图",
+      "font_class": "ditu",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "36861210",
+      "name": "缩放",
+      "font_class": "suofang",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "36858547",
+      "name": "清空",
+      "font_class": "qingkong",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "34997067",
+      "name": "自适应",
+      "font_class": "zishiying",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    }
+  ]
+}
