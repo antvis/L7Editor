@@ -23,7 +23,7 @@ export const IconFont: React.FC<IconFontProps> = (props) => {
         focusable="false"
         className=""
       >
-        <use xlinkHref={`${props.type}`} />
+        <use xlinkHref={`#${props.type}`} />
       </svg>
     </span>
   );
