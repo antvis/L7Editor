@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { MutableSnapshot } from 'recoil';
 import { RecoilEnv, RecoilRoot } from 'recoil';
 import { PrimaryColor } from '../constants';
-import '../constants/icon/iconfont.js';
+import '../constants/iconfont.js';
 import '../locales/index';
 import {
   activeTabState,

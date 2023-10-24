@@ -10,7 +10,7 @@ import { Button, Divider, Dropdown, Popover, Space, Tooltip, Tour } from 'antd';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {IconFont ,LocalStorageKey } from '../../constants';
+import { IconFont, LocalStorageKey } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import type { ToolbarProps } from '../../types/l7editor';
 import DownloadBtn from './btn/download-btn';
