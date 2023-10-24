@@ -27,7 +27,7 @@ export const ClearControl = () => {
         >
           <Tooltip title={t('app_header.constants.qingChu')} placement="bottom">
             <div className={styles.clear} id="l7-editor-clear">
-              <IconFont style={{color:'#000'}} type="icon-qingkong" className={styles.clearSvg} />
+              <IconFont type="icon-qingkong" className={styles.clearSvg} />
             </div>
           </Tooltip>
         </Popconfirm>

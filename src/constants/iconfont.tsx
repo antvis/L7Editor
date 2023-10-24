@@ -3,8 +3,8 @@ import type { CSSProperties } from 'react';
 import React from 'react';
 
 interface IconFontProps {
-  className?: string;
   type: string;
+  className?: string;
   style?: CSSProperties;
 }
 
@@ -23,7 +23,7 @@ export const IconFont: React.FC<IconFontProps> = (props) => {
         focusable="false"
         className=""
       >
-        <use xlinkHref={`#${props.type}`} />
+        <use xlinkHref={`${props.type}`} />
       </svg>
     </span>
   );
