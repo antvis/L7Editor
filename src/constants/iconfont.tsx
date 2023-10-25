@@ -6,11 +6,13 @@ interface IconFontProps {
   type: string;
   className?: string;
   style?: CSSProperties;
+  id?: string;
 }
 
 export const IconFont: React.FC<IconFontProps> = (props) => {
   return (
     <span
+      id={props.id}
       role="img"
       style={props.style}
       className={classNames(['anticon', props.className])}
