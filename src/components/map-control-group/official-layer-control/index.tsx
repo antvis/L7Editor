@@ -2,12 +2,9 @@ import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
 import { Checkbox, Popover, Tabs, Tooltip } from 'antd';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  GOOGLE_TILE_MAP_URL,
-  IconFont,
-  OfficeLayerEnum,
-} from '../../../constants';
+import { GOOGLE_TILE_MAP_URL, OfficeLayerEnum } from '../../../constants';
 import { useGlobal } from '../../../recoil';
+import { IconFont } from '../../iconfont';
 import useStyles from '../styles';
 import useStyle from './styles';
 
@@ -126,7 +123,7 @@ export function OfficialLayerControl() {
   }, [officeLayerGroup, layerType]);
 
   return (
-    <CustomControl position="bottomright" >
+    <CustomControl position="bottomright">
       <Popover
         content={
           <Tabs

@@ -8,9 +8,10 @@ import { Spin, Tooltip, message } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GOOGLE_TILE_MAP_URL, IconFont, LayerId } from '../../../constants';
+import { GOOGLE_TILE_MAP_URL, LayerId } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import type { IFeatures } from '../../../types';
+import { IconFont } from '../../iconfont';
 import useStyles from '../styles';
 import useStyle from './style';
 

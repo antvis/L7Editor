@@ -2,7 +2,7 @@ import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../../constants';
+import { IconFont } from '../../iconfont';
 import { LangList } from '../../../locales';
 import { useGlobal } from '../../../recoil';
 import useStyle from '../styles';

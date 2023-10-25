@@ -8,8 +8,9 @@ import classNames from 'classnames';
 import { cloneDeep } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont, LayerZIndex } from '../../../constants';
+import { LayerZIndex } from '../../../constants';
 import { useFeature, useGlobal } from '../../../recoil';
+import { IconFont } from '../../iconfont';
 import { useStyle } from './styles';
 
 const DistrictLayerOptions: Omit<LineLayerProps, 'source'> = {
