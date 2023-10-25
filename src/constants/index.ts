@@ -1,5 +1,3 @@
-import { createFromIconfontCN } from '@ant-design/icons';
-
 export const RightPanelWidthRange = [20, 80];
 
 export enum LocalStorageKey {
@@ -40,10 +38,6 @@ export const FeatureKey = {
   IsEdit: Symbol('isEdit'),
 };
 
-export const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/a/font_3567033_q8yw5w6air.js',
-});
-
 export const MapBoxConfig = {
   token:
     'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
@@ -65,3 +59,5 @@ export enum OfficeLayerEnum {
   AmapBuildings = 'amapBuildings',
   GoogleSatellite = 'googleSatellite',
 }
+
+export { IconFont } from './iconfont';
