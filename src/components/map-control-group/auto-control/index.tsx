@@ -2,7 +2,7 @@ import { CustomControl } from '@antv/larkmap';
 import { Tooltip } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../../constants';
+import { IconFont } from '../../iconfont';
 import { useFeature } from '../../../recoil';
 import useStyles from '../styles';
 

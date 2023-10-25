@@ -4,7 +4,7 @@ import type { TabsProps } from 'antd';
 import { Select, Tabs } from 'antd';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../constants';
+import { IconFont } from '../iconfont';
 import { useFeature, useGlobal } from '../../recoil';
 import { AppTable } from '../app-table';
 import { GeoJsonEditor } from '../geojson-editor';
