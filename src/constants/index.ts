@@ -59,5 +59,3 @@ export enum OfficeLayerEnum {
   AmapBuildings = 'amapBuildings',
   GoogleSatellite = 'googleSatellite',
 }
-
-export { IconFont } from './iconfont';
