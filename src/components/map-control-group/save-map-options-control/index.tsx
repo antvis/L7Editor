@@ -3,8 +3,8 @@ import { Tooltip, message } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../../constants';
 import { useGlobal } from '../../../recoil';
+import { IconFont } from '../../iconfont';
 import useStyle from './styles';
 
 const SaveMapOptionsControl: React.FC = () => {

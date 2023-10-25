@@ -2,9 +2,9 @@ import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../../../constants';
 import { LangList } from '../../../locales';
 import { useGlobal } from '../../../recoil';
+import { IconFont } from '../../iconfont';
 import useStyle from '../styles';
 
 const items: MenuProps['items'] = LangList.map((item) => ({
