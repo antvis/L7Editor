@@ -76,7 +76,9 @@ export const SettingBtn = () => {
             });
             setBaseMap(e.baseMap);
             setShowIndex(e.showIndex);
-            location.reload();
+            if (e.baseMap !== baseMap) {
+              location.reload();
+            }
           }}
         >
           <Form.Item
