@@ -1,6 +1,7 @@
 import type { Feature } from '@turf/turf';
 import { bbox, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
+import localforage from 'localforage';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +37,7 @@ export default function useFeature() {
   }, [features]);
 
   const setFeatures = (f: Feature[]) => {
+    // localforage.setItem('features', f);
     _setFeatures(
       // @ts-ignore
       cloneDeep(f).map((feature, featureIndex) => {
@@ -74,20 +76,23 @@ export default function useFeature() {
         if (value) {
           setEditorText(value);
         }
+        localforage.setItem('features', value ?? editorText);
         setSavedText(value ?? editorText);
         setFeatures(newFeatures as IFeatures);
       } catch (e) {
         message.warning(t('recoil.feature.shuJuJiaZaiYou'));
       }
     } else {
+      localforage.setItem('features', emptyFeatures);
       setEditorText(emptyFeatures);
       setSavedText(emptyFeatures);
     }
     return newFeatures;
   };
 
-  const resetFeatures = (newFeatures: IFeatures) => {
+  const resetFeatures = async (newFeatures: IFeatures) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
+    localforage.setItem('features', newText);
     setEditorText(newText);
     setSavedText(newText);
     setFeatures(newFeatures);

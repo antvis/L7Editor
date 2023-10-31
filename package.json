@@ -47,6 +47,7 @@
     "i18next": "^23.4.6",
     "i18next-browser-languagedetector": "^7.1.0",
     "kiwi-intl": "^1.2.6-beta.0",
+    "localforage": "^1.10.0",
     "lodash-es": "^4.17.21",
     "monaco-editor": "^0.34.1",
     "monaco-editor-webpack-plugin": "^7.0.1",

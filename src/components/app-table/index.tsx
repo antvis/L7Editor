@@ -21,6 +21,7 @@ import classNames from 'classnames';
 import { cloneDeep, isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import localforage from 'localforage';
 import { FeatureKey } from '../../constants';
 import { useFeature } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';
@@ -170,7 +171,7 @@ export const AppTable: React.FC = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const styles = useStyle();
   const { height = 0 } = useSize(container) ?? {};
-  const { setEditorText, isDraw, scene, features, resetFeatures } =
+  const { saveEditorText, isDraw, scene, features, resetFeatures } =
     useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
   const { transformCoord } = useFeature();
@@ -419,7 +420,7 @@ export const AppTable: React.FC = () => {
     };
     const feature = { ...features[__index - 1], properties: indexProperties };
     features[index] = feature;
-    setEditorText(prettierText({ content: featureCollection(features) }));
+    saveEditorText(prettierText({ content: featureCollection(features) }));
     setNewDataSource(newData);
   };
 

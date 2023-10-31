@@ -52,7 +52,6 @@ const sceneState = atom<Scene | null>({
 const editorTextState = atom<string>({
   key: 'editorText',
   default: JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
-  effects: [localStorageEffect(LocalStorageKey.EditorText)],
 });
 
 const lnglatTypeState = atom<LngLatImportType>({
