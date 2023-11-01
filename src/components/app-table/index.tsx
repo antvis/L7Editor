@@ -170,7 +170,7 @@ export const AppTable: React.FC = () => {
   const container = useRef<HTMLDivElement | null>(null);
   const styles = useStyle();
   const { height = 0 } = useSize(container) ?? {};
-  const { setEditorText, isDraw, scene, features, resetFeatures } =
+  const { saveEditorText, isDraw, scene, features, resetFeatures } =
     useFeature();
   const [newDataSource, setNewDataSource] = useState<any>([]);
   const { transformCoord } = useFeature();
@@ -419,7 +419,7 @@ export const AppTable: React.FC = () => {
     };
     const feature = { ...features[__index - 1], properties: indexProperties };
     features[index] = feature;
-    setEditorText(prettierText({ content: featureCollection(features) }));
+    saveEditorText(prettierText({ content: featureCollection(features) }));
     setNewDataSource(newData);
   };
 

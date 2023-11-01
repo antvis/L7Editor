@@ -1,11 +1,13 @@
 import type { Feature } from '@turf/turf';
 import { bbox, featureCollection, getType } from '@turf/turf';
+import { useAsyncEffect } from 'ahooks';
 import { message } from 'antd';
+import localforage from 'localforage';
 import { cloneDeep, flatMap, max, min } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
-import { FeatureKey } from '../constants';
+import { FeatureKey, LocalStorageKey } from '../constants';
 import type { FilterField, IFeatures } from '../types';
 import { gcj02towgs84, transformFeatures, wgs84togcj02 } from '../utils';
 import { prettierText } from '../utils/prettier-text';
@@ -61,6 +63,7 @@ export default function useFeature() {
       }),
     );
   };
+
   const saveEditorText = (value?: string) => {
     const emptyFeatures = JSON.stringify(
       { type: 'FeatureCollection', features: [] },
@@ -85,6 +88,15 @@ export default function useFeature() {
     }
     return newFeatures;
   };
+
+  useAsyncEffect(async () => {
+    const newEditorText = (await localforage.getItem(
+      LocalStorageKey.EditorText,
+    )) as string | null;
+    if (newEditorText && !features.length) {
+      saveEditorText(newEditorText);
+    }
+  }, []);
 
   const resetFeatures = (newFeatures: IFeatures) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
