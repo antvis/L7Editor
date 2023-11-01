@@ -90,11 +90,11 @@ export default function useFeature() {
   };
 
   useAsyncEffect(async () => {
-    const feature = (await localforage.getItem(LocalStorageKey.EditorText)) as
-      | string
-      | null;
-    if (feature && !features.length) {
-      setFeatures(JSON.parse(feature).features);
+    const newEditorText = (await localforage.getItem(
+      LocalStorageKey.EditorText,
+    )) as string | null;
+    if (newEditorText && !features.length) {
+      saveEditorText(newEditorText);
     }
   }, []);
 
