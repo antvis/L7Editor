@@ -426,7 +426,7 @@ export const LayerPopup: React.FC = () => {
         />
       )}
       <div style={{ marginTop: 10 }}>
-        {!addOpen && popupTrigger === 'click' && (
+        {!addOpen && (
           <Button
             type="dashed"
             block
