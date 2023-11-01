@@ -448,13 +448,14 @@ export const AppTable: React.FC = () => {
     <div style={{ width: '100%', height: '100%' }} ref={container}>
       {newDataSource?.length ? (
         <Table
+          // virtual
           className={styles.tableContent}
           components={components}
           columns={newColumns}
           rowClassName={() => 'editable-row'}
           dataSource={newDataSource}
           bordered
-          scroll={{ y: height - 54, x: 'max-content' }}
+          scroll={{ y: height - 54, x: 200 }}
           size="small"
           pagination={false}
           rowKey={'__index'}
