@@ -50,17 +50,9 @@ export const Editor: React.FC<EditorProps> = (props) => {
   );
 
   useAsyncEffect(async () => {
-    localforage
-      .getItem('features')
-      .then(function (value: any) {
-        // 当值被存储后，可执行其他操作
-        if (value && !props?.features)
-          resetFeatures(JSON.parse(value).features);
-      })
-      .catch(function (err) {
-        // 当出错时，此处代码运行
-        console.log(err);
-      });
+    const editorText = (await localforage.getItem('features')) as string | null;
+    if (editorText && !props?.features)
+      resetFeatures(JSON.parse(editorText).features);
   }, []);
 
   return (

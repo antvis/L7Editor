@@ -37,7 +37,6 @@ export default function useFeature() {
   }, [features]);
 
   const setFeatures = (f: Feature[]) => {
-    // localforage.setItem('features', f);
     _setFeatures(
       // @ts-ignore
       cloneDeep(f).map((feature, featureIndex) => {
@@ -90,7 +89,7 @@ export default function useFeature() {
     return newFeatures;
   };
 
-  const resetFeatures = async (newFeatures: IFeatures) => {
+  const resetFeatures = (newFeatures: IFeatures) => {
     const newText = prettierText({ content: featureCollection(newFeatures) });
     localforage.setItem('features', newText);
     setEditorText(newText);
