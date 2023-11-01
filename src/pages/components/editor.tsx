@@ -1,7 +1,6 @@
-import { useAsyncEffect, useUpdateEffect } from 'ahooks';
+import { useUpdateEffect } from 'ahooks';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
-import localforage from 'localforage';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,7 +15,7 @@ import {
 } from '../../components';
 import { EditorTextLayer } from '../../components/text-layer';
 import { LangList } from '../../locales';
-import { useFeature, useGlobal } from '../../recoil';
+import { useGlobal } from '../../recoil';
 import type { L7EditorProps } from '../../types';
 import useStyle from './styles';
 
@@ -26,7 +25,6 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
   const { i18n } = useTranslation();
   const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
-  const { resetFeatures } = useFeature();
   const styles = useStyle();
 
   useUpdateEffect(() => {
@@ -44,16 +42,9 @@ export const Editor: React.FC<EditorProps> = (props) => {
   }, []);
 
   const antdLocale = useMemo(
-    //@ts-ignore
     () => LangList.find((lang) => lang.lang === locale)?.antd,
     [locale],
   );
-
-  useAsyncEffect(async () => {
-    const editorText = (await localforage.getItem('features')) as string | null;
-    if (editorText && !props?.features)
-      resetFeatures(JSON.parse(editorText).features);
-  }, []);
 
   return (
     <ConfigProvider

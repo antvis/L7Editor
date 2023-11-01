@@ -21,7 +21,6 @@ import classNames from 'classnames';
 import { cloneDeep, isNull, isUndefined, uniqBy } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import localforage from 'localforage';
 import { FeatureKey } from '../../constants';
 import { useFeature } from '../../recoil';
 import { prettierText } from '../../utils/prettier-text';

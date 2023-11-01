@@ -1,5 +1,6 @@
 import type { Scene } from '@antv/l7';
 import type { LarkMapProps } from '@antv/larkmap';
+import localforage from 'localforage';
 import { atom, DefaultValue } from 'recoil';
 import { LocalStorageKey } from '../constants';
 import type { IFeatures, LngLatImportType } from '../types';
@@ -17,6 +18,23 @@ const localStorageEffect =
         localStorage.removeItem(key);
       } else {
         localStorage.setItem(key, JSON.stringify(newValue));
+      }
+    });
+  };
+
+const indexDBEffect =
+  (key: string) =>
+  ({ setSelf, onSet }: any) => {
+    localforage.getItem(key).then(function (getValue: any) {
+      if (getValue) {
+        setSelf(getValue);
+      }
+    });
+    onSet((newValue: Record<string, any>) => {
+      if (newValue instanceof DefaultValue) {
+        localforage.removeItem(key);
+      } else {
+        localforage.setItem(key, newValue);
       }
     });
   };
@@ -52,6 +70,7 @@ const sceneState = atom<Scene | null>({
 const editorTextState = atom<string>({
   key: 'editorText',
   default: JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
+  effects: [indexDBEffect(LocalStorageKey.EditorText)],
 });
 
 const lnglatTypeState = atom<LngLatImportType>({
