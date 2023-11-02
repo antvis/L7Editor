@@ -1,6 +1,7 @@
-import { useUpdateEffect } from 'ahooks';
+import { useAsyncEffect, useUpdateEffect } from 'ahooks';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import classNames from 'classnames';
+import localforage from 'localforage';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,8 +15,9 @@ import {
   ResizePanel,
 } from '../../components';
 import { EditorTextLayer } from '../../components/text-layer';
+import { LocalStorageKey } from '../../constants';
 import { LangList } from '../../locales';
-import { useGlobal } from '../../recoil';
+import { useFeature, useGlobal } from '../../recoil';
 import type { L7EditorProps } from '../../types';
 import useStyle from './styles';
 
@@ -23,9 +25,10 @@ type EditorProps = L7EditorProps;
 
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
+  const { saveEditorText, bboxAutoFit, scene } = useFeature();
 
   useUpdateEffect(() => {
     if (theme === 'dark') {
@@ -42,9 +45,31 @@ export const Editor: React.FC<EditorProps> = (props) => {
   }, []);
 
   const antdLocale = useMemo(
-    () => LangList.find((lang) => lang.lang === locale)?.antd,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    () => LangList.find((lang) => lang.lang === locale)?.antd!,
     [locale],
   );
+
+  useAsyncEffect(async () => {
+    const newEditorText = (await localforage.getItem(
+      LocalStorageKey.EditorText,
+    )) as string | null;
+    if (newEditorText && scene && !props.features) {
+      const newFeatures = await JSON.parse(newEditorText).features;
+      bboxAutoFit(newFeatures);
+    } else {
+      bboxAutoFit();
+    }
+  }, [scene]);
+
+  useAsyncEffect(async () => {
+    const newEditorText = (await localforage.getItem(
+      LocalStorageKey.EditorText,
+    )) as string | null;
+    if (newEditorText && !props.features) {
+      saveEditorText(newEditorText);
+    }
+  }, []);
 
   return (
     <ConfigProvider

@@ -19,8 +19,7 @@ export interface AppMapProps {
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions: baseMapOptions, baseMap } = useGlobal();
-  const { saveEditorText, editorText, scene, setScene, bboxAutoFit } =
-    useFeature();
+  const { saveEditorText, editorText, setScene } = useFeature();
   const styles = useStyle();
   const { t } = useTranslation();
 
@@ -38,13 +37,6 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
       }
     }
   });
-
-  useEffect(() => {
-    if (scene) {
-      bboxAutoFit();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scene]);
 
   useEffect(() => {
     try {
