@@ -266,12 +266,10 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             <span className={styles.mapHeaderTitle}>L7 Editor</span>
           </div>
         )}
-        {isTooBarState.baseMap && (
-          <>
-            <Divider type="vertical" />
-            <BaseMap />
-          </>
+        {isTooBarState.logo && isTooBarState.baseMap && (
+          <Divider type="vertical" />
         )}
+        {isTooBarState.baseMap && <BaseMap />}
       </div>
       <div className={styles.mapHeaderRight}>
         <Space>
