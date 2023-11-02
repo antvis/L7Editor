@@ -38,19 +38,6 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
     }
   });
 
-  useEffect(() => {
-    try {
-      if (FeatureCollectionVT.check(JSON.parse(editorText!))) {
-        saveEditorText();
-      }
-    } catch {
-      saveEditorText(
-        JSON.stringify({ type: 'FeatureCollection', features: [] }, null, 2),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const mapOptions = useMemo(() => {
     if (baseMap === 'Mapbox') {
       return {

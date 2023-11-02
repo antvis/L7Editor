@@ -1,5 +1,5 @@
 import { useAsyncEffect, useUpdateEffect } from 'ahooks';
-import { ConfigProvider, theme as antdTheme } from 'antd';
+import { ConfigProvider, theme as antdTheme, message } from 'antd';
 import classNames from 'classnames';
 import localforage from 'localforage';
 import React, { useEffect, useMemo } from 'react';
@@ -55,9 +55,13 @@ export const Editor: React.FC<EditorProps> = (props) => {
       LocalStorageKey.EditorText,
     )) as string | null;
     if (newEditorText && scene && !props.features) {
-      const newFeatures = await JSON.parse(newEditorText).features;
-      bboxAutoFit(newFeatures);
-    } else {
+      try {
+        const newFeatures = await JSON.parse(newEditorText).features;
+        bboxAutoFit(newFeatures);
+      } catch (error) {
+        message.error(t('import_btn.file_upload.qingJianChaShuJu'));
+      }
+    } else if (scene && props.features) {
       bboxAutoFit();
     }
   }, [scene]);
