@@ -56,7 +56,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
     )) as string | null;
     if (newEditorText && scene && !props.features) {
       try {
-        const newFeatures = await JSON.parse(newEditorText).features;
+        const newFeatures = JSON.parse(newEditorText).features;
         bboxAutoFit(newFeatures);
       } catch (error) {
         message.error(t('import_btn.file_upload.qingJianChaShuJu'));
