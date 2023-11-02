@@ -2,13 +2,9 @@ import { LarkMap } from '@antv/larkmap';
 import { useMount } from 'ahooks';
 import { message } from 'antd';
 import type { ReactNode } from 'react';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  FeatureCollectionVT,
-  GaodeConfig,
-  MapBoxConfig,
-} from '../../constants';
+import { GaodeConfig, MapBoxConfig } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { getParamsNew, getUrlFeatureCollection } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
@@ -19,7 +15,7 @@ export interface AppMapProps {
 
 export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   const { mapOptions: baseMapOptions, baseMap } = useGlobal();
-  const { saveEditorText, editorText, setScene } = useFeature();
+  const { saveEditorText, setScene } = useFeature();
   const styles = useStyle();
   const { t } = useTranslation();
 
