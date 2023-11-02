@@ -167,6 +167,7 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 | 属性     | 描述     |
 | -------- | -------- |
 | logo     | logo     |
+| baseMap  | 底图切换 |
 | import   | 上传     |
 | download | 下载     |
 | guide    | 引导     |
