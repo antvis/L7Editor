@@ -14,6 +14,7 @@ import { LocalStorageKey } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import type { ToolbarProps } from '../../types/l7editor';
 import { IconFont } from '../iconfont';
+import { BaseMap } from './base-map';
 import DownloadBtn from './btn/download-btn';
 import HandBackBtn from './btn/handback-btn';
 import I18nBtn from './btn/i18n-btn';
@@ -41,6 +42,7 @@ const isTooBar = {
   dingTalk: true,
   i18n: true,
   github: true,
+  baseMap: true,
 };
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
@@ -263,6 +265,12 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             <img src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*RSdESJd70P8AAAAAAAAAAAAADjWqAQ/original" />
             <span className={styles.mapHeaderTitle}>L7 Editor</span>
           </div>
+        )}
+        {isTooBarState.baseMap && (
+          <>
+            <Divider type="vertical" />
+            <BaseMap />
+          </>
         )}
       </div>
       <div className={styles.mapHeaderRight}>

@@ -7,18 +7,11 @@ import { useGlobal } from '../../../recoil';
 export const SettingBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
-    baseMap,
-    setBaseMap,
     popupTrigger,
     setPopupTrigger,
     autoFitBounds,
     setAutoFitBounds,
-    setCoordConvert,
-    mapOptions,
-    setMapOptions,
     showIndex,
-    setShowIndex,
-    theme,
   } = useGlobal();
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -61,7 +54,6 @@ export const SettingBtn = () => {
           initialValues={{
             popupTrigger,
             autoFitBounds,
-            baseMap,
             showIndex,
           }}
           style={{ textAlign: 'right' }}
@@ -69,16 +61,6 @@ export const SettingBtn = () => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
-            setCoordConvert(e.baseMap === 'Gaode' ? 'GCJ02' : 'WGS84');
-            setMapOptions({
-              ...mapOptions,
-              style: theme === 'dark' ? 'dark' : 'normal',
-            });
-            setBaseMap(e.baseMap);
-            setShowIndex(e.showIndex);
-            if (e.baseMap !== baseMap) {
-              location.reload();
-            }
           }}
         >
           <Form.Item
@@ -101,15 +83,6 @@ export const SettingBtn = () => {
             label={t('btn.setting_btn.ziDongSuoFangZhi')}
           >
             <Switch />
-          </Form.Item>
-
-          <Form.Item name="baseMap" label={t('btn.setting_btn.diTuDiTuQie')}>
-            <Radio.Group>
-              <Radio.Button value="Gaode">
-                {t('btn.setting_btn.gaoDe')}
-              </Radio.Button>
-              <Radio.Button value="Mapbox">Mapbox</Radio.Button>
-            </Radio.Group>
           </Form.Item>
           <Form.Item
             name="showIndex"

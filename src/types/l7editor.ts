@@ -32,6 +32,7 @@ export interface ToolbarProps {
   dingTalk?: boolean;
   i18n?: boolean;
   github?: boolean;
+  baseMap?: boolean;
 }
 
 export interface L7EditorProps {
