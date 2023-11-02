@@ -28,7 +28,11 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const { i18n, t } = useTranslation();
   const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
+<<<<<<< HEAD
   const { saveEditorText, bboxAutoFit, scene } = useFeature();
+=======
+  const { saveEditorText } = useFeature();
+>>>>>>> 5e2fc39010931449b9f5a37805b6a2f295e03303
 
   useUpdateEffect(() => {
     if (theme === 'dark') {
