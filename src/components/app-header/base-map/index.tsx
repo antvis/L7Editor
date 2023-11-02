@@ -47,10 +47,9 @@ export const BaseMap = () => {
       defaultValue={baseMap}
       onChange={handleChange}
     >
-      {options.map((item, index) => {
+      {options.map((item) => {
         return (
-          // eslint-disable-next-line react/no-array-index-key
-          <Option key={index.toString()} value={item.value} label={item.label}>
+          <Option key={item.value} value={item.value} label={item.label}>
             <Space>
               <span style={{ display: 'flex' }}>
                 <img src={item.img} alt="" style={{ height: 15, width: 15 }} />
