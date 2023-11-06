@@ -27,6 +27,16 @@ export const BaseMap = () => {
       label: 'Mapbox',
       value: 'Mapbox',
     },
+    {
+      img: 'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*YKJtR5vfbtIAAAAAAAAAAAAADjWqAQ/original',
+      label: t('btn.setting_btn.tencent'),
+      value: 'Tencent',
+    },
+    {
+      img: 'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*kRvdTLte60cAAAAAAAAAAAAADjWqAQ/original',
+      label: t('btn.setting_btn.baidu'),
+      value: 'Baidu',
+    }
   ];
 
   const handleChange = (e: 'Gaode' | 'Mapbox') => {
