@@ -1,5 +1,5 @@
 import { useAsyncEffect, useUpdateEffect } from 'ahooks';
-import { ConfigProvider, theme as antdTheme } from 'antd';
+import { ConfigProvider, theme as antdTheme, message } from 'antd';
 import classNames from 'classnames';
 import localforage from 'localforage';
 import React, { useEffect, useMemo } from 'react';
@@ -25,10 +25,10 @@ type EditorProps = L7EditorProps;
 
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
   const styles = useStyle();
-  const { saveEditorText } = useFeature();
+  const { saveEditorText, bboxAutoFit, scene } = useFeature();
 
   useUpdateEffect(() => {
     if (theme === 'dark') {
@@ -49,6 +49,22 @@ export const Editor: React.FC<EditorProps> = (props) => {
     () => LangList.find((lang) => lang.lang === locale)?.antd!,
     [locale],
   );
+
+  useAsyncEffect(async () => {
+    const newEditorText = (await localforage.getItem(
+      LocalStorageKey.EditorText,
+    )) as string | null;
+    if (newEditorText && scene && !props.features) {
+      try {
+        const newFeatures = JSON.parse(newEditorText).features;
+        bboxAutoFit(newFeatures);
+      } catch (error) {
+        message.error(t('import_btn.file_upload.qingJianChaShuJu'));
+      }
+    } else if (scene && props.features) {
+      bboxAutoFit();
+    }
+  }, [scene]);
 
   useAsyncEffect(async () => {
     const newEditorText = (await localforage.getItem(
