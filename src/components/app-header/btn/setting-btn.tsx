@@ -31,7 +31,7 @@ export const SettingBtn = () => {
 
   return (
     <>
-      <Tooltip title={t('btn.setting_btn.diTuSheZhi')}>
+      <Tooltip title={t('btn.setting_btn.diTuSheZhi')} placement='bottom'>
         <Button
           id="l7-editor-set"
           icon={<SettingOutlined />}

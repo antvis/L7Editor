@@ -77,7 +77,7 @@ export const ImportBtn = () => {
   };
   return (
     <>
-      <Tooltip title={t('import_btn.index.shangChuanShuJu')}>
+      <Tooltip title={t('import_btn.index.shangChuanShuJu')} placement='bottom'>
         <Button
           icon={<CloudUploadOutlined />}
           onClick={() => setIsModalOpen(true)}
