@@ -149,16 +149,22 @@ const FileUpload = forwardRef<any>(function FileUpload({}, ref) {
                 });
                 let newGeoJson = [];
                 if (isWkt(newData2[0])) {
-                  newGeoJson = newData2.map((v: string, geojsonIndex: number) => {
-                    const geometry = parse(v) as Geometry;
-                    return feature(geometry, { ...propertiesList[geojsonIndex] });
-                  });
+                  newGeoJson = newData2.map(
+                    (v: string, geojsonIndex: number) => {
+                      const geometry = parse(v) as Geometry;
+                      return feature(geometry, {
+                        ...propertiesList[geojsonIndex],
+                      });
+                    },
+                  );
                 } else if (isGeometry(newData2[0])) {
-                  newGeoJson = newData2.map((v: string, geojsonIndex: number) => {
-                    return feature(JSON.parse(v), {
-                      ...propertiesList[geojsonIndex],
-                    });
-                  });
+                  newGeoJson = newData2.map(
+                    (v: string, geojsonIndex: number) => {
+                      return feature(JSON.parse(v), {
+                        ...propertiesList[geojsonIndex],
+                      });
+                    },
+                  );
                 } else {
                   message.error(
                     t('import_btn.file_upload.ciZiDuanFeiDiLiZiDuan'),

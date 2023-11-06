@@ -274,7 +274,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
       <div className={styles.mapHeaderRight}>
         <Space>
           {isTooBarState.import && <ImportBtn />}
-          <Tooltip title={t('app_header.index.baoCunShuJu')}>
+          <Tooltip title={t('app_header.index.baoCunShuJu')} placement="bottom">
             <Button
               id="l7-editor-save"
               icon={<SaveOutlined />}
@@ -293,6 +293,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
                   onDownload(key);
                 },
               }}
+              placement="bottom"
             >
               <Button icon={<FlagOutlined />}>
                 {t('app_header.index.yinDao')}
@@ -308,6 +309,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
         <Space>
           {isTooBarState.dingTalk && (
             <Popover
+              placement="bottom"
               title={t('app_header.index.dingTalk')}
               content={
                 <img
@@ -321,7 +323,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             </Popover>
           )}
           {isTooBarState.theme && (
-            <Tooltip title={t('app_header.index.zhutiqiehuan')} trigger="hover">
+            <Tooltip
+              title={t('app_header.index.zhutiqiehuan')}
+              trigger="hover"
+              placement="bottom"
+            >
               <Button
                 id="l7-editor-theme"
                 icon={
@@ -343,7 +349,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
           )}
           {isTooBarState.i18n && <I18nBtn />}
           {isTooBarState.github && (
-            <Tooltip title={'Github'} trigger="hover">
+            <Tooltip title={'Github'} trigger="hover" placement="bottom">
               <Button
                 icon={<GithubOutlined />}
                 onClick={() => {
