@@ -4,10 +4,10 @@ import type { TabsProps } from 'antd';
 import { Select, Tabs } from 'antd';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../iconfont';
 import { useFeature, useGlobal } from '../../recoil';
 import { AppTable } from '../app-table';
 import { GeoJsonEditor } from '../geojson-editor';
+import { IconFont } from '../iconfont';
 import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
@@ -79,6 +79,7 @@ export const MapContent: React.FC<MapContentProps> = ({
           options={[
             { label: 'GCJ02', value: 'GCJ02' },
             { label: 'WGS84', value: 'WGS84' },
+            { label: 'BD09', value: 'BD09' },
           ]}
           onChange={setCoordConvert}
         />

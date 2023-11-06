@@ -36,16 +36,18 @@ export const BaseMap = () => {
       img: 'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*kRvdTLte60cAAAAAAAAAAAAADjWqAQ/original',
       label: t('btn.setting_btn.baidu'),
       value: 'Baidu',
-    }
+    },
   ];
 
-  const handleChange = (e: 'Gaode' | 'Mapbox') => {
+  const handleChange = (e: 'Gaode' | 'Mapbox' | 'Baidu' | 'Tencent') => {
     setBaseMap(e);
     setMapOptions({
       ...mapOptions,
       style: theme === 'dark' ? 'dark' : 'normal',
     });
-    setCoordConvert(e === 'Gaode' ? 'GCJ02' : 'WGS84');
+    setCoordConvert(
+      e === 'Mapbox' ? 'WGS84' : e === 'Baidu' ? 'BD09' : 'GCJ02',
+    );
     if (e !== baseMap) {
       location.reload();
     }

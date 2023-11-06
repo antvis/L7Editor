@@ -113,7 +113,7 @@ const popupTriggerState = atom<'click' | 'hover'>({
   effects: [localStorageEffect(LocalStorageKey.PopupTrigger)],
 });
 
-const baseMapState = atom<'Gaode' | 'Mapbox'>({
+const baseMapState = atom<'Gaode' | 'Mapbox' | 'Baidu' | 'Tencent'>({
   key: 'baseMap',
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
