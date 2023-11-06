@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_antv_l7_editor=self.webpackChunk_antv_l7_editor||[]).push([[9],{12535:function(f,n,e){e.r(n),e.d(n,{default:function(){return d}});var t=e(73847),o=e(67294),r=function(){var u=(0,t.UO)(),m=u.id,s=(0,t.WF)(),v=s.demos,c=v[m]||{},a=c.component;return a&&(0,o.createElement)(a)},d=r}}]);
