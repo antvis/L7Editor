@@ -39,7 +39,7 @@ export default () => {
             onDownload(key);
           },
         }}
-        placement='bottom'
+        placement="bottom"
       >
         <Button icon={<QuestionCircleOutlined />}>
           {t('btn.handback_btn.bangZhu')}
