@@ -34,7 +34,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
     if (theme === 'dark') {
       setMapOptions({ ...mapOptions, style: 'dark' });
     } else {
-      setMapOptions({ ...mapOptions, style: 'light' });
+      setMapOptions({ ...mapOptions, style: 'normal' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme]);
