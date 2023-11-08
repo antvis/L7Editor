@@ -4,7 +4,7 @@ import React from 'react';
 import './index.less';
 
 export default () => {
-  const { loading, data: isChina = true } = useRequest(async () => {
+  const { loading, data: isChina } = useRequest(async () => {
     const { short_name: countryCode } = await fetch(
       'https://ip.useragentinfo.com/json',
     ).then((res) => res.json());
