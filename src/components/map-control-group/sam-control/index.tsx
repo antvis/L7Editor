@@ -218,7 +218,7 @@ export const SamControl = () => {
       polygonLayer?.off('unclick', onMapClick);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [samOpen, scene]);
+  }, [samOpen, scene, onMapClick]);
 
   useEffect(() => {
     if (samOpen && samModel) {
