@@ -29,7 +29,7 @@ export function OfficialLayerControl() {
         type: OfficeLayerEnum.GoogleSatellite,
         title: t('official_layer_control.index.guGeWeiXingTu'),
         image:
-          'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
+          'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
         layers: [GOOGLE_TILE_MAP_URL],
       },
     ];
