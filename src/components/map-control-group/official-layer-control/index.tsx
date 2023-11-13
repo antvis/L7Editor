@@ -19,18 +19,18 @@ export function OfficialLayerControl() {
   const officeLayerGroup = useMemo(() => {
     return [
       {
-        type: OfficeLayerEnum.GoogleSatellite,
-        title: t('official_layer_control.index.guGeWeiXingTu'),
-        image:
-          'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
-        layers: [GOOGLE_TILE_MAP_URL],
-      },
-      {
         type: OfficeLayerEnum.VectorMap,
         title: t('official_layer_control.index.shiLiangDiTu'),
         image:
           'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qdFDSbvIalgAAAAAAAAAAAAADmJ7AQ/original',
         layers: [],
+      },
+      {
+        type: OfficeLayerEnum.GoogleSatellite,
+        title: t('official_layer_control.index.guGeWeiXingTu'),
+        image:
+          'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
+        layers: [GOOGLE_TILE_MAP_URL],
       },
     ];
   }, [t]);

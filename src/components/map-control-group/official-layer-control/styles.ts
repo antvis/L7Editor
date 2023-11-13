@@ -29,7 +29,7 @@ const useStyle = () => {
       border-radius: 4px;
     `,
     itemBorder: css`
-      border: 2px solid #d9d9d9;
+      border: 2px solid #fff;
     `,
     itemBorderActive: css`
       border: solid 2px #1677ff;
