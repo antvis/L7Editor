@@ -1,205 +1,100 @@
-import { CustomControl, RasterLayer, useScene } from '@antv/larkmap';
-import { Checkbox, Popover, Tabs, Tooltip } from 'antd';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { CustomControl, RasterLayer } from '@antv/larkmap';
+import classNames from 'classnames';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GOOGLE_TILE_MAP_URL, OfficeLayerEnum } from '../../../constants';
 import { useGlobal } from '../../../recoil';
-import { IconFont } from '../../iconfont';
-import useStyles from '../styles';
 import useStyle from './styles';
 
 export function OfficialLayerControl() {
-  const scene = useScene();
   const styles = useStyle();
-  const style = useStyles();
   const { layerType, setLayerType } = useGlobal();
   const { t } = useTranslation();
+  const [radioValue, setRadioValue] = useState(
+    layerType.length
+      ? OfficeLayerEnum.GoogleSatellite
+      : OfficeLayerEnum.VectorMap,
+  );
 
   const officeLayerGroup = useMemo(() => {
     return [
       {
-        label: t('official_layer_control.index.guGeTuCeng'),
-        children: [
-          {
-            type: OfficeLayerEnum.GoogleSatellite,
-            title: t('official_layer_control.index.guGeWeiXingTu'),
-            image:
-              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
-            layers: [GOOGLE_TILE_MAP_URL],
-          },
-        ],
+        type: OfficeLayerEnum.GoogleSatellite,
+        title: t('official_layer_control.index.guGeWeiXingTu'),
+        image:
+          'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
+        layers: [GOOGLE_TILE_MAP_URL],
       },
       {
-        label: t('official_layer_control.index.gaoDeTuCeng'),
-        children: [
-          {
-            type: OfficeLayerEnum.AmapSatellite,
-            title: t('official_layer_control.index.weiXingTu'),
-            image:
-              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*cet9T5Nh9eIAAAAAAAAAAAAADqWCAQ/original',
-          },
-          {
-            type: OfficeLayerEnum.AmapRoadNet,
-            title: t('official_layer_control.index.luWangTu'),
-            image:
-              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*G9RtT7qUxwYAAAAAAAAAAAAADqWCAQ/original',
-          },
-          {
-            type: OfficeLayerEnum.AmapTraffic,
-            title: t('official_layer_control.index.luKuangTu'),
-            image:
-              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*XTFITYbZaIsAAAAAAAAAAAAADqWCAQ/original',
-          },
-          {
-            type: OfficeLayerEnum.AmapBuildings,
-            title: t('official_layer_control.index.louKuaiTu'),
-            image:
-              'https://mdn.alipayobjects.com/huamei_rzapb5/afts/img/A*hIUgTryh-oAAAAAAAAAAAAAADqWCAQ/original',
-          },
-        ],
+        type: OfficeLayerEnum.VectorMap,
+        title: t('official_layer_control.index.shiLiangDiTu'),
+        image:
+          'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qdFDSbvIalgAAAAAAAAAAAAADmJ7AQ/original',
+        layers: [],
       },
     ];
   }, [t]);
 
-  const amapLayerInstanceRef = useRef(
-    scene.getType() !== 'mapbox'
-      ? {
-          satellite: new AMap.TileLayer.Satellite(),
-          roadNet: new AMap.TileLayer.RoadNet(),
-          traffic: new AMap.TileLayer.Traffic(),
-          buildings: new AMap.Buildings(),
-        }
-      : {},
-  );
-
-  const inCludeLayerType = (type: string) => layerType?.includes(type);
-
-  useEffect(() => {
-    if (scene && scene.getType() !== 'mapbox') {
-      try {
-        const amap = scene.map as any;
-        const { roadNet, satellite, traffic, buildings } =
-          amapLayerInstanceRef.current;
-
-        if (inCludeLayerType('amapSatellite')) {
-          amap.add(satellite);
-        } else {
-          amap.remove(satellite);
-        }
-        if (inCludeLayerType('RoadNet')) {
-          amap.add(roadNet);
-        } else {
-          amap.remove(roadNet);
-        }
-        if (inCludeLayerType('Traffic')) {
-          amap.add(traffic);
-        } else {
-          amap.remove(traffic);
-        }
-        if (inCludeLayerType('Buildings')) {
-          amap.add(buildings);
-        } else {
-          amap.remove(buildings);
-        }
-      } catch {}
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layerType, scene]);
-
-  const officialLayerList = useMemo(() => {
-    const urlList: string[] = [];
-
-    officeLayerGroup
-      .map((group) => group.children)
-      .flat()
-      .forEach((item) => {
-        if (layerType.includes(item.type)) {
-          // @ts-ignore
-          urlList.push(...(item?.layers ?? []));
-        }
-      });
-
-    return urlList;
-  }, [officeLayerGroup, layerType]);
-
   return (
-    <CustomControl position="bottomright">
-      <Popover
-        content={
-          <Tabs
-            items={officeLayerGroup.map((group) => {
-              return {
-                label: group.label,
-                key: group.label,
-                children: (
-                  <div className={styles.amapInfo}>
-                    <Checkbox.Group
-                      value={layerType}
-                      onChange={(newLayerType) => {
-                        setLayerType(newLayerType as string[]);
-                      }}
-                    >
-                      {group.children.map((item) => {
-                        return (
-                          <Checkbox key={item.type} value={item.type}>
-                            <div
-                              key={item.type}
-                              className={styles.amapInfoItem}
-                            >
-                              <img
-                                src={item.image}
-                                alt=""
-                                className={styles.amapInfoItemImage}
-                              />
-                              <h5 style={{ marginTop: 0 }}>{item.title}</h5>
-                            </div>
-                          </Checkbox>
-                        );
-                      })}
-                    </Checkbox.Group>
-                  </div>
-                ),
-              };
+    <>
+      <CustomControl position="bottomleft">
+        <div className={styles.mapTab}>
+          <div className={styles.amapInfo}>
+            {/* <Radio.Group
+              value={radioValue}
+              onChange={(newLayerType) => {
+                setRadioValue(newLayerType.target.value);
+                setLayerType(
+                  newLayerType.target.value === OfficeLayerEnum.GoogleSatellite
+                    ? [OfficeLayerEnum.GoogleSatellite]
+                    : ([] as string[]),
+                );
+              }}
+            > */}
+            {officeLayerGroup.map((item) => {
+              return (
+                <div
+                  key={item.type}
+                  className={classNames([
+                    styles.amapInfoItem,
+                    item.type === radioValue
+                      ? styles.itemBorderActive
+                      : styles.itemBorder,
+                  ])}
+                  onClick={() => {
+                    setRadioValue(item.type);
+                    setLayerType(
+                      item.type === OfficeLayerEnum.GoogleSatellite
+                        ? [OfficeLayerEnum.GoogleSatellite]
+                        : ([] as string[]),
+                    );
+                  }}
+                >
+                  <img
+                    src={item.image}
+                    alt=""
+                    className={styles.amapInfoItemImage}
+                  />
+                  <div style={{ marginTop: 0 }}>{item.title}</div>
+                </div>
+              );
             })}
-          />
-        }
-        trigger="click"
-        placement="leftTop"
-        overlayInnerStyle={{
-          width: 370,
-          height: scene.getType() !== 'mapbox' ? 330 : 190,
-        }}
-      >
-        <Tooltip
-          title={t('app_header.constants.guanFangTuCeng')}
-          placement="left"
-        >
-          <button
-            type="button"
-            id="l7-editor-filter"
-            className={style.L7EditorControl}
-          >
-            <IconFont
-              id="l7-editor-aMap"
-              type="icon-tuceng"
-              className={style.l7EditorIcon}
-            />
-          </button>
-        </Tooltip>
-      </Popover>
-
-      {officialLayerList.map((url) => {
-        return (
+            {/* </Radio.Group> */}
+          </div>
+        </div>
+      </CustomControl>
+      <div>
+        {layerType.length && (
           <RasterLayer
-            key={url}
+            key={GOOGLE_TILE_MAP_URL}
             zIndex={1}
             source={{
-              data: url,
+              data: GOOGLE_TILE_MAP_URL,
               parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
             }}
           />
-        );
-      })}
-    </CustomControl>
+        )}
+      </div>
+    </>
   );
 }

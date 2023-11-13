@@ -53,9 +53,6 @@ export const GOOGLE_TILE_MAP_URL =
   'https://gac-geo.googlecnapps.cn/maps/vt?lyrs=s,m&gl=CN&x={x}&y={y}&z={z}';
 
 export enum OfficeLayerEnum {
-  AmapSatellite = 'amapSatellite',
-  AmapRoadNet = 'amapRoadNet',
-  AmapTraffic = 'amapTraffic',
-  AmapBuildings = 'amapBuildings',
   GoogleSatellite = 'googleSatellite',
+  VectorMap = 'vectorMap',
 }
