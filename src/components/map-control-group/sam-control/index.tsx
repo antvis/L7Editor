@@ -8,7 +8,7 @@ import { Spin, Tooltip, message } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GOOGLE_TILE_MAP_URL, LayerId } from '../../../constants';
+import { LayerId } from '../../../constants';
 import { useFeature } from '../../../recoil';
 import type { IFeatures } from '../../../types';
 import { IconFont } from '../../iconfont';
@@ -193,9 +193,7 @@ export const SamControl = () => {
   useEffect(() => {
     if (!isEmpty(allLayerList)) {
       const targetLayer = allLayerList.find(
-        (layer) =>
-          layer.type === 'rasterLayer' &&
-          [GOOGLE_TILE_MAP_URL].includes(layer.options.source.data),
+        (layer) => layer.id === 'googleTileMap',
       );
       const selectLayer = allLayerList.find(
         (layer) => layer.id === LayerId.PolygonLayer,

@@ -2,7 +2,11 @@ import { CustomControl, RasterLayer } from '@antv/larkmap';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GOOGLE_TILE_MAP_URL, OfficeLayerEnum } from '../../../constants';
+import {
+  GOOGLE_TILE_MAP_ROUTER_URL,
+  GOOGLE_TILE_MAP_URL,
+  OfficeLayerEnum,
+} from '../../../constants';
 import { useGlobal } from '../../../recoil';
 import useStyle from './styles';
 
@@ -73,14 +77,25 @@ export function OfficialLayerControl() {
       </CustomControl>
       <div>
         {layerType.length && (
-          <RasterLayer
-            key={GOOGLE_TILE_MAP_URL}
-            zIndex={1}
-            source={{
-              data: GOOGLE_TILE_MAP_URL,
-              parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
-            }}
-          />
+          <>
+            <RasterLayer
+              key={GOOGLE_TILE_MAP_URL}
+              zIndex={1}
+              id="googleTileMap"
+              source={{
+                data: GOOGLE_TILE_MAP_URL,
+                parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
+              }}
+            />
+            <RasterLayer
+              key={GOOGLE_TILE_MAP_ROUTER_URL}
+              zIndex={1}
+              source={{
+                data: GOOGLE_TILE_MAP_ROUTER_URL,
+                parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
+              }}
+            />
+          </>
         )}
       </div>
     </>
