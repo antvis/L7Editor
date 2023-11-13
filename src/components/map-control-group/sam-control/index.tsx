@@ -95,7 +95,8 @@ export const SamControl = () => {
         }
       }
     },
-    [bound, samModel, revertCoord, resetFeatures, features, t],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [bound, samModel, features, t],
   );
 
   // 生成 embedding 并初始化载入模型
