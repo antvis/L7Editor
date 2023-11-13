@@ -192,14 +192,12 @@ export const SamControl = () => {
 
   useEffect(() => {
     if (!isEmpty(allLayerList)) {
-      console.log(allLayerList);
       const targetLayer = allLayerList.find(
         (layer) => layer.id === 'googleTileMap',
       );
       const selectLayer = allLayerList.find(
         (layer) => layer.id === LayerId.PolygonLayer,
       );
-      console.log(targetLayer);
       setPolygonLayer(selectLayer);
       setTileLayer(targetLayer);
     }
