@@ -40,17 +40,6 @@ export function OfficialLayerControl() {
       <CustomControl position="bottomleft">
         <div className={styles.mapTab}>
           <div className={styles.amapInfo}>
-            {/* <Radio.Group
-              value={radioValue}
-              onChange={(newLayerType) => {
-                setRadioValue(newLayerType.target.value);
-                setLayerType(
-                  newLayerType.target.value === OfficeLayerEnum.GoogleSatellite
-                    ? [OfficeLayerEnum.GoogleSatellite]
-                    : ([] as string[]),
-                );
-              }}
-            > */}
             {officeLayerGroup.map((item) => {
               return (
                 <div
@@ -79,7 +68,6 @@ export function OfficialLayerControl() {
                 </div>
               );
             })}
-            {/* </Radio.Group> */}
           </div>
         </div>
       </CustomControl>
