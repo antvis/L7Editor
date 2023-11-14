@@ -239,20 +239,17 @@ export const SamControl = () => {
                   data: featureCollection(newFeatures),
                 }));
                 // resetFeatures([...features, ...newFeature] as IFeatures);
-              } else {
-                message.warning(t('map_control_group.sam.tuXingJieXiCuoWu'));
               }
             });
           }
         } else {
-          message.error(t('map_control_group.sam.qingZaiQuYuNei'));
           setPolygonSource(defaultPolygonSource);
         }
       }
     },
     {
-      wait: 1000,
-      maxWait: 1000,
+      wait: 5000,
+      maxWait: 5000,
     },
   );
 
