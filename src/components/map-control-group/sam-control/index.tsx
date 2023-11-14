@@ -1,9 +1,21 @@
-import type { LineLayerProps } from '@antv/larkmap';
-import { CustomControl, LineLayer, Marker, useLayerList } from '@antv/larkmap';
+import type { LineLayerProps, PolygonLayerProps } from '@antv/larkmap';
+import {
+  CustomControl,
+  LineLayer,
+  Marker,
+  PolygonLayer,
+  useLayerList,
+} from '@antv/larkmap';
 import type { Layer } from '@antv/larkmap/es/types';
 import { MODEL_URL, SAMGeo } from '@antv/sam';
 import type { Feature, MultiPolygon, Polygon } from '@turf/turf';
-import { booleanPointInPolygon, point, polygon } from '@turf/turf';
+import {
+  booleanPointInPolygon,
+  featureCollection,
+  point,
+  polygon,
+} from '@turf/turf';
+import { useDebounceFn } from 'ahooks';
 import { Spin, Tooltip, message } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -34,6 +46,24 @@ const options: Omit<LineLayerProps, 'source'> = {
   },
 };
 
+const layerOptions: Omit<PolygonLayerProps, 'source'> = {
+  shape: 'fill',
+  color: '#ff0000',
+  id: 'hoverLayer',
+  state: {
+    active: false,
+  },
+  style: {
+    opacity: 0.5,
+  },
+  zIndex: 100,
+};
+
+const defaultPolygonSource = {
+  data: { type: 'FeatureCollection', features: [] },
+  parser: { type: 'geojson' },
+};
+
 export const SamControl = () => {
   const styles = useStyle();
   const style = useStyles();
@@ -46,6 +76,9 @@ export const SamControl = () => {
   const [polygonLayer, setPolygonLayer] = useState<Layer | undefined>(
     undefined,
   );
+  const [hoverPolyonLayer, setHoverPolyonLayer] = useState<Layer | undefined>(
+    undefined,
+  );
   const [loading, setLoading] = useState(false);
   const [marker, setMarker] = useState<number[] | undefined>(undefined);
   const [bound, setBound] = useState<
@@ -54,51 +87,18 @@ export const SamControl = () => {
   const [source, setSource] = useState<any>({
     data: { type: 'FeatureCollection', features: [] },
   });
+  const [polygonSource, setPolygonSource] = useState<any>(defaultPolygonSource);
   const { t } = useTranslation();
 
   const onMapClick = useCallback(
     (event: any) => {
-      const coords = [event.lngLat.lng, event.lngLat.lat] as [number, number];
-      if (bound) {
-        if (booleanPointInPolygon(point(coords), bound)) {
-          if (samModel) {
-            const px = samModel.lngLat2ImagePixel(coords)!;
-            const newPoint = [
-              {
-                x: px[0],
-                y: px[1],
-                clickType: 1,
-              },
-            ];
-            const threshold = 1;
-
-            samModel.predict(newPoint).then(async (res) => {
-              const fc = await samModel.exportGeoPolygon(res, threshold);
-              const image = samModel.exportImageClip(res)!;
-              const newData = {
-                feature: fc.features as any,
-                imageUrl: image.src,
-              };
-              if (
-                booleanPointInPolygon(point(coords), newData?.feature[0]) &&
-                newData?.feature[0].geometry.coordinates[0].length > 4
-              ) {
-                const newFeature = revertCoord(newData.feature);
-                resetFeatures([...features, ...newFeature] as IFeatures);
-              } else {
-                message.warning(t('map_control_group.sam.tuXingJieXiCuoWu'));
-              }
-            });
-          }
-        } else {
-          message.error(t('map_control_group.sam.qingZaiQuYuNei'));
-        }
-      }
+      const newFeature = revertCoord([event.feature]);
+      resetFeatures([...features, ...newFeature] as IFeatures);
+      setPolygonSource(defaultPolygonSource);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [bound, samModel, features, t],
+    [features],
   );
-
   // 生成 embedding 并初始化载入模型
   const generateEmbedding = async () => {
     setLoading(true);
@@ -175,7 +175,6 @@ export const SamControl = () => {
       }
     } catch (error) {
       message.error(t('map_control_group.sam.jiSuanShiBai'));
-      scene?.off('click', onMapClick);
     } finally {
       setLoading(false);
     }
@@ -198,26 +197,84 @@ export const SamControl = () => {
       const selectLayer = allLayerList.find(
         (layer) => layer.id === LayerId.PolygonLayer,
       );
+      const hoverLayer = allLayerList.find(
+        (layer) => layer.id === 'hoverLayer',
+      );
+      setHoverPolyonLayer(hoverLayer);
       setPolygonLayer(selectLayer);
       setTileLayer(targetLayer);
     }
   }, [allLayerList]);
 
+  const { run: onMapHover } = useDebounceFn(
+    (e) => {
+      const coords = [e.lngLat.lng, e.lngLat.lat] as [number, number];
+      if (bound) {
+        if (booleanPointInPolygon(point(coords), bound)) {
+          if (samModel) {
+            const px = samModel.lngLat2ImagePixel(coords)!;
+            const newPoint = [
+              {
+                x: px[0],
+                y: px[1],
+                clickType: 1,
+              },
+            ];
+            const threshold = 1;
+
+            samModel.predict(newPoint).then(async (res) => {
+              const fc = await samModel.exportGeoPolygon(res, threshold);
+              const image = samModel.exportImageClip(res)!;
+              const newData = {
+                feature: fc.features as any,
+                imageUrl: image.src,
+              };
+              if (
+                booleanPointInPolygon(point(coords), newData?.feature[0]) &&
+                newData?.feature[0].geometry.coordinates[0].length > 4
+              ) {
+                const newFeatures = revertCoord(newData.feature);
+                setPolygonSource((prevState: any) => ({
+                  ...prevState,
+                  data: featureCollection(newFeatures),
+                }));
+                // resetFeatures([...features, ...newFeature] as IFeatures);
+              } else {
+                message.warning(t('map_control_group.sam.tuXingJieXiCuoWu'));
+              }
+            });
+          }
+        } else {
+          message.error(t('map_control_group.sam.qingZaiQuYuNei'));
+          setPolygonSource(defaultPolygonSource);
+        }
+      }
+    },
+    {
+      wait: 1000,
+      maxWait: 1000,
+    },
+  );
+
   useEffect(() => {
-    if (polygonLayer) {
+    if (polygonLayer && hoverPolyonLayer) {
       if (samOpen) {
-        polygonLayer.on('unclick', onMapClick);
+        polygonLayer.on('unmousemove', onMapHover);
+        hoverPolyonLayer.on('click', onMapClick);
       } else {
         setSource({ data: { type: 'FeatureCollection', features: [] } });
         setMarker(undefined);
-        polygonLayer.off('unclick', onMapClick);
+        setPolygonSource(defaultPolygonSource);
+        polygonLayer.off('unmousemove', onMapHover);
+        hoverPolyonLayer.off('click', onMapClick);
       }
     }
     return () => {
-      polygonLayer?.off('unclick', onMapClick);
+      polygonLayer?.off('unmousemove', onMapHover);
+      hoverPolyonLayer?.off('click', onMapClick);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [samOpen, scene, onMapClick]);
+  }, [samOpen, scene, onMapHover, onMapClick]);
 
   useEffect(() => {
     if (samOpen && samModel) {
@@ -268,6 +325,7 @@ export const SamControl = () => {
         </Marker>
       )}
       <LineLayer {...options} source={source} />
+      <PolygonLayer {...layerOptions} source={polygonSource} />
     </>
   );
 };
