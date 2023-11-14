@@ -76,9 +76,6 @@ export const SamControl = () => {
   const [polygonLayer, setPolygonLayer] = useState<Layer | undefined>(
     undefined,
   );
-  const [hoverPolyonLayer, setHoverPolyonLayer] = useState<Layer | undefined>(
-    undefined,
-  );
   const [loading, setLoading] = useState(false);
   const [marker, setMarker] = useState<number[] | undefined>(undefined);
   const [bound, setBound] = useState<
@@ -197,10 +194,6 @@ export const SamControl = () => {
       const selectLayer = allLayerList.find(
         (layer) => layer.id === LayerId.PolygonLayer,
       );
-      const hoverLayer = allLayerList.find(
-        (layer) => layer.id === 'hoverLayer',
-      );
-      setHoverPolyonLayer(hoverLayer);
       setPolygonLayer(selectLayer);
       setTileLayer(targetLayer);
     }
@@ -254,21 +247,18 @@ export const SamControl = () => {
   );
 
   useEffect(() => {
-    if (polygonLayer && hoverPolyonLayer) {
+    if (polygonLayer) {
       if (samOpen) {
         polygonLayer.on('unmousemove', onMapHover);
-        hoverPolyonLayer.on('click', onMapClick);
       } else {
         setSource({ data: { type: 'FeatureCollection', features: [] } });
         setMarker(undefined);
         setPolygonSource(defaultPolygonSource);
         polygonLayer.off('unmousemove', onMapHover);
-        hoverPolyonLayer.off('click', onMapClick);
       }
     }
     return () => {
       polygonLayer?.off('unmousemove', onMapHover);
-      hoverPolyonLayer?.off('click', onMapClick);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [samOpen, scene, onMapHover, onMapClick]);
@@ -322,7 +312,11 @@ export const SamControl = () => {
         </Marker>
       )}
       <LineLayer {...options} source={source} />
-      <PolygonLayer {...layerOptions} source={polygonSource} />
+      <PolygonLayer
+        {...layerOptions}
+        source={polygonSource}
+        onClick={onMapClick}
+      />
     </>
   );
 };
