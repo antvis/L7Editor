@@ -241,8 +241,8 @@ export const SamControl = () => {
       }
     },
     {
-      wait: 5000,
-      maxWait: 5000,
+      wait: 2000,
+      maxWait: 2000,
     },
   );
 
