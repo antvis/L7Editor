@@ -239,20 +239,17 @@ export const SamControl = () => {
                   data: featureCollection(newFeatures),
                 }));
                 // resetFeatures([...features, ...newFeature] as IFeatures);
-              } else {
-                message.warning(t('map_control_group.sam.tuXingJieXiCuoWu'));
               }
             });
           }
         } else {
-          message.error(t('map_control_group.sam.qingZaiQuYuNei'));
           setPolygonSource(defaultPolygonSource);
         }
       }
     },
     {
-      wait: 1000,
-      maxWait: 1000,
+      wait: 2000,
+      maxWait: 2000,
     },
   );
 
@@ -260,18 +257,15 @@ export const SamControl = () => {
     if (polygonLayer && hoverPolyonLayer) {
       if (samOpen) {
         polygonLayer.on('unmousemove', onMapHover);
-        hoverPolyonLayer.on('click', onMapClick);
       } else {
         setSource({ data: { type: 'FeatureCollection', features: [] } });
         setMarker(undefined);
         setPolygonSource(defaultPolygonSource);
         polygonLayer.off('unmousemove', onMapHover);
-        hoverPolyonLayer.off('click', onMapClick);
       }
     }
     return () => {
       polygonLayer?.off('unmousemove', onMapHover);
-      hoverPolyonLayer?.off('click', onMapClick);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [samOpen, scene, onMapHover, onMapClick]);
@@ -325,7 +319,11 @@ export const SamControl = () => {
         </Marker>
       )}
       <LineLayer {...options} source={source} />
-      <PolygonLayer {...layerOptions} source={polygonSource} />
+      <PolygonLayer
+        {...layerOptions}
+        source={polygonSource}
+        onClick={onMapClick}
+      />
     </>
   );
 };
