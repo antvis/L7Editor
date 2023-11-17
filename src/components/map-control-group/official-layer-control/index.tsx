@@ -5,16 +5,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 import { CustomControl, RasterLayer } from '@antv/larkmap';
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Popconfirm,
-  Space,
-  Upload,
-  message,
-} from 'antd';
+import { Button, Form, Input, Modal, Popconfirm, Space, Upload } from 'antd';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -100,24 +91,16 @@ export function OfficialLayerControl() {
   };
 
   const onFinish = (e: any) => {
-    if (
-      officeLayerGroup.every((item) => {
-        return item.title !== e.name;
-      })
-    ) {
-      setIsModalOpen(false);
-      setCustomTiles((prevState) => [
-        ...prevState,
-        {
-          type: e.name,
-          image: `${base64}`,
-          title: e.name,
-          layers: e.urls,
-        },
-      ]);
-    } else {
-      message.error(t('official_layer_control.index.mingChengChongFu'));
-    }
+    setIsModalOpen(false);
+    setCustomTiles((prevState) => [
+      ...prevState,
+      {
+        type: e.name,
+        image: `${base64}`,
+        title: e.name,
+        layers: e.urls,
+      },
+    ]);
   };
 
   const rasterLayer = useMemo(() => {
@@ -169,8 +152,15 @@ export function OfficialLayerControl() {
   };
 
   const validateSpace = (_: any, value: string) => {
+    const lowerCaseValue = value.toLowerCase();
+    const hasDuplicate = officeLayerGroup.every(
+      (item) => item.title.toLowerCase() !== lowerCaseValue,
+    );
+    if (!hasDuplicate) {
+      return Promise.reject(t('official_layer_control.index.mingChengChongFu'));
+    }
     if (value && value.trim() === '') {
-      return Promise.reject('输入不能为空格！');
+      return Promise.reject(t('official_layer_control.index.kongGe'));
     }
     return Promise.resolve();
   };

@@ -220,4 +220,5 @@ export default {
   'official_layer_control.index.qiShuRutuCengDiZhi':
     'Please enter a layer address',
   'official_layer_control.index.tinJiaWaPian': 'Add Tile Layer Address',
+  'official_layer_control.index.kongGe': 'Input cannot be a space!',
 };
