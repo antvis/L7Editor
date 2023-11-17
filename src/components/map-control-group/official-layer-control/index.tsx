@@ -30,16 +30,21 @@ const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 16 },
 };
+const enLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 15 },
+};
 
 export function OfficialLayerControl() {
   const [form] = Form.useForm();
   const styles = useStyle();
-  const { layerType, setLayerType, customTiles, setCustomTiles } = useGlobal();
+  const { layerType, setLayerType, customTiles, setCustomTiles, locale } =
+    useGlobal();
   const { t } = useTranslation();
   const [radioValue, setRadioValue] = useState<string>(
     layerType.length ? layerType[0] : OfficeLayerEnum.VectorMap,
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const [base64, setBase64] = useState<any>(null);
 
@@ -216,7 +221,12 @@ export function OfficialLayerControl() {
                     alt=""
                     className={styles.amapInfoItemImage}
                   />
-                  <div className={styles.amapInfoItemTitle} style={{ marginTop: 0 }}>{item.title}</div>
+                  <div
+                    className={styles.amapInfoItemTitle}
+                    style={{ marginTop: 0 }}
+                  >
+                    {item.title}
+                  </div>
                 </div>
               );
             })}
@@ -244,7 +254,7 @@ export function OfficialLayerControl() {
         >
           <Form form={form} initialValues={{ urls: [''] }} onFinish={onFinish}>
             <Form.Item
-              {...layout}
+              {...(locale === 'zh-CN' ? layout : enLayout)}
               name="name"
               label={t('official_layer_control.index.name')}
               rules={[{ required: true }, { validator: validateSpace }]}
@@ -257,7 +267,7 @@ export function OfficialLayerControl() {
               />
             </Form.Item>
             <Form.Item
-              {...layout}
+              {...(locale === 'zh-CN' ? layout : enLayout)}
               name="img"
               label={t('official_layer_control.index.shiLiTuPian')}
               rules={[{ required: true }]}
@@ -297,7 +307,16 @@ export function OfficialLayerControl() {
                           },
                           { validator: validateSpace },
                         ]}
-                        style={{ marginLeft: index === 0 ? 10 : 90 }}
+                        style={{
+                          marginLeft:
+                            locale === 'zh-CN'
+                              ? index === 0
+                                ? 10
+                                : 90
+                              : index === 0
+                              ? 18
+                              : 134,
+                        }}
                       >
                         <Input
                           placeholder={GOOGLE_TILE_MAP_URL}
@@ -320,7 +339,7 @@ export function OfficialLayerControl() {
                       icon={<PlusOutlined />}
                       style={{
                         width: 390,
-                        marginLeft: 20,
+                        marginLeft: locale === 'zh-CN' ? 20 : 104,
                       }}
                     >
                       {t('official_layer_control.index.tinJiaWaPian')}
