@@ -44,7 +44,7 @@ export function OfficialLayerControl() {
   const [radioValue, setRadioValue] = useState<string>(
     layerType.length ? layerType[0] : OfficeLayerEnum.VectorMap,
   );
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [base64, setBase64] = useState<any>(null);
 
