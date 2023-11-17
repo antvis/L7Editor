@@ -44,9 +44,7 @@ export function OfficialLayerControl() {
   const [base64, setBase64] = useState<any>(null);
 
   const handleOk = () => {
-    // setIsModalOpen(false);
     form.submit();
-    form.resetFields();
   };
 
   const handleCancel = () => {
@@ -146,9 +144,15 @@ export function OfficialLayerControl() {
   }, [layerType, officeLayerGroup]);
 
   const onConfirm = (
-    e: any,
-    item: { type: any; image?: string; title?: string; layers?: string[] },
+    e: React.MouseEvent<HTMLElement> | undefined,
+    item: {
+      type: string;
+      image?: string;
+      title?: string;
+      layers?: string[];
+    },
   ) => {
+    e?.stopPropagation();
     const newCustomTiles = customTiles.filter((val) => {
       return val.type !== item.type;
     });
@@ -157,6 +161,13 @@ export function OfficialLayerControl() {
       setLayerType([]);
     }
     setCustomTiles(newCustomTiles);
+  };
+
+  const validateSpace = (_: any, value: string) => {
+    if (value && value.trim() === '') {
+      return Promise.reject('输入不能为空格！');
+    }
+    return Promise.resolve();
   };
 
   return (
@@ -183,6 +194,11 @@ export function OfficialLayerControl() {
                     <Popconfirm
                       title={t('official_layer_control.index.shanChuDiTu')}
                       onConfirm={(e) => onConfirm(e, item)}
+                      onCancel={(
+                        e: React.MouseEvent<HTMLElement> | undefined,
+                      ) => {
+                        e?.stopPropagation();
+                      }}
                     >
                       <div
                         className={'item-clear'}
@@ -208,6 +224,7 @@ export function OfficialLayerControl() {
               <div
                 onClick={() => {
                   setIsModalOpen(true);
+                  form.resetFields();
                 }}
               >
                 <div className={styles.addMapIcon}>
@@ -220,6 +237,7 @@ export function OfficialLayerControl() {
         <Modal
           title={t('official_layer_control.index.tianJiaDitu')}
           open={isModalOpen}
+          destroyOnClose
           onOk={handleOk}
           onCancel={handleCancel}
           width={600}
@@ -229,13 +247,14 @@ export function OfficialLayerControl() {
               {...layout}
               name="name"
               label={t('official_layer_control.index.name')}
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
+              rules={[{ required: true }, { validator: validateSpace }]}
             >
-              <Input placeholder={t('official_layer_control.index.addName')} />
+              <Input
+                placeholder={t('official_layer_control.index.addName')}
+                style={{
+                  width: 390,
+                }}
+              />
             </Form.Item>
             <Form.Item
               {...layout}
@@ -276,17 +295,22 @@ export function OfficialLayerControl() {
                               'official_layer_control.index.qiShuRutuCengDiZhi',
                             ),
                           },
+                          { validator: validateSpace },
                         ]}
-                        style={{ marginLeft: index === 0 ? 0 : 80 }}
+                        style={{ marginLeft: index === 0 ? 10 : 90 }}
                       >
                         <Input
                           placeholder={GOOGLE_TILE_MAP_URL}
                           style={{
-                            width: 400,
+                            width: 390,
                           }}
                         />
                       </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(field.name)} />
+                      {fields.length > 1 ? (
+                        <MinusCircleOutlined
+                          onClick={() => remove(field.name)}
+                        />
+                      ) : null}
                     </Space>
                   ))}
                   <Form.Item style={{ textAlign: 'center' }}>
@@ -294,7 +318,10 @@ export function OfficialLayerControl() {
                       type="dashed"
                       onClick={() => add()}
                       icon={<PlusOutlined />}
-                      style={{ width: 310 }}
+                      style={{
+                        width: 390,
+                        marginLeft: 20,
+                      }}
                     >
                       {t('official_layer_control.index.tinJiaWaPian')}
                     </Button>

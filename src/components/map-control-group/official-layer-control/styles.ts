@@ -4,7 +4,7 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBgElevated ,colorBgContainer} = token;
+  const { colorBgElevated, colorBgContainer } = token;
   return {
     mapTab: css`
       background-color: ${colorBgElevated};
@@ -25,15 +25,16 @@ const useStyle = () => {
       display: flex;
       align-items: center;
       padding: 10px;
+      cursor: pointer;
     `,
     amapInfoItemImage: css`
       width: 142px;
       height: 80px;
-      object-fit: cover;
     `,
     amapInfoItem: css`
       text-align: center;
       margin-left: 10px;
+      object-fit: cover;
       &:first-child {
         margin-left: 0px;
       }
@@ -56,6 +57,7 @@ const useStyle = () => {
         text-align: center;
         background: #fff;
         border-radius: 4px;
+        cursor: pointer;
 
         &:hover {
           color: #1677ff;
