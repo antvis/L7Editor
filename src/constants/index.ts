@@ -18,6 +18,7 @@ export enum LocalStorageKey {
   showIndex = 'showIndex',
   locale = 'locale',
   firstOpening = 'firstOpening',
+  tileArr = "tileArr"
 }
 
 export enum LayerId {

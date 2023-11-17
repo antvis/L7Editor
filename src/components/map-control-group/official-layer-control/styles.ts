@@ -14,6 +14,17 @@ const useStyle = () => {
       display: flex;
       align-items: center;
       padding: 10px;
+      .item-hover:hover + .add-map {
+        display: block;
+      }
+      .add-map {
+        display: none;
+        text-align: center;
+        &:hover {
+          display: block;
+          color: #1677ff;
+        }
+      }
     `,
     amapInfoItemImage: css`
       width: 142px;
@@ -22,8 +33,9 @@ const useStyle = () => {
     `,
     amapInfoItem: css`
       text-align: center;
+      margin-left: 10px;
       &:first-child {
-        margin-right: 10px;
+        margin-left: 0px;
       }
       box-sizing: border-box;
       border-radius: 4px;
@@ -33,6 +45,15 @@ const useStyle = () => {
     `,
     itemBorderActive: css`
       border: solid 2px #1677ff;
+    `,
+    addMapIcon: css`
+      border: dashed 1px rgb(217, 217, 217);
+      height: 103px;
+      width: 142px;
+      object-fit: cover;
+      border-radius: 4px;
+      line-height: 103px;
+      margin-left: 10px;
     `,
   };
 };

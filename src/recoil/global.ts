@@ -14,6 +14,7 @@ import {
   rightWidthState,
   showIndexState,
   themeState,
+  tileArrState,
 } from './atomState';
 
 export default function useGlobal() {
@@ -42,6 +43,8 @@ export default function useGlobal() {
   const [cityHistory, setCityHistory] = useRecoilState(cityHistoryState);
 
   const [showIndex, setShowIndex] = useRecoilState(showIndexState);
+
+  const [tileArr, setTileArr] = useRecoilState(tileArrState);
 
   const [locale, setLocale] = useRecoilState(localeState);
 
@@ -72,6 +75,8 @@ export default function useGlobal() {
     setCityHistory,
     showIndex,
     setShowIndex,
+    tileArr,
+    setTileArr,
     locale,
     setLocale,
   };
