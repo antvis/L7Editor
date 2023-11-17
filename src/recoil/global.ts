@@ -5,6 +5,7 @@ import {
   baseMapState,
   cityHistoryState,
   convertState,
+  customTilesState,
   hideEditorState,
   layerColorState,
   localeState,
@@ -14,7 +15,6 @@ import {
   rightWidthState,
   showIndexState,
   themeState,
-  tileArrState,
 } from './atomState';
 
 export default function useGlobal() {
@@ -44,7 +44,7 @@ export default function useGlobal() {
 
   const [showIndex, setShowIndex] = useRecoilState(showIndexState);
 
-  const [tileArr, setTileArr] = useRecoilState(tileArrState);
+  const [customTiles, setCustomTiles] = useRecoilState(customTilesState);
 
   const [locale, setLocale] = useRecoilState(localeState);
 
@@ -75,8 +75,8 @@ export default function useGlobal() {
     setCityHistory,
     showIndex,
     setShowIndex,
-    tileArr,
-    setTileArr,
+    customTiles,
+    setCustomTiles,
     locale,
     setLocale,
   };

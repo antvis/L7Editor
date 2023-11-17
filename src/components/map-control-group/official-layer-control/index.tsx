@@ -1,10 +1,20 @@
 import {
+  DeleteOutlined,
   MinusCircleOutlined,
   PlusOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
 import { CustomControl, RasterLayer } from '@antv/larkmap';
-import { Button, Form, Input, Modal, Space, Upload, message } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Popconfirm,
+  Space,
+  Upload,
+  message,
+} from 'antd';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +34,7 @@ const layout = {
 export function OfficialLayerControl() {
   const [form] = Form.useForm();
   const styles = useStyle();
-  const { layerType, setLayerType, tileArr, setTileArr } = useGlobal();
+  const { layerType, setLayerType, customTiles, setCustomTiles } = useGlobal();
   const { t } = useTranslation();
   const [radioValue, setRadioValue] = useState<string>(
     layerType.length ? layerType[0] : OfficeLayerEnum.VectorMap,
@@ -36,6 +46,7 @@ export function OfficialLayerControl() {
   const handleOk = () => {
     // setIsModalOpen(false);
     form.submit();
+    form.resetFields();
   };
 
   const handleCancel = () => {
@@ -59,9 +70,9 @@ export function OfficialLayerControl() {
           'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
         layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
       },
-      ...tileArr,
+      ...customTiles,
     ];
-  }, [t, tileArr]);
+  }, [t, customTiles]);
 
   const handleBeforeUpload = (file: Blob) => {
     const reader = new FileReader();
@@ -92,7 +103,7 @@ export function OfficialLayerControl() {
       })
     ) {
       setIsModalOpen(false);
-      setTileArr((prevState) => [
+      setCustomTiles((prevState) => [
         ...prevState,
         {
           type: e.name,
@@ -102,7 +113,7 @@ export function OfficialLayerControl() {
         },
       ]);
     } else {
-      message.error('名称重复，请修改名称');
+      message.error(t('official_layer_control.index.mingChengChongFu'));
     }
   };
 
@@ -134,6 +145,20 @@ export function OfficialLayerControl() {
     }
   }, [layerType, officeLayerGroup]);
 
+  const onConfirm = (
+    e: any,
+    item: { type: any; image?: string; title?: string; layers?: string[] },
+  ) => {
+    const newCustomTiles = customTiles.filter((val) => {
+      return val.type !== item.type;
+    });
+    if (item.type === radioValue) {
+      setRadioValue(OfficeLayerEnum.VectorMap);
+      setLayerType([]);
+    }
+    setCustomTiles(newCustomTiles);
+  };
+
   return (
     <>
       <CustomControl position="bottomleft">
@@ -154,6 +179,22 @@ export function OfficialLayerControl() {
                     onItemClick(item);
                   }}
                 >
+                  {index > 1 && (
+                    <Popconfirm
+                      title={t('official_layer_control.index.shanChuDiTu')}
+                      onConfirm={(e) => onConfirm(e, item)}
+                    >
+                      <div
+                        className={'item-clear'}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <DeleteOutlined />
+                      </div>
+                    </Popconfirm>
+                  )}
+
                   <img
                     src={item.image}
                     alt=""
@@ -177,28 +218,29 @@ export function OfficialLayerControl() {
           </div>
         </div>
         <Modal
-          title="添加瓦片图层"
+          title={t('official_layer_control.index.tianJiaDitu')}
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
+          width={600}
         >
           <Form form={form} initialValues={{ urls: [''] }} onFinish={onFinish}>
             <Form.Item
               {...layout}
               name="name"
-              label="名称"
+              label={t('official_layer_control.index.name')}
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-              <Input />
+              <Input placeholder={t('official_layer_control.index.addName')} />
             </Form.Item>
             <Form.Item
               {...layout}
               name="img"
-              label="示例图片"
+              label={t('official_layer_control.index.shiLiTuPian')}
               rules={[{ required: true }]}
             >
               <Upload
@@ -206,7 +248,9 @@ export function OfficialLayerControl() {
                 accept=".png,.jpg"
                 maxCount={1}
               >
-                <Button icon={<UploadOutlined />}>上传</Button>
+                <Button icon={<UploadOutlined />}>
+                  {t('import_btn.index.shangChuan')}
+                </Button>
               </Upload>
             </Form.Item>
             <Form.List name="urls">
@@ -220,14 +264,25 @@ export function OfficialLayerControl() {
                     >
                       <Form.Item
                         {...field}
-                        label={index === 0 ? '图层地址' : ''}
-                        rules={[{ required: true }]}
+                        label={
+                          index === 0
+                            ? t('official_layer_control.index.tuCengDiZhi')
+                            : ''
+                        }
+                        rules={[
+                          {
+                            required: true,
+                            message: t(
+                              'official_layer_control.index.qiShuRutuCengDiZhi',
+                            ),
+                          },
+                        ]}
+                        style={{ marginLeft: index === 0 ? 0 : 80 }}
                       >
                         <Input
                           placeholder={GOOGLE_TILE_MAP_URL}
                           style={{
-                            width: 310,
-                            marginLeft: index === 0 ? 0 : 80,
+                            width: 400,
                           }}
                         />
                       </Form.Item>
@@ -241,7 +296,7 @@ export function OfficialLayerControl() {
                       icon={<PlusOutlined />}
                       style={{ width: 310 }}
                     >
-                      添加瓦片图层地址
+                      {t('official_layer_control.index.tinJiaWaPian')}
                     </Button>
                   </Form.Item>
                 </>

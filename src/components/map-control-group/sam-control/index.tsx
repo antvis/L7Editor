@@ -254,7 +254,7 @@ export const SamControl = () => {
   );
 
   useEffect(() => {
-    if (polygonLayer && hoverPolyonLayer) {
+    if (polygonLayer) {
       if (samOpen) {
         polygonLayer.on('unmousemove', onMapHover);
       } else {

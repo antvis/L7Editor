@@ -4,17 +4,12 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBgElevated } = token;
+  const { colorBgElevated ,colorBgContainer} = token;
   return {
     mapTab: css`
       background-color: ${colorBgElevated};
       border-radius: 4px;
-    `,
-    amapInfo: css`
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      .item-hover:hover + .add-map {
+      &:hover .add-map {
         display: block;
       }
       .add-map {
@@ -25,6 +20,11 @@ const useStyle = () => {
           color: #1677ff;
         }
       }
+    `,
+    amapInfo: css`
+      display: flex;
+      align-items: center;
+      padding: 10px;
     `,
     amapInfoItemImage: css`
       width: 142px;
@@ -39,9 +39,31 @@ const useStyle = () => {
       }
       box-sizing: border-box;
       border-radius: 4px;
+      position: relative;
+
+      &: hover .item-clear {
+        display: block;
+      }
+
+      .item-clear {
+        position: absolute;
+        right: 8px;
+        bottom: 27px;
+        display: none;
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        background: #fff;
+        border-radius: 4px;
+
+        &:hover {
+          color: #1677ff;
+        }
+      }
     `,
     itemBorder: css`
-      border: 2px solid #fff;
+      border: 2px solid ${colorBgContainer};
     `,
     itemBorderActive: css`
       border: solid 2px #1677ff;
@@ -54,6 +76,10 @@ const useStyle = () => {
       border-radius: 4px;
       line-height: 103px;
       margin-left: 10px;
+      cursor: pointer;
+      &:hover {
+        border: dashed 1px #1677ff;
+      }
     `,
   };
 };
