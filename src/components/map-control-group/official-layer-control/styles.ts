@@ -50,7 +50,7 @@ const useStyle = () => {
         position: absolute;
         right: 8px;
         bottom: 30px;
-        display: block;
+        display: none;
         width: 25px;
         height: 25px;
         line-height: 25px;
