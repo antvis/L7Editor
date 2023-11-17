@@ -49,7 +49,7 @@ const useStyle = () => {
       .item-clear {
         position: absolute;
         right: 8px;
-        bottom: 27px;
+        bottom: 30px;
         display: block;
         width: 25px;
         height: 25px;
