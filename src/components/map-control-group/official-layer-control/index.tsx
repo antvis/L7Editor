@@ -216,7 +216,7 @@ export function OfficialLayerControl() {
                     alt=""
                     className={styles.amapInfoItemImage}
                   />
-                  <div style={{ marginTop: 0 }}>{item.title}</div>
+                  <div className={styles.amapInfoItemTitle} style={{ marginTop: 0 }}>{item.title}</div>
                 </div>
               );
             })}

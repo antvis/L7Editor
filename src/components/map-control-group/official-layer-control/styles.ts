@@ -4,7 +4,7 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBgElevated, colorBgContainer } = token;
+  const { colorBgElevated, colorBgContainer, colorText } = token;
   return {
     mapTab: css`
       background-color: ${colorBgElevated};
@@ -63,6 +63,9 @@ const useStyle = () => {
           color: #1677ff;
         }
       }
+    `,
+    amapInfoItemTitle: css`
+      color: ${colorText};
     `,
     itemBorder: css`
       border: 2px solid ${colorBgContainer};
