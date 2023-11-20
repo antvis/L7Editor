@@ -99,6 +99,7 @@ export function OfficialLayerControl() {
   };
 
   const onFinish = (e: any) => {
+    console.log(e);
     if (isEdit) {
       const cloneCustomTiles = cloneDeep(customTiles);
       const newImgUrl = Array.isArray(e.img) ? e.img[0].url : `${base64}`;
@@ -199,10 +200,20 @@ export function OfficialLayerControl() {
   };
 
   const uploadValidateSpace = (_: any, value: any) => {
-    if (!value.fileList.length) {
-      return Promise.reject(t('official_layer_control.index.shangchuan'));
+    console.log(value);
+    if (value.fileList) {
+      if (!value.fileList.length) {
+        return Promise.reject(t('official_layer_control.index.shangchuan'));
+      } else {
+        return Promise.resolve();
+      }
+    } else {
+      if (!value.length) {
+        return Promise.reject(t('official_layer_control.index.shangchuan'));
+      }else{
+        return Promise.resolve();
+      }
     }
-    return Promise.resolve();
   };
 
   const handleChange: UploadProps['onChange'] = (info) => {
@@ -345,7 +356,7 @@ export function OfficialLayerControl() {
               {...(locale === 'zh-CN' ? layout : enLayout)}
               name="img"
               label={t('official_layer_control.index.shiLiTuPian')}
-              rules={[{ required: true }, { validator: uploadValidateSpace }]}
+              rules={[{ required: true, validator: uploadValidateSpace }]}
             >
               <Upload
                 beforeUpload={handleBeforeUpload}
@@ -353,6 +364,9 @@ export function OfficialLayerControl() {
                 maxCount={1}
                 onChange={handleChange}
                 fileList={fileList}
+                onRemove={() => {
+                  setFileList([]);
+                }}
               >
                 <Button icon={<UploadOutlined />}>
                   {t('import_btn.index.shangChuan')}
