@@ -189,4 +189,5 @@ export default {
   'official_layer_control.index.qiShuRutuCengDiZhi': '请输入图层地址',
   'official_layer_control.index.tinJiaWaPian': '添加瓦片图层地址',
   'official_layer_control.index.kongGe': '输入不能为空格！',
+  'official_layer_control.index.shangchuan': '请上传图片',
 };

@@ -221,4 +221,6 @@ export default {
     'Please enter a layer address',
   'official_layer_control.index.tinJiaWaPian': 'Add Tile Layer Address',
   'official_layer_control.index.kongGe': 'Input cannot be a space!',
+  'official_layer_control.index.shangchuan': 'Please upload pictures',
+
 };

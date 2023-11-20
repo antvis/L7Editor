@@ -46,6 +46,28 @@ const useStyle = () => {
         display: block;
       }
 
+      &: hover .item-edit {
+        display: block;
+      }
+
+      .item-edit {
+        position: absolute;
+        right: 41px;
+        bottom: 30px;
+        display: none;
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          color: #1677ff;
+        } 
+      }
+
       .item-clear {
         position: absolute;
         right: 8px;

@@ -1,12 +1,15 @@
 import {
   DeleteOutlined,
+  FormOutlined,
   MinusCircleOutlined,
   PlusOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
 import { CustomControl, RasterLayer } from '@antv/larkmap';
+import type { UploadFile, UploadProps } from 'antd';
 import { Button, Form, Input, Modal, Popconfirm, Space, Upload } from 'antd';
 import classNames from 'classnames';
+import { cloneDeep } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -36,8 +39,10 @@ export function OfficialLayerControl() {
     layerType.length ? layerType[0] : OfficeLayerEnum.VectorMap,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isEdit, setIsEdit] = useState(false);
+  const [editIndex, setEditIndex] = useState(-1);
   const [base64, setBase64] = useState<any>(null);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handleOk = () => {
     form.submit();
@@ -45,6 +50,9 @@ export function OfficialLayerControl() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsEdit(false);
+    setFileList([]);
+    setEditIndex(-1);
     form.resetFields();
   };
 
@@ -91,16 +99,32 @@ export function OfficialLayerControl() {
   };
 
   const onFinish = (e: any) => {
-    setIsModalOpen(false);
-    setCustomTiles((prevState) => [
-      ...prevState,
-      {
+    if (isEdit) {
+      const cloneCustomTiles = cloneDeep(customTiles);
+      const newImgUrl = Array.isArray(e.img) ? e.img[0].url : `${base64}`;
+      cloneCustomTiles[editIndex - 2] = {
         type: e.name,
-        image: `${base64}`,
+        image: newImgUrl,
         title: e.name,
         layers: e.urls,
-      },
-    ]);
+      };
+      setCustomTiles(cloneCustomTiles);
+      setIsEdit(false);
+      setEditIndex(-1);
+    } else {
+      setCustomTiles((prevState) => [
+        ...prevState,
+        {
+          type: e.name,
+          image: `${base64}`,
+          title: e.name,
+          layers: e.urls,
+        },
+      ]);
+    }
+    setIsEdit(false);
+    setFileList([]);
+    setIsModalOpen(false);
   };
 
   const rasterLayer = useMemo(() => {
@@ -153,7 +177,16 @@ export function OfficialLayerControl() {
 
   const validateSpace = (_: any, value: string) => {
     const lowerCaseValue = value.toLowerCase();
-    const hasDuplicate = officeLayerGroup.every(
+
+    let listArr = [];
+    if (isEdit) {
+      const cloneOfficeLayerGroup = cloneDeep(officeLayerGroup);
+      cloneOfficeLayerGroup.splice(editIndex, 1);
+      listArr = [...cloneOfficeLayerGroup];
+    } else {
+      listArr = officeLayerGroup;
+    }
+    const hasDuplicate = listArr.every(
       (item) => item.title.toLowerCase() !== lowerCaseValue,
     );
     if (!hasDuplicate) {
@@ -163,6 +196,26 @@ export function OfficialLayerControl() {
       return Promise.reject(t('official_layer_control.index.kongGe'));
     }
     return Promise.resolve();
+  };
+
+  const uploadValidateSpace = (_: any, value: any) => {
+    if (!value.fileList.length) {
+      return Promise.reject(t('official_layer_control.index.shangchuan'));
+    }
+    return Promise.resolve();
+  };
+
+  const handleChange: UploadProps['onChange'] = (info) => {
+    let newFileList = [...info.fileList];
+    newFileList = newFileList.slice(-2);
+    newFileList = newFileList.map((file) => {
+      if (file.response) {
+        file.url = file.response.url;
+      }
+      return file;
+    });
+
+    setFileList(newFileList);
   };
 
   return (
@@ -205,7 +258,39 @@ export function OfficialLayerControl() {
                       </div>
                     </Popconfirm>
                   )}
-
+                  {index > 1 && (
+                    <div
+                      className={'item-edit'}
+                      onClick={(e) => {
+                        setEditIndex(index);
+                        e.stopPropagation();
+                        setIsEdit(true);
+                        setIsModalOpen(true);
+                        setFileList([
+                          {
+                            uid: '-1',
+                            name: `${item.title}`,
+                            status: 'done',
+                            url: item.image,
+                          },
+                        ]);
+                        form.setFieldsValue({
+                          name: item.title,
+                          urls: item.layers,
+                          img: [
+                            {
+                              uid: '-1',
+                              name: `${item.title}`,
+                              status: 'done',
+                              url: item.image,
+                            },
+                          ],
+                        });
+                      }}
+                    >
+                      <FormOutlined />
+                    </div>
+                  )}
                   <img
                     src={item.image}
                     alt=""
@@ -260,12 +345,14 @@ export function OfficialLayerControl() {
               {...(locale === 'zh-CN' ? layout : enLayout)}
               name="img"
               label={t('official_layer_control.index.shiLiTuPian')}
-              rules={[{ required: true }]}
+              rules={[{ required: true }, { validator: uploadValidateSpace }]}
             >
               <Upload
                 beforeUpload={handleBeforeUpload}
                 accept=".png,.jpg"
                 maxCount={1}
+                onChange={handleChange}
+                fileList={fileList}
               >
                 <Button icon={<UploadOutlined />}>
                   {t('import_btn.index.shangChuan')}
