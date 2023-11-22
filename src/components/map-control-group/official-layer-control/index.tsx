@@ -48,14 +48,6 @@ export function OfficialLayerControl() {
     form.submit();
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    setIsEdit(false);
-    setFileList([]);
-    setEditIndex(-1);
-    form.resetFields();
-  };
-
   const officeLayerGroup = useMemo(() => {
     return [
       {
@@ -127,33 +119,13 @@ export function OfficialLayerControl() {
     setIsModalOpen(false);
   };
 
-  const rasterLayer = useMemo(() => {
-    if (layerType.length) {
-      const findItem = officeLayerGroup.find(
-        (item) => item.type === layerType[0],
-      );
-      return findItem?.layers.map((item) => {
-        return (
-          // eslint-disable-next-line react/jsx-key
-          <RasterLayer
-            zIndex={1}
-            id={
-              findItem.type === OfficeLayerEnum.GoogleSatellite &&
-              item === GOOGLE_TILE_MAP_URL
-                ? 'googleTileMap'
-                : undefined
-            }
-            source={{
-              data: item,
-              parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
-            }}
-          />
-        );
-      });
-    } else {
-      return null;
-    }
-  }, [layerType, officeLayerGroup]);
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setIsEdit(false);
+    setFileList([]);
+    setEditIndex(-1);
+    form.resetFields();
+  };
 
   const onConfirm = (
     e: React.MouseEvent<HTMLElement> | undefined,
@@ -223,9 +195,36 @@ export function OfficialLayerControl() {
       }
       return file;
     });
-
     setFileList(newFileList);
   };
+
+  const rasterLayer = useMemo(() => {
+    if (layerType.length) {
+      const findItem = officeLayerGroup.find(
+        (item) => item.type === layerType[0],
+      );
+      return findItem?.layers.map((item) => {
+        return (
+          // eslint-disable-next-line react/jsx-key
+          <RasterLayer
+            zIndex={1}
+            id={
+              findItem.type === OfficeLayerEnum.GoogleSatellite &&
+              item === GOOGLE_TILE_MAP_URL
+                ? 'googleTileMap'
+                : undefined
+            }
+            source={{
+              data: item,
+              parser: { type: 'rasterTile', tileSize: 256, zoomOffset: 0 },
+            }}
+          />
+        );
+      });
+    } else {
+      return null;
+    }
+  }, [layerType, officeLayerGroup]);
 
   return (
     <>
