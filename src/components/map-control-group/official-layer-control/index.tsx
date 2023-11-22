@@ -99,7 +99,6 @@ export function OfficialLayerControl() {
   };
 
   const onFinish = (e: any) => {
-    console.log(e);
     if (isEdit) {
       const cloneCustomTiles = cloneDeep(customTiles);
       const newImgUrl = Array.isArray(e.img) ? e.img[0].url : `${base64}`;
@@ -178,7 +177,6 @@ export function OfficialLayerControl() {
 
   const validateSpace = (_: any, value: string) => {
     const lowerCaseValue = value.toLowerCase();
-
     let listArr = [];
     if (isEdit) {
       const cloneOfficeLayerGroup = cloneDeep(officeLayerGroup);
@@ -200,17 +198,17 @@ export function OfficialLayerControl() {
   };
 
   const uploadValidateSpace = (_: any, value: any) => {
-    console.log(value);
+    const reject = Promise.reject(t('official_layer_control.index.shangchuan'));
     if (value.fileList) {
       if (!value.fileList.length) {
-        return Promise.reject(t('official_layer_control.index.shangchuan'));
+        return reject;
       } else {
         return Promise.resolve();
       }
     } else {
       if (!value.length) {
-        return Promise.reject(t('official_layer_control.index.shangchuan'));
-      }else{
+        return reject;
+      } else {
         return Promise.resolve();
       }
     }
