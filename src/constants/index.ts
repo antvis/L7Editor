@@ -19,7 +19,6 @@ export enum LocalStorageKey {
   showIndex = 'showIndex',
   locale = 'locale',
   firstOpening = 'firstOpening',
-  tileArr = "tileArr",
   customTiles = "customTiles"
 }
 
