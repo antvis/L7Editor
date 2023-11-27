@@ -9,7 +9,7 @@ import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayerId } from '../../../constants';
-import { useFeature } from '../../../recoil';
+import { useFeature, useGlobal } from '../../../recoil';
 import type { IFeatures } from '../../../types';
 import { IconFont } from '../../iconfont';
 import useStyles from '../styles';
@@ -40,6 +40,7 @@ export const SamControl = () => {
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
   const { scene, features, resetFeatures, revertCoord, bboxAutoFit } =
     useFeature();
+  const { wasmPath } = useGlobal();
   const allLayerList = useLayerList();
   const [samOpen, setSamOpen] = useState(false);
   const [tileLayer, setTileLayer] = useState<Layer | undefined>(undefined);
@@ -187,10 +188,18 @@ export const SamControl = () => {
   useEffect(() => {
     const sam = new SAMGeo({
       modelUrl: MODEL_URL,
+      wasmPaths: wasmPath,
     });
-    sam.initModel().then(() => {
-      setSamModal(sam);
-    });
+    sam
+      .initModel()
+      .then(() => {
+        setSamModal(sam);
+      })
+      .catch(() => {
+        message.error(t('map_control_group.sam.diKuaiShiBieShiBei'));
+      });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -245,7 +254,9 @@ export const SamControl = () => {
               type="button"
               className={style.L7EditorControl}
               onClick={() => {
-                setSamOpen(!samOpen);
+                if (samModel) {
+                  setSamOpen(!samOpen);
+                }
                 if (samOpen) {
                   message.success(
                     t('map_control_group.sam.zhiNengShiBieGuanBi'),

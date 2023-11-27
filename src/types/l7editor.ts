@@ -124,4 +124,9 @@ export interface L7EditorProps {
    * 默认语言设置
    */
   locale?: 'zh-CN' | 'en-US';
+
+  /**
+   * sam 组件 Wasm 路径
+   */
+  wasmPath?: string;
 }

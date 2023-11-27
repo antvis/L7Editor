@@ -15,6 +15,7 @@ import {
   rightWidthState,
   showIndexState,
   themeState,
+  wasmPathState,
 } from './atomState';
 
 export default function useGlobal() {
@@ -48,6 +49,8 @@ export default function useGlobal() {
 
   const [locale, setLocale] = useRecoilState(localeState);
 
+  const [wasmPath, setWasmPath] = useRecoilState(wasmPathState);
+
   return {
     rightPanelWidth,
     setRightWidth,
@@ -79,5 +82,7 @@ export default function useGlobal() {
     setCustomTiles,
     locale,
     setLocale,
+    wasmPath,
+    setWasmPath,
   };
 }

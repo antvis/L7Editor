@@ -173,6 +173,7 @@ export default {
   'map_control_group.sam.zhiNengXuanZe': '地块智能识别',
   'map_control_group.sam.ziDongShiBie': '地块识别区域边界',
   'map_control_group.sam.zhiNengShiBieGuanBi': '地块智能识别功能已关闭',
+  'map_control_group.sam.diKuaiShiBieShiBei':'地块智能识别模型加载失败',
   'map_contorl_group.draw.draw': '单击开始绘制',
   'map_contorl_group.draw.drawContinue': '单击继续绘制',
   'map_contorl_group.draw.drawFinish': '单击继续绘制，双击结束绘制',

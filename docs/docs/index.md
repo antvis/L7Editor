@@ -38,6 +38,7 @@ title: API
 | toolbar | 头部组件显隐 | [ToolbarProps](#toolbarprops) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
 | showIndex | 是否展示元素序号 | `boolean` | `false` |
+| wasmPath | sam 组件的 wasm 路径 | `string` | `\` |
 
 #### `tabItems`
 

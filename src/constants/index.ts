@@ -1,6 +1,8 @@
 export const RightPanelWidthRange = [20, 80];
 
 
+
+
 export enum LocalStorageKey {
   RightPanelWidth = 'RightPanelWidth',
   MapOptions = 'MapOptions',
@@ -19,6 +21,7 @@ export enum LocalStorageKey {
   showIndex = 'showIndex',
   locale = 'locale',
   firstOpening = 'firstOpening',
+  wasmPath = "wasmPath",
   customTiles = "customTiles"
 }
 

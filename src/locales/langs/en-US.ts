@@ -199,6 +199,7 @@ export default {
   'map_control_group.sam.ziDongShiBie': 'Plot Identification Area Boundary',
   'map_control_group.sam.zhiNengShiBieGuanBi':
     'Block intelligent identification function is turned off',
+  'map_control_group.sam.diKuaiShiBieShiBei': '地块智能识别模型加载失败',
   'map_contorl_group.draw.draw': 'Click to start drawing',
   'map_contorl_group.draw.drawContinue': 'Click to continue drawing',
 
