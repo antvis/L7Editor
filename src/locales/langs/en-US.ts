@@ -210,4 +210,18 @@ export default {
     'Click to add a node at this location',
   'map_contorl_group.draw.lineHover':
     'Drag and Drop to Adjust Surface Position',
+  'official_layer_control.index.mingChengChongFu':
+    'Duplicate name, please modify the name',
+  'official_layer_control.index.shanChuDiTu': 'Delete current base map',
+  'official_layer_control.index.tianJiaDitu': 'Add Tile Layer',
+  'official_layer_control.index.name': 'name',
+  'official_layer_control.index.addName': 'Please enter a name',
+  'official_layer_control.index.shiLiTuPian': 'Sample Picture',
+  'official_layer_control.index.tuCengDiZhi': 'Layer Address',
+  'official_layer_control.index.qiShuRutuCengDiZhi':
+    'Please enter a layer address',
+  'official_layer_control.index.tinJiaWaPian': 'Add Tile Layer Address',
+  'official_layer_control.index.kongGe': 'Input cannot be a space!',
+  'official_layer_control.index.shangchuan': 'Please upload pictures',
+
 };

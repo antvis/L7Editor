@@ -5,6 +5,7 @@ import {
   baseMapState,
   cityHistoryState,
   convertState,
+  customTilesState,
   hideEditorState,
   layerColorState,
   localeState,
@@ -44,6 +45,8 @@ export default function useGlobal() {
 
   const [showIndex, setShowIndex] = useRecoilState(showIndexState);
 
+  const [customTiles, setCustomTiles] = useRecoilState(customTilesState);
+
   const [locale, setLocale] = useRecoilState(localeState);
 
   const [wasmPath, setWasmPath] = useRecoilState(wasmPathState);
@@ -75,6 +78,8 @@ export default function useGlobal() {
     setCityHistory,
     showIndex,
     setShowIndex,
+    customTiles,
+    setCustomTiles,
     locale,
     setLocale,
     wasmPath,

@@ -21,7 +21,8 @@ export enum LocalStorageKey {
   showIndex = 'showIndex',
   locale = 'locale',
   firstOpening = 'firstOpening',
-  wasmPath = "wasmPath"
+  wasmPath = "wasmPath",
+  customTiles = "customTiles"
 }
 
 export enum LayerId {
