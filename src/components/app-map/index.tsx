@@ -41,10 +41,13 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
         ...baseMapOptions,
       };
     }
-    return {
-      ...GaodeConfig,
-      ...baseMapOptions,
-    };
+    if (baseMap === 'Gaode') {
+      return {
+        ...GaodeConfig,
+        ...baseMapOptions,
+      };
+    }
+    return { ...baseMapOptions };
   }, [baseMap, baseMapOptions]);
 
   return (

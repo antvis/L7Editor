@@ -35,6 +35,8 @@ export interface ToolbarProps {
   baseMap?: boolean;
 }
 
+export type BaseMapType = 'Gaode' | 'Mapbox' | 'Baidu' | 'Tencent';
+
 export interface L7EditorProps {
   onFeatureChange?: (feature: Feature[]) => void;
 
@@ -47,7 +49,7 @@ export interface L7EditorProps {
    * 地图
    * @default 'Gaode'
    */
-  baseMap?: 'Gaode' | 'Mapbox';
+  baseMap?: BaseMapType;
   /**
    * 侧边栏宽度 (40%)
    * @default 40

@@ -2,6 +2,7 @@ import { Select, Space } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGlobal } from '../../../recoil';
+import type { L7EditorProps } from '../../../types/l7editor';
 
 const { Option } = Select;
 
@@ -39,7 +40,7 @@ export const BaseMap = () => {
     },
   ];
 
-  const handleChange = (e: 'Gaode' | 'Mapbox' | 'Baidu' | 'Tencent') => {
+  const handleChange = (e: L7EditorProps['baseMap']) => {
     setBaseMap(e);
     setMapOptions({
       ...mapOptions,

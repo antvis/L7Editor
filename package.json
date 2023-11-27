@@ -65,7 +65,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@antv/l7": "^2.11.0",
+    "@antv/l7": "^2.20.2",
     "@babel/runtime": "^7.22.10",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",

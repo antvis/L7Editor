@@ -3,7 +3,7 @@ import type { LarkMapProps } from '@antv/larkmap';
 import localforage from 'localforage';
 import { atom, DefaultValue } from 'recoil';
 import { LocalStorageKey } from '../constants';
-import type { IFeatures, LngLatImportType } from '../types';
+import type { IFeatures, L7EditorProps, LngLatImportType } from '../types';
 import type { FilterNode } from '../types/filter';
 
 const localStorageEffect =
@@ -113,8 +113,9 @@ const popupTriggerState = atom<'click' | 'hover'>({
   effects: [localStorageEffect(LocalStorageKey.PopupTrigger)],
 });
 
-const baseMapState = atom<'Gaode' | 'Mapbox' | 'Baidu' | 'Tencent'>({
+const baseMapState = atom<L7EditorProps['baseMap']>({
   key: 'baseMap',
+  default: 'Gaode',
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
 
