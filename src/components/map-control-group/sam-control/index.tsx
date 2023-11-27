@@ -190,9 +190,15 @@ export const SamControl: React.FC<samProps> = ({ wasmPath }) => {
       modelUrl: MODEL_URL,
       wasmPaths: wasmPath,
     });
-    sam.initModel().then(() => {
-      setSamModal(sam);
-    });
+    sam
+      .initModel()
+      .then(() => {
+        setSamModal(sam);
+      })
+      .catch(() => {
+        message.error(t('map_control_group.sam.diKuaiShiBieShiBei'));
+      });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -244,7 +250,9 @@ export const SamControl: React.FC<samProps> = ({ wasmPath }) => {
               type="button"
               className={style.L7EditorControl}
               onClick={() => {
-                setSamOpen(!samOpen);
+                if (samModel) {
+                  setSamOpen(!samOpen);
+                }
                 if (samOpen) {
                   message.success(
                     t('map_control_group.sam.zhiNengShiBieGuanBi'),

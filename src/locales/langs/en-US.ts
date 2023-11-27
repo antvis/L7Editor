@@ -161,7 +161,7 @@ export default {
   'location_search_control.location_search.qingShuRuYaoSou':
     'Please enter a place name to search',
   'official_layer_control.index.guGeWeiXingTu': 'Google Remote Sensing Maps',
-  'official_layer_control.index.shiLiangDiTu':'Vector Map',
+  'official_layer_control.index.shiLiangDiTu': 'Vector Map',
   'save_map_options_control.index.baoCunDiTuZhuang': 'Save Map Status',
   'save_map_options_control.index.diTuZhuangTaiBao':
     'Map status saved successfully',
@@ -199,6 +199,7 @@ export default {
   'map_control_group.sam.ziDongShiBie': 'Plot Identification Area Boundary',
   'map_control_group.sam.zhiNengShiBieGuanBi':
     'Block intelligent identification function is turned off',
+  'map_control_group.sam.diKuaiShiBieShiBei': '地块智能识别模型加载失败',
   'map_contorl_group.draw.draw': 'Click to start drawing',
   'map_contorl_group.draw.drawContinue': 'Click to continue drawing',
 
