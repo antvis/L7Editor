@@ -31,7 +31,6 @@ const useStyle = () => {
       justify-content: center;
       background: ${colorBgElevated};
       border-radius: 4px;
-      // border-bottom-left-radius: 4px;
       cursor: pointer;
       font-size: 16px;
       z-index: 2;

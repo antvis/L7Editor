@@ -246,7 +246,7 @@ export function OfficialLayerControl() {
           >
             <CaretRightOutlined
               style={{
-                transform: hideOfficeLayer ? 'rotate(180deg)' : undefined,
+                transform: hideOfficeLayer ? 'rotate(-180deg)' : undefined,
               }}
             />
           </div>
