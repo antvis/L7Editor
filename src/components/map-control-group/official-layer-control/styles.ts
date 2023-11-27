@@ -4,13 +4,14 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBgElevated, colorBgContainer, colorText, colorIcon } = token;
+  const { colorBgElevated, colorBgContainer, colorText, colorIcon, boxShadow } = token;
   return {
     mapTab: css`
       background-color: ${colorBgElevated};
       border-radius: 4px;
       display: flex;
       align-items: center;
+      box-shadow: ${boxShadow};
       &:hover .add-map {
         display: block;
       }
