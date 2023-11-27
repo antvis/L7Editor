@@ -95,9 +95,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
           className={styles.fullScreen}
         />
       )}
-      {layerType.includes(OfficeLayerEnum.GoogleSatellite) && (
-        <SamControl />
-      )}
+      {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />}
     </>
   );
 };

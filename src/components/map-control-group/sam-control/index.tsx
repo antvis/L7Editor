@@ -34,7 +34,7 @@ const options: Omit<LineLayerProps, 'source'> = {
   },
 };
 
-export const SamControl: React.FC = () => {
+export const SamControl = () => {
   const styles = useStyle();
   const style = useStyles();
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
