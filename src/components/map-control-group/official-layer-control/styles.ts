@@ -4,11 +4,13 @@ import { theme } from 'antd';
 const useStyle = () => {
   const { useToken } = theme;
   const { token } = useToken();
-  const { colorBgElevated, colorBgContainer, colorText } = token;
+  const { colorBgElevated, colorBgContainer, colorText, colorIcon } = token;
   return {
     mapTab: css`
       background-color: ${colorBgElevated};
       border-radius: 4px;
+      display: flex;
+      align-items: center;
       &:hover .add-map {
         display: block;
       }
@@ -20,6 +22,22 @@ const useStyle = () => {
           color: #1677ff;
         }
       }
+    `,
+    hideOfficeLayerBtn: css`
+      height: 127px;
+      width: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: ${colorBgElevated};
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 2;
+      .anticon {
+        transition: all 0.2s;
+      }
+      color: ${colorIcon};
     `,
     amapInfo: css`
       display: flex;
@@ -65,7 +83,7 @@ const useStyle = () => {
 
         &:hover {
           color: #1677ff;
-        } 
+        }
       }
 
       .item-clear {

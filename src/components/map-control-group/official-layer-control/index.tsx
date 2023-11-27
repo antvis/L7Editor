@@ -1,4 +1,5 @@
 import {
+  CaretRightOutlined,
   DeleteOutlined,
   FormOutlined,
   MinusCircleOutlined,
@@ -6,6 +7,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 import { CustomControl, RasterLayer } from '@antv/larkmap';
+import { useLocalStorageState } from 'ahooks';
 import type { UploadFile, UploadProps } from 'antd';
 import { Button, Form, Input, Modal, Popconfirm, Space, Upload } from 'antd';
 import classNames from 'classnames';
@@ -43,6 +45,12 @@ export function OfficialLayerControl() {
   const [editIndex, setEditIndex] = useState(-1);
   const [base64, setBase64] = useState<any>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [hideOfficeLayer, setHideOfficeLayer] = useLocalStorageState<boolean>(
+    'hideOfficeLayer',
+    {
+      defaultValue: true,
+    },
+  );
 
   const handleOk = () => {
     form.submit();
@@ -230,103 +238,118 @@ export function OfficialLayerControl() {
     <>
       <CustomControl position="bottomleft">
         <div className={styles.mapTab}>
-          <div className={styles.amapInfo}>
-            {officeLayerGroup.map((item, index) => {
-              return (
-                <div
-                  key={item.type}
-                  className={classNames([
-                    styles.amapInfoItem,
-                    item.type === radioValue
-                      ? styles.itemBorderActive
-                      : styles.itemBorder,
-                    index === officeLayerGroup.length - 1 ? 'item-hover' : '',
-                  ])}
-                  onClick={() => {
-                    onItemClick(item);
-                  }}
-                >
-                  {index > 1 && (
-                    <Popconfirm
-                      title={t('official_layer_control.index.shanChuDiTu')}
-                      onConfirm={(e) => onConfirm(e, item)}
-                      onCancel={(
-                        e: React.MouseEvent<HTMLElement> | undefined,
-                      ) => {
-                        e?.stopPropagation();
-                      }}
-                    >
-                      <div
-                        className={'item-clear'}
-                        onClick={(e) => {
-                          e.stopPropagation();
+          <div
+            className={styles.hideOfficeLayerBtn}
+            onClick={() => {
+              setHideOfficeLayer(!hideOfficeLayer);
+            }}
+          >
+            <CaretRightOutlined
+              style={{
+                transform: hideOfficeLayer ? 'rotate(-180deg)' : undefined,
+              }}
+            />
+          </div>
+          {hideOfficeLayer && (
+            <div className={styles.amapInfo}>
+              {officeLayerGroup.map((item, index) => {
+                return (
+                  <div
+                    key={item.type}
+                    className={classNames([
+                      styles.amapInfoItem,
+                      item.type === radioValue
+                        ? styles.itemBorderActive
+                        : styles.itemBorder,
+                      index === officeLayerGroup.length - 1 ? 'item-hover' : '',
+                    ])}
+                    onClick={() => {
+                      onItemClick(item);
+                    }}
+                  >
+                    {index > 1 && (
+                      <Popconfirm
+                        title={t('official_layer_control.index.shanChuDiTu')}
+                        onConfirm={(e) => onConfirm(e, item)}
+                        onCancel={(
+                          e: React.MouseEvent<HTMLElement> | undefined,
+                        ) => {
+                          e?.stopPropagation();
                         }}
                       >
-                        <DeleteOutlined />
-                      </div>
-                    </Popconfirm>
-                  )}
-                  {index > 1 && (
-                    <div
-                      className={'item-edit'}
-                      onClick={(e) => {
-                        setEditIndex(index);
-                        e.stopPropagation();
-                        setIsEdit(true);
-                        setIsModalOpen(true);
-                        setFileList([
-                          {
-                            uid: '-1',
-                            name: `${item.title}`,
-                            status: 'done',
-                            url: item.image,
-                          },
-                        ]);
-                        form.setFieldsValue({
-                          name: item.title,
-                          urls: item.layers,
-                          img: [
+                        <div
+                          className={'item-clear'}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          <DeleteOutlined />
+                        </div>
+                      </Popconfirm>
+                    )}
+                    {index > 1 && (
+                      <div
+                        className={'item-edit'}
+                        onClick={(e) => {
+                          setEditIndex(index);
+                          e.stopPropagation();
+                          setIsEdit(true);
+                          setIsModalOpen(true);
+                          setFileList([
                             {
                               uid: '-1',
                               name: `${item.title}`,
                               status: 'done',
                               url: item.image,
                             },
-                          ],
-                        });
-                      }}
+                          ]);
+                          form.setFieldsValue({
+                            name: item.title,
+                            urls: item.layers,
+                            img: [
+                              {
+                                uid: '-1',
+                                name: `${item.title}`,
+                                status: 'done',
+                                url: item.image,
+                              },
+                            ],
+                          });
+                        }}
+                      >
+                        <FormOutlined />
+                      </div>
+                    )}
+                    <img
+                      src={item.image}
+                      alt=""
+                      className={styles.amapInfoItemImage}
+                    />
+                    <div
+                      className={styles.amapInfoItemTitle}
+                      style={{ marginTop: 0 }}
                     >
-                      <FormOutlined />
+                      {item.title}
                     </div>
-                  )}
-                  <img
-                    src={item.image}
-                    alt=""
-                    className={styles.amapInfoItemImage}
-                  />
-                  <div
-                    className={styles.amapInfoItemTitle}
-                    style={{ marginTop: 0 }}
-                  >
-                    {item.title}
                   </div>
-                </div>
-              );
-            })}
-            <div className={classNames(['add-map'])}>
-              <div
-                onClick={() => {
-                  setIsModalOpen(true);
-                  form.resetFields();
-                }}
-              >
-                <div className={styles.addMapIcon}>
-                  <PlusOutlined />
+                );
+              })}
+              <div className="add-map">
+                <div
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    form.resetFields();
+                  }}
+                >
+                  <div className={styles.addMapIcon}>
+                    <PlusOutlined />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
+
         <Modal
           title={t('official_layer_control.index.tianJiaDitu')}
           open={isModalOpen}
