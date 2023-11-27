@@ -160,6 +160,11 @@ const localeState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.locale)],
 });
 
+const wasmPathState = atom<string>({
+  key: 'wasmPaths',
+  effects: [localStorageEffect(LocalStorageKey.wasmPath)],
+});
+
 export {
   activeTabState,
   autoFitBoundsState,
@@ -183,4 +188,5 @@ export {
   sceneState,
   showIndexState,
   themeState,
+  wasmPathState,
 };

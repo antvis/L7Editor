@@ -34,7 +34,11 @@ const options: Omit<LineLayerProps, 'source'> = {
   },
 };
 
-export const SamControl = () => {
+type samProps = {
+  wasmPath: string;
+};
+
+export const SamControl: React.FC<samProps> = ({ wasmPath }) => {
   const styles = useStyle();
   const style = useStyles();
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
@@ -184,10 +188,12 @@ export const SamControl = () => {
   useEffect(() => {
     const sam = new SAMGeo({
       modelUrl: MODEL_URL,
+      wasmPaths: wasmPath,
     });
     sam.initModel().then(() => {
       setSamModal(sam);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
