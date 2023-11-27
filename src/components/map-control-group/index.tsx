@@ -25,7 +25,7 @@ import useStyles from './styles';
 
 type MapControlGroupProps = {
   mapControl?: MapControlProps;
-  wasmPath?: string;
+  wasmPath: string;
 };
 const DefaultMapControl: MapControlProps = {
   drawControl: true,

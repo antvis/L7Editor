@@ -35,7 +35,7 @@ const options: Omit<LineLayerProps, 'source'> = {
 };
 
 type samProps = {
-  wasmPath: string;
+  wasmPath?: string;
 };
 
 export const SamControl: React.FC<samProps> = ({ wasmPath }) => {
