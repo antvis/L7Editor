@@ -162,13 +162,8 @@ export default {
   'location_search_control.index.tianJiaZhiShuJu': 'Add to Data',
   'location_search_control.location_search.qingShuRuYaoSou':
     'Please enter a place name to search',
-  'official_layer_control.index.guGeTuCeng': 'Google Layers',
-  'official_layer_control.index.gaoDeTuCeng': 'Gaode Layer',
-  'official_layer_control.index.guGeWeiXingTu': 'Google Satellite Maps',
-  'official_layer_control.index.louKuaiTu': 'Building Block',
-  'official_layer_control.index.luKuangTu': 'Road condition map',
-  'official_layer_control.index.luWangTu': 'Road network diagram',
-  'official_layer_control.index.weiXingTu': 'Satellite map',
+  'official_layer_control.index.guGeWeiXingTu': 'Google Remote Sensing Maps',
+  'official_layer_control.index.shiLiangDiTu':'Vector Map',
   'save_map_options_control.index.baoCunDiTuZhuang': 'Save Map Status',
   'save_map_options_control.index.diTuZhuangTaiBao':
     'Map status saved successfully',

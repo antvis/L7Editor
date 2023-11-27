@@ -12,6 +12,7 @@ export const SettingBtn = () => {
     autoFitBounds,
     setAutoFitBounds,
     showIndex,
+    setShowIndex
   } = useGlobal();
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -61,6 +62,7 @@ export const SettingBtn = () => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
+            setShowIndex(e.showIndex)
           }}
         >
           <Form.Item
