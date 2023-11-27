@@ -98,10 +98,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
           }}
           left={
             <AppMap>
-              <MapControlGroup
-                mapControl={props.mapControl}
-                wasmPath={props.wasmPath}
-              />
+              <MapControlGroup mapControl={props.mapControl} />
               {showIndex && <EditorTextLayer />}
               <LayerList />
               <LayerPopup />

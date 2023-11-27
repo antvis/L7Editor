@@ -25,7 +25,6 @@ import useStyles from './styles';
 
 type MapControlGroupProps = {
   mapControl?: MapControlProps;
-  wasmPath?: string;
 };
 const DefaultMapControl: MapControlProps = {
   drawControl: true,
@@ -47,7 +46,6 @@ const DefaultMapControl: MapControlProps = {
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
-  wasmPath,
 }) => {
   const { baseMap, layerType } = useGlobal();
   const styles = useStyles();
@@ -98,7 +96,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
         />
       )}
       {layerType.includes(OfficeLayerEnum.GoogleSatellite) && (
-        <SamControl wasmPath={wasmPath} />
+        <SamControl />
       )}
     </>
   );

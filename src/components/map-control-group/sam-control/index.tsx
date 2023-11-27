@@ -9,7 +9,7 @@ import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayerId } from '../../../constants';
-import { useFeature } from '../../../recoil';
+import { useFeature, useGlobal } from '../../../recoil';
 import type { IFeatures } from '../../../types';
 import { IconFont } from '../../iconfont';
 import useStyles from '../styles';
@@ -34,16 +34,13 @@ const options: Omit<LineLayerProps, 'source'> = {
   },
 };
 
-type samProps = {
-  wasmPath?: string;
-};
-
-export const SamControl: React.FC<samProps> = ({ wasmPath }) => {
+export const SamControl: React.FC = () => {
   const styles = useStyle();
   const style = useStyles();
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
   const { scene, features, resetFeatures, revertCoord, bboxAutoFit } =
     useFeature();
+  const { wasmPath } = useGlobal();
   const allLayerList = useLayerList();
   const [samOpen, setSamOpen] = useState(false);
   const [tileLayer, setTileLayer] = useState<Layer | undefined>(undefined);
