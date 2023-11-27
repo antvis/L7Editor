@@ -236,9 +236,7 @@ export function OfficialLayerControl() {
 
   return (
     <>
-      <CustomControl
-        position="bottomleft"
-      >
+      <CustomControl position="bottomleft">
         <div className={styles.mapTab}>
           <div
             className={styles.hideOfficeLayerBtn}
@@ -336,7 +334,7 @@ export function OfficialLayerControl() {
                   </div>
                 );
               })}
-              <div className={classNames(['add-map'])}>
+              <div className="add-map">
                 <div
                   onClick={() => {
                     setIsModalOpen(true);
