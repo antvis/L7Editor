@@ -46,6 +46,9 @@ export const SamControl = () => {
   const [polygonLayer, setPolygonLayer] = useState<Layer | undefined>(
     undefined,
   );
+  const [hoverPolyonLayer, setHoverPolyonLayer] = useState<Layer | undefined>(
+    undefined,
+  );
   const [loading, setLoading] = useState(false);
   const [marker, setMarker] = useState<number[] | undefined>(undefined);
   const [bound, setBound] = useState<
@@ -198,6 +201,10 @@ export const SamControl = () => {
       const selectLayer = allLayerList.find(
         (layer) => layer.id === LayerId.PolygonLayer,
       );
+      const hoverLayer = allLayerList.find(
+        (layer) => layer.id === 'hoverLayer',
+      );
+      setHoverPolyonLayer(hoverLayer);
       setPolygonLayer(selectLayer);
       setTileLayer(targetLayer);
     }

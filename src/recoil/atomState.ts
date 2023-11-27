@@ -154,6 +154,20 @@ const showIndexState = atom<boolean>({
   effects: [localStorageEffect(LocalStorageKey.showIndex)],
 });
 
+const customTilesState = atom<
+  {
+    [x: string]: any;
+    type: string;
+    image: string;
+    title: string;
+    layers: string[];
+  }[]
+>({
+  key: 'showIndex',
+  default: [],
+  effects: [localStorageEffect(LocalStorageKey.customTiles)],
+});
+
 const localeState = atom<string>({
   key: 'locale',
   default: 'zh-CN',
@@ -166,6 +180,7 @@ export {
   baseMapState,
   cityHistoryState,
   convertState,
+  customTilesState,
   editorTextState,
   featureState,
   filterState,
