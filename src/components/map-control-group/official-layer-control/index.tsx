@@ -56,25 +56,30 @@ export function OfficialLayerControl() {
     form.submit();
   };
 
+  const BASE_LAYER_GROUP = [
+    {
+      type: OfficeLayerEnum.VectorMap,
+      title: t('official_layer_control.index.shiLiangDiTu'),
+      image:
+        'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qdFDSbvIalgAAAAAAAAAAAAADmJ7AQ/original',
+      layers: [],
+    },
+    {
+      type: OfficeLayerEnum.GoogleSatellite,
+      title: t('official_layer_control.index.guGeWeiXingTu'),
+      image:
+        'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
+      layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
+    },
+  ];
+
   const officeLayerGroup = useMemo(() => {
-    return [
-      {
-        type: OfficeLayerEnum.VectorMap,
-        title: t('official_layer_control.index.shiLiangDiTu'),
-        image:
-          'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qdFDSbvIalgAAAAAAAAAAAAADmJ7AQ/original',
-        layers: [],
-      },
-      {
-        type: OfficeLayerEnum.GoogleSatellite,
-        title: t('official_layer_control.index.guGeWeiXingTu'),
-        image:
-          'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
-        layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
-      },
-      ...customTiles,
-    ];
-  }, [t, customTiles]);
+    if (customTiles.length) {
+      return [...BASE_LAYER_GROUP, ...customTiles];
+    }
+    return BASE_LAYER_GROUP;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customTiles, t]);
 
   const handleBeforeUpload = (file: Blob) => {
     const reader = new FileReader();
