@@ -13,7 +13,8 @@ import {
   officialLayersState,
   popupTriggerState,
   rightWidthState,
-  showIndexState,
+  showTextLayerState,
+  textLayerFieldsState,
   themeState,
   wasmPathState,
 } from './atomState';
@@ -43,7 +44,10 @@ export default function useGlobal() {
 
   const [cityHistory, setCityHistory] = useRecoilState(cityHistoryState);
 
-  const [showIndex, setShowIndex] = useRecoilState(showIndexState);
+  const [showTextLayer, setShowTextLayer] = useRecoilState(showTextLayerState);
+
+  const [textLayerFields, setTextLayerFields] =
+    useRecoilState(textLayerFieldsState);
 
   const [customTiles, setCustomTiles] = useRecoilState(customTilesState);
 
@@ -76,8 +80,10 @@ export default function useGlobal() {
     setTheme,
     cityHistory,
     setCityHistory,
-    showIndex,
-    setShowIndex,
+    showTextLayer,
+    setShowTextLayer,
+    textLayerFields,
+    setTextLayerFields,
     customTiles,
     setCustomTiles,
     locale,

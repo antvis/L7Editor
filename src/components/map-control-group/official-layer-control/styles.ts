@@ -26,7 +26,7 @@ const useStyle = () => {
     `,
     hideOfficeLayerBtn: css`
       height: 127px;
-      width: 20px;
+      width: 28px;
       display: flex;
       align-items: center;
       justify-content: center;

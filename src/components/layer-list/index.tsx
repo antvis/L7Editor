@@ -15,11 +15,12 @@ import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
 import { useFilterFeatures } from '../../hooks';
 import { useFeature, useGlobal } from '../../recoil';
 import { getPointImage } from '../../utils/change-image-color';
+import { EditorTextLayer } from '../text-layer';
 
 export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
-  const { layerColor, coordConvert, baseMap } = useGlobal();
+  const { layerColor, coordConvert, baseMap, showTextLayer } = useGlobal();
   const { transformCoord } = useFeature();
   const { features: newFeatures } = useFilterFeatures();
   const [features, setFeatures] = useState<Feature[]>([]);
@@ -111,6 +112,7 @@ export const LayerList: React.FC = () => {
         state={{ active: { color: activeColor } }}
         zIndex={LayerZIndex}
       />
+      {showTextLayer && <EditorTextLayer />}
     </>
   ) : null;
 };

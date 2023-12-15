@@ -148,6 +148,7 @@ export const isRect = (feature: Feature) => {
   return false;
 };
 
+export * from './feature';
 export * from './gcoord';
 export * from './lnglat';
 export * from './transform';

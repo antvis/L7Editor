@@ -19,6 +19,7 @@ export interface MapControlProps {
   fullscreenControl?: boolean;
   administrativeSelectControl?: boolean;
   mapAdministrativeControl?: boolean;
+  textLayerControl?: boolean;
 }
 
 export interface ToolbarProps {
@@ -116,10 +117,16 @@ export interface L7EditorProps {
    */
   tabItems?: TabsProps['items'];
   /**
-   * 是否展示元素序号
+   * 是否展示元素文本
    * @default false
    */
-  showIndex?: boolean;
+  showTextLayer?: boolean;
+
+  /**
+   * 展示元素文本的字段，不选则展示元素序号
+   * @default undefined
+   */
+  textLayerFields?: string[];
   /**
    * 默认语言设置
    */
