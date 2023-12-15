@@ -148,10 +148,16 @@ const cityHistoryState = atom<{ value: string; label: string }[]>({
   effects: [localStorageEffect(LocalStorageKey.cityHistory)],
 });
 
-const showIndexState = atom<boolean>({
-  key: 'showIndex',
+const showTextLayerState = atom<boolean>({
+  key: 'showTextLayer',
   default: true,
-  effects: [localStorageEffect(LocalStorageKey.showIndex)],
+  effects: [localStorageEffect(LocalStorageKey.showTextLayer)],
+});
+
+const textLayerFieldsState = atom<string[] | undefined>({
+  key: 'textLayerFields',
+  default: undefined,
+  effects: [localStorageEffect(LocalStorageKey.textLayerFields)],
 });
 
 const customTilesState = atom<
@@ -163,7 +169,7 @@ const customTilesState = atom<
     layers: string[];
   }[]
 >({
-  key: 'showIndex',
+  key: 'showTextLayer',
   default: [],
   effects: [localStorageEffect(LocalStorageKey.customTiles)],
 });
@@ -201,7 +207,8 @@ export {
   rightWidthState,
   savedTextState,
   sceneState,
-  showIndexState,
+  showTextLayerState,
+  textLayerFieldsState,
   themeState,
   wasmPathState,
 };

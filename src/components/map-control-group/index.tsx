@@ -22,6 +22,7 @@ import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
 import { SamControl } from './sam-control';
 import useStyles from './styles';
+import { TextLayerControl } from './text-layer-control';
 
 type MapControlGroupProps = {
   mapControl?: MapControlProps;
@@ -70,7 +71,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.drawControl && <DrawControl />}
       {isControlGroupState.clearControl && <ClearControl />}
       {isControlGroupState.zoomControl && (
-        <ZoomControl className={styles.zoom} showZoom />
+        <ZoomControl className={styles.zoom} showZoom position="rightbottom" />
       )}
       {isControlGroupState.mapAdministrativeControl && (
         <MapAdministrativeControl />
@@ -96,6 +97,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
         />
       )}
       {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />}
+      <TextLayerControl />
     </>
   );
 };
