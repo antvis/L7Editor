@@ -173,7 +173,7 @@ export default {
   'map_control_group.sam.zhiNengXuanZe': '地块智能识别',
   'map_control_group.sam.ziDongShiBie': '地块识别区域边界',
   'map_control_group.sam.zhiNengShiBieGuanBi': '地块智能识别功能已关闭',
-  'map_control_group.sam.diKuaiShiBieShiBei':'地块智能识别模型加载失败',
+  'map_control_group.sam.diKuaiShiBieShiBei': '地块智能识别模型加载失败',
   'map_contorl_group.draw.draw': '单击开始绘制',
   'map_contorl_group.draw.drawContinue': '单击继续绘制',
   'map_contorl_group.draw.drawFinish': '单击继续绘制，双击结束绘制',
@@ -191,4 +191,10 @@ export default {
   'official_layer_control.index.tinJiaWaPian': '添加瓦片图层地址',
   'official_layer_control.index.kongGe': '输入不能为空格！',
   'official_layer_control.index.shangchuan': '请上传图片',
+  'text-layer-control_wenBenBiaoZhu': '文本标注图层配置',
+  'text-layer-control_shiFouZhanShiTuCeng': '是否展示图层',
+  'text-layer-control_zhanShiZiDuan': '展示字段',
+  'text-layer-control_buXuan': '不选则默认展示元素序号',
+  'text-layer-control_wenBenTuCengPeiZhi':'文本图层配置',
+  'text-layer-control_description':'开启文本图层配置，可以显示当前所有数据的序号，也可以通过多选框在数据中properties字段去选择不同的数据来进行展示'
 };

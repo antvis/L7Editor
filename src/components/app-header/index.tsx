@@ -210,6 +210,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
       target: () => document.getElementById('l7-editor-aMap')!,
     },
     {
+      title: t('text-layer-control_wenBenTuCengPeiZhi'),
+      description: t('text-layer-control_description'),
+      target: () => document.getElementById('text-layer-control')!,
+    },
+    {
       title: t('app_header.constants.gEOJS'),
       description: t('app_header.constants.keYiTongGuoBian'),
       target: () => document.getElementById('l7-editor-panel')!,

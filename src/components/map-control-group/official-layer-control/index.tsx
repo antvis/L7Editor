@@ -242,7 +242,7 @@ export function OfficialLayerControl() {
   return (
     <>
       <CustomControl position="bottomleft">
-        <div className={styles.mapTab}>
+        <div className={styles.mapTab} id="l7-editor-aMap">
           <div
             className={styles.hideOfficeLayerBtn}
             onClick={() => {
