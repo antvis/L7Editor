@@ -1,14 +1,17 @@
 import { CustomControl } from '@antv/larkmap';
 import { Form, Popover, Select, Switch, Tooltip } from 'antd';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFeature, useGlobal } from '../../../recoil';
 import { IconFont } from '../../iconfont';
 import useStyles from '../styles';
+import useStyle from './style';
 
 export type TextLayerControlProps = {};
 
 export const TextLayerControl: React.FC = () => {
   const styles = useStyles();
+  const style = useStyle();
   const {
     showTextLayer,
     setShowTextLayer,
@@ -17,6 +20,7 @@ export const TextLayerControl: React.FC = () => {
   } = useGlobal();
   const { features } = useFeature();
   const [fields, setFields] = useState<string[]>([]);
+  const { t } = useTranslation();
 
   const refreshFields = () => {
     const newFieldSet = new Set<string>();
@@ -34,19 +38,19 @@ export const TextLayerControl: React.FC = () => {
   return (
     <CustomControl position="bottomleft">
       <Popover
-        title="文本标注图层配置"
+        title={t('text-layer-control_wenBenBiaoZhu')}
         overlayStyle={{ width: 300 }}
         content={
-          <Form size="small">
-            <Form.Item label="是否展示图层">
+          <Form size="small" className={style.textLayerForm}>
+            <Form.Item label={t('text-layer-control_shiFouZhanShiTuCeng')}>
               <Switch value={showTextLayer} onChange={setShowTextLayer} />
             </Form.Item>
 
-            <Form.Item label="展示字段">
+            <Form.Item label={t('text-layer-control_zhanShiZiDuan')}>
               <Select
                 value={textLayerFields}
                 onChange={setTextLayerFields}
-                placeholder="不选则默认展示元素序号"
+                placeholder={t('text-layer-control_buXuan')}
                 mode="multiple"
                 options={fields.map((item) => {
                   return { label: item, value: item };
@@ -62,7 +66,10 @@ export const TextLayerControl: React.FC = () => {
           }
         }}
       >
-        <Tooltip placement="left" overlay="文本图层配置">
+        <Tooltip
+          placement="left"
+          overlay={t('text-layer-control_wenBenTuCengPeiZhi')}
+        >
           <button className={styles.L7EditorControl} id="text-layer-control">
             <IconFont type="icon-wenbenkuang" />
           </button>

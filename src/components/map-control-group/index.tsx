@@ -44,6 +44,7 @@ const DefaultMapControl: MapControlProps = {
   administrativeSelectControl: true,
   mapAdministrativeControl: true,
   logoControl: true,
+  textLayerControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -97,7 +98,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
         />
       )}
       {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />}
-      <TextLayerControl />
+      {isControlGroupState.textLayerControl && <TextLayerControl />}
     </>
   );
 };
