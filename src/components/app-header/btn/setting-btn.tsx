@@ -6,14 +6,8 @@ import { useGlobal } from '../../../recoil';
 
 export const SettingBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    popupTrigger,
-    setPopupTrigger,
-    autoFitBounds,
-    setAutoFitBounds,
-    showIndex,
-    setShowIndex
-  } = useGlobal();
+  const { popupTrigger, setPopupTrigger, autoFitBounds, setAutoFitBounds } =
+    useGlobal();
   const { t } = useTranslation();
   const [form] = Form.useForm();
 
@@ -55,14 +49,12 @@ export const SettingBtn = () => {
           initialValues={{
             popupTrigger,
             autoFitBounds,
-            showIndex,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
-            setShowIndex(e.showIndex)
           }}
         >
           <Form.Item
@@ -85,19 +77,6 @@ export const SettingBtn = () => {
             label={t('btn.setting_btn.ziDongSuoFangZhi')}
           >
             <Switch />
-          </Form.Item>
-          <Form.Item
-            name="showIndex"
-            label={t('btn.setting_btn.shiFouZhanShiYuan')}
-          >
-            <Radio.Group>
-              <Radio.Button value={true}>
-                {t('btn.setting_btn.kaiQi')}
-              </Radio.Button>
-              <Radio.Button value={false}>
-                {t('btn.setting_btn.guanBi')}
-              </Radio.Button>
-            </Radio.Group>
           </Form.Item>
         </Form>
       </Modal>

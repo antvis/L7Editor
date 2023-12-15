@@ -14,7 +14,6 @@ import {
   MapControlGroup,
   ResizePanel,
 } from '../../components';
-import { EditorTextLayer } from '../../components/text-layer';
 import { LocalStorageKey } from '../../constants';
 import { LangList } from '../../locales';
 import { useFeature, useGlobal } from '../../recoil';
@@ -26,7 +25,7 @@ type EditorProps = L7EditorProps;
 export const Editor: React.FC<EditorProps> = (props) => {
   const { onFeatureChange } = props;
   const { i18n, t } = useTranslation();
-  const { theme, mapOptions, setMapOptions, showIndex, locale } = useGlobal();
+  const { theme, mapOptions, setMapOptions, locale } = useGlobal();
   const styles = useStyle();
   const { saveEditorText, bboxAutoFit, scene } = useFeature();
 
@@ -99,7 +98,6 @@ export const Editor: React.FC<EditorProps> = (props) => {
           left={
             <AppMap>
               <MapControlGroup mapControl={props.mapControl} />
-              {showIndex && <EditorTextLayer />}
               <LayerList />
               <LayerPopup />
               <LayerContextmenuPopup />

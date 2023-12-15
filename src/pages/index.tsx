@@ -18,6 +18,8 @@ import {
   officialLayersState,
   popupTriggerState,
   rightWidthState,
+  showTextLayerState,
+  textLayerFieldsState,
   themeState,
   wasmPathState,
 } from '../recoil/atomState';
@@ -47,6 +49,8 @@ export const L7Editor = (props: L7EditorProps) => {
       set(convertState, props?.coordConvert ?? 'GCJ02');
       set(localeState, props?.locale ?? 'zh-CN');
       set(wasmPathState, props?.wasmPath ?? '/');
+      set(showTextLayerState, props?.showTextLayer ?? false);
+      set(textLayerFieldsState, props?.textLayerFields ?? undefined);
     };
   }, [props]);
 
