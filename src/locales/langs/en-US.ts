@@ -223,5 +223,12 @@ export default {
   'official_layer_control.index.tinJiaWaPian': 'Add Tile Layer Address',
   'official_layer_control.index.kongGe': 'Input cannot be a space!',
   'official_layer_control.index.shangchuan': 'Please upload pictures',
-
+  'text-layer-control_wenBenBiaoZhu': 'Text callout layer configuration',
+  'text-layer-control_shiFouZhanShiTuCeng': 'Show layer',
+  'text-layer-control_zhanShiZiDuan': 'Show Fields',
+  'text-layer-control_buXuan':
+    'If not selected, the element serial number will be displayed by default.',
+  'text-layer-control_wenBenTuCengPeiZhi': 'Text Layer Configuration',
+  'text-layer-control_description':
+    'Open the text layer configuration, you can display the serial number of all the current data, you can also use the multi-select box to properties fields in the data to select different data for display.',
 };
