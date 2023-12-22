@@ -29,7 +29,6 @@ import { useDrawHelper } from '../../hooks';
 import { useFeature, useGlobal } from '../../recoil';
 import { getDrawStyle, isCircle, isRect } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
-// import './index.css';
 import useStyle from './styles';
 
 const { Paragraph } = Typography;
@@ -289,7 +288,11 @@ export const LayerPopup: React.FC = () => {
           feature.properties?.[FeatureKey.Index]
         );
       });
-      features[index] = feature;
+      const revertFeature = revertCoord([feature])[0];
+      features[index] = revertFeature as Feature<
+        Geometry | GeometryCollection,
+        object
+      >;
       saveEditorText(prettierText({ content: featureCollection(features) }));
     }
     setTableClick({ isInput: false, index: null });
@@ -311,7 +314,11 @@ export const LayerPopup: React.FC = () => {
           feature.properties?.[FeatureKey.Index]
         );
       });
-      features[index] = feature;
+      const revertFeature = revertCoord([feature])[0];
+      features[index] = revertFeature as Feature<
+        Geometry | GeometryCollection,
+        object
+      >;
       saveEditorText(prettierText({ content: featureCollection(features) }));
       setAddValue({ label: undefined, value: undefined });
       setAddOpen(!addOpen);
