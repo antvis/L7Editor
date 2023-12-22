@@ -288,8 +288,7 @@ export const LayerPopup: React.FC = () => {
           feature.properties?.[FeatureKey.Index]
         );
       });
-      const revertFeature = revertCoord([feature])[0];
-      features[index] = revertFeature as Feature<
+      features[index] = revertCoord([feature])[0] as Feature<
         Geometry | GeometryCollection,
         object
       >;
@@ -314,8 +313,7 @@ export const LayerPopup: React.FC = () => {
           feature.properties?.[FeatureKey.Index]
         );
       });
-      const revertFeature = revertCoord([feature])[0];
-      features[index] = revertFeature as Feature<
+      features[index] = revertCoord([feature])[0] as Feature<
         Geometry | GeometryCollection,
         object
       >;
