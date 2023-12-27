@@ -319,7 +319,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               content={
                 <img
                   style={{ width: 300 }}
-                  src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*LxZCT7FIMdsAAAAAAAAAAAAADjWqAQ/original"
+                  src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*CTHXQbdMcDcAAAAAAAAAAAAADjWqAQ/original"
                 />
               }
               trigger="hover"
