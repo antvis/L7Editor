@@ -1,11 +1,13 @@
 import { useRecoilState } from 'recoil';
 import {
   activeTabState,
+  areaDisplayState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
   customTilesState,
+  distanceDisplayState,
   hideEditorState,
   layerColorState,
   localeState,
@@ -55,6 +57,11 @@ export default function useGlobal() {
 
   const [wasmPath, setWasmPath] = useRecoilState(wasmPathState);
 
+  const [distanceDisplay, setDistanceDisplay] =
+    useRecoilState(distanceDisplayState);
+
+  const [areaDisplay, setAreaDisplay] = useRecoilState(areaDisplayState);
+
   return {
     rightPanelWidth,
     setRightWidth,
@@ -90,5 +97,9 @@ export default function useGlobal() {
     setLocale,
     wasmPath,
     setWasmPath,
+    distanceDisplay,
+    setDistanceDisplay,
+    areaDisplay,
+    setAreaDisplay,
   };
 }

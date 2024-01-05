@@ -4,10 +4,18 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGlobal } from '../../../recoil';
 
-export const SettingBtn = () => {
+export const SettingBtn: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { popupTrigger, setPopupTrigger, autoFitBounds, setAutoFitBounds } =
-    useGlobal();
+  const {
+    popupTrigger,
+    setPopupTrigger,
+    autoFitBounds,
+    setAutoFitBounds,
+    distanceDisplay,
+    setDistanceDisplay,
+    areaDisplay,
+    setAreaDisplay,
+  } = useGlobal();
   const { t } = useTranslation();
   const [form] = Form.useForm();
 
@@ -49,12 +57,16 @@ export const SettingBtn = () => {
           initialValues={{
             popupTrigger,
             autoFitBounds,
+            distanceDisplay,
+            areaDisplay,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
+            setDistanceDisplay(e.distanceDisplay);
+            setAreaDisplay(e.areaDisplay);
           }}
         >
           <Form.Item
@@ -75,6 +87,20 @@ export const SettingBtn = () => {
             name="autoFitBounds"
             valuePropName="checked"
             label={t('btn.setting_btn.ziDongSuoFangZhi')}
+          >
+            <Switch />
+          </Form.Item>
+          <Form.Item
+            name="distanceDisplay"
+            valuePropName="checked"
+            label={t('btn.setting_btn.juLi')}
+          >
+            <Switch />
+          </Form.Item>
+          <Form.Item
+            name="areaDisplay"
+            valuePropName="checked"
+            label={t('btn.setting_btn.mianJi')}
           >
             <Switch />
           </Form.Item>

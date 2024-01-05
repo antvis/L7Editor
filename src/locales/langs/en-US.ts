@@ -231,4 +231,6 @@ export default {
   'text-layer-control_wenBenTuCengPeiZhi': 'Text Layer Configuration',
   'text-layer-control_description':
     'Open the text layer configuration, you can display the serial number of all the current data, you can also use the multi-select box to properties fields in the data to select different data for display.',
+  'btn.setting_btn.mianJi': 'Whether to display area text',
+  'btn.setting_btn.juLi': 'Whether to display distance text',
 };

@@ -21,7 +21,7 @@ const DrawControl = () => {
   const styles = useStyle();
   const [drawControl, setDrawControl] = useState<L7DrawControl | null>(null);
   const { setIsDraw, resetFeatures, features, revertCoord } = useFeature();
-  const { layerColor } = useGlobal();
+  const { layerColor, distanceDisplay, areaDisplay } = useGlobal();
   const editFeature = useMemo(
     () =>
       cloneDeep(
@@ -34,16 +34,20 @@ const DrawControl = () => {
   );
 
   useEffect(() => {
+    const option = {
+      distanceOptions: distanceDisplay ? {} : undefined,
+      areaOptions: areaDisplay ? {} : undefined,
+    };
     let newDrawControl: L7DrawControl | undefined;
     if (scene) {
       newDrawControl = new L7DrawControl(scene, {
         position: 'topleft',
         drawConfig: {
           point: true,
-          line: true,
-          polygon: true,
-          rect: true,
-          circle: true,
+          line: option,
+          polygon: option,
+          rect: option,
+          circle: option,
         },
         commonDrawOptions: {
           maxCount: 1,

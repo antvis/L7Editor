@@ -108,6 +108,18 @@ const autoFitBoundsState = atom<boolean>({
   effects: [localStorageEffect(LocalStorageKey.AutoFitBounds)],
 });
 
+const distanceDisplayState = atom<boolean>({
+  key: 'distanceDisplay',
+  default: false,
+  effects: [localStorageEffect(LocalStorageKey.distanceDisplay)],
+});
+
+const areaDisplayState = atom<boolean>({
+  key: 'areaDisplay',
+  default: false,
+  effects: [localStorageEffect(LocalStorageKey.areaDisplay)],
+});
+
 const popupTriggerState = atom<'click' | 'hover'>({
   key: 'popupTrigger',
   effects: [localStorageEffect(LocalStorageKey.PopupTrigger)],
@@ -187,11 +199,13 @@ const wasmPathState = atom<string>({
 
 export {
   activeTabState,
+  areaDisplayState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
   customTilesState,
+  distanceDisplayState,
   editorTextState,
   featureState,
   filterState,
