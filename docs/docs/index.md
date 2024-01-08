@@ -40,6 +40,8 @@ title: API
 | showTextLayer | 是否展示元素文本 | `boolean` | `false` |
 | textLayerFields | 展示元素文本的字段，不选则展示元素序号 | `string[] &#124; undefined` | `undefined` |
 | wasmPath | sam 组件的 wasm 路径 | `string` | `\` |
+| showDrawDistance | 绘制时是否展示距离文本 | `boolean` | `false` |
+| showDrawArea | 绘制时是否展示面积文本 | `boolean` | `false` |
 
 #### `tabItems`
 

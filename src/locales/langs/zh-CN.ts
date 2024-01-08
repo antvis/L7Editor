@@ -195,6 +195,9 @@ export default {
   'text-layer-control_shiFouZhanShiTuCeng': '是否展示图层',
   'text-layer-control_zhanShiZiDuan': '展示字段',
   'text-layer-control_buXuan': '不选则默认展示元素序号',
-  'text-layer-control_wenBenTuCengPeiZhi':'文本图层配置',
-  'text-layer-control_description':'开启文本图层配置，可以显示当前所有数据的序号，也可以通过多选框在数据中properties字段去选择不同的数据来进行展示'
+  'text-layer-control_wenBenTuCengPeiZhi': '文本图层配置',
+  'text-layer-control_description':
+    '开启文本图层配置，可以显示当前所有数据的序号，也可以通过多选框在数据中properties字段去选择不同的数据来进行展示',
+  'btn.setting_btn.mianJi': '绘制时是否展示面积文本',
+  'btn.setting_btn.juLi': '绘制时是否展示距离文本',
 };
