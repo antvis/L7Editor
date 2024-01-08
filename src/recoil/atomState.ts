@@ -181,7 +181,7 @@ const customTilesState = atom<
     layers: string[];
   }[]
 >({
-  key: 'showTextLayer',
+  key: 'customTiles',
   default: [],
   effects: [localStorageEffect(LocalStorageKey.customTiles)],
 });
