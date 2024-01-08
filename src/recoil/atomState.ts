@@ -114,7 +114,7 @@ const showDrawDistanceState = atom<boolean>({
   effects: [localStorageEffect(LocalStorageKey.showDrawDistance)],
 });
 
-const areaDisplayState = atom<boolean>({
+const showDrawAreaState = atom<boolean>({
   key: 'showDrawArea',
   default: false,
   effects: [localStorageEffect(LocalStorageKey.showDrawArea)],
@@ -199,7 +199,7 @@ const wasmPathState = atom<string>({
 
 export {
   activeTabState,
-  areaDisplayState,
+  showDrawAreaState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,

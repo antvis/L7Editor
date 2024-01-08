@@ -136,4 +136,14 @@ export interface L7EditorProps {
    * sam 组件 Wasm 路径
    */
   wasmPath?: string;
+
+  /**
+   * 绘制时是否显示距离
+   */
+  showDrawDistance?: boolean;
+
+  /**
+   * 绘制时是否显示面积
+   */
+  showDrawArea?: boolean;
 }

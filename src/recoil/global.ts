@@ -1,7 +1,7 @@
 import { useRecoilState } from 'recoil';
 import {
   activeTabState,
-  areaDisplayState,
+  showDrawAreaState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
@@ -60,7 +60,7 @@ export default function useGlobal() {
   const [showDrawDistance, setShowDrawDistance] =
     useRecoilState(showDrawDistanceState);
 
-  const [showDrawArea, setShowDrawArea] = useRecoilState(areaDisplayState);
+  const [showDrawArea, setShowDrawArea] = useRecoilState(showDrawAreaState);
 
   return {
     rightPanelWidth,

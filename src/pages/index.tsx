@@ -18,6 +18,8 @@ import {
   officialLayersState,
   popupTriggerState,
   rightWidthState,
+  showDrawAreaState,
+  showDrawDistanceState,
   showTextLayerState,
   textLayerFieldsState,
   themeState,
@@ -51,6 +53,8 @@ export const L7Editor = (props: L7EditorProps) => {
       set(wasmPathState, props?.wasmPath ?? '/');
       set(showTextLayerState, props?.showTextLayer ?? false);
       set(textLayerFieldsState, props?.textLayerFields ?? undefined);
+      set(showDrawDistanceState, props.showDrawDistance ?? false);
+      set(showDrawAreaState, props.showDrawArea ?? false);
     };
   }, [props]);
 
