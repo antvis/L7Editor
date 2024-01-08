@@ -49,7 +49,7 @@ export const LayerPopup: React.FC = () => {
     revertCoord,
     transformCoord,
   } = useFeature();
-  const { layerColor, popupTrigger, distanceDisplay, areaDisplay } =
+  const { layerColor, popupTrigger, showDrawDistance, showDrawArea } =
     useGlobal();
   const { t } = useTranslation();
   const helperText = useDrawHelper();
@@ -210,8 +210,8 @@ export const LayerPopup: React.FC = () => {
       maxCount: 1,
       style: getDrawStyle(layerColor),
       helper: helperText,
-      distanceOptions: distanceDisplay ? {} : undefined,
-      areaOptions: areaDisplay ? {} : undefined,
+      distanceOptions: showDrawDistance ? {} : undefined,
+      areaOptions: showDrawArea ? {} : undefined,
     };
     let draw: DrawType;
     const [originFeature] = transformCoord([newFeature]);

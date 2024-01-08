@@ -7,7 +7,7 @@ import {
   cityHistoryState,
   convertState,
   customTilesState,
-  distanceDisplayState,
+  showDrawDistanceState,
   hideEditorState,
   layerColorState,
   localeState,
@@ -57,10 +57,10 @@ export default function useGlobal() {
 
   const [wasmPath, setWasmPath] = useRecoilState(wasmPathState);
 
-  const [distanceDisplay, setDistanceDisplay] =
-    useRecoilState(distanceDisplayState);
+  const [showDrawDistance, setShowDrawDistance] =
+    useRecoilState(showDrawDistanceState);
 
-  const [areaDisplay, setAreaDisplay] = useRecoilState(areaDisplayState);
+  const [showDrawArea, setShowDrawArea] = useRecoilState(areaDisplayState);
 
   return {
     rightPanelWidth,
@@ -97,9 +97,9 @@ export default function useGlobal() {
     setLocale,
     wasmPath,
     setWasmPath,
-    distanceDisplay,
-    setDistanceDisplay,
-    areaDisplay,
-    setAreaDisplay,
+    showDrawDistance,
+    setShowDrawDistance,
+    showDrawArea,
+    setShowDrawArea,
   };
 }

@@ -11,10 +11,10 @@ export const SettingBtn: React.FC = () => {
     setPopupTrigger,
     autoFitBounds,
     setAutoFitBounds,
-    distanceDisplay,
-    setDistanceDisplay,
-    areaDisplay,
-    setAreaDisplay,
+    showDrawDistance,
+    setShowDrawDistance,
+    showDrawArea,
+    setShowDrawArea,
   } = useGlobal();
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -57,16 +57,16 @@ export const SettingBtn: React.FC = () => {
           initialValues={{
             popupTrigger,
             autoFitBounds,
-            distanceDisplay,
-            areaDisplay,
+            showDrawDistance,
+            showDrawArea,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
-            setDistanceDisplay(e.distanceDisplay);
-            setAreaDisplay(e.areaDisplay);
+            setShowDrawDistance(e.showDrawDistance);
+            setShowDrawArea(e.showDrawArea);
           }}
         >
           <Form.Item
@@ -91,14 +91,14 @@ export const SettingBtn: React.FC = () => {
             <Switch />
           </Form.Item>
           <Form.Item
-            name="distanceDisplay"
+            name="showDrawDistance"
             valuePropName="checked"
             label={t('btn.setting_btn.juLi')}
           >
             <Switch />
           </Form.Item>
           <Form.Item
-            name="areaDisplay"
+            name="showDrawArea"
             valuePropName="checked"
             label={t('btn.setting_btn.mianJi')}
           >

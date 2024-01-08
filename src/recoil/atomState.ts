@@ -108,16 +108,16 @@ const autoFitBoundsState = atom<boolean>({
   effects: [localStorageEffect(LocalStorageKey.AutoFitBounds)],
 });
 
-const distanceDisplayState = atom<boolean>({
-  key: 'distanceDisplay',
+const showDrawDistanceState = atom<boolean>({
+  key: 'showDrawDistance',
   default: false,
-  effects: [localStorageEffect(LocalStorageKey.distanceDisplay)],
+  effects: [localStorageEffect(LocalStorageKey.showDrawDistance)],
 });
 
 const areaDisplayState = atom<boolean>({
-  key: 'areaDisplay',
+  key: 'showDrawArea',
   default: false,
-  effects: [localStorageEffect(LocalStorageKey.areaDisplay)],
+  effects: [localStorageEffect(LocalStorageKey.showDrawArea)],
 });
 
 const popupTriggerState = atom<'click' | 'hover'>({
@@ -205,7 +205,7 @@ export {
   cityHistoryState,
   convertState,
   customTilesState,
-  distanceDisplayState,
+  showDrawDistanceState,
   editorTextState,
   featureState,
   filterState,

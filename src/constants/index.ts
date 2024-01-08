@@ -21,8 +21,8 @@ export enum LocalStorageKey {
   firstOpening = 'firstOpening',
   wasmPath = 'wasmPath',
   customTiles = 'customTiles',
-  distanceDisplay = "distanceDisplay",
-  areaDisplay = "areaDisplay"
+  showDrawDistance = "showDrawDistance",
+  showDrawArea = "showDrawArea"
 }
 
 export enum LayerId {
