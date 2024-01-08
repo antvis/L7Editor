@@ -72,7 +72,7 @@ const DrawControl = () => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scene, layerColor]);
+  }, [scene, layerColor, showDrawDistance, showDrawArea]);
 
   const onDrawAdd = useCallback(
     (drawType: DrawType, newFeature: Feature) => {
