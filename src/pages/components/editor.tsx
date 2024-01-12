@@ -1,3 +1,5 @@
+//@ts-ignore
+import { hint } from '@mapbox/geojsonhint';
 import { useAsyncEffect, useUpdateEffect } from 'ahooks';
 import { ConfigProvider, theme as antdTheme, message } from 'antd';
 import classNames from 'classnames';
@@ -55,8 +57,13 @@ export const Editor: React.FC<EditorProps> = (props) => {
     )) as string | null;
     if (newEditorText && scene && !props.features) {
       try {
-        const newFeatures = JSON.parse(newEditorText).features;
-        bboxAutoFit(newFeatures);
+        const errors = hint(JSON.parse(newEditorText));
+        if (errors.length > 0) {
+          message.error(t('import_btn.file_upload.qingJianChaShuJu'));
+        } else {
+          const newFeatures = JSON.parse(newEditorText).features;
+          bboxAutoFit(newFeatures);
+        }
       } catch (error) {
         message.error(t('import_btn.file_upload.qingJianChaShuJu'));
       }

@@ -1,3 +1,5 @@
+//@ts-ignore
+import { hint } from '@mapbox/geojsonhint';
 import type { Feature } from '@turf/turf';
 import { bbox, featureCollection, getType } from '@turf/turf';
 import { message } from 'antd';
@@ -71,13 +73,18 @@ export default function useFeature() {
     let newFeatures: Feature[] = [];
     if (editorText || value) {
       try {
-        newFeatures = transformFeatures(value ?? editorText, t);
-        if (value) {
-          setEditorText(value);
+        const errors = hint(JSON.parse(value ?? editorText));
+        if (errors.length > 0) {
+          message.warning(t('recoil.feature.shuJuJiaZaiYou'));
+        } else {
+          newFeatures = transformFeatures(value ?? editorText, t);
+          if (value) {
+            setEditorText(value);
+          }
+          setSavedText(value ?? editorText);
+          setFeatures(newFeatures as IFeatures);
         }
-        setSavedText(value ?? editorText);
-        setFeatures(newFeatures as IFeatures);
-      } catch (e) {
+      } catch (error) {
         message.warning(t('recoil.feature.shuJuJiaZaiYou'));
       }
     } else {
