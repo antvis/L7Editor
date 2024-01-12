@@ -73,7 +73,11 @@ export default function useFeature() {
     let newFeatures: Feature[] = [];
     if (editorText || value) {
       try {
-        const errors = hint(JSON.parse(value ?? editorText));
+        const errors = hint(JSON.parse(value ?? editorText)).filter(
+          (item: { message: string }) =>
+            item.message !==
+            'Polygons and MultiPolygons should follow the right-hand rule',
+        );
         if (errors.length > 0) {
           message.warning(t('recoil.feature.shuJuJiaZaiYou'));
         } else {
@@ -84,9 +88,7 @@ export default function useFeature() {
           setSavedText(value ?? editorText);
           setFeatures(newFeatures as IFeatures);
         }
-      } catch (error) {
-        message.warning(t('recoil.feature.shuJuJiaZaiYou'));
-      }
+      } catch (error) {}
     } else {
       setEditorText(emptyFeatures);
       setSavedText(emptyFeatures);

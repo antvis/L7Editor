@@ -57,7 +57,11 @@ export const Editor: React.FC<EditorProps> = (props) => {
     )) as string | null;
     if (newEditorText && scene && !props.features) {
       try {
-        const errors = hint(JSON.parse(newEditorText));
+        const errors = hint(JSON.parse(newEditorText)).filter(
+          (item: { message: string }) =>
+            item.message !==
+            'Polygons and MultiPolygons should follow the right-hand rule',
+        );
         if (errors.length > 0) {
           message.error(t('import_btn.file_upload.qingJianChaShuJu'));
         } else {
