@@ -4,14 +4,17 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGlobal } from '../../../recoil';
 
-export const SettingBtn = () => {
+export const SettingBtn: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     popupTrigger,
     setPopupTrigger,
     autoFitBounds,
     setAutoFitBounds,
-    showIndex,
+    showDrawDistance,
+    setShowDrawDistance,
+    showDrawArea,
+    setShowDrawArea,
   } = useGlobal();
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -54,13 +57,16 @@ export const SettingBtn = () => {
           initialValues={{
             popupTrigger,
             autoFitBounds,
-            showIndex,
+            showDrawDistance,
+            showDrawArea,
           }}
           style={{ textAlign: 'right' }}
           onFinish={(e) => {
             setIsModalOpen(false);
             setPopupTrigger(e.popupTrigger);
             setAutoFitBounds(e.autoFitBounds);
+            setShowDrawDistance(e.showDrawDistance);
+            setShowDrawArea(e.showDrawArea);
           }}
         >
           <Form.Item
@@ -85,17 +91,18 @@ export const SettingBtn = () => {
             <Switch />
           </Form.Item>
           <Form.Item
-            name="showIndex"
-            label={t('btn.setting_btn.shiFouZhanShiYuan')}
+            name="showDrawDistance"
+            valuePropName="checked"
+            label={t('btn.setting_btn.juLi')}
           >
-            <Radio.Group>
-              <Radio.Button value={true}>
-                {t('btn.setting_btn.kaiQi')}
-              </Radio.Button>
-              <Radio.Button value={false}>
-                {t('btn.setting_btn.guanBi')}
-              </Radio.Button>
-            </Radio.Group>
+            <Switch />
+          </Form.Item>
+          <Form.Item
+            name="showDrawArea"
+            valuePropName="checked"
+            label={t('btn.setting_btn.mianJi')}
+          >
+            <Switch />
           </Form.Item>
         </Form>
       </Modal>

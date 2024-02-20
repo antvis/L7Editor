@@ -4,10 +4,10 @@ import type { TabsProps } from 'antd';
 import { Select, Tabs } from 'antd';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconFont } from '../iconfont';
 import { useFeature, useGlobal } from '../../recoil';
 import { AppTable } from '../app-table';
 import { GeoJsonEditor } from '../geojson-editor';
+import { IconFont } from '../iconfont';
 import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
@@ -35,35 +35,23 @@ export const MapContent: React.FC<MapContentProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
 
-  const tabItem = [
+  const defaultTabItems: TabsProps['items'] = [
     {
       key: 'geojson',
-      label: (
-        <div>
-          <IconFont type="icon-json" />
-          GeoJSON
-        </div>
-      ),
+      icon: <IconFont type="icon-json" />,
+      label: 'GeoJSON',
       children: <GeoJsonEditor />,
     },
     {
       key: 'wkt',
-      label: (
-        <div id="l7-editor-wkt">
-          <GlobalOutlined />
-          WKT
-        </div>
-      ),
+      icon: <GlobalOutlined />,
+      label: 'WKT',
       children: <WktEditor />,
     },
     {
       key: 'table',
-      label: (
-        <div id="l7-editor-table">
-          <TableOutlined />
-          {t('app_header.constants.biaoGe')}
-        </div>
-      ),
+      icon: <TableOutlined />,
+      label: t('app_header.constants.biaoGe'),
       children: <AppTable />,
     },
   ];
@@ -88,7 +76,7 @@ export const MapContent: React.FC<MapContentProps> = ({
         activeKey={activeTab === 'code' ? 'geojson' : activeTab}
         className={styles.mapContentRight}
         defaultActiveKey="geojson"
-        items={tabItems ? tabItems : tabItem}
+        items={tabItems ? tabItems : defaultTabItems}
         onChange={(e) => {
           setActiveTab(e as 'geojson' | 'table' | 'wkt');
         }}

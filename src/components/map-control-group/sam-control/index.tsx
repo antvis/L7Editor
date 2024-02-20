@@ -8,8 +8,8 @@ import { Spin, Tooltip, message } from 'antd';
 import { isEmpty } from 'lodash-es';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GOOGLE_TILE_MAP_URL, LayerId } from '../../../constants';
-import { useFeature } from '../../../recoil';
+import { LayerId } from '../../../constants';
+import { useFeature, useGlobal } from '../../../recoil';
 import type { IFeatures } from '../../../types';
 import { IconFont } from '../../iconfont';
 import useStyles from '../styles';
@@ -40,10 +40,14 @@ export const SamControl = () => {
   const [samModel, setSamModal] = useState<SAMGeo | null>(null);
   const { scene, features, resetFeatures, revertCoord, bboxAutoFit } =
     useFeature();
+  const { wasmPath } = useGlobal();
   const allLayerList = useLayerList();
   const [samOpen, setSamOpen] = useState(false);
   const [tileLayer, setTileLayer] = useState<Layer | undefined>(undefined);
   const [polygonLayer, setPolygonLayer] = useState<Layer | undefined>(
+    undefined,
+  );
+  const [hoverPolyonLayer, setHoverPolyonLayer] = useState<Layer | undefined>(
     undefined,
   );
   const [loading, setLoading] = useState(false);
@@ -95,7 +99,8 @@ export const SamControl = () => {
         }
       }
     },
-    [bound, samModel, revertCoord, resetFeatures, features, t],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [bound, samModel, features, t],
   );
 
   // 生成 embedding 并初始化载入模型
@@ -183,22 +188,32 @@ export const SamControl = () => {
   useEffect(() => {
     const sam = new SAMGeo({
       modelUrl: MODEL_URL,
+      wasmPaths: wasmPath,
     });
-    sam.initModel().then(() => {
-      setSamModal(sam);
-    });
+    sam
+      .initModel()
+      .then(() => {
+        setSamModal(sam);
+      })
+      .catch(() => {
+        message.error(t('map_control_group.sam.diKuaiShiBieShiBei'));
+      });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!isEmpty(allLayerList)) {
       const targetLayer = allLayerList.find(
-        (layer) =>
-          layer.type === 'rasterLayer' &&
-          [GOOGLE_TILE_MAP_URL].includes(layer.options.source.data),
+        (layer) => layer.id === 'googleTileMap',
       );
       const selectLayer = allLayerList.find(
         (layer) => layer.id === LayerId.PolygonLayer,
       );
+      const hoverLayer = allLayerList.find(
+        (layer) => layer.id === 'hoverLayer',
+      );
+      setHoverPolyonLayer(hoverLayer);
       setPolygonLayer(selectLayer);
       setTileLayer(targetLayer);
     }
@@ -239,7 +254,9 @@ export const SamControl = () => {
               type="button"
               className={style.L7EditorControl}
               onClick={() => {
-                setSamOpen(!samOpen);
+                if (samModel) {
+                  setSamOpen(!samOpen);
+                }
                 if (samOpen) {
                   message.success(
                     t('map_control_group.sam.zhiNengShiBieGuanBi'),

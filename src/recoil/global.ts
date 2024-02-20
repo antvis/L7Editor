@@ -1,10 +1,13 @@
 import { useRecoilState } from 'recoil';
 import {
   activeTabState,
+  showDrawAreaState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
+  customTilesState,
+  showDrawDistanceState,
   hideEditorState,
   layerColorState,
   localeState,
@@ -12,8 +15,10 @@ import {
   officialLayersState,
   popupTriggerState,
   rightWidthState,
-  showIndexState,
+  showTextLayerState,
+  textLayerFieldsState,
   themeState,
+  wasmPathState,
 } from './atomState';
 
 export default function useGlobal() {
@@ -41,9 +46,21 @@ export default function useGlobal() {
 
   const [cityHistory, setCityHistory] = useRecoilState(cityHistoryState);
 
-  const [showIndex, setShowIndex] = useRecoilState(showIndexState);
+  const [showTextLayer, setShowTextLayer] = useRecoilState(showTextLayerState);
+
+  const [textLayerFields, setTextLayerFields] =
+    useRecoilState(textLayerFieldsState);
+
+  const [customTiles, setCustomTiles] = useRecoilState(customTilesState);
 
   const [locale, setLocale] = useRecoilState(localeState);
+
+  const [wasmPath, setWasmPath] = useRecoilState(wasmPathState);
+
+  const [showDrawDistance, setShowDrawDistance] =
+    useRecoilState(showDrawDistanceState);
+
+  const [showDrawArea, setShowDrawArea] = useRecoilState(showDrawAreaState);
 
   return {
     rightPanelWidth,
@@ -70,9 +87,19 @@ export default function useGlobal() {
     setTheme,
     cityHistory,
     setCityHistory,
-    showIndex,
-    setShowIndex,
+    showTextLayer,
+    setShowTextLayer,
+    textLayerFields,
+    setTextLayerFields,
+    customTiles,
+    setCustomTiles,
     locale,
     setLocale,
+    wasmPath,
+    setWasmPath,
+    showDrawDistance,
+    setShowDrawDistance,
+    showDrawArea,
+    setShowDrawArea,
   };
 }

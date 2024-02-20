@@ -37,7 +37,11 @@ title: API
 | mapControl | 控件显隐 | [MapControlProps](#mapcontrolprops) | `-` |
 | toolbar | 头部组件显隐 | [ToolbarProps](#toolbarprops) | `-` |
 | tabItems | 侧面版标签页选项卡内容 | [TabItemType](https://ant-design.antgroup.com/components/tabs-cn#tabitemtype) | `-` |
-| showIndex | 是否展示元素序号 | `boolean` | `false` |
+| showTextLayer | 是否展示元素文本 | `boolean` | `false` |
+| textLayerFields | 展示元素文本的字段，不选则展示元素序号 | `string[] &#124; undefined` | `undefined` |
+| wasmPath | sam 组件的 wasm 路径 | `string` | `\` |
+| showDrawDistance | 绘制时是否展示距离文本 | `boolean` | `false` |
+| showDrawArea | 绘制时是否展示面积文本 | `boolean` | `false` |
 
 #### `tabItems`
 
@@ -151,6 +155,7 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 | administrativeSelectControl | 行政区域选择控件     |
 | mapAdministrativeControl    | 查看当前行政区域控件 |
 | logoControl                 | Logo 控件            |
+| textLayerControl            | 文本图层 控件        |
 
 #### toolbar
 

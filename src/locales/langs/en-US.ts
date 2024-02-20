@@ -162,13 +162,8 @@ export default {
   'location_search_control.index.tianJiaZhiShuJu': 'Add to Data',
   'location_search_control.location_search.qingShuRuYaoSou':
     'Please enter a place name to search',
-  'official_layer_control.index.guGeTuCeng': 'Google Layers',
-  'official_layer_control.index.gaoDeTuCeng': 'Gaode Layer',
-  'official_layer_control.index.guGeWeiXingTu': 'Google Satellite Maps',
-  'official_layer_control.index.louKuaiTu': 'Building Block',
-  'official_layer_control.index.luKuangTu': 'Road condition map',
-  'official_layer_control.index.luWangTu': 'Road network diagram',
-  'official_layer_control.index.weiXingTu': 'Satellite map',
+  'official_layer_control.index.guGeWeiXingTu': 'Google Remote Sensing Maps',
+  'official_layer_control.index.shiLiangDiTu': 'Vector Map',
   'save_map_options_control.index.baoCunDiTuZhuang': 'Save Map Status',
   'save_map_options_control.index.diTuZhuangTaiBao':
     'Map status saved successfully',
@@ -206,6 +201,7 @@ export default {
   'map_control_group.sam.ziDongShiBie': 'Plot Identification Area Boundary',
   'map_control_group.sam.zhiNengShiBieGuanBi':
     'Block intelligent identification function is turned off',
+  'map_control_group.sam.diKuaiShiBieShiBei': '地块智能识别模型加载失败',
   'map_contorl_group.draw.draw': 'Click to start drawing',
   'map_contorl_group.draw.drawContinue': 'Click to continue drawing',
 
@@ -216,4 +212,27 @@ export default {
     'Click to add a node at this location',
   'map_contorl_group.draw.lineHover':
     'Drag and Drop to Adjust Surface Position',
+  'official_layer_control.index.mingChengChongFu':
+    'Duplicate name, please modify the name',
+  'official_layer_control.index.shanChuDiTu': 'Delete current base map',
+  'official_layer_control.index.tianJiaDitu': 'Add Tile Layer',
+  'official_layer_control.index.name': 'name',
+  'official_layer_control.index.addName': 'Please enter a name',
+  'official_layer_control.index.shiLiTuPian': 'Sample Picture',
+  'official_layer_control.index.tuCengDiZhi': 'Layer Address',
+  'official_layer_control.index.qiShuRutuCengDiZhi':
+    'Please enter a layer address',
+  'official_layer_control.index.tinJiaWaPian': 'Add Tile Layer Address',
+  'official_layer_control.index.kongGe': 'Input cannot be a space!',
+  'official_layer_control.index.shangchuan': 'Please upload pictures',
+  'text-layer-control_wenBenBiaoZhu': 'Text callout layer configuration',
+  'text-layer-control_shiFouZhanShiTuCeng': 'Show layer',
+  'text-layer-control_zhanShiZiDuan': 'Show Fields',
+  'text-layer-control_buXuan':
+    'If not selected, the element serial number will be displayed by default.',
+  'text-layer-control_wenBenTuCengPeiZhi': 'Text Layer Configuration',
+  'text-layer-control_description':
+    'Open the text layer configuration, you can display the serial number of all the current data, you can also use the multi-select box to properties fields in the data to select different data for display.',
+  'btn.setting_btn.mianJi': 'Show area text when drawing',
+  'btn.setting_btn.juLi': 'Whether to display distance text when drawing',
 };

@@ -18,7 +18,12 @@ import {
   officialLayersState,
   popupTriggerState,
   rightWidthState,
+  showDrawAreaState,
+  showDrawDistanceState,
+  showTextLayerState,
+  textLayerFieldsState,
   themeState,
+  wasmPathState,
 } from '../recoil/atomState';
 import type { L7EditorProps } from '../types';
 import { Editor } from './components/editor';
@@ -45,6 +50,11 @@ export const L7Editor = (props: L7EditorProps) => {
       set(themeState, props?.theme ?? 'light');
       set(convertState, props?.coordConvert ?? 'GCJ02');
       set(localeState, props?.locale ?? 'zh-CN');
+      set(wasmPathState, props?.wasmPath ?? '/');
+      set(showTextLayerState, props?.showTextLayer ?? false);
+      set(textLayerFieldsState, props?.textLayerFields ?? undefined);
+      set(showDrawDistanceState, props.showDrawDistance ?? false);
+      set(showDrawAreaState, props.showDrawArea ?? false);
     };
   }, [props]);
 

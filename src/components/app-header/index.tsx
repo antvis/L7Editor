@@ -210,6 +210,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
       target: () => document.getElementById('l7-editor-aMap')!,
     },
     {
+      title: t('text-layer-control_wenBenTuCengPeiZhi'),
+      description: t('text-layer-control_description'),
+      target: () => document.getElementById('text-layer-control')!,
+    },
+    {
       title: t('app_header.constants.gEOJS'),
       description: t('app_header.constants.keYiTongGuoBian'),
       target: () => document.getElementById('l7-editor-panel')!,
@@ -314,7 +319,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
               content={
                 <img
                   style={{ width: 300 }}
-                  src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*LxZCT7FIMdsAAAAAAAAAAAAADjWqAQ/original"
+                  src="https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*CTHXQbdMcDcAAAAAAAAAAAAADjWqAQ/original"
                 />
               }
               trigger="hover"

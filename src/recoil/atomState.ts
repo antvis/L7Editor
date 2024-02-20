@@ -108,6 +108,18 @@ const autoFitBoundsState = atom<boolean>({
   effects: [localStorageEffect(LocalStorageKey.AutoFitBounds)],
 });
 
+const showDrawDistanceState = atom<boolean>({
+  key: 'showDrawDistance',
+  default: false,
+  effects: [localStorageEffect(LocalStorageKey.showDrawDistance)],
+});
+
+const showDrawAreaState = atom<boolean>({
+  key: 'showDrawArea',
+  default: false,
+  effects: [localStorageEffect(LocalStorageKey.showDrawArea)],
+});
+
 const popupTriggerState = atom<'click' | 'hover'>({
   key: 'popupTrigger',
   effects: [localStorageEffect(LocalStorageKey.PopupTrigger)],
@@ -148,10 +160,30 @@ const cityHistoryState = atom<{ value: string; label: string }[]>({
   effects: [localStorageEffect(LocalStorageKey.cityHistory)],
 });
 
-const showIndexState = atom<boolean>({
-  key: 'showIndex',
+const showTextLayerState = atom<boolean>({
+  key: 'showTextLayer',
   default: true,
-  effects: [localStorageEffect(LocalStorageKey.showIndex)],
+  effects: [localStorageEffect(LocalStorageKey.showTextLayer)],
+});
+
+const textLayerFieldsState = atom<string[] | undefined>({
+  key: 'textLayerFields',
+  default: undefined,
+  effects: [localStorageEffect(LocalStorageKey.textLayerFields)],
+});
+
+const customTilesState = atom<
+  {
+    [x: string]: any;
+    type: string;
+    image: string;
+    title: string;
+    layers: string[];
+  }[]
+>({
+  key: 'customTiles',
+  default: [],
+  effects: [localStorageEffect(LocalStorageKey.customTiles)],
 });
 
 const localeState = atom<string>({
@@ -160,12 +192,20 @@ const localeState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.locale)],
 });
 
+const wasmPathState = atom<string>({
+  key: 'wasmPaths',
+  effects: [localStorageEffect(LocalStorageKey.wasmPath)],
+});
+
 export {
   activeTabState,
+  showDrawAreaState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
+  customTilesState,
+  showDrawDistanceState,
   editorTextState,
   featureState,
   filterState,
@@ -181,6 +221,8 @@ export {
   rightWidthState,
   savedTextState,
   sceneState,
-  showIndexState,
+  showTextLayerState,
+  textLayerFieldsState,
   themeState,
+  wasmPathState,
 };
