@@ -21,8 +21,8 @@ export enum LocalStorageKey {
   firstOpening = 'firstOpening',
   wasmPath = 'wasmPath',
   customTiles = 'customTiles',
-  showDrawDistance = "showDrawDistance",
-  showDrawArea = "showDrawArea"
+  showDrawDistance = 'showDrawDistance',
+  showDrawArea = 'showDrawArea',
 }
 
 export enum LayerId {
@@ -46,10 +46,16 @@ export const FeatureKey = {
 export const MapBoxConfig = {
   token:
     'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
+  WebGLParams: {
+    preserveDrawingBuffer: true,
+  },
 };
 
 export const GaodeConfig = {
   token: '5ae4492ef912cbbc93034fea0e66ff2a',
+  WebGLParams: {
+    preserveDrawingBuffer: true,
+  },
 };
 
 export const LayerZIndex = 100;

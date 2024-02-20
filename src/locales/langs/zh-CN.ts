@@ -198,6 +198,7 @@ export default {
   'text-layer-control_wenBenTuCengPeiZhi': '文本图层配置',
   'text-layer-control_description':
     '开启文本图层配置，可以显示当前所有数据的序号，也可以通过多选框在数据中properties字段去选择不同的数据来进行展示',
+  'export-img-control_title': '预览图片',
   'btn.setting_btn.mianJi': '绘制时是否展示面积文本',
   'btn.setting_btn.juLi': '绘制时是否展示距离文本',
 };

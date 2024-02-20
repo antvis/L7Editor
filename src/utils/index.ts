@@ -46,6 +46,13 @@ export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
   aTag.click();
 };
 
+export const downloadImg = (link: string) => {
+  const aTag = document.createElement('a');
+  aTag.href = link;
+  aTag.download = `${dayjs().format('YYYY-MM-DD HH:mm:ss')}.jpeg`;
+  aTag.dispatchEvent(new MouseEvent('click'));
+};
+
 export const getParamsNew = (key: string) => {
   const temData = new URLSearchParams(window.location.search);
   return temData.get(key);

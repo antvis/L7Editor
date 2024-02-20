@@ -20,6 +20,7 @@ export interface MapControlProps {
   administrativeSelectControl?: boolean;
   mapAdministrativeControl?: boolean;
   textLayerControl?: boolean;
+  exportImageControl?: boolean;
 }
 
 export interface ToolbarProps {
