@@ -85,7 +85,8 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {baseMap === 'Gaode' && isControlGroupState.officialLayerControl && (
         <OfficialLayerControl />
       )}
-      {isControlGroupState.mapThemeControl && <MapThemeControl />}
+      {isControlGroupState.mapThemeControl &&
+        (baseMap === 'Gaode' || baseMap === 'Mapbox') && <MapThemeControl />}
       {isControlGroupState.geoLocateControl && (
         <GeoLocateControl position="topleft" className={styles.fullScreen} />
       )}

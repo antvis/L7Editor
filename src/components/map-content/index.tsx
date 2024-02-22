@@ -67,6 +67,7 @@ export const MapContent: React.FC<MapContentProps> = ({
           options={[
             { label: 'GCJ02', value: 'GCJ02' },
             { label: 'WGS84', value: 'WGS84' },
+            { label: 'BD09', value: 'BD09' },
           ]}
           onChange={setCoordConvert}
         />

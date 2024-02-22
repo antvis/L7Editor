@@ -52,6 +52,11 @@ export const GaodeConfig = {
   token: '5ae4492ef912cbbc93034fea0e66ff2a',
 };
 
+export const BaiduConfig = {
+  token: '2TVUvWQGt8J3HwJpkZ4qVLYBVpxzudTa',
+};
+
+
 export const LayerZIndex = 100;
 
 export const GOOGLE_TILE_MAP_URL =

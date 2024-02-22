@@ -4,7 +4,7 @@ import { message } from 'antd';
 import type { ReactNode } from 'react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GaodeConfig, MapBoxConfig } from '../../constants';
+import { BaiduConfig, GaodeConfig, MapBoxConfig } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { getParamsNew, getUrlFeatureCollection } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
@@ -41,11 +41,19 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
         ...baseMapOptions,
       };
     }
+    if (baseMap === 'Baidu') {
+      return {
+        ...BaiduConfig,
+        // ...baseMapOptions,
+      };
+    }
     return {
       ...GaodeConfig,
       ...baseMapOptions,
     };
   }, [baseMap, baseMapOptions]);
+
+  console.log(mapOptions)
 
   return (
     <LarkMap

@@ -125,7 +125,7 @@ const popupTriggerState = atom<'click' | 'hover'>({
   effects: [localStorageEffect(LocalStorageKey.PopupTrigger)],
 });
 
-const baseMapState = atom<'Gaode' | 'Mapbox'>({
+const baseMapState = atom<'Gaode' | 'Mapbox' | 'Baidu' | 'Tencent'>({
   key: 'baseMap',
   effects: [localStorageEffect(LocalStorageKey.BaseMap)],
 });
@@ -199,13 +199,11 @@ const wasmPathState = atom<string>({
 
 export {
   activeTabState,
-  showDrawAreaState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
   customTilesState,
-  showDrawDistanceState,
   editorTextState,
   featureState,
   filterState,
@@ -221,6 +219,8 @@ export {
   rightWidthState,
   savedTextState,
   sceneState,
+  showDrawAreaState,
+  showDrawDistanceState,
   showTextLayerState,
   textLayerFieldsState,
   themeState,
