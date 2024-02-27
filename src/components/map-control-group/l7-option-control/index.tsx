@@ -8,7 +8,7 @@ import useStyles from '../styles';
 
 const { TextArea } = Input;
 
-export const GetOptionControl = () => {
+export const L7MapOptionControl = () => {
   const scene = useScene();
   const styles = useStyles();
   const { t } = useTranslation();
@@ -20,10 +20,10 @@ export const GetOptionControl = () => {
     const optionJson = {
       center: [scene.getCenter().lng, scene.getCenter().lat],
       zoom: scene.getZoom(),
-      pitch: scene.getPitch(),
+      pitch: Number(scene.getPitch().toFixed(6)),
       rotation: scene.getRotation(),
     };
-    setTextValue(JSON.stringify(optionJson));
+    setTextValue(JSON.stringify(optionJson, null, 2));
   };
 
   const handleOk = () => {
@@ -34,6 +34,7 @@ export const GetOptionControl = () => {
     clipboard.on('success', () => {
       setIsModalOpen(false);
       message.success(t('layer_contextmenu_popup.fuZhiChengGong'));
+      clipboard.destroy();
     });
   };
 
@@ -56,6 +57,7 @@ export const GetOptionControl = () => {
         open={isModalOpen}
         onCancel={handleCancel}
         width={800}
+        destroyOnClose
         footer={
           <>
             <Button onClick={handleCancel}>
@@ -68,7 +70,7 @@ export const GetOptionControl = () => {
         }
       >
         <TextArea
-          rows={4}
+          rows={10}
           value={textValue}
           onChange={(e) => {
             setTextValue(e.target.value);
