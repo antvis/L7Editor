@@ -175,7 +175,7 @@ const textLayerFieldsState = atom<string[] | undefined>({
 const customTilesState = atom<
   {
     [x: string]: any;
-    type: string;
+    id: string;
     image: string;
     title: string;
     layers: string[];

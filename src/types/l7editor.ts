@@ -146,4 +146,15 @@ export interface L7EditorProps {
    * 绘制时是否显示面积
    */
   showDrawArea?: boolean;
+
+  /**
+   * 自定义瓦片底图图层
+   */
+  customTiles?: {
+    [x: string]: any;
+    id: string;
+    image: string;
+    title: string;
+    layers: string[];
+  }[];
 }
