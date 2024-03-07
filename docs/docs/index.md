@@ -42,7 +42,7 @@ title: API
 | wasmPath | sam 组件的 wasm 路径 | `string` | `\` |
 | showDrawDistance | 绘制时是否展示距离文本 | `boolean` | `false` |
 | showDrawArea | 绘制时是否展示面积文本 | `boolean` | `false` |
-| customTiles | 自定义瓦片底图图层 | [customTilesProps](#customtilesprops) | `[]` |
+| customTiles | 自定义瓦片底图图层 | [CustomTilesProps](#customtilesprops) | `[]` |
 
 #### `tabItems`
 
@@ -99,7 +99,7 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 }
 ```
 
-#### `customTilesProps`
+#### CustomTilesProps
 
 ```js
 {
