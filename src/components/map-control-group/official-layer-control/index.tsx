@@ -31,6 +31,13 @@ const enLayout = {
   wrapperCol: { span: 15 },
 };
 
+type customTilesItemProps = {
+  id: string;
+  image?: string;
+  title?: string;
+  layers?: string[];
+};
+
 export function OfficialLayerControl() {
   const [form] = Form.useForm();
   const styles = useStyle();
@@ -91,12 +98,7 @@ export function OfficialLayerControl() {
     return false; // 阻止antd组件自动上传
   };
 
-  const onItemClick = (item: {
-    id: any;
-    image: string;
-    title: string;
-    layers: string[];
-  }) => {
+  const onItemClick = (item: customTilesItemProps) => {
     setRadioValue(item.id);
     setLayerType(
       item.id === OfficeLayerEnum.VectorMap ? [] : ([item.id] as string[]),
@@ -142,12 +144,7 @@ export function OfficialLayerControl() {
 
   const onConfirm = (
     e: React.MouseEvent<HTMLElement> | undefined,
-    item: {
-      id: string;
-      image?: string;
-      title?: string;
-      layers?: string[];
-    },
+    item: customTilesItemProps,
   ) => {
     e?.stopPropagation();
     const newCustomTiles = customTiles.filter((val) => {
