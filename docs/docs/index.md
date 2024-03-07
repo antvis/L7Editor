@@ -105,10 +105,10 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 {
   customTiles: [
     {
-      id: 'id',
-      image: 'img',
-      title: 'title',
-      layers: ['layerUrl'],
+      id: 'GaodeSatellite',
+      image: 'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
+      title: '高德卫星底图',
+      layers: [' https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}'],
     },
   ];
 }

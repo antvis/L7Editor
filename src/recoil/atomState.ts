@@ -5,6 +5,7 @@ import { atom, DefaultValue } from 'recoil';
 import { LocalStorageKey } from '../constants';
 import type { IFeatures, LngLatImportType } from '../types';
 import type { FilterNode } from '../types/filter';
+import type { customTilesProps } from '../types/l7editor';
 
 const localStorageEffect =
   (key: string) =>
@@ -172,15 +173,7 @@ const textLayerFieldsState = atom<string[] | undefined>({
   effects: [localStorageEffect(LocalStorageKey.textLayerFields)],
 });
 
-const customTilesState = atom<
-  {
-    [x: string]: any;
-    id: string;
-    image: string;
-    title: string;
-    layers: string[];
-  }[]
->({
+const customTilesState = atom<customTilesProps>({
   key: 'customTiles',
   default: [],
   effects: [localStorageEffect(LocalStorageKey.customTiles)],
@@ -199,13 +192,11 @@ const wasmPathState = atom<string>({
 
 export {
   activeTabState,
-  showDrawAreaState,
   autoFitBoundsState,
   baseMapState,
   cityHistoryState,
   convertState,
   customTilesState,
-  showDrawDistanceState,
   editorTextState,
   featureState,
   filterState,
@@ -221,6 +212,8 @@ export {
   rightWidthState,
   savedTextState,
   sceneState,
+  showDrawAreaState,
+  showDrawDistanceState,
   showTextLayerState,
   textLayerFieldsState,
   themeState,
