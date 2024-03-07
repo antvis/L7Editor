@@ -42,6 +42,7 @@ title: API
 | wasmPath | sam 组件的 wasm 路径 | `string` | `\` |
 | showDrawDistance | 绘制时是否展示距离文本 | `boolean` | `false` |
 | showDrawArea | 绘制时是否展示面积文本 | `boolean` | `false` |
+| customTiles | 自定义瓦片底图图层 | [customTilesProps](#customtilesprops) | `[]` |
 
 #### `tabItems`
 
@@ -98,25 +99,30 @@ LngLat 文本编辑器，可以通过输入 LngLat 数据实现数据展示(目�
 }
 ```
 
-#### `officialLayers`¸
-
-底图数据选择
-
-`['googleSatellite'] | ['amapSatellite','amapRoadNet','AmapBuildings', 'amapTraffic']`
+#### `customTilesProps`
 
 ```js
 {
-  officialLayers: ['amapSatellite', 'amapRoadNet'];
+  customTiles: [
+    {
+      id: 'GaodeSatellite',
+      image:
+        'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
+      title: '高德卫星底图',
+      layers: [
+        'https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
+      ],
+    },
+  ];
 }
 ```
 
-| 属性            | 描述       |
-| --------------- | ---------- |
-| googleSatellite | 谷歌卫星图 |
-| amapSatellite   | 高德卫星图 |
-| amapRoadNet     | 高德路网图 |
-| amapBuildings   | 高德楼块图 |
-| amapTraffic     | 高德路况图 |
+| 属性   | 描述         | 类型       |
+| ------ | ------------ | ---------- |
+| id     | 唯一标识     | `string`   |
+| image  | 图片         | `string`   |
+| title  | 图层名称     | `string`   |
+| layers | 瓦片图层链接 | `string[]` |
 
 #### coordConvert
 
