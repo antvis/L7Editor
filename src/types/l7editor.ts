@@ -2,13 +2,13 @@ import type { LarkMapProps } from '@antv/larkmap';
 import type { Feature } from '@turf/turf';
 import type { TabsProps } from 'antd';
 
-export interface CustomTiles {
+export type CustomTiles = {
   [key: string]: any;
   id: string;
   image: string;
   title: string;
   layers: string[];
-}
+};
 
 export interface MapControlProps {
   logoControl?: boolean;
