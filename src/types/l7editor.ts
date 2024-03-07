@@ -2,13 +2,13 @@ import type { LarkMapProps } from '@antv/larkmap';
 import type { Feature } from '@turf/turf';
 import type { TabsProps } from 'antd';
 
-export type CustomTilesProps = {
+export interface CustomTilesProps {
   [key: string]: any;
   id: string;
   image: string;
   title: string;
   layers: string[];
-}[];
+}
 
 export interface MapControlProps {
   logoControl?: boolean;
@@ -158,5 +158,5 @@ export interface L7EditorProps {
   /**
    * 自定义瓦片底图图层
    */
-  customTiles?: CustomTilesProps;
+  customTiles?: CustomTilesProps[];
 }

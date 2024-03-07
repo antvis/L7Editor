@@ -173,7 +173,7 @@ const textLayerFieldsState = atom<string[] | undefined>({
   effects: [localStorageEffect(LocalStorageKey.textLayerFields)],
 });
 
-const customTilesState = atom<CustomTilesProps>({
+const customTilesState = atom<CustomTilesProps[]>({
   key: 'customTiles',
   default: [],
   effects: [localStorageEffect(LocalStorageKey.customTiles)],
