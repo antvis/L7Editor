@@ -20,7 +20,7 @@ import {
   OfficeLayerEnum,
 } from '../../../constants';
 import { useGlobal } from '../../../recoil';
-import type { CustomTilesProps } from '../../../types/l7editor';
+import type { CustomTiles } from '../../../types/l7editor';
 import useStyle from './styles';
 
 const layout = {
@@ -92,7 +92,7 @@ export function OfficialLayerControl() {
     return false; // 阻止antd组件自动上传
   };
 
-  const onItemClick = (item: CustomTilesProps) => {
+  const onItemClick = (item: CustomTiles) => {
     setRadioValue(item.id);
     setLayerType(
       item.id === OfficeLayerEnum.VectorMap ? [] : ([item.id] as string[]),
@@ -138,7 +138,7 @@ export function OfficialLayerControl() {
 
   const onConfirm = (
     e: React.MouseEvent<HTMLElement> | undefined,
-    item: CustomTilesProps,
+    item: CustomTiles,
   ) => {
     e?.stopPropagation();
     const newCustomTiles = customTiles.filter((val) => {
