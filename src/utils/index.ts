@@ -49,7 +49,7 @@ export const downloadText = (text: string, ext: string | 'json' | 'txt') => {
 export const downloadImg = (link: string) => {
   const aTag = document.createElement('a');
   aTag.href = link;
-  aTag.download = `${dayjs().format('YYYY-MM-DD HH:mm:ss')}.jpeg`;
+  aTag.download = `${dayjs().format('YYYY年MM月DD日HH时mm分ss秒')}.jpeg`;
   aTag.dispatchEvent(new MouseEvent('click'));
 };
 
