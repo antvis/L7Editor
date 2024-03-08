@@ -1,11 +1,5 @@
-import type {
-  PolygonLayerProps} from '@antv/larkmap';
-import {
-  LineLayer,
-  PointLayer,
-  PolygonLayer,
-  useScene,
-} from '@antv/larkmap';
+import type { PolygonLayerProps } from '@antv/larkmap';
+import { LineLayer, PointLayer, PolygonLayer, useScene } from '@antv/larkmap';
 import type { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
@@ -33,7 +27,6 @@ export const LayerList: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newFeatures, coordConvert, baseMap]);
-
   const [
     pointSource,
     lineSource,
