@@ -20,6 +20,7 @@ import {
   OfficeLayerEnum,
 } from '../../../constants';
 import { useGlobal } from '../../../recoil';
+import type { CustomTiles } from '../../../types/l7editor';
 import useStyle from './styles';
 
 const layout = {
@@ -58,14 +59,14 @@ export function OfficialLayerControl() {
 
   const BASE_LAYER_GROUP = [
     {
-      type: OfficeLayerEnum.VectorMap,
+      id: OfficeLayerEnum.VectorMap,
       title: t('official_layer_control.index.shiLiangDiTu'),
       image:
         'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qdFDSbvIalgAAAAAAAAAAAAADmJ7AQ/original',
       layers: [],
     },
     {
-      type: OfficeLayerEnum.GoogleSatellite,
+      id: OfficeLayerEnum.GoogleSatellite,
       title: t('official_layer_control.index.guGeWeiXingTu'),
       image:
         'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
@@ -91,15 +92,10 @@ export function OfficialLayerControl() {
     return false; // 阻止antd组件自动上传
   };
 
-  const onItemClick = (item: {
-    type: any;
-    image: string;
-    title: string;
-    layers: string[];
-  }) => {
-    setRadioValue(item.type);
+  const onItemClick = (item: CustomTiles) => {
+    setRadioValue(item.id);
     setLayerType(
-      item.type === OfficeLayerEnum.VectorMap ? [] : ([item.type] as string[]),
+      item.id === OfficeLayerEnum.VectorMap ? [] : ([item.id] as string[]),
     );
   };
 
@@ -108,7 +104,7 @@ export function OfficialLayerControl() {
       const cloneCustomTiles = cloneDeep(customTiles);
       const newImgUrl = Array.isArray(e.img) ? e.img[0].url : `${base64}`;
       cloneCustomTiles[editIndex - 2] = {
-        type: e.name,
+        id: e.name,
         image: newImgUrl,
         title: e.name,
         layers: e.urls,
@@ -120,7 +116,7 @@ export function OfficialLayerControl() {
       setCustomTiles((prevState) => [
         ...prevState,
         {
-          type: e.name,
+          id: e.name,
           image: `${base64}`,
           title: e.name,
           layers: e.urls,
@@ -142,18 +138,13 @@ export function OfficialLayerControl() {
 
   const onConfirm = (
     e: React.MouseEvent<HTMLElement> | undefined,
-    item: {
-      type: string;
-      image?: string;
-      title?: string;
-      layers?: string[];
-    },
+    item: CustomTiles,
   ) => {
     e?.stopPropagation();
     const newCustomTiles = customTiles.filter((val) => {
-      return val.type !== item.type;
+      return val.id !== item.id;
     });
-    if (item.type === radioValue) {
+    if (item.id === radioValue) {
       setRadioValue(OfficeLayerEnum.VectorMap);
       setLayerType([]);
     }
@@ -214,7 +205,7 @@ export function OfficialLayerControl() {
   const rasterLayer = useMemo(() => {
     if (layerType.length) {
       const findItem = officeLayerGroup.find(
-        (item) => item.type === layerType[0],
+        (item) => item.id === layerType[0],
       );
       return findItem?.layers.map((item) => {
         return (
@@ -222,7 +213,7 @@ export function OfficialLayerControl() {
           <RasterLayer
             zIndex={1}
             id={
-              findItem.type === OfficeLayerEnum.GoogleSatellite &&
+              findItem.id === OfficeLayerEnum.GoogleSatellite &&
               item === GOOGLE_TILE_MAP_URL
                 ? 'googleTileMap'
                 : undefined
@@ -260,10 +251,10 @@ export function OfficialLayerControl() {
               {officeLayerGroup.map((item, index) => {
                 return (
                   <div
-                    key={item.type}
+                    key={item.id}
                     className={classNames([
                       styles.amapInfoItem,
-                      item.type === radioValue
+                      item.id === radioValue
                         ? styles.itemBorderActive
                         : styles.itemBorder,
                       index === officeLayerGroup.length - 1 ? 'item-hover' : '',

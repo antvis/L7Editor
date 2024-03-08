@@ -2,6 +2,14 @@ import type { LarkMapProps } from '@antv/larkmap';
 import type { Feature } from '@turf/turf';
 import type { TabsProps } from 'antd';
 
+export type CustomTiles = {
+  [key: string]: any;
+  id: string;
+  image: string;
+  title: string;
+  layers: string[];
+};
+
 export interface MapControlProps {
   logoControl?: boolean;
   drawControl?: boolean;
@@ -21,6 +29,7 @@ export interface MapControlProps {
   mapAdministrativeControl?: boolean;
   textLayerControl?: boolean;
   exportImageControl?: boolean;
+  L7MapOptionControl?: boolean;
 }
 
 export interface ToolbarProps {
@@ -147,4 +156,9 @@ export interface L7EditorProps {
    * 绘制时是否显示面积
    */
   showDrawArea?: boolean;
+
+  /**
+   * 自定义瓦片底图图层
+   */
+  customTiles?: CustomTiles[];
 }

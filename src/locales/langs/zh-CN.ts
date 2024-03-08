@@ -142,7 +142,7 @@ export default {
   'layer_color_control.index.tuCengYanSeXuan': '图层颜色选择器',
   'location_search_control.index.tianJiaZhiShuJu': '添加至数据',
   'location_search_control.location_search.qingShuRuYaoSou': '请输入要搜索地名',
-  'official_layer_control.index.guGeWeiXingTu': '谷歌遥感地图',
+  'official_layer_control.index.guGeWeiXingTu': '谷歌卫星地图',
   'official_layer_control.index.shiLiangDiTu': '矢量地图',
   'save_map_options_control.index.baoCunDiTuZhuang': '保存地图状态',
   'save_map_options_control.index.diTuZhuangTaiBao': '地图状态保存成功 ',
@@ -201,4 +201,6 @@ export default {
   'export-img-control_title': '预览图片',
   'btn.setting_btn.mianJi': '绘制时是否展示面积文本',
   'btn.setting_btn.juLi': '绘制时是否展示距离文本',
+  'l7Options.huoqucanshu': '获取地图状态参数',
+  'l7Options.dangqiancanshu': '当前地图参数',
 };
