@@ -28,6 +28,7 @@ export interface MapControlProps {
   administrativeSelectControl?: boolean;
   mapAdministrativeControl?: boolean;
   textLayerControl?: boolean;
+  L7MapOptionControl?: boolean;
 }
 
 export interface ToolbarProps {

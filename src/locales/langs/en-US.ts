@@ -233,4 +233,6 @@ export default {
     'Open the text layer configuration, you can display the serial number of all the current data, you can also use the multi-select box to properties fields in the data to select different data for display.',
   'btn.setting_btn.mianJi': 'Show area text when drawing',
   'btn.setting_btn.juLi': 'Whether to display distance text when drawing',
+  'l7Options.huoqucanshu': 'Get map status parameters',
+  'l7Options.dangqiancanshu': 'Current map parameters',
 };
