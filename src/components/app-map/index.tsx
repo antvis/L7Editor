@@ -47,13 +47,16 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
         // ...baseMapOptions,
       };
     }
+    if (baseMap === 'Tencent') {
+      return {
+        ...baseMapOptions,
+      };
+    }
     return {
       ...GaodeConfig,
       ...baseMapOptions,
     };
   }, [baseMap, baseMapOptions]);
-
-  console.log(mapOptions)
 
   return (
     <LarkMap
