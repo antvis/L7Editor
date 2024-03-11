@@ -14,7 +14,9 @@ import { AdministrativeSelect } from './administrative-select-control';
 import { AutoControl } from './auto-control';
 import { ClearControl } from './clear-control';
 import DrawControl from './draw-control';
+import { ExportImage } from './export-image-control';
 import FilterControl from './filter-form-list-control';
+import { L7MapOptionControl } from './l7-option-control';
 import LayerColorControl from './layer-color-control';
 import LocationSearchControl from './location-search-control';
 import { MapAdministrativeControl } from './map-administrative-control';
@@ -45,6 +47,8 @@ const DefaultMapControl: MapControlProps = {
   mapAdministrativeControl: true,
   logoControl: true,
   textLayerControl: true,
+  exportImageControl: true,
+  L7MapOptionControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -100,6 +104,8 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       )}
       {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />}
       {isControlGroupState.textLayerControl && <TextLayerControl />}
+      {isControlGroupState.exportImageControl && <ExportImage />}
+      {isControlGroupState.L7MapOptionControl && <L7MapOptionControl />}
     </>
   );
 };

@@ -11,6 +11,7 @@ import {
   autoFitBoundsState,
   baseMapState,
   convertState,
+  customTilesState,
   hideEditorState,
   layerColorState,
   localeState,
@@ -55,6 +56,7 @@ export const L7Editor = (props: L7EditorProps) => {
       set(textLayerFieldsState, props?.textLayerFields ?? undefined);
       set(showDrawDistanceState, props.showDrawDistance ?? false);
       set(showDrawAreaState, props.showDrawArea ?? false);
+      set(customTilesState, props.customTiles ?? []);
     };
   }, [props]);
 

@@ -1,6 +1,6 @@
 {
   "name": "@antv/l7-editor",
-  "version": "1.1.9",
+  "version": "1.1.11",
   "description": "Geographic data editing tool based on L7",
   "files": [
     "lib",
@@ -36,6 +36,7 @@
     "@antv/larkmap": "^1.4.4",
     "@antv/sam": "^0.1.0",
     "@emotion/css": "^11.11.2",
+    "@mapbox/geojsonhint": "^3.3.0",
     "@mapbox/togeojson": "^0.16.0",
     "@turf/turf": "^6.5.0",
     "ahooks": "^3.7.0",
