@@ -35,25 +35,16 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   });
 
   const mapOptions = useMemo(() => {
-    if (baseMap === 'Mapbox') {
-      return {
-        ...MapBoxConfig,
-        ...baseMapOptions,
-      };
-    }
-    if (baseMap === 'Baidu') {
-      return {
-        ...BaiduConfig,
-        // ...baseMapOptions,
-      };
-    }
-    if (baseMap === 'Tencent') {
-      return {
-        ...baseMapOptions,
-      };
-    }
+    const mapConfigMapping = {
+      Mapbox: MapBoxConfig,
+      Baidu: BaiduConfig,
+      Tencent: {},
+    } as any;
+
+    const config = mapConfigMapping[baseMap] || GaodeConfig;
+
     return {
-      ...GaodeConfig,
+      ...config,
       ...baseMapOptions,
     };
   }, [baseMap, baseMapOptions]);
