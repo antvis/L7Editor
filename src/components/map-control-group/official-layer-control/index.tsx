@@ -65,13 +65,13 @@ export function OfficialLayerControl() {
         'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qdFDSbvIalgAAAAAAAAAAAAADmJ7AQ/original',
       layers: [],
     },
-    {
-      id: OfficeLayerEnum.GoogleSatellite,
-      title: t('official_layer_control.index.guGeWeiXingTu'),
-      image:
-        'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
-      layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
-    },
+    // {
+    //   id: OfficeLayerEnum.GoogleSatellite,
+    //   title: t('official_layer_control.index.guGeWeiXingTu'),
+    //   image:
+    //     'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
+    //   layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
+    // },
   ];
 
   const officeLayerGroup = useMemo(() => {

@@ -7,7 +7,6 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React, { useEffect, useState } from 'react';
-import { OfficeLayerEnum } from '../../constants';
 import { useGlobal } from '../../recoil';
 import type { MapControlProps } from '../../types/l7editor';
 import { AdministrativeSelect } from './administrative-select-control';
@@ -22,7 +21,6 @@ import LocationSearchControl from './location-search-control';
 import { MapAdministrativeControl } from './map-administrative-control';
 import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
-import { SamControl } from './sam-control';
 import useStyles from './styles';
 import { TextLayerControl } from './text-layer-control';
 
@@ -53,7 +51,7 @@ const DefaultMapControl: MapControlProps = {
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
 }) => {
-  const { baseMap, layerType } = useGlobal();
+  const { baseMap } = useGlobal();
   const styles = useStyles();
   const [isControlGroupState, setIsControlGroup] = useState(DefaultMapControl);
 
@@ -101,7 +99,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
           className={styles.fullScreen}
         />
       )}
-      {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />}
+      {/* {layerType.includes(OfficeLayerEnum.GoogleSatellite) && <SamControl />} */}
       {isControlGroupState.textLayerControl && <TextLayerControl />}
       {isControlGroupState.exportImageControl && <ExportImage />}
       {isControlGroupState.L7MapOptionControl && <L7MapOptionControl />}
