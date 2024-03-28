@@ -4,7 +4,7 @@ import { message } from 'antd';
 import type { ReactNode } from 'react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GaodeConfig, MapBoxConfig } from '../../constants';
+import { BaiduConfig, GaodeConfig, MapBoxConfig } from '../../constants';
 import { useFeature, useGlobal } from '../../recoil';
 import { getParamsNew, getUrlFeatureCollection } from '../../utils';
 import { prettierText } from '../../utils/prettier-text';
@@ -35,14 +35,16 @@ export const AppMap: React.FC<AppMapProps> = ({ children }) => {
   });
 
   const mapOptions = useMemo(() => {
-    if (baseMap === 'Mapbox') {
-      return {
-        ...MapBoxConfig,
-        ...baseMapOptions,
-      };
-    }
+    const mapConfigMapping = {
+      Mapbox: MapBoxConfig,
+      Baidu: BaiduConfig,
+      Tencent: {},
+    } as any;
+
+    const config = mapConfigMapping[baseMap] || GaodeConfig;
+
     return {
-      ...GaodeConfig,
+      ...config,
       ...baseMapOptions,
     };
   }, [baseMap, baseMapOptions]);

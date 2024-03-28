@@ -294,7 +294,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ toolbar }) => {
             <Dropdown
               menu={{
                 items: DropdownMenuItems,
-                onClick: ({ key }) => {
+                onClick: ({ key }: any) => {
                   onDownload(key);
                 },
               }}
