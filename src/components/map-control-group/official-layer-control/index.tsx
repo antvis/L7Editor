@@ -15,6 +15,8 @@ import { cloneDeep } from 'lodash-es';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  CN_GOOGLE_TILE_MAP_URL,
+  GAODE_TILE_MAP_URL,
   GOOGLE_TILE_MAP_ROUTER_URL,
   GOOGLE_TILE_MAP_URL,
   OfficeLayerEnum,
@@ -44,7 +46,9 @@ export function OfficialLayerControl() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editIndex, setEditIndex] = useState(-1);
-  const [base64, setBase64] = useState<any>(null);
+  const [base64, setBase64] = useState<any>(
+    'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*UwHYTrindekAAAAAAAAAAAAADjWqAQ/original',
+  );
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [hideOfficeLayer, setHideOfficeLayer] = useLocalStorageState<boolean>(
     'hideOfficeLayer',
@@ -65,13 +69,27 @@ export function OfficialLayerControl() {
         'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qdFDSbvIalgAAAAAAAAAAAAADmJ7AQ/original',
       layers: [],
     },
-    // {
-    //   id: OfficeLayerEnum.GoogleSatellite,
-    //   title: t('official_layer_control.index.guGeWeiXingTu'),
-    //   image:
-    //     'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
-    //   layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
-    // },
+    {
+      id: OfficeLayerEnum.GoogleSatellite,
+      title: t('official_layer_control.index.guGeWeiXingTu'),
+      image:
+        'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*vfeZTbq2KWgAAAAAAAAAAAAADjWqAQ/original',
+      layers: [CN_GOOGLE_TILE_MAP_URL],
+    },
+    {
+      id: OfficeLayerEnum.Google,
+      title: '谷歌卫星地图（需翻墙）',
+      image:
+        'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*M64rSbdhYJ0AAAAAAAAAAAAADjWqAQ/original',
+      layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
+    },
+    {
+      id: OfficeLayerEnum.Gaode,
+      title: '高德卫星地图',
+      image:
+        'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
+      layers: [GAODE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
+    },
   ];
 
   const officeLayerGroup = useMemo(() => {
@@ -214,7 +232,7 @@ export function OfficialLayerControl() {
             zIndex={1}
             id={
               findItem.id === OfficeLayerEnum.GoogleSatellite &&
-              item === GOOGLE_TILE_MAP_URL
+              item === CN_GOOGLE_TILE_MAP_URL
                 ? 'googleTileMap'
                 : undefined
             }
@@ -241,9 +259,9 @@ export function OfficialLayerControl() {
             }}
           >
             <CaretRightOutlined
-              style={{
-                transform: hideOfficeLayer ? 'rotate(-180deg)' : undefined,
-              }}
+              style={
+                hideOfficeLayer ? { transform: 'rotate(-180deg)' } : undefined
+              }
             />
           </div>
           {hideOfficeLayer && (
@@ -263,58 +281,58 @@ export function OfficialLayerControl() {
                       onItemClick(item);
                     }}
                   >
-                    {index > 1 && (
-                      <Popconfirm
-                        title={t('official_layer_control.index.shanChuDiTu')}
-                        onConfirm={(e) => onConfirm(e, item)}
-                        onCancel={(
-                          e: React.MouseEvent<HTMLElement> | undefined,
-                        ) => {
-                          e?.stopPropagation();
-                        }}
-                      >
-                        <div
-                          className={'item-clear'}
-                          onClick={(e) => {
-                            e.stopPropagation();
+                    {index >= BASE_LAYER_GROUP.length && (
+                      <>
+                        <Popconfirm
+                          title={t('official_layer_control.index.shanChuDiTu')}
+                          onConfirm={(e) => onConfirm(e, item)}
+                          onCancel={(
+                            e: React.MouseEvent<HTMLElement> | undefined,
+                          ) => {
+                            e?.stopPropagation();
                           }}
                         >
-                          <DeleteOutlined />
-                        </div>
-                      </Popconfirm>
-                    )}
-                    {index > 1 && (
-                      <div
-                        className={'item-edit'}
-                        onClick={(e) => {
-                          setEditIndex(index);
-                          e.stopPropagation();
-                          setIsEdit(true);
-                          setIsModalOpen(true);
-                          setFileList([
-                            {
-                              uid: '-1',
-                              name: `${item.title}`,
-                              status: 'done',
-                              url: item.image,
-                            },
-                          ]);
-                          form.setFieldsValue({
-                            name: item.title,
-                            urls: item.layers,
-                            img: [
+                          <div
+                            className={'item-clear'}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            <DeleteOutlined />
+                          </div>
+                        </Popconfirm>
+                        <div
+                          className={'item-edit'}
+                          onClick={(e) => {
+                            setEditIndex(index);
+                            e.stopPropagation();
+                            setIsEdit(true);
+                            setIsModalOpen(true);
+                            setFileList([
                               {
                                 uid: '-1',
                                 name: `${item.title}`,
                                 status: 'done',
                                 url: item.image,
                               },
-                            ],
-                          });
-                        }}
-                      >
-                        <FormOutlined />
-                      </div>
+                            ]);
+                            form.setFieldsValue({
+                              name: item.title,
+                              urls: item.layers,
+                              img: [
+                                {
+                                  uid: '-1',
+                                  name: `${item.title}`,
+                                  status: 'done',
+                                  url: item.image,
+                                },
+                              ],
+                            });
+                          }}
+                        >
+                          <FormOutlined />
+                        </div>
+                      </>
                     )}
                     <img
                       src={item.image}
@@ -372,7 +390,6 @@ export function OfficialLayerControl() {
               {...(locale === 'zh-CN' ? layout : enLayout)}
               name="img"
               label={t('official_layer_control.index.shiLiTuPian')}
-              rules={[{ required: true, validator: uploadValidateSpace }]}
             >
               <Upload
                 beforeUpload={handleBeforeUpload}
@@ -426,7 +443,7 @@ export function OfficialLayerControl() {
                         }}
                       >
                         <Input
-                          placeholder={GOOGLE_TILE_MAP_URL}
+                          placeholder={CN_GOOGLE_TILE_MAP_URL}
                           style={{
                             width: 390,
                           }}
@@ -458,7 +475,7 @@ export function OfficialLayerControl() {
           </Form>
         </Modal>
       </CustomControl>
-      <div>{rasterLayer}</div>
+      <>{rasterLayer}</>
     </>
   );
 }
