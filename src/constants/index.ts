@@ -60,13 +60,21 @@ export const GaodeConfig = {
 
 export const LayerZIndex = 100;
 
+export const CN_GOOGLE_TILE_MAP_URL =
+  'https://gwxc.shipxy.com/tile.g?z={z}&x={x}&y={y}';
+
 export const GOOGLE_TILE_MAP_URL =
-  'https://gac-geo.googlecnapps.cn/maps/vt?lyrs=s&gl=CN&x={x}&y={y}&z={z}';
+  'http://mt0.google.com/vt/lyrs=s&gl=CN&x={x}&y={y}&z={z}';
 
 export const GOOGLE_TILE_MAP_ROUTER_URL =
-  'https://gac-geo.googlecnapps.cn/maps/vt?lyrs=h&gl=CN&x={x}&y={y}&z={z}';
+  'http://mt0.google.com/vt/lyrs=h&gl=CN&x={x}&y={y}&z={z}';
+
+export const GAODE_TILE_MAP_URL =
+  'http://webst01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=6&x={x}&y={y}&z={z}';
 
 export enum OfficeLayerEnum {
   GoogleSatellite = 'googleSatellite',
+  Google = 'Google',
   VectorMap = 'vectorMap',
+  Gaode = 'Gaode',
 }

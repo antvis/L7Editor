@@ -161,6 +161,8 @@ export default {
   'location_search_control.location_search.qingShuRuYaoSou':
     'Please enter a place name to search',
   'official_layer_control.index.guGeWeiXingTu': 'Google Remote Sensing Maps',
+  'official_layer_control.index.guGeWeiXingTuFanQiang': 'Google satellite map (need to climb over the wall)',
+  'official_layer_control.index.gaoDeWeiXingTu': 'Gaud satellite map',
   'official_layer_control.index.shiLiangDiTu': 'Vector Map',
   'save_map_options_control.index.baoCunDiTuZhuang': 'Save Map Status',
   'save_map_options_control.index.diTuZhuangTaiBao':
