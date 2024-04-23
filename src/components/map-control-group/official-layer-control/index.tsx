@@ -78,14 +78,14 @@ export function OfficialLayerControl() {
     },
     {
       id: OfficeLayerEnum.Google,
-      title: '谷歌卫星地图（需翻墙）',
+      title: t('official_layer_control.index.guGeWeiXingTuFanQiang'),
       image:
         'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*M64rSbdhYJ0AAAAAAAAAAAAADjWqAQ/original',
       layers: [GOOGLE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
     },
     {
       id: OfficeLayerEnum.Gaode,
-      title: '高德卫星地图',
+      title: t('official_layer_control.index.gaoDeWeiXingTu'),
       image:
         'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*zi2jSqqZ2-8AAAAAAAAAAAAADjWqAQ/original',
       layers: [GAODE_TILE_MAP_URL, GOOGLE_TILE_MAP_ROUTER_URL],
@@ -121,7 +121,7 @@ export function OfficialLayerControl() {
     if (isEdit) {
       const cloneCustomTiles = cloneDeep(customTiles);
       const newImgUrl = Array.isArray(e.img) ? e.img[0].url : `${base64}`;
-      cloneCustomTiles[editIndex - 2] = {
+      cloneCustomTiles[editIndex - 4] = {
         id: e.name,
         image: newImgUrl,
         title: e.name,
