@@ -121,7 +121,7 @@ export function OfficialLayerControl() {
     if (isEdit) {
       const cloneCustomTiles = cloneDeep(customTiles);
       const newImgUrl = Array.isArray(e.img) ? e.img[0].url : `${base64}`;
-      cloneCustomTiles[editIndex - 4] = {
+      cloneCustomTiles[editIndex - BASE_LAYER_GROUP.length] = {
         id: e.name,
         image: newImgUrl,
         title: e.name,
