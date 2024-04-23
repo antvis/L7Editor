@@ -191,23 +191,6 @@ export function OfficialLayerControl() {
     return Promise.resolve();
   };
 
-  const uploadValidateSpace = (_: any, value: any) => {
-    const reject = Promise.reject(t('official_layer_control.index.shangchuan'));
-    if (value.fileList) {
-      if (!value.fileList.length) {
-        return reject;
-      } else {
-        return Promise.resolve();
-      }
-    } else {
-      if (!value.length) {
-        return reject;
-      } else {
-        return Promise.resolve();
-      }
-    }
-  };
-
   const handleChange: UploadProps['onChange'] = (info) => {
     let newFileList = [...info.fileList];
     newFileList = newFileList.slice(-2);
