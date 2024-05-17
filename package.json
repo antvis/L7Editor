@@ -2,14 +2,26 @@
   "name": "@antv/l7-editor",
   "version": "1.1.13",
   "description": "Geographic data editing tool based on L7",
+  "homepage": "https://l7editor.antv.antgroup.com",
+  "bugs": {
+    "url": "https://github.com/antvis/L7Editor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/L7Editor"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "AntV",
+    "url": "https://antv.antgroup.com"
+  },
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
   "files": [
     "lib",
     "es"
   ],
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
-  "license": "MIT",
   "scripts": {
     "start": "dumi dev",
     "build": "father build",
@@ -30,6 +42,16 @@
     "deploy": "npm run docs:build && npm run docs:deploy",
     "release": "npm run build && npm publish"
   },
+  "lint-staged": {
+    "*.less": "stylelint --fix",
+    "*.{ts,tsx}": "eslint --fix",
+    "*.{ts,tsx,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
     "@antv/l7-draw": "^3.0.21",
@@ -48,6 +70,7 @@
     "i18next-browser-languagedetector": "^7.1.0",
     "kiwi-intl": "^1.2.6-beta.0",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "monaco-editor": "^0.34.1",
     "monaco-editor-webpack-plugin": "^7.0.1",
@@ -65,7 +88,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@antv/l7": "^2.11.0",
+    "@antv/l7": "2.21.11-beta.1",
     "@babel/runtime": "^7.22.10",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
@@ -99,30 +122,8 @@
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
-  "lint-staged": {
-    "*.less": "stylelint --fix",
-    "*.{ts,tsx}": "eslint --fix",
-    "*.{ts,tsx,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
-  },
-  "author": {
-    "name": "AntV",
-    "url": "https://antv.antgroup.com"
-  },
-  "homepage": "https://l7editor.antv.antgroup.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/antvis/L7Editor"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  },
-  "bugs": {
-    "url": "https://github.com/antvis/L7Editor/issues"
   }
 }
