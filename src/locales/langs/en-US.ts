@@ -6,6 +6,8 @@ export default {
   'btn.setting_btn.kaiQi': 'Open',
   'btn.setting_btn.shiFouZhanShiYuan': 'Display serial number on layer',
   'btn.setting_btn.gaoDe': 'Gaode',
+  'btn.setting_btn.tencent': 'Tencent',
+  'btn.setting_btn.baidu': 'Baidu',
   'btn.setting_btn.diTuDiTuQie': 'Switch base map',
   'btn.setting_btn.ziDongSuoFangZhi': 'Auto zoom to all elements visible',
   'btn.setting_btn.huaRu': 'Mouse on',

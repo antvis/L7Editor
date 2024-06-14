@@ -58,6 +58,11 @@ export const GaodeConfig = {
   },
 };
 
+export const BaiduConfig = {
+  token: '2TVUvWQGt8J3HwJpkZ4qVLYBVpxzudTa',
+};
+
+
 export const LayerZIndex = 100;
 
 export const CN_GOOGLE_TILE_MAP_URL =

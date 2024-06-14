@@ -6,6 +6,8 @@ export default {
   'btn.setting_btn.kaiQi': '开启',
   'btn.setting_btn.shiFouZhanShiYuan': '是否展示元素序号',
   'btn.setting_btn.gaoDe': '高德',
+  'btn.setting_btn.tencent': '腾讯',
+  'btn.setting_btn.baidu': '百度',
   'btn.setting_btn.diTuDiTuQie': '地图底图切换',
   'btn.setting_btn.ziDongSuoFangZhi': '自动缩放至所有元素可见',
   'btn.setting_btn.huaRu': '划入',
