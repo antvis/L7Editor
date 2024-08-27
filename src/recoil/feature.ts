@@ -68,16 +68,20 @@ export default function useFeature() {
       2,
     );
     let newFeatures: Feature[] = [];
-    if (editorText || value) {
-      newFeatures = transformFeatures(value ?? editorText, t);
-      if (value) {
-        setEditorText(value);
+    try {
+      if (editorText || value) {
+        newFeatures = transformFeatures(value ?? editorText, t);
+        if (value) {
+          setEditorText(value);
+        }
+        setSavedText(value ?? editorText);
+        setFeatures(newFeatures as IFeatures);
+      } else {
+        setEditorText(emptyFeatures);
+        setSavedText(emptyFeatures);
       }
-      setSavedText(value ?? editorText);
-      setFeatures(newFeatures as IFeatures);
-    } else {
-      setEditorText(emptyFeatures);
-      setSavedText(emptyFeatures);
+    } catch (e) {
+      console.log(e);
     }
     return newFeatures;
   };
