@@ -3,7 +3,7 @@ import type { Geometry } from '@turf/turf';
 import { feature, featureCollection } from '@turf/turf';
 import type { UploadFile } from 'antd';
 import { Form, Select, Tooltip, Upload, message } from 'antd';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import React, {
   forwardRef,
   useImperativeHandle,
