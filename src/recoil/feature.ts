@@ -6,7 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { FeatureKey } from '../constants';
 import type { FilterField, IFeatures } from '../types';
-import { gcj02towgs84, transformFeatures, wgs84togcj02 } from '../utils';
+import {
+  bd09togcj02,
+  bd09towgs84,
+  gcj02tobd09,
+  gcj02towgs84,
+  transformFeatures,
+  wgs84tobd09,
+  wgs84togcj02,
+} from '../utils';
 import { prettierText } from '../utils/prettier-text';
 import {
   editorTextState,
@@ -144,13 +152,35 @@ export default function useFeature() {
   const revertCoord = useCallback(
     (newFeatures: Feature[]) => {
       let data = [...newFeatures];
-      if (coordConvert === 'WGS84' && baseMap === 'Gaode') {
+      if (
+        coordConvert === 'WGS84' &&
+        (baseMap === 'Gaode' || baseMap === 'Tencent')
+      ) {
         data = data.map((item) => {
           return gcj02towgs84(cloneDeep(item));
         });
       } else if (coordConvert === 'GCJ02' && baseMap === 'Mapbox') {
         data = data.map((item) => {
           return wgs84togcj02(cloneDeep(item));
+        });
+      } else if (coordConvert === 'GCJ02' && baseMap === 'Baidu') {
+        data = data.map((item) => {
+          return bd09togcj02(cloneDeep(item));
+        });
+      } else if (coordConvert === 'WGS84' && baseMap === 'Baidu') {
+        data = data.map((item) => {
+          return bd09towgs84(cloneDeep(item));
+        });
+      } else if (
+        coordConvert === 'BD09' &&
+        (baseMap === 'Gaode' || baseMap === 'Tencent')
+      ) {
+        data = data.map((item) => {
+          return gcj02tobd09(cloneDeep(item));
+        });
+      } else if (coordConvert === 'BD09' && baseMap === 'Mapbox') {
+        data = data.map((item) => {
+          return wgs84tobd09(cloneDeep(item));
         });
       }
       return data;
