@@ -122,8 +122,11 @@ export const UploadImageMapControl = () => {
     setPreviewOpen(true);
   };
 
-  const handleChange: UploadProps['onChange'] = async ({ file, fileList }) => {
-    if (!fileList.length) {
+  const handleChange: UploadProps['onChange'] = async ({
+    file,
+    fileList: changeFileList,
+  }) => {
+    if (!changeFileList.length) {
       setFileList([]);
       return;
     }
