@@ -74,6 +74,12 @@ const editorTextState = atom<string>({
   effects: [indexDBEffect(LocalStorageKey.EditorText)],
 });
 
+const ImageMaskState = atom<string>({
+  key: 'ImageMask',
+  default: JSON.stringify({ text: '', file: '' }, null, 2),
+  effects: [indexDBEffect(LocalStorageKey.ImageMask)],
+});
+
 const lnglatTypeState = atom<LngLatImportType>({
   key: 'lnglatType',
 });
@@ -201,6 +207,7 @@ export {
   featureState,
   filterState,
   hideEditorState,
+  ImageMaskState,
   isDrawState,
   layerColorState,
   lnglatTextState,
