@@ -1,6 +1,6 @@
-import type {
-  PolygonLayerProps} from '@antv/larkmap';
+import type { PolygonLayerProps } from '@antv/larkmap';
 import {
+  ImageLayer,
   LineLayer,
   PointLayer,
   PolygonLayer,
@@ -9,7 +9,7 @@ import {
 import type { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
-import { cloneDeep, groupBy } from 'lodash-es';
+import { cloneDeep, flattenDeep, groupBy } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
 import { useFilterFeatures } from '../../hooks';
@@ -21,9 +21,10 @@ export const LayerList: React.FC = () => {
   const scene = useScene();
   const [isMounted, setIsMounted] = useState(false);
   const { layerColor, coordConvert, baseMap, showTextLayer } = useGlobal();
-  const { transformCoord } = useFeature();
+  const { transformCoord, imageMask } = useFeature();
   const { features: newFeatures } = useFilterFeatures();
   const [features, setFeatures] = useState<Feature[]>([]);
+  const imageMaskData = JSON.parse(imageMask);
 
   useEffect(() => {
     if (newFeatures.length) {
@@ -113,6 +114,21 @@ export const LayerList: React.FC = () => {
         zIndex={LayerZIndex}
       />
       {showTextLayer && <EditorTextLayer />}
+      {imageMaskData?.file && (
+        <ImageLayer
+          source={{
+            data: JSON.parse(imageMaskData.file).url,
+            parser: {
+              type: 'image',
+              extent: flattenDeep(
+                imageMaskData.text
+                  .split(';')
+                  .map((item: string) => item.split(',').map(Number)),
+              ),
+            },
+          }}
+        />
+      )}
     </>
   ) : null;
 };

@@ -23,6 +23,7 @@ import MapThemeControl from './map-theme-control';
 import { OfficialLayerControl } from './official-layer-control';
 import useStyles from './styles';
 import { TextLayerControl } from './text-layer-control';
+import { UploadImageMapControl } from './upload-image-map';
 
 type MapControlGroupProps = {
   mapControl?: MapControlProps;
@@ -47,6 +48,7 @@ const DefaultMapControl: MapControlProps = {
   textLayerControl: true,
   exportImageControl: true,
   L7MapOptionControl: true,
+  UploadImageMapControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -103,6 +105,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.textLayerControl && <TextLayerControl />}
       {isControlGroupState.exportImageControl && <ExportImage />}
       {isControlGroupState.L7MapOptionControl && <L7MapOptionControl />}
+      {isControlGroupState.UploadImageMapControl && <UploadImageMapControl />}
     </>
   );
 };
