@@ -15,6 +15,7 @@ export default {
   'btn.setting_btn.queRen': 'Confirm',
   'btn.setting_btn.sheZhi': 'Setting',
   'btn.setting_btn.diTuSheZhi': 'Map Setting',
+  'upload.text.tuPianShangChuan': 'Image Upload',
   'import_btn.file_upload.jinZhiChiJS':
     'Only files with. json, .geojson, .wkt, .csv, .xlsx, .xls and. kml suffixes are supported',
   'import_btn.file_upload.wenJianShangChuan': 'File Upload',
@@ -161,7 +162,8 @@ export default {
   'location_search_control.location_search.qingShuRuYaoSou':
     'Please enter a place name to search',
   'official_layer_control.index.guGeWeiXingTu': 'Google Remote Sensing Maps',
-  'official_layer_control.index.guGeWeiXingTuFanQiang': 'Google satellite map (need to climb over the wall)',
+  'official_layer_control.index.guGeWeiXingTuFanQiang':
+    'Google satellite map (need to climb over the wall)',
   'official_layer_control.index.gaoDeWeiXingTu': 'Gaud satellite map',
   'official_layer_control.index.shiLiangDiTu': 'Vector Map',
   'save_map_options_control.index.baoCunDiTuZhuang': 'Save Map Status',
@@ -238,4 +240,8 @@ export default {
   'btn.setting_btn.juLi': 'Whether to display distance text when drawing',
   'l7Options.huoqucanshu': 'Get map status parameters',
   'l7Options.dangqiancanshu': 'Current map parameters',
+  'l7Options.shangChuanDiTuTuPian': 'Set image mask',
+  'shangChuanDiTuTuPian.TextArea.placeholder':
+    'Up to 4 sets of latitude and longitude can be uploaded',
+  'shangChuanDiTuTuPian.TextArea.lonlat': 'latitude and longitude',
 };

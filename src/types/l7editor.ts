@@ -30,6 +30,7 @@ export interface MapControlProps {
   textLayerControl?: boolean;
   exportImageControl?: boolean;
   L7MapOptionControl?: boolean;
+  UploadImageMapControl?: boolean;
 }
 
 export interface ToolbarProps {

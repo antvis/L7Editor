@@ -15,6 +15,7 @@ export default {
   'btn.setting_btn.queRen': '确认',
   'btn.setting_btn.sheZhi': '设置',
   'btn.setting_btn.diTuSheZhi': '地图设置',
+  'upload.text.tuPianShangChuan': '上传图片',
   'import_btn.file_upload.jinZhiChiJS':
     '仅支持.json, .geojson, .wkt, .kml, .csv, .xlsx, .xls后缀的文件',
   'import_btn.file_upload.wenJianShangChuan': '文件上传',
@@ -205,4 +206,7 @@ export default {
   'btn.setting_btn.juLi': '绘制时是否展示距离文本',
   'l7Options.huoqucanshu': '获取地图状态参数',
   'l7Options.dangqiancanshu': '当前地图参数',
+  'l7Options.shangChuanDiTuTuPian': '设置图片掩膜',
+  'shangChuanDiTuTuPian.TextArea.placeholder': '最多上传4组经纬度',
+  'shangChuanDiTuTuPian.TextArea.lonlat':'经纬度'
 };

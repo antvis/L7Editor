@@ -190,6 +190,12 @@ const wasmPathState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.wasmPath)],
 });
 
+const ImageMaskState = atom<string>({
+  key: 'ImageMask',
+  default: JSON.stringify({ text: '', file: '' }, null, 2),
+  effects: [indexDBEffect(LocalStorageKey.ImageMask)],
+});
+
 export {
   activeTabState,
   autoFitBoundsState,
@@ -201,6 +207,7 @@ export {
   featureState,
   filterState,
   hideEditorState,
+  ImageMaskState,
   isDrawState,
   layerColorState,
   lnglatTextState,
