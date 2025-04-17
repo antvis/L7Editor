@@ -9,7 +9,7 @@ import {
 import type { Feature } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import Color from 'color';
-import { cloneDeep, flattenDeep, groupBy } from 'lodash-es';
+import { cloneDeep, groupBy } from 'lodash-es';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FeatureKey, LayerId, LayerZIndex } from '../../constants';
 import { useFilterFeatures } from '../../hooks';
@@ -120,11 +120,9 @@ export const LayerList: React.FC = () => {
             data: JSON.parse(imageMaskData.file).url,
             parser: {
               type: 'image',
-              extent: flattenDeep(
-                imageMaskData.text
-                  .split(';')
-                  .map((item: string) => item.split(',').map(Number)),
-              ),
+              coordinates: imageMaskData.text
+                .split(';')
+                .map((item: string) => item.split(',').map(Number)),
             },
           }}
         />
