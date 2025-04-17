@@ -9,7 +9,7 @@ import type { FilterField, IFeatures } from '../types';
 import { gcj02towgs84, transformFeatures, wgs84togcj02 } from '../utils';
 import { prettierText } from '../utils/prettier-text';
 import {
-  ImageMaskState,
+  imageMaskState,
   editorTextState,
   featureState,
   isDrawState,
@@ -21,7 +21,7 @@ import useGlobal from './global';
 export default function useFeature() {
   const { baseMap, coordConvert } = useGlobal();
   const [editorText, setEditorText] = useRecoilState(editorTextState);
-  const [imageMask, setImageMask] = useRecoilState(ImageMaskState);
+  const [imageMask, setImageMask] = useRecoilState(imageMaskState);
   const [savedText, setSavedText] = useRecoilState(savedTextState);
   const [features, _setFeatures] = useRecoilState(featureState);
   const [isDraw, setIsDraw] = useRecoilState(isDrawState);
