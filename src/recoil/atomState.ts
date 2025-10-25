@@ -12,7 +12,13 @@ const localStorageEffect =
   ({ setSelf, onSet }: any) => {
     const getValue = localStorage.getItem(key);
     if (getValue) {
-      setSelf(JSON.parse(getValue));
+      // stored value may be a raw string (e.g. 'dark') or a JSON string (e.g. '"dark"')
+      // try parsing JSON and fall back to the raw string on failure to avoid app crash
+      try {
+        setSelf(JSON.parse(getValue));
+      } catch (err) {
+        setSelf(getValue);
+      }
     }
     onSet((newValue: Record<string, any>) => {
       if (newValue instanceof DefaultValue) {
