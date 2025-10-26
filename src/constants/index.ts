@@ -46,7 +46,8 @@ export const FeatureKey = {
 
 export const MapBoxConfig = {
   token:
-    'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
+  'pk.eyJ1IjoiYmFpaGVpbmV0IiwiYSI6ImNsYXhseTZodDBvZTgzd3FteHdlZXl5aHMifQ.O6u0tgmsvrTJuVAdzqSFjw',
+   // 'pk.eyJ1IjoibGl1dmlnb25nenVvc2hpIiwiYSI6ImNsaGs2czBrcTBvczUzbnFzOHU0dzk2ZWQifQ.hVvTgcbg_Ym-VQz36psLRg',
   WebGLParams: {
     preserveDrawingBuffer: true,
   },

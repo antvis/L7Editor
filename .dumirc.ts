@@ -5,7 +5,7 @@ import MonacoEditorWebpackPlugin from 'monaco-editor-webpack-plugin';
 const isProduction = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  apiParser: {},
+  apiParser: false,
   resolve: {
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.tsx',

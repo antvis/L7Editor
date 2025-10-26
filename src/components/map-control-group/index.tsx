@@ -24,6 +24,7 @@ import { OfficialLayerControl } from './official-layer-control';
 import useStyles from './styles';
 import { TextLayerControl } from './text-layer-control';
 import { UploadImageMapControl } from './upload-image-map';
+import MyCustomControl from './my-custom-control';
 
 type MapControlGroupProps = {
   mapControl?: MapControlProps;
@@ -33,7 +34,7 @@ const DefaultMapControl: MapControlProps = {
   clearControl: true,
   zoomControl: true,
   scaleControl: true,
-  locationSearchControl: true,
+  locationSearchControl: false,
   mouseLocationControl: true,
   filterControl: true,
   officialLayerControl: true,
@@ -42,13 +43,14 @@ const DefaultMapControl: MapControlProps = {
   layerColorControl: true,
   autoControl: true,
   fullscreenControl: true,
-  administrativeSelectControl: true,
+  administrativeSelectControl: false,
   mapAdministrativeControl: true,
   logoControl: true,
   textLayerControl: true,
   exportImageControl: true,
   L7MapOptionControl: true,
   UploadImageMapControl: true,
+  myCustomControl: true,
 };
 export const MapControlGroup: React.FC<MapControlGroupProps> = ({
   mapControl,
@@ -106,6 +108,7 @@ export const MapControlGroup: React.FC<MapControlGroupProps> = ({
       {isControlGroupState.exportImageControl && <ExportImage />}
       {isControlGroupState.L7MapOptionControl && <L7MapOptionControl />}
       {isControlGroupState.UploadImageMapControl && <UploadImageMapControl />}
+      {isControlGroupState.myCustomControl && <MyCustomControl />}
     </>
   );
 };

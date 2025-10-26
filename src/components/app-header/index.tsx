@@ -36,12 +36,12 @@ const isTooBar = {
   import: true,
   download: true,
   guide: true,
-  help: true,
+  help: false,
   setting: true,
   theme: true,
-  dingTalk: true,
+  dingTalk: false,
   i18n: true,
-  github: true,
+  github: false,
   baseMap: true,
 };
 

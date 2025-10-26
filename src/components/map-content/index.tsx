@@ -42,12 +42,12 @@ export const MapContent: React.FC<MapContentProps> = ({
       label: 'GeoJSON',
       children: <GeoJsonEditor />,
     },
-    {
-      key: 'wkt',
-      icon: <GlobalOutlined />,
-      label: 'WKT',
-      children: <WktEditor />,
-    },
+    // {
+    //   key: 'wkt',
+    //   icon: <GlobalOutlined />,
+    //   label: 'WKT',
+    //   children: <WktEditor />,
+    // },
     {
       key: 'table',
       icon: <TableOutlined />,

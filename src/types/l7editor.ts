@@ -31,6 +31,7 @@ export interface MapControlProps {
   exportImageControl?: boolean;
   L7MapOptionControl?: boolean;
   UploadImageMapControl?: boolean;
+  myCustomControl?: boolean;
 }
 
 export interface ToolbarProps {
