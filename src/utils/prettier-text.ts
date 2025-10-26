@@ -1,5 +1,7 @@
-import prettier from 'prettier';
-import parserBabel from 'prettier/parser-babel';
+// @ts-ignore - Dynamically imported for browser compatibility
+const prettier = require('prettier/standalone');
+// @ts-ignore - Dynamically imported for browser compatibility
+const parserBabel = require('prettier/parser-babel');
 interface Options {
   /**
    * 要格式化的文本

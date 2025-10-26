@@ -7,8 +7,6 @@ import { IconFont } from '../../iconfont';
 import useStyles from '../styles';
 import useStyle from './style';
 
-export type TextLayerControlProps = {};
-
 export const TextLayerControl: React.FC = () => {
   const styles = useStyles();
   const style = useStyle();
@@ -60,7 +58,7 @@ export const TextLayerControl: React.FC = () => {
           </Form>
         }
         trigger="click"
-        onOpenChange={(visible) => {
+        onOpenChange={(visible: boolean) => {
           if (visible) {
             refreshFields();
           }

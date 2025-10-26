@@ -1,4 +1,4 @@
-import { GlobalOutlined, TableOutlined } from '@ant-design/icons';
+import { TableOutlined } from '@ant-design/icons';
 import type { Feature } from '@turf/turf';
 import type { TabsProps } from 'antd';
 import { Select, Tabs } from 'antd';
@@ -8,7 +8,6 @@ import { useFeature, useGlobal } from '../../recoil';
 import { AppTable } from '../app-table';
 import { GeoJsonEditor } from '../geojson-editor';
 import { IconFont } from '../iconfont';
-import { WktEditor } from '../wkt-editor';
 import useStyle from './styles';
 
 export interface MapContentProps {
@@ -77,7 +76,7 @@ export const MapContent: React.FC<MapContentProps> = ({
         className={styles.mapContentRight}
         defaultActiveKey="geojson"
         items={tabItems ? tabItems : defaultTabItems}
-        onChange={(e) => {
+        onChange={(e: string) => {
           setActiveTab(e as 'geojson' | 'table' | 'wkt');
         }}
       />

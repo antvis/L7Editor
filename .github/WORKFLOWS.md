@@ -51,6 +51,14 @@
 
 ---
 
+## 环境要求
+
+- Node.js: >= 20.0.0
+- npm: >= 9.0.0
+- yarn: 推荐使用最新的稳定版
+
+> **重要**: 本项目从 2025-10-26 起要求 Node.js 20+，这是为了支持新的依赖要求和性能优化。
+
 ## 常见错误与排查步骤（按场景）
 
 场景 A：`yarn docs:build` 在 Actions 中失败
@@ -120,30 +128,155 @@ gh release create v1.2.3 --title "v1.2.3" --notes "Release notes..."
 
 ---
 
-## 推荐迁移与改进（可作为 PR 实施）
+## 最近更新说明（2025-10-26）
 
-1. 使用 GitHub 官方 Pages 部署流程替换当前对 `gh-pages` 的强制 push：
-   - 在 `release.yml` 的 `publish-site` job 中，使用 `actions/upload-pages-artifact@v1` 上传 `docs-dist`，再用 `actions/deploy-pages@v1` 部署。这种方式与 GitHub Pages 的权限模型更兼容，不需要 PAT。
+已实施主要改进：
 
-2. 在 `lint.yml` 中加入 `actions/cache` 来缓存依赖以加速 CI。将 lint、typecheck、unit tests 拆成并行 jobs 能提高反馈速度。
+1. 迁移到 GitHub Pages 官方部署流程：
+   - `release.yml` 现在使用 `actions/upload-pages-artifact@v1` + `actions/deploy-pages@v1`
+   - 需要新的权限配置：
+     ```yaml
+     permissions:
+       pages: write
+       id-token: write
+     ```
+   - 好处：不再需要 PAT，更好的权限控制，支持 Pages 审计日志
 
-3. 在 `preview.yml` 中把 Surge 返回的预览 URL 自动回写到 PR 评论或 Check（部分 preview action 已内建此功能），便于 reviewer 使用。
+2. CI 优化与缓存：
+   - `lint.yml` 添加了依赖缓存：
+     ```yaml
+     - uses: actions/cache@v3
+       with:
+         path: |
+           **/node_modules
+           ~/.cache/yarn
+           ~/.npm
+         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+     ```
+   - 使用 `yarn --frozen-lockfile` 确保安装确定性
+
+3. PR 预览增强：
+   - `preview.yml` 现在自动在 PR 中添加 Surge 预览链接
+   - 通过 `actions/github-script` 实现更好的预览体验
+
+## 如何验证新功能
+
+### 1. Pages 部署（release.yml）
+```powershell
+# 本地构建测试
+yarn
+yarn docs:build
+ls docs-dist  # 确认输出
+
+# 创建测试 release 触发部署
+gh release create v0.0.1-test --notes "Test Pages deployment" --prerelease
+```
+然后在 Actions 标签页观察：
+1. publish-site job 上传 artifact
+2. deploy-pages job 部署到 Pages
+3. 在 Settings → Pages 确认部署状态
+
+### 2. 依赖缓存（lint.yml）
+push 一个小改动，观察两次 Actions 运行：
+- 第一次：正常安装依赖
+- 第二次：应该看到 "Cache hit" 信息，安装时间显著减少
+
+### 3. PR 预览功能（preview.yml）
+1. 创建测试分支：
+   ```powershell
+   git checkout -b test/preview-comment
+   # 做一些改动
+   git commit -am "test: verify preview comment"
+   git push origin test/preview-comment
+   gh pr create
+   ```
+2. 等待 Actions 运行，检查：
+   - PR 页面是否出现预览链接评论
+   - 预览链接是否可访问
+
+## 故障排除完整指南
+
+### Pages 部署问题
+1. 权限错误：
+   ```
+   Error: Failed to deploy Pages
+   ```
+   解决：访问 repo Settings → Pages → Build and deployment → Source，选择 "GitHub Actions"
+
+2. Artifact 上传失败：
+   ```
+   Error: No such directory 'docs-dist'
+   ```
+   检查：
+   - `yarn docs:build` 是否成功
+   - 构建输出目录是否正确
+   - Node 版本是否匹配（应为 18.x）
+
+### 缓存问题
+1. 缓存未命中：
+   - 检查 cache key 是否包含所有相关文件
+   - 确认 runner OS 是否一致
+   - 可以在 Actions 页面手动清除缓存重试
+
+### Node.js 版本问题
+1. 错误信息：
+   ```
+   error @utoo/pack@0.0.1-alpha.55: The engine "node" is incompatible with this module. Expected version ">= 20"
+   ```
+   解决方案：
+   ```powershell
+   # 检查当前 Node.js 版本
+   node -v
+   
+   # Windows 下安装/升级到 Node.js 20
+   winget install OpenJS.NodeJS.LTS
+   
+   # 或使用 nvm for Windows
+   nvm install 20.9.0
+   nvm use 20.9.0
+   ```
+
+2. CI 环境中的版本问题：
+   - workflow 文件已配置使用 Node.js 20
+   - 如遇构建失败，检查 workflow 中的 `node-version` 设置
+
+### 依赖安装仍然很慢：
+   ```powershell
+   # 本地测试安装速度
+   yarn --frozen-lockfile --network-timeout 100000
+   ```
+
+### 预览功能问题
+1. Surge token 无效：
+   ```
+   Error: Failed to deploy to Surge
+   ```
+   解决：在 Settings → Secrets → Actions 更新 `SURGE_TOKEN`
+
+2. 评论功能失败：
+   - 确认 workflow 有正确的 permissions
+   - 检查 `github-token` 配置
+   - 验证 PR 事件触发器正确
+
+## 安全最佳实践
+
+1. Workflow 权限
+   - 使用精确的 permissions 声明
+   - 避免 `GITHUB_TOKEN` 过度权限
+   - 定期审查 workflow 文件变更
+
+2. Secrets 管理
+   - 使用仓库级别的 secrets
+   - 避免在 workflow 中打印敏感信息
+   - 定期轮换 tokens 和 secrets
+
+3. PR 安全
+   - 使用 `pull_request_target` 时须谨慎
+   - 不在不可信 PR 中运行未经审核的代码
+   - 使用 status checks 保护关键分支
 
 ---
 
-## 安全注意事项
 
-- 永远不要在仓库或日志中明文存放 token。  
-- 对 PAT 使用最小权限原则并定期轮换。  
-- 小心 `pull_request_target`：该事件会以目标仓库的权限运行（可访问 secrets），但不要在该 context 下检出并运行来自 fork 的不可信代码。
-
----
-
-## 如果你希望我进一步帮助
-
-- 我可以替你实现“迁移到官方 Pages 部署流程”（修改 `release.yml` 并提交 PR），或者优化 `lint.yml` 缓存与拆分 jobs。  
-- 回复 `A` 我就开始修改并提交 PR；回复 `B` 我就优化 CI 缓存与 job 拆分；也可以选择同时做。
-
----
 
 文档最后更新：2025-10-26

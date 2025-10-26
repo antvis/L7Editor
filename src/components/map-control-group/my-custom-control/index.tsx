@@ -1,12 +1,12 @@
 // src/components/map-control-group/my-custom-control/index.tsx
-import React from 'react';
 import { CustomControl } from '@antv/larkmap';
-import useStyle from './styles';
+import React from 'react';
 import { useGlobal } from '../../../recoil';
+import useStyle from './styles';
 
 const MyCustomControl: React.FC = () => {
   const styles = useStyle();
-  const { baseMap } = useGlobal(); // 示例：读取全局状态
+  useGlobal(); // 预留的全局状态钩子
 
   const onClick = () => {
     // 在这里做控制器的动作，例如切换图层 / 触发 recoil action

@@ -4,17 +4,15 @@ import { lineString } from '@turf/turf';
 import {
   Button,
   Form,
-  GetProp,
   Image,
   Input,
   Modal,
   Popconfirm,
   Tooltip,
   Upload,
-  UploadFile,
-  UploadProps,
   message,
 } from 'antd';
+import type { GetProp, UploadFile, UploadProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconFont } from '../../../components/iconfont';
@@ -43,7 +41,7 @@ export const UploadImageMapControl = () => {
       setPreviewImage(defaultFile.url);
       setFileList(file ? [defaultFile] : []);
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, imageMask]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -115,17 +113,14 @@ export const UploadImageMapControl = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
+      reader.onerror = (e) => reject(new Error(e?.target?.error?.message));
     });
 
   const handlePreview = async () => {
     setPreviewOpen(true);
   };
 
-  const handleChange: UploadProps['onChange'] = async ({
-    file,
-    fileList: changeFileList,
-  }) => {
+  const handleChange: UploadProps['onChange'] = async ({ file, fileList: changeFileList }: { file: UploadFile, fileList: UploadFile[] }) => {
     if (!changeFileList.length) {
       setFileList([]);
       return;
@@ -200,7 +195,7 @@ export const UploadImageMapControl = () => {
               wrapperStyle={{ display: 'none' }}
               preview={{
                 visible: previewOpen,
-                onVisibleChange: (visible) => setPreviewOpen(visible),
+                onVisibleChange: (visible: boolean) => setPreviewOpen(visible),
               }}
               src={previewImage}
             />
@@ -212,7 +207,7 @@ export const UploadImageMapControl = () => {
                 'shangChuanDiTuTuPian.TextArea.placeholder',
               )}：101.16971,41.377836;100.959388,41.619522;100.900015,41.424628;101.229887,41.572654`}
               value={textValue}
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setTextValue(e.target.value);
               }}
             />
