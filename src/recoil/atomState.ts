@@ -196,6 +196,12 @@ const wasmPathState = atom<string>({
   effects: [localStorageEffect(LocalStorageKey.wasmPath)],
 });
 
+const samModelUrlState = atom<string>({
+  key: 'samModelUrl',
+  default: '',
+  effects: [localStorageEffect(LocalStorageKey.SamModelUrl)],
+});
+
 const imageMaskState = atom<string>({
   key: 'ImageMask',
   default: JSON.stringify({ text: '', file: '' }, null, 2),
@@ -231,4 +237,5 @@ export {
   textLayerFieldsState,
   themeState,
   wasmPathState,
+  samModelUrlState,
 };

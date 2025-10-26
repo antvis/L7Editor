@@ -24,6 +24,7 @@ export enum LocalStorageKey {
   customTiles = 'customTiles',
   showDrawDistance = 'showDrawDistance',
   showDrawArea = 'showDrawArea',
+  SamModelUrl = 'SamModelUrl',
 }
 
 export enum LayerId {

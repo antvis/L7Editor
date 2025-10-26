@@ -19,6 +19,7 @@ import {
   textLayerFieldsState,
   themeState,
   wasmPathState,
+  samModelUrlState,
 } from './atomState';
 
 export default function useGlobal() {
@@ -56,6 +57,7 @@ export default function useGlobal() {
   const [locale, setLocale] = useRecoilState(localeState);
 
   const [wasmPath, setWasmPath] = useRecoilState(wasmPathState);
+  const [samModelUrl, setSamModelUrl] = useRecoilState(samModelUrlState);
 
   const [showDrawDistance, setShowDrawDistance] =
     useRecoilState(showDrawDistanceState);
@@ -95,8 +97,10 @@ export default function useGlobal() {
     setCustomTiles,
     locale,
     setLocale,
-    wasmPath,
-    setWasmPath,
+  wasmPath,
+  setWasmPath,
+  samModelUrl,
+  setSamModelUrl,
     showDrawDistance,
     setShowDrawDistance,
     showDrawArea,
