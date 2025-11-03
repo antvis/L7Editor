@@ -48,9 +48,9 @@ export default defineConfig({
     'https://mdn.alipayobjects.com/huamei_k6sfo0/afts/img/A*gBeETo04y0IAAAAAAAAAAAAADjWqAQ/original',
   ],
   headScripts: [
-    'https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/PapaParse/5.4.0/papaparse.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js',
+    'https://gw.alipayobjects.com/os/lib/turf/turf/6.5.0/turf.min.js',
+    'https://gw.alipayobjects.com/os/lib/papaparse/5.4.0/papaparse.min.js',
+    'https://gw.alipayobjects.com/os/lib/lodash/4.17.21/lodash.min.js',
     `
       var _hmt = _hmt || [];
       (function() {
