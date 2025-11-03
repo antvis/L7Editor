@@ -5,8 +5,12 @@ import { useGlobal } from '../../../recoil';
 import useStyle from './styles';
 
 const MapThemeControl: React.FC = () => {
-  const { setMapOptions } = useGlobal();
+  const { setMapOptions, layerType } = useGlobal();
   const styles = useStyle();
+
+  if (layerType?.length > 0) {
+    return null;
+  }
 
   return (
     <LarkMapMapThemeControl
