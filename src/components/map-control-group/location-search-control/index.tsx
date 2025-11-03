@@ -1,5 +1,5 @@
 import { CustomControl, Marker, useScene } from '@antv/larkmap';
-import { point } from '@turf/turf';
+import { Feature, Point, point } from '@turf/turf';
 import { useAsyncEffect } from 'ahooks';
 import { Button, Popover } from 'antd';
 import Color from 'color';
@@ -9,13 +9,14 @@ import { useFeature, useGlobal } from '../../../recoil';
 import { getPointImage } from '../../../utils/change-image-color';
 import { LocationSearch } from './location-search';
 import type { LocationSearchOption } from './types';
+import { gcj02towgs84 } from '/src/utils';
 
 const LocationSearchControl: React.FC = React.memo(() => {
   const scene = useScene();
   const [selectLocation, setSelectLocation] = useState<LocationSearchOption>();
   const [locationText, setLocationText] = useState('');
   const { features, resetFeatures } = useFeature();
-  const { layerColor } = useGlobal();
+  const { layerColor, baseMap, coordConvert } = useGlobal();
   const [colorImg, setColorImg] = useState<HTMLImageElement | undefined>();
   const { t } = useTranslation();
 
@@ -41,6 +42,20 @@ const LocationSearchControl: React.FC = React.memo(() => {
     const newLayerColor = Color(layerColor).rgb().object();
     setColorImg(await getPointImage(newLayerColor, { x: 100, y: 100 }));
   }, [layerColor]);
+
+  const onSelectLocation = () => {
+    if (!selectLocation) {
+      return;
+    }
+    let { longitude, latitude } = selectLocation;
+    if (baseMap === 'Gaode' && coordConvert === 'WGS84') {
+      [longitude, latitude] = (
+        gcj02towgs84(point([longitude, latitude])) as Feature<Point>
+      ).geometry.coordinates;
+    }
+    resetFeatures([...features, point([longitude, latitude], selectLocation)]);
+    setSelectLocation(undefined);
+  };
 
   return (
     <>
@@ -86,17 +101,7 @@ const LocationSearchControl: React.FC = React.memo(() => {
           <Popover
             content={
               <div>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    const { longitude, latitude } = selectLocation;
-                    resetFeatures([
-                      ...features,
-                      point([longitude, latitude], selectLocation),
-                    ]);
-                    setSelectLocation(undefined);
-                  }}
-                >
+                <Button type="primary" onClick={onSelectLocation}>
                   {t('location_search_control.index.tianJiaZhiShuJu')}
                 </Button>
                 <Button
