@@ -117,7 +117,11 @@ export const GeoJsonEditor: React.FC<EditorProps> = forwardRef((props, ref) => {
   useUpdateEffect(() => {
     const features = saveEditorText();
     if (autoFitBounds) {
-      bboxAutoFit(features);
+      try {
+        bboxAutoFit(features);
+      } catch (e) { 
+        console.error(e);
+      }
     }
   }, [debouncedGeoJsonText]);
 
