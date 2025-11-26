@@ -19,10 +19,14 @@ export const WktEditor: React.FC = forwardRef(() => {
     if (isFocus) {
       return;
     }
-    //@ts-ignore
-    const result = GeoJSON2Wkt(fc);
-    if (result !== input) {
-      setInput(result);
+    try {
+      //@ts-ignore
+      const result = GeoJSON2Wkt(fc);
+      if (result !== input) {
+        setInput(result);
+      }
+    } catch (e) { 
+      console.error(e);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fc, isFocus]);

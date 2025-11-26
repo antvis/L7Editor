@@ -28,10 +28,16 @@ export const LayerList: React.FC = () => {
 
   useEffect(() => {
     if (newFeatures.length) {
-      setFeatures(transformCoord(newFeatures));
+      try {
+        const tfFeatures = transformCoord(newFeatures);
+        setFeatures(tfFeatures);
+      } catch (e) {
+        console.error(e);
+        setFeatures([]);
+      }
     } else {
       setFeatures([]);
-    }
+    } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newFeatures, coordConvert, baseMap]);
 
