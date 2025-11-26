@@ -31,7 +31,8 @@ export const LayerList: React.FC = () => {
       try {
         const tfFeatures = transformCoord(newFeatures);
         setFeatures(tfFeatures);
-      } catch {
+      } catch (e) {
+        console.error(e);
         setFeatures([]);
       }
     } else {
